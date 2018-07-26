@@ -36,17 +36,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
 
-            if(window.localStorage.getItem("utopiasoftware-matchgains-onboarding") &&
-                window.localStorage.getItem("utopiasoftware-matchgains-onboarding") === "done"){ // there is a previous logged in user
-                // load the login page
-                $('ons-splitter').get(0).content.load("login-template");
-            }
-            else{ // no previous logged in user
-                // load the signup page
-                $('ons-splitter').get(0).content.load("onboarding-template");
-            }
+            // load the login page
+            $('ons-splitter').get(0).content.load("login-template");
 
-
+            if(window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
+                window.localStorage.getItem("utopiasoftware-edpms-app-status") !== ""){ // there is a previous logged in user
+                // load the user's login email
+            }
 
             // START ALL CORDOVA PLUGINS CONFIGURATIONS
             try{
@@ -57,7 +53,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             try { // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
-                // prepare the inapp browser plugin by removing thwe default window.open() functionality
+                // prepare the inapp browser plugin by removing the default window.open() functionality
                 delete window.open;
 
                 // note: for most promises, we weill use async-wait syntax
@@ -76,169 +72,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
     },
 
-    /**
-     * this is the view-model for the onboarding page
-     */
-    onboardingPageViewModel: {
-
-        /**
-         * holds the animation container for the 1st carousel item
-         */
-        carousel1AnimationContainer: null,
-
-        /**
-         * holds the animation container for the 2nd carousel item
-         */
-        carousel2AnimationContainer: null,
-
-        /**
-         * holds the animation container for the 3rd carousel item
-         */
-        carousel3AnimationContainer: null,
-
-
-        /**
-         * event is triggered when page is initialised
-         */
-        pageInit: function(event){
-
-            var $thisPage = $(event.target); // get the current page shown
-            // disable the swipeable feature for the app splitter
-            $('ons-splitter-side').removeAttr("swipeable");
-
-            // call the function used to initialise the app page if the app is fully loaded
-            loadPageOnAppReady();
-
-            //function is used to initialise the page if the app is fully ready for execution
-            async function loadPageOnAppReady(){
-                // check to see if onsen is ready and if all app loading has been completed
-                if(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false){
-                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                    return;
-                }
-
-                // listen for the back button event
-                $('#onboarding-navigator').get(0).topPage.onDeviceBackButton = function(){
-                    ons.notification.confirm('Do you want to close the app?', {title: 'Exit',
-                        buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'}) // Ask for confirmation
-                        .then(function(index) {
-                            if (index === 1) { // OK button
-                                navigator.app.exitApp(); // Close the app
-                            }
-                        });
-                };
-
-                // initialise all the animation containers
-                utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel1AnimationContainer =
-                    kendo.fx($("#onboarding-page ons-carousel-item.first .utopiasoftware-animation-container"));
-                utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel2AnimationContainer =
-                    kendo.fx($("#onboarding-page ons-carousel-item.second .utopiasoftware-animation-container"));
-                utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel3AnimationContainer =
-                    kendo.fx($("#onboarding-page ons-carousel-item.third .utopiasoftware-animation-container"));
-
-                // hide the loader
-                await $('#loader-modal').get(0).hide();
-                // play the fade in animation for the 1st carousel
-                utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel1AnimationContainer.
-                    fade('in').duration(3000).play();
-            }
-
-        },
-
-        /**
-         * method is triggered when page is shown
-         */
-        pageShow: function(){
-            // disable the swipeable feature for the app splitter
-            $('ons-splitter-side').removeAttr("swipeable");
-        },
-
-
-        /**
-         * method is triggered when page is hidden
-         */
-        pageHide: function(){
-        },
-
-        /**
-         * method is triggered when page is destroyed
-         */
-        pageDestroy: function(){
-            // destroy the animation containers
-            kendo.destroy($("#onboarding-page"));
-        },
-
-        /**
-         * method is used to track changes on the carousel slides
-         * @param event
-         */
-        carouselPostChange(event){
-
-            // use the switch case to determine what carousel is being shown
-            switch(event.originalEvent.activeIndex){
-                case 0:
-                    // animate/fade-in the content of the 1st carousel
-                    utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel1AnimationContainer.
-                    fade('in').duration(3000).play();
-                    // reset the opacity of all others items to zero(0) to make all other items invisible
-                    $("#onboarding-page ons-carousel-item:not(.first) .utopiasoftware-animation-container").css("opacity", "0");
-                    break;
-
-                case 1:
-                    // animate/fade-in the content of the 2nd carousel
-                    utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel2AnimationContainer.
-                    fade('in').duration(3000).play();
-                    // reset the opacity of all others items to zero(0) to make all other items invisible
-                    $("#onboarding-page ons-carousel-item:not(.second) .utopiasoftware-animation-container").css("opacity", "0");
-                    break;
-
-                case 2:
-                    // animate/fade-in the content of the 3rd carousel
-                    utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carousel3AnimationContainer.
-                    fade('in').duration(3000).play();
-                    // reset the opacity of all others items to zero(0) to make all other items invisible
-                    $("#onboarding-page ons-carousel-item:not(.third) .utopiasoftware-animation-container").css("opacity", "0");
-                    break;
-            }
-        },
-
-        /**
-         * method is triggered when the "NEXT" button on the slide is clicked
-         *
-         */
-        nextButtonClicked(){
-            // move to the next carousel item
-            $("#onboarding-page #onboarding-carousel").get(0).next();
-        },
-
-        /**
-         * method is triggered when the "PREVIOUS" button on the slide is clicked
-         *
-         */
-        previousButtonClicked(){
-            // move to the next carousel item
-            $("#onboarding-page #onboarding-carousel").get(0).prev();
-        },
-
-        /**
-         * method is triggered when the "JOIN NOW" button is clicked
-         */
-        joinNowButtonClicked(){
-
-            // load the login page
-            $('ons-splitter').get(0).content.load("login-template");
-        },
-
-
-        /**
-         * method is triggered when the "LATER" button is clicked
-         */
-        laterButtonClicked(){
-            // load the app main page
-            $('ons-splitter').get(0).content.load("app-main-template");
-        }
-
-    },
 
     /**
      * this is the view-model/controller for the LOGIN page
@@ -277,7 +110,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 };
 
                 // hide the loader
-                $('#loader-modal').get(0).hide();
+                //$('#loader-modal').get(0).hide();
             }
 
         },
@@ -362,73 +195,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             cordova.InAppBrowser.open(window.encodeURI('https://www.matchgains.com/en/terms-of-service.php'), '_blank',
                 'location=yes,closebuttoncolor=#ffffff,zoom=no,navigationbuttoncolor=#ffffff,toolbarcolor=#00b2a0');
         }
-    },
-
-    /**
-     * this is the view-model for the free predictions page
-     */
-    freePredictionsPageViewModel: {
-
-
-        /**
-         * event is triggered when page is initialised
-         */
-        pageInit: function(event){
-
-            var $thisPage = $(event.target); // get the current page shown
-            // disable the swipeable feature for the app splitter
-            $('ons-splitter-side').removeAttr("swipeable");
-
-            // call the function used to initialise the app page if the app is fully loaded
-            loadPageOnAppReady();
-
-            //function is used to initialise the page if the app is fully ready for execution
-            async function loadPageOnAppReady(){
-                // check to see if onsen is ready and if all app loading has been completed
-                if(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false){
-                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                    return;
-                }
-
-                // listen for the back button event
-                $('#free-predictions-page').get(0).onDeviceBackButton = function(){
-                    ons.notification.confirm('Do you want to close the app?', {title: 'Exit',
-                        buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'}) // Ask for confirmation
-                        .then(function(index) {
-                            if (index === 1) { // OK button
-                                navigator.app.exitApp(); // Close the app
-                            }
-                        });
-                };
-
-                // hide the loader
-                $('#loader-modal').get(0).hide();
-
-            }
-
-        },
-
-        /**
-         * method is triggered when page is shown
-         */
-        pageShow: function(){
-            // disable the swipeable feature for the app splitter
-            $('ons-splitter-side').removeAttr("swipeable");
-        },
-
-
-        /**
-         * method is triggered when page is hidden
-         */
-        pageHide: function(){
-        },
-
-        /**
-         * method is triggered when page is destroyed
-         */
-        pageDestroy: function(){
-        }
-
     }
 };
 
