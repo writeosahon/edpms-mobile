@@ -20,21 +20,6 @@ utopiasoftware[utopiasoftware_app_namespace].model = {
 // call the method to startup the app
 utopiasoftware[utopiasoftware_app_namespace].controller.startup();
 
-// listen for the initialisation of the ONBOARDING page
-$(document).on("init", "#onboarding-page", utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.pageInit);
-
-// listen for when the ONBOARDING page is shown
-$(document).on("show", "#onboarding-page", utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.pageShow);
-
-// listen for when the ONBOARDING page is hidden
-$(document).on("hide", "#onboarding-page", utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.pageHide);
-
-// listen for when the ONBOARDING page is destroyed
-$(document).on("destroy", "#onboarding-page", utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.pageDestroy);
-
-// used to listen for 'onboarding-carousel' carousel items/slides changes on the onboarding page
-$(document).on("postchange", "#onboarding-carousel", utopiasoftware[utopiasoftware_app_namespace].controller.onboardingPageViewModel.carouselPostChange);
-
 // listen for the initialisation of the LOGIN page
 $(document).on("init", "#login-page", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.pageInit);
 
@@ -49,17 +34,5 @@ $(document).on("destroy", "#login-page", utopiasoftware[utopiasoftware_app_names
 
 // used to listen for 'login-carousel' carousel items/slides changes on the login page
 $(document).on("postchange", "#login-carousel", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.carouselPostChange);
-
-// listen for the initialisation of the FREE PREDICTIONS page
-$(document).on("init", "#free-predictions-page", utopiasoftware[utopiasoftware_app_namespace].controller.freePredictionsPageViewModel.pageInit);
-
-// listen for when the FREE PREDICTIONS page is shown
-$(document).on("show", "#free-predictions-page", utopiasoftware[utopiasoftware_app_namespace].controller.freePredictionsPageViewModel.pageShow);
-
-// listen for when the FREE PREDICTIONS page is hidden
-$(document).on("hide", "#free-predictions-page", utopiasoftware[utopiasoftware_app_namespace].controller.freePredictionsPageViewModel.pageHide);
-
-// listen for when the FREE PREDICTIONS page is destroyed
-$(document).on("destroy", "#free-predictions-page", utopiasoftware[utopiasoftware_app_namespace].controller.freePredictionsPageViewModel.pageDestroy);
 
 //# sourceMappingURL=model-compiled.js.map
