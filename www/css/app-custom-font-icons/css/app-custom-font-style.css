@@ -1,0 +1,241 @@
+/** CUSTOM FONT ICONS FOR APP **/
+@font-face {
+  font-family: 'matchgains-font-icons';
+  src: url('../fonts/matchgains-icons.woff') format('woff'), url('../fonts/matchgains-icons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.matchgains-icon {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.matchgains-icon-hc-lg {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.matchgains-icon-hc-2x {
+  font-size: 2em;
+}
+.matchgains-icon-hc-3x {
+  font-size: 3em;
+}
+.matchgains-icon-hc-4x {
+  font-size: 4em;
+}
+.matchgains-icon-hc-5x {
+  font-size: 5em;
+}
+.matchgains-icon-hc-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+.matchgains-icon-hc-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+.matchgains-icon-hc-ul > li {
+  position: relative;
+}
+.matchgains-icon-hc-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+.matchgains-icon-hc-li.matchgains-icon-hc-lg {
+  left: -1.85714286em;
+}
+.matchgains-icon-hc-border {
+  padding: .1em .25em;
+  border: solid 0.1em #9e9e9e;
+  border-radius: 2px;
+}
+.matchgains-icon-hc-border-circle {
+  padding: .1em .25em;
+  border: solid 0.1em #9e9e9e;
+  border-radius: 50%;
+}
+.matchgains-icon.pull-left {
+  float: left;
+  margin-right: .15em;
+}
+.matchgains-icon.pull-right {
+  float: right;
+  margin-left: .15em;
+}
+.matchgains-icon-hc-spin {
+  -webkit-animation: matchgains-spin 1.5s infinite linear;
+  animation: matchgains-spin 1.5s infinite linear;
+}
+.matchgains-icon-hc-spin-reverse {
+  -webkit-animation: matchgains-spin-reverse 1.5s infinite linear;
+  animation: matchgains-spin-reverse 1.5s infinite linear;
+}
+@-webkit-keyframes matchgains-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes matchgains-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes matchgains-spin-reverse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg);
+  }
+}
+@keyframes matchgains-spin-reverse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg);
+  }
+}
+.matchgains-icon-hc-rotate-90 {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.matchgains-icon-hc-rotate-180 {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.matchgains-icon-hc-rotate-270 {
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.matchgains-icon-hc-flip-horizontal {
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.matchgains-icon-hc-flip-vertical {
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+.matchgains-icon-hc-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+.matchgains-icon-hc-stack-1x,
+.matchgains-icon-hc-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.matchgains-icon-hc-stack-1x {
+  line-height: inherit;
+}
+.matchgains-icon-hc-stack-2x {
+  font-size: 2em;
+}
+.matchgains-icon-hc-inverse {
+  color: #ffffff;
+}
+
+/** DEFINE FONT ICONS **/
+.zmdi-matchgains-icon-checkmark:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e900';
+}
+.zmdi-matchgains-icon-soccer:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e901';
+}
+.zmdi-matchgains-icon-lock:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e902';
+}
+.zmdi-matchgains-icon-user:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e903';
+}
+.zmdi-matchgains-icon-free-package:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e904';
+}
+.zmdi-matchgains-icon-premium-package:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e905';
+}
+.zmdi-matchgains-icon-filter:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'matchgains-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e906';
+}
