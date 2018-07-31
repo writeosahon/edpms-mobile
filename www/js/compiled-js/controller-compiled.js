@@ -121,9 +121,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     };
 
                                     // hide the loader
-                                    //$('#loader-modal').get(0).hide();
+                                    $('#loader-modal').get(0).hide();
 
-                                case 4:
+                                case 5:
                                 case 'end':
                                     return _context2.stop();
                             }

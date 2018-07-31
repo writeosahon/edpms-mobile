@@ -47,7 +47,7 @@ SystemJS.config({
 
 
 // constant that defines the app namespace
-const utopiasoftware_app_namespace = 'matchgains';
+const utopiasoftware_app_namespace = 'edpms';
 
 /**
  * create the namespace and base methods and properties for the app
