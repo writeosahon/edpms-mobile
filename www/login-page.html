@@ -26,7 +26,7 @@
                             <ons-input id="login-email" type="email" style="width: 80%;
                         caret-color: #00d5c3 !important; color: #00d5c3 !important;" required
                                        placeholder="Email" disable-auto-styling
-                                       data-parsley-required-message="new password is required"
+                                       data-parsley-required-message="email is required"
                                        class="hint--top"></ons-input>
                         </ons-col>
                     </ons-row>
@@ -37,7 +37,7 @@
                             <ons-input id="login-password" type="password" style="width: 80%;
                         caret-color: #00d5c3 !important; color: #00d5c3 !important;" required
                                        placeholder="Password" disable-auto-styling
-                                       data-parsley-required-message="new password is required"
+                                       data-parsley-required-message="password is required"
                                        class="hint--top"></ons-input>
                         </ons-col>
                     </ons-row>
@@ -45,7 +45,8 @@
                         <ons-col width="20%"></ons-col>
                         <ons-col width="60%" style="text-align: center">
                             <ons-button disable-auto-styling modifier="large" style="background-color: #00d5c3; color: #ffffff"
-                                        onclick="">
+                                        onclick="utopiasoftware[utopiasoftware_app_namespace].
+                                        controller.loginPageViewModel.loginButtonClicked()">
                                 Sign In
                             </ons-button>
                         </ons-col>

@@ -1,0 +1,41 @@
+<!-- search project page -->
+<ons-page id="search-project-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="$('#side-menu').get(0).toggle()">
+                <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">Find Project</div>
+        <div class="right">
+            <ons-toolbar-button icon="md-refresh" onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.videoMessagesPageViewModel.refreshButtonClicked()">
+                <span style="font-size: 0.68em;">Refresh</span>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <div style="position: fixed; width: 100%; top: 56px;">
+        <ons-search-input placeholder="Find Project" style="width: 100%;"></ons-search-input>
+        <!-- page preloader -->
+        <ons-progress-bar class="page-preloader" indeterminate style="display: block;"></ons-progress-bar>
+    </div>
+
+    <div class="content" style="position: absolute; top: 100px; width: 100%; display: block">
+        <ons-list id="video-messages-list" style="background-color: transparent">
+
+            <ons-list-item modifier="nodivider" lock-on-drag="true" style="background-color: transparent">
+                <div class="e-card">
+                    <div class="e-card-content">
+                    </div>
+                    <div class="e-card-header">
+
+                    </div>
+                </div>
+            </ons-list-item>
+
+        </ons-list>
+    </div>
+
+
+</ons-page>

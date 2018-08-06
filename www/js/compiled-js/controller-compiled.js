@@ -87,6 +87,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     loginPageViewModel: {
 
         /**
+         * used to hold the parsley form validation object for the sign-in page
+         */
+        formValidator: null,
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function pageInit(event) {
@@ -110,7 +115,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // listen for the back button event
                                     $('#login-navigator').get(0).topPage.onDeviceBackButton = function () {
-                                        ons.notification.confirm('Do you want to close the app?', { title: 'Exit',
+                                        ons.notification.confirm('Do you want to close the app?', { title: 'Exit App',
                                             buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' }) // Ask for confirmation
                                         .then(function (index) {
                                             if (index === 1) {
@@ -120,10 +125,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         });
                                     };
 
+                                    // initialise the login form validation
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator = $('#login-form').parsley();
+
+                                    // listen for log in form field validation failure event
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.on('field:error', function (fieldInstance) {
+                                        // get the element that triggered the field validation error and use it to display tooltip
+                                        // display tooltip
+                                        $(fieldInstance.$element).addClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                                        $(fieldInstance.$element).attr("data-hint", fieldInstance.getErrorsMessages()[0]);
+                                    });
+
+                                    // listen for log in form field validation success event
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.on('field:success', function (fieldInstance) {
+                                        // remove tooltip from element
+                                        $(fieldInstance.$element).removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                                        $(fieldInstance.$element).removeAttr("data-hint");
+                                    });
+
+                                    // listen for log in form validation success
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.on('form:success', function () {
+                                        // load the login page
+                                        $('ons-splitter').get(0).content.load("app-main-template");
+                                    });
+
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 5:
+                                case 9:
                                 case 'end':
                                     return _context2.stop();
                             }
@@ -169,59 +198,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageDestroy: function pageDestroy() {},
 
         /**
-         * method is triggered when the Sign In / Sign Up segment buttons are clicked
+         * method is triggered when the "Sign In / Log In" button is clicked
          *
-         * @param itemIndex {Integer} zero-based index representing the carousel item to
-         * display ewhen the button is clicked
+         * @returns {Promise<void>}
          */
-        segmentButtonClicked: function segmentButtonClicked(itemIndex) {
-            // move to the slide item specify by the provided parameter
-            $('#login-page #login-carousel').get(0).setActiveIndex(itemIndex);
-        },
+        loginButtonClicked: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
 
+                                // run the validation method for the sign-in form
+                                utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.whenValidate();
 
-        /**
-         * method is used to track changes on the carousel slides
-         * @param event
-         */
-        carouselPostChange: function carouselPostChange(event) {
+                            case 1:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
 
-            // use the switch case to determine what carousel is being shown
-            switch (event.originalEvent.activeIndex) {// get the index of the active carousel item
-                case 0:
-
-                    // reset the the segment button contained in the other carousel items to their initial state
-                    $("#login-page ons-carousel-item.second .login-segment button:nth-of-type(2) input").prop("checked", true);
-                    $("#login-page ons-carousel-item.second .login-segment button:nth-of-type(1) input").prop("checked", false);
-                    $("#login-page ons-carousel-item.third .login-segment button input").prop("checked", false);
-                    break;
-
-                case 1:
-                    // reset the the segment button contained in the other carousel items to their initial state
-                    $("#login-page ons-carousel-item.first .login-segment button:nth-of-type(1) input").prop("checked", true);
-                    $("#login-page ons-carousel-item.first .login-segment button:nth-of-type(2) input").prop("checked", false);
-                    $("#login-page ons-carousel-item.third .login-segment button input").prop("checked", false);
-                    break;
-
-                case 2:
-                    // reset the the segment button contained in the other carousel items to their initial state
-                    $("#login-page ons-carousel-item.first .login-segment button:nth-of-type(1) input").prop("checked", true);
-                    $("#login-page ons-carousel-item.first .login-segment button:nth-of-type(2) input").prop("checked", false);
-                    $("#login-page ons-carousel-item.second .login-segment button:nth-of-type(2) input").prop("checked", true);
-                    $("#login-page ons-carousel-item.second .login-segment button:nth-of-type(1) input").prop("checked", false);
-                    break;
+            function loginButtonClicked() {
+                return _ref3.apply(this, arguments);
             }
-        },
 
-
-        /**
-         * method is triggered when the Terms & Conditions button link is clicked
-         */
-        termsAndConditionsButtonClicked: function termsAndConditionsButtonClicked() {
-
-            // open the terms and conditions page in the app custom browser
-            cordova.InAppBrowser.open(window.encodeURI('https://www.matchgains.com/en/terms-of-service.php'), '_blank', 'location=yes,closebuttoncolor=#ffffff,zoom=no,navigationbuttoncolor=#ffffff,toolbarcolor=#00b2a0');
-        }
+            return loginButtonClicked;
+        }()
     }
 };
 
