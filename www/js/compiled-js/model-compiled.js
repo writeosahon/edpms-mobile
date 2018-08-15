@@ -32,7 +32,16 @@ $(document).on("hide", "#login-page", utopiasoftware[utopiasoftware_app_namespac
 // listen for when the LOGIN page is destroyed
 $(document).on("destroy", "#login-page", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.pageDestroy);
 
-// used to listen for 'login-carousel' carousel items/slides changes on the login page
-$(document).on("postchange", "#login-carousel", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.carouselPostChange);
+// listen for the initialisation of the LOGIN page
+$(document).on("init", "#search-project-page", utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.pageInit);
+
+// listen for when the LOGIN page is shown
+$(document).on("show", "#search-project-page", utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.pageShow);
+
+// listen for when the LOGIN page is hidden
+$(document).on("hide", "#search-project-page", utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.pageHide);
+
+// listen for when the LOGIN page is destroyed
+$(document).on("destroy", "#search-project-page", utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.pageDestroy);
 
 //# sourceMappingURL=model-compiled.js.map

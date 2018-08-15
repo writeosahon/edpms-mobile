@@ -226,6 +226,195 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             return loginButtonClicked;
         }()
+    },
+
+    /**
+     * this is the view-model/controller for the Search Project page
+     */
+    searchProjectPageViewModel: {
+
+        /**
+         * used to hold the parsley form validation object for the sign-in page
+         */
+        formValidator: null,
+
+        /**
+         * event is triggered when page is initialised
+         */
+        pageInit: function pageInit(event) {
+
+            //function is used to initialise the page if the app is fully ready for execution
+            var loadPageOnAppReady = function () {
+                var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                        while (1) {
+                            switch (_context5.prev = _context5.next) {
+                                case 0:
+                                    if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
+                                        _context5.next = 3;
+                                        break;
+                                    }
+
+                                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
+                                    return _context5.abrupt('return');
+
+                                case 3:
+
+                                    // listen for the back button event
+                                    $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.backButtonClicked;
+
+                                    // initialise the login form validation
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator = $('#search-project-form').parsley();
+
+                                    // listen for log in form field validation failure event
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('field:error', function (fieldInstance) {
+                                        // get the element that triggered the field validation error and use it to display tooltip
+                                        // display tooltip
+                                        $(fieldInstance.$element).addClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                                        $(fieldInstance.$element).attr("data-hint", fieldInstance.getErrorsMessages()[0]);
+                                    });
+
+                                    // listen for log in form field validation success event
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('field:success', function (fieldInstance) {
+                                        // remove tooltip from element
+                                        $(fieldInstance.$element).removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                                        $(fieldInstance.$element).removeAttr("data-hint");
+                                    });
+
+                                    // listen for log in form validation success
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('form:success', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                                        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                                            while (1) {
+                                                switch (_context4.prev = _context4.next) {
+                                                    case 0:
+                                                        // hide the device keyboard
+                                                        Keyboard.hide();
+                                                        // perform actions to reveal result
+                                                        kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
+                                                        _context4.next = 4;
+                                                        return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
+
+                                                    case 4:
+                                                        $('#search-project-page ons-bottom-toolbar').css("display", "block");
+
+                                                    case 5:
+                                                    case 'end':
+                                                        return _context4.stop();
+                                                }
+                                            }
+                                        }, _callee4, this);
+                                    })));
+
+                                    // hide the loader
+                                    $('#loader-modal').get(0).hide();
+
+                                case 9:
+                                case 'end':
+                                    return _context5.stop();
+                            }
+                        }
+                    }, _callee5, this);
+                }));
+
+                return function loadPageOnAppReady() {
+                    return _ref4.apply(this, arguments);
+                };
+            }();
+
+            var $thisPage = $(event.target); // get the current page shown
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // call the function used to initialise the app page if the app is fully loaded
+            loadPageOnAppReady();
+        },
+
+        /**
+         * method is triggered when page is shown
+         */
+        pageShow: function pageShow() {
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+        },
+
+        /**
+         * method is triggered when page is hidden
+         */
+        pageHide: function pageHide() {
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+        },
+
+        /**
+         * method is triggered when page is destroyed
+         */
+        pageDestroy: function pageDestroy() {},
+
+        /**
+         * method is triggered when the "Project Search" button is clicked
+         *
+         * @returns {Promise<void>}
+         */
+        searchButtonClicked: function () {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(keyEvent) {
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+
+                                // check which key was pressed
+                                if (keyEvent.which === kendo.keys.ENTER) // if the enter key was pressed
+                                    {
+                                        // run the validation method for the sign-in form
+                                        utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.whenValidate();
+                                        keyEvent.preventDefault();
+                                        keyEvent.stopImmediatePropagation();
+                                        keyEvent.stopPropagation();
+                                    }
+
+                            case 1:
+                            case 'end':
+                                return _context6.stop();
+                        }
+                    }
+                }, _callee6, this);
+            }));
+
+            function searchButtonClicked(_x) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return searchButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the device back button is clicked OR a similar action is triggered
+         */
+        backButtonClicked: function backButtonClicked() {
+
+            ons.notification.confirm('Do you want to close the app?', { title: 'Exit App',
+                buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' }) // Ask for confirmation
+            .then(function (index) {
+                if (index === 1) {
+                    // OK button
+                    navigator.app.exitApp(); // Close the app
+                }
+            });
+        },
+
+
+        /**
+         * method is triggered when the 'Proceed' button is clicked
+         */
+        proceedButtonClicked: function proceedButtonClicked() {
+
+            // move to the project evaluation page
+            $('#app-main-navigator').get(0).pushPage("project-evaluation-page.html", { animation: "lift-md" });
+        }
     }
 };
 
