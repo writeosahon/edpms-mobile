@@ -63,9 +63,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // prepare the inapp browser plugin by removing the default window.open() functionality
                                 delete window.open;
 
-                                // note: for most promises, we weill use async-wait syntax
-                                // var a = await Promise.all([SystemJS.import('@syncfusion/ej2-base'), SystemJS.import('@syncfusion/ej2-dropdowns')]);
-                            } catch (err) {} finally {
+                                // note: for most promises, we will use async-wait syntax
+
+                                // create the pouchdb app database
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
+                                    adapter: 'cordova-sqlite',
+                                    location: 'default',
+                                    androidDatabaseImplementation: 2
+                                });
+                            } catch (err) {
+                                console.log("ERROR");
+                            } finally {
                                 // set status bar color
                                 StatusBar.backgroundColorByHexString("#00B2A0");
                                 navigator.splashscreen.hide(); // hide the splashscreen
@@ -125,6 +133,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         });
                                     };
 
+                                    // adjust the window/view-port settings for when the soft keyboard is displayed
+                                    window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+
                                     // initialise the login form validation
                                     utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator = $('#login-form').parsley();
 
@@ -152,7 +163,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 9:
+                                case 10:
                                 case 'end':
                                     return _context2.stop();
                             }
@@ -414,6 +425,160 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // move to the project evaluation page
             $('#app-main-navigator').get(0).pushPage("project-evaluation-page.html", { animation: "lift-md" });
+        }
+    },
+
+    /**
+     * this is the view-model/controller for the Project Evaluation page
+     */
+    projectEvaluationPageViewModel: {
+
+        /**
+         * used to hold the parsley form validation object for the sign-in page
+         */
+        formValidator: null,
+
+        /**
+         * event is triggered when page is initialised
+         */
+        pageInit: function pageInit(event) {
+
+            //function is used to initialise the page if the app is fully ready for execution
+            var loadPageOnAppReady = function () {
+                var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                        while (1) {
+                            switch (_context7.prev = _context7.next) {
+                                case 0:
+                                    if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false || !ej)) {
+                                        _context7.next = 3;
+                                        break;
+                                    }
+
+                                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
+                                    return _context7.abrupt('return');
+
+                                case 3:
+
+                                    // listen for the back button event
+                                    $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
+
+                                    // create the slider elements
+                                    $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
+                                        var aSlider = new ej.inputs.Slider({
+                                            min: 0,
+                                            max: 100,
+                                            value: 25,
+                                            step: 1,
+                                            orientation: 'Horizontal',
+                                            type: 'MinRange',
+                                            created: function created() {
+                                                $('.e-handle', element).text(this.value);
+                                            },
+                                            change: function change(changeEvent) {
+                                                $('.e-handle', element).text(changeEvent.value);
+                                            }
+                                        });
+                                        aSlider.appendTo(element);
+                                    });
+
+                                    // hide the loader
+                                    $('#loader-modal').get(0).hide();
+
+                                case 6:
+                                case 'end':
+                                    return _context7.stop();
+                            }
+                        }
+                    }, _callee7, this);
+                }));
+
+                return function loadPageOnAppReady() {
+                    return _ref7.apply(this, arguments);
+                };
+            }();
+
+            var $thisPage = $(event.target); // get the current page shown
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // call the function used to initialise the app page if the app is fully loaded
+            loadPageOnAppReady();
+        },
+
+        /**
+         * method is triggered when page is shown
+         */
+        pageShow: function pageShow() {
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+        },
+
+        /**
+         * method is triggered when page is hidden
+         */
+        pageHide: function pageHide() {
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+        },
+
+        /**
+         * method is triggered when page is destroyed
+         */
+        pageDestroy: function pageDestroy() {},
+
+        /**
+         * method is triggered when the device back button is clicked OR a similar action is triggered
+         */
+        backButtonClicked: function backButtonClicked() {
+
+            // move to the project evaluation page
+            $('#app-main-navigator').get(0).popPage();
+        },
+
+
+        /**
+         * method is triggered when the "project evaluation carousel" is changed
+         * @param event
+         */
+        carouselChanged: function carouselChanged(event) {
+            // change the css display the prev fab button
+            $('#project-evaluation-prev-button').css("display", "inline-block");
+            // check if the carousel is at the last item
+            if (event.originalEvent.activeIndex === 2) {
+                // this is the last carousel item, so hide the next slide button
+                // hide the next fab button
+                $('#project-evaluation-next-button').css("transform", "scale(0)");
+            } else if (event.originalEvent.activeIndex === 0) {
+                // this is the first carousel item, so hide the prev slide button
+                // hide the prev fab button
+                $('#project-evaluation-prev-button').css("transform", "scale(0)");
+            } else {
+                // this is not the first or last item
+                $('#project-evaluation-prev-button,#project-evaluation-next-button').css("transform", "scale(1)");
+            }
+
+            // change the milestone number
+            $('#project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+        },
+
+
+        /**
+         * method is triggered when the "prev button" for the carousel is clicked
+         */
+        prevButtonClicked: function prevButtonClicked() {
+            $('#project-evaluation-page #project-evaluation-carousel').get(0).prev();
+        },
+
+
+        /**
+         * method is triggered when the "next button" for the carousel is clicked
+         */
+        nextButtonClicked: function nextButtonClicked() {
+            $('#project-evaluation-page #project-evaluation-carousel').get(0).next();
         }
     }
 };

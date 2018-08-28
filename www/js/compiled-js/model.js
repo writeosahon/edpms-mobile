@@ -13,7 +13,12 @@ utopiasoftware[utopiasoftware_app_namespace].model = {
      *
      * @type {boolean} flag for if the hybrid plugins and DOM content are ready for execution
      */
-    isAppReady: false
+    isAppReady: false,
+
+    /**
+     * holds the pouchDB database used by the app
+     */
+    appDatabase: null
 
 };
 
@@ -44,4 +49,18 @@ $(document).on("hide", "#search-project-page", utopiasoftware[utopiasoftware_app
 // listen for when the LOGIN page is destroyed
 $(document).on("destroy", "#search-project-page", utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.pageDestroy);
 
+// listen for the initialisation of the PROJECT EVALUATION page
+$(document).on("init", "#project-evaluation-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageInit);
+
+// listen for when the PROJECT EVALUATION page is shown
+$(document).on("show", "#project-evaluation-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageShow);
+
+// listen for when the PROJECT EVALUATION page is hidden
+$(document).on("hide", "#project-evaluation-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageHide);
+
+// listen for when the PROJECT EVALUATION page is destroyed
+$(document).on("destroy", "#project-evaluation-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageDestroy);
+
+// listen for the postchange event of the "project-evaluation-carousel" carousel from the PROJECT EVALUATION page
+$(document).on("postchange", '#project-evaluation-page #project-evaluation-carousel', utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.carouselChanged);
 

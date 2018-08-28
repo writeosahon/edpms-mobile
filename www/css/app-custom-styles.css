@@ -34,24 +34,6 @@
 
     position: relative;
 }
-#login-carousel ons-carousel-item.second { /* style for login slides/carousel item 2 */
-    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0,0.7) 100%),
-    url('app-images/login-background-1.jpg');
-    background-repeat: no-repeat;
-    background-size: contain, cover;
-    background-position: 0% 0%, 50% 100%;
-
-    position: relative;
-}
-#login-carousel ons-carousel-item.third { /* style for login slides/carousel item 3 */
-    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0,0.7) 100%),
-    url('app-images/login-background-1.jpg');
-    background-repeat: no-repeat;
-    background-size: contain, cover;
-    background-position: 0% 0%, 50% 100%;
-
-    position: relative;
-}
 #login-page ons-input input {
     /*font-size: 0.7em;*/
     height: 1.2em;
@@ -61,3 +43,44 @@
 }
 /** STYLE FOR THE LOGIN PAGE ENDS **/
 
+/** STYLE FOR THE SEARCH PROJECT PAGE BEGINS **/
+#search-project-page .page--material__background {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255,0.9) 100%),
+    url('app-images/search-project-background.png');
+    background-repeat: no-repeat;
+    background-size: cover, contain;
+    background-position: center;
+}
+#search-project-page ons-search-input input {
+    text-transform: uppercase;
+}
+/** STYLE FOR THE SEARCH PROJECT PAGE ENDS **/
+
+/** STYLE FOR THE PROJECT EVALUATION PAGE BEGINS **/
+#project-evaluation-page .page--material__background {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255,0.95) 100%),
+    url('app-images/project-evaluation-background.png');
+    background-repeat: no-repeat;
+    background-size: cover, cover;
+    background-position: center;
+}
+/** STYLE FOR SLIDERS ON PAGE **/
+#project-evaluation-page .project-evaluation-slider .e-slider-track {
+    height: 2rem;
+}
+#project-evaluation-page .project-evaluation-slider .e-range {
+    height: 2rem;
+    background-color: #3f51b5;
+}
+#project-evaluation-page .project-evaluation-slider .e-handle {
+    height: 3rem;
+    width: 3rem;
+    color: #ffffff;
+    background-color: #3f51b5;
+    text-align: center;
+    padding-top: 0.7rem;
+    border: 3px #36366C ridge;
+}
+
+
+/** STYLE FOR THE SEARCH PROJECT PAGE ENDS **/

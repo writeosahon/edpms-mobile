@@ -5,12 +5,76 @@
         <item url="file://$PROJECT_DIR$/www/js/compiled-js/base-compiled.js" />
         <item url="file://$PROJECT_DIR$/www/js/compiled-js/controller-compiled.js" />
         <item url="file://$PROJECT_DIR$/www/js/compiled-js/model-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-base.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-base.umd.min-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-buttons.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-buttons.umd.min-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-calendars.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-charts.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-circulargauge.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-compression.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-data.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-diagrams.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-documenteditor.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-dropdowns.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-excel-export.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-file-utils.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-grids.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-heatmap.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-inputs.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-inputs.umd.min-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-lineargauge.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-lists.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-maps.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-navigations.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-notifications.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-pdf-export.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-pivotview.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-popups.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-popups.umd.min-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-richtexteditor.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-schedule.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-splitbuttons.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-svg-base.es2015-compiled.js" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-treemap.es2015-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/www/js/compiled-js/base-compiled.js" />
       <root url="file://$PROJECT_DIR$/www/js/compiled-js/controller-compiled.js" />
       <root url="file://$PROJECT_DIR$/www/js/compiled-js/model-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-base.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-base.umd.min-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-buttons.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-buttons.umd.min-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-calendars.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-charts.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-circulargauge.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-compression.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-data.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-diagrams.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-documenteditor.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-dropdowns.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-excel-export.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-file-utils.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-grids.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-heatmap.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-inputs.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-inputs.umd.min-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-lineargauge.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-lists.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-maps.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-navigations.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-notifications.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-pdf-export.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-pivotview.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-popups.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-popups.umd.min-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-richtexteditor.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-schedule.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-splitbuttons.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-svg-base.es2015-compiled.js" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48/ej2-treemap.es2015-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>

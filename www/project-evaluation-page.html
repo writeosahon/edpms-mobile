@@ -1,13 +1,18 @@
-<!-- search project page -->
-<ons-page id="search-project-page">
+<!-- project evaluation page -->
+<ons-page id="project-evaluation-page">
     <ons-toolbar>
         <div class="left">
             <ons-toolbar-button onclick="utopiasoftware[utopiasoftware_app_namespace].
-            controller.searchProjectPageViewModel.backButtonClicked()">
+            controller.projectEvaluationPageViewModel.backButtonClicked()">
                 <ons-icon icon="md-long-arrow-left"></ons-icon>
             </ons-toolbar-button>
         </div>
-        <div class="center">Find Project</div>
+        <div class="center" style="line-height: 28px;">
+            <div style="display: block; width: 100%;">
+                <div style="font-size: 0.8em">Project Evaluation</div>
+                <div style="font-size: 0.65em">Report Sheet</div>
+            </div>
+        </div>
         <div class="right">
             <ons-toolbar-button onclick="$('#side-menu').get(0).toggle()">
                 <ons-icon icon="md-menu"></ons-icon>
@@ -16,37 +21,81 @@
     </ons-toolbar>
 
     <div style="position: fixed; width: 100%; top: 56px;">
-        <form id="search-project-form" autocomplete="off" data-parsley-inputs="ons-input,textarea,select,ons-search-input"
-              data-parsley-excluded="ons-input[type=button], ons-input[type=submit],
-                              ons-input[type=reset], ons-input[type=hidden], [disabled], :hidden">
-            <ons-search-input placeholder="Find Project by ID" required style="width: 100%;"
-                              onkeypress="utopiasoftware[utopiasoftware_app_namespace].
-                              controller.searchProjectPageViewModel.searchButtonClicked(event)"
-                              data-parsley-required-message="Project ID is required"
-                              class="hint--bottom"></ons-search-input>
-        </form>
         <!-- page preloader -->
         <ons-progress-bar class="page-preloader" indeterminate style="display: none;"></ons-progress-bar>
+
+        <ons-card style="font-size: 1.2em; font-weight: bold" class="project-evaluation-instructions">
+            Evaluate the milestones of project completion on a scale of 0 - 100%
+        </ons-card>
     </div>
 
-    <div class="content container-fluid" style="position: absolute; top: 100px; width: 100%; display: block">
-
-        <p style="text-align: center; margin-top: 2em; display: none;">
-            <ons-icon icon="md-utopiasoftware-icon-folder" size="70px" style="color: grey;"></ons-icon>
-            <div style="font-size: 1.5em; color: grey; text-align: center; display: none">No Project Found</div>
-        </p>
-
-        <div id="search-project-details" class="row" style="margin-top: 2em; font-size: 1.2em; display: none">
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 0.4rem;">Project ID</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: uppercase; padding: 0.4rem;">GHP-0001</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 0.4rem;">Title</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 0.4rem;">Renovation of Udakpa Primary School</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 0.4rem;">Contractor</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 0.4rem;">A & B Constructor Limited</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 0.4rem;">Contract Sum</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 0.4rem;">34,567,000</div>
-        </div>
+    <div style="position: fixed; width: 100%; top: 170px; margin-left: 2em;">
+        <span id="project-evaluation-milestone-badge" class="e-badge e-badge-primary e-badge-pill"
+              style="text-transform: capitalize; transform: scale(1.5);">Milestone 1</span>
     </div>
+
+    <div class="content" style="position: absolute; top: 200px; width: 100%; display: block">
+        <ons-carousel id="project-evaluation-carousel" fullscreen direction="horizontal" auto-scroll auto-scroll-ratio="0.1"
+                      item-width="100%" initial-index="0">
+            <ons-carousel-item>
+                <ons-card>
+                    <div style="font-size: 1.1em">
+                        Preliminaries
+                    </div>
+
+                    <div class="project-evaluation-slider"></div>
+
+                </ons-card>
+            </ons-carousel-item>
+
+            <ons-carousel-item>
+                <ons-card>
+                    <div style="font-size: 1.1em">
+                        Substructure
+                    </div>
+                    <div class="project-evaluation-slider"></div>
+                </ons-card>
+            </ons-carousel-item>
+
+            <ons-carousel-item>
+                <ons-card>
+                    <div style="font-size: 1.1em">
+                        Concrete Work
+                    </div>
+                    <div class="project-evaluation-slider"></div>
+                </ons-card>
+            </ons-carousel-item>
+
+            <ons-carousel-item>
+                <div class="row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6"></div>
+                    <div class="col-lg-offset-3 col-xs-6"></div>
+                    <div></div>
+                </div>
+
+            </ons-carousel-item>
+
+        </ons-carousel>
+
+    </div>
+
+    <ons-fab id="project-evaluation-prev-button" modifier="mini" position="bottom left"
+             style="transform: scale(0); display: none;"
+    onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.projectEvaluationPageViewModel.prevButtonClicked()">
+        <ons-icon
+                icon="md-chevron-left">
+        </ons-icon>
+    </ons-fab>
+
+    <ons-fab id="project-evaluation-next-button" modifier="mini" position="bottom right"
+             onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.projectEvaluationPageViewModel.nextButtonClicked()">
+        <ons-icon
+                icon="md-chevron-right">
+        </ons-icon>
+    </ons-fab>
 
     <ons-bottom-toolbar modifier="aligned" style="display: none">
 

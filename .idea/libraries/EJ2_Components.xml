@@ -2,11 +2,11 @@
   <library name="EJ2 Components" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.1.46" />
+        <item url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.1.46" />
+      <root url="file://$PROJECT_DIR$/www/js/ej2-components-16.2.48" />
     </CLASSES>
     <SOURCES />
   </library>
