@@ -31,6 +31,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         // initialise the app libraries and plugins
         ons.ready(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var devicePassword;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -57,35 +58,60 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            try {
-                                // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
+                            _context.prev = 6;
+                            // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
-                                // prepare the inapp browser plugin by removing the default window.open() functionality
-                                delete window.open;
+                            // prepare the inapp browser plugin by removing the default window.open() functionality
+                            delete window.open;
 
-                                // note: for most promises, we will use async-wait syntax
+                            // note: for most promises, we will use async-wait syntax
 
-                                // create the pouchdb app database
-                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
-                                    adapter: 'cordova-sqlite',
-                                    location: 'default',
-                                    androidDatabaseImplementation: 2
-                                });
-                            } catch (err) {
-                                console.log("ERROR");
-                            } finally {
-                                // set status bar color
-                                StatusBar.backgroundColorByHexString("#00B2A0");
-                                navigator.splashscreen.hide(); // hide the splashscreen
-                                utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            }
+                            // create the pouchdb app database
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
+                                adapter: 'cordova-sqlite',
+                                location: 'default',
+                                androidDatabaseImplementation: 2
+                            });
 
-                        case 7:
+                            // get a password for encrypting the app database
+                            _context.next = 11;
+                            return new Promise(function (resolve, reject) {
+                                window.plugins.uniqueDeviceID.get(resolve, reject);
+                            });
+
+                        case 11:
+                            devicePassword = _context.sent;
+
+                            console.log("DEVICE PASSWORD", devicePassword);
+
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(devicePassword, { ignore: '_attachments', cb: function cb(err, key) {
+                                    console.log("ERR", err);
+                                    console.log("KEY", key);
+                                } });
+                            _context.next = 19;
+                            break;
+
+                        case 16:
+                            _context.prev = 16;
+                            _context.t0 = _context['catch'](6);
+
+                            console.log("ERROR");
+
+                        case 19:
+                            _context.prev = 19;
+
+                            // set status bar color
+                            StatusBar.backgroundColorByHexString("#00B2A0");
+                            navigator.splashscreen.hide(); // hide the splashscreen
+                            utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
+                            return _context.finish(19);
+
+                        case 24:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this);
+            }, _callee, this, [[6, 16, 19, 24]]);
         }))); // end of ons.ready()
     },
 

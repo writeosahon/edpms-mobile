@@ -64,6 +64,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     location: 'default',
                     androidDatabaseImplementation: 2
                 });
+
+                // get a password for encrypting the app database
+                let devicePassword = await new Promise(function(resolve, reject){
+                    window.plugins.uniqueDeviceID.get(resolve, reject);
+                });
+                console.log("DEVICE PASSWORD", devicePassword);
+
+                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                crypto(devicePassword, {ignore: '_attachments', cb: function(err, key){
+                    console.log("ERR", err);
+                    console.log("KEY", key);
+                    }});
             }
             catch(err){
                 console.log("ERROR");
