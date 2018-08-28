@@ -66,13 +66,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
 
                 // get a password for encrypting the app database
-                let devicePassword = await new Promise(function(resolve, reject){
-                    window.plugins.uniqueDeviceID.get(resolve, reject);
-                });
-                console.log("DEVICE PASSWORD", devicePassword);
+                window.localStorage.setItem("utopiasoftware-edpms-rid",
+                    Random.uuid4(Random.engines.browserCrypto));
+                console.log("DEVICE PASSWORD", window.localStorage.getItem("utopiasoftware-edpms-rid"));
 
                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                crypto(devicePassword, {ignore: '_attachments', cb: function(err, key){
+                crypto(window.localStorage.setItem("utopiasoftware-edpms-rid"), {ignore: '_attachments', cb: function(err, key){
                     console.log("ERR", err);
                     console.log("KEY", key);
                     }});
