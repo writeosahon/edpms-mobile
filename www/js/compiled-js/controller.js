@@ -68,13 +68,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // get a password for encrypting the app database
                 window.localStorage.setItem("utopiasoftware-edpms-rid",
                     Random.uuid4(Random.engines.browserCrypto));
-                console.log("DEVICE PASSWORD", window.localStorage.getItem("utopiasoftware-edpms-rid"));
 
                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments', cb: function(err, key){
-                    console.log("ERR", err);
-                    console.log("KEY", key);
-                    }});
+                crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments'});
             }
             catch(err){
                 console.log("ERROR");
@@ -156,10 +152,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // listen for log in form validation success
                 utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.on('form:success',
-                    function(){
-                        // load the login page
-                        $('ons-splitter').get(0).content.load("app-main-template");
-                    });
+                    utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidated);
 
                 // hide the loader
                 $('#loader-modal').get(0).hide();
@@ -185,12 +178,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageHide: function(){
             // adjust the window/view-port settings for when the soft keyboard is displayed
             // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+
+            try {
+                // remove any tooltip being displayed on all forms on the page
+                $('#login-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                $('#login-page [data-hint]').removeAttr("data-hint");
+                // reset the form validator object on the page
+                utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.reset();
+            }
+            catch(err){}
         },
 
         /**
          * method is triggered when page is destroyed
          */
         pageDestroy: function(){
+
+            try {
+                // remove any tooltip being displayed on all forms on the page
+                $('#login-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                $('#login-page [data-hint]').removeAttr("data-hint");
+                // reset the form validator object on the page
+                utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.destroy();
+            }
+            catch(err){}
         },
 
 
@@ -203,9 +214,82 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // run the validation method for the sign-in form
             utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.whenValidate();
+        },
+
+        /**
+         * method is triggered when the form is successfully validated
+         *
+         * @returns {Promise<void>}
+         */
+        async formValidated(){
+
+            // check if Internet Connection is available before proceeding
+            if(navigator.connection.type === Connection.NONE){ // no Internet Connection
+                // inform the user that they cannot proceed without Internet
+                window.plugins.toast.showWithOptions({
+                    message: "You cannot sign in with an Internet Connection",
+                    duration: 4000,
+                    position: "top",
+                    styling: {
+                        opacity: 1,
+                        backgroundColor: '#ff0000', //red
+                        textColor: '#FFFFFF',
+                        textSize: 14
+                    }
+                }, function(toastEvent){
+                    if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                        window.plugins.toast.hide();
+                    }
+                });
+
+                return; // exit method immediately
+            }
+
+            // inform user that login validation is taking place
+            $('#loader-modal #loader-modal-message').html("Signing You In...");
+            await $('#loader-modal').get(0).show();
+
+            try{
+                // create the form data to be submitted
+                let formData = {
+                    username: $('#login-page #login-email').val().trim(),
+                    password: $('#login-page #login-password').val().trim()
+                };
+
+                let serverResponse = await Promise.resolve($.ajax(
+                    {
+                        url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/login.php",
+                        type: "post",
+                        contentType: "application/x-www-form-urlencoded",
+                        beforeSend: function(jqxhr) {
+                            jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                        },
+                        dataType: "text",
+                        timeout: 240000, // wait for 4 minutes before timeout of request
+                        processData: true,
+                        data: formData
+                    }
+                ));
+                // convert the response to an object
+                serverResponse = JSON.parse(serverResponse.trim());
+
+                // check if the user login was successful
+                if(serverResponse.status !== "success"){ // user log was NOT successful
+                    $('#loader-modal').get(0).hide();
+                    throw serverResponse; // throw error
+                }
+
+                // move user to the main menu page
+                await Promise.all([$('ons-splitter').get(0).content.load("app-main-template"),
+                    $('#loader-modal').get(0).hide()]);
+                // display a toast to the user
+                ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${serverResponse.firstname}`, {timeout:3000});
+            }
+            catch(err){
+                ons.notification.confirm(err.message, {title: '<span style="color: red">Sign In Failed</span>',
+                    buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+            }
         }
-
-
 
     },
 

@@ -18,7 +18,12 @@ utopiasoftware[utopiasoftware_app_namespace].model = {
     /**
      * holds the pouchDB database used by the app
      */
-    appDatabase: null
+    appDatabase: null,
+
+    /**
+     * holds the base url for reaching the application server
+     */
+    appBaseUrl: 'http://132.148.150.76/edpms'
 
 };
 
