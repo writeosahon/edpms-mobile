@@ -76,7 +76,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                                 console.log("DEVICE PASSWORD", window.localStorage.getItem("utopiasoftware-edpms-rid"));
 
-                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.setItem("utopiasoftware-edpms-rid"), { ignore: '_attachments', cb: function cb(err, key) {
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments', cb: function cb(err, key) {
                                         console.log("ERR", err);
                                         console.log("KEY", key);
                                     } });
