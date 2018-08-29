@@ -279,6 +279,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     throw serverResponse; // throw error
                 }
 
+                // check if the user wants to remain signed in
+                if($('#login-page #login-remember-me').get(0).checked){ // the user wants to remian signed in
+                    // save the user's details
+                    let databaseResponse = utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
+                        _id: "userDetails",
+                        userDetails: {firstname, username} = serverResponse,
+                        type: "userDetails"
+                    });
+                    // save the returned rev id
+                    window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
+                }
+
                 // move user to the main menu page
                 await Promise.all([$('ons-splitter').get(0).content.load("app-main-template"),
                     $('#loader-modal').get(0).hide()]);

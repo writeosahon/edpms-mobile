@@ -41,6 +41,85 @@
     color: #00d5c3 !important;
     caret-color: #00d5c3;
 }
+
+.checkbox--login-checkbox {
+    line-height: 18px;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    overflow: visible;
+}
+.checkbox--login-checkbox__checkmark {
+    width: 18px;
+    height: 18px;
+}
+.checkbox--login-checkbox__checkmark:before {
+    border-radius: 2px;
+    height: 18px;
+    width: 18px;
+    border: 2px solid #00d5c3;
+    transition: background-color 0.1s linear 0.2s, border-color 0.1s linear 0.2s;
+    background-color: #696969;
+}
+:checked + .checkbox--login-checkbox__checkmark:before {
+    border: 2px solid #00d5c3;
+    border: 2px solid rgba(0, 213, 195, 1);
+    background-color: #F4C724;
+    background-color: rgba(244, 199, 36, 1);
+    transition: background-color 0.1s linear, border-color 0.1s linear;
+}
+.checkbox--login-checkbox__checkmark:after {
+    border-color: #00d5c3;
+    border-color: rgba(0, 213, 195, 1);
+    transition: -webkit-transform 0.2s ease;
+    transition: transform 0.2s ease 0s;
+    transition: transform 0.2s ease 0s, -webkit-transform 0.2s ease 0s;
+    width: 10px;
+    height: 5px;
+    top: 4px;
+    left: 3px;
+    -webkit-transform: scale(0) rotate(-45deg);
+    transform: scale(0) rotate(-45deg);
+    border-width: 2px;
+}
+:checked + .checkbox--login-checkbox__checkmark:after {
+    transition: -webkit-transform 0.2s ease 0.2s;
+    transition: transform 0.2s ease 0.2s;
+    transition: transform 0.2s ease 0.2s, -webkit-transform 0.2s ease 0.2s;
+    width: 10px;
+    height: 5px;
+    top: 4px;
+    left: 3px;
+    -webkit-transform: scale(1) rotate(-45deg);
+    transform: scale(1) rotate(-45deg);
+    border-width: 2px;
+}
+/* active ring effect */
+.checkbox--login-checkbox__input:before {
+    content: '';
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    box-shadow: 0 0 0 11px #696969;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: #696969;
+    pointer-events: none;
+    display: block;
+    -webkit-transform: scale3d(0.2, 0.2, 0.2);
+    transform: scale3d(0.2, 0.2, 0.2);
+    transition: opacity 0.25s ease-out, -webkit-transform 0.1s ease-out;
+    transition: opacity 0.25s ease-out, transform 0.1s ease-out;
+    transition: opacity 0.25s ease-out, transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
+}
+.checkbox--material__input:checked:before {
+    box-shadow: 0 0 0 11px rgba(244, 199, 36, 1);
+    background-color: #f4c724;
+    background-color: rgba(244, 199, 36, 1);
+}
 /** STYLE FOR THE LOGIN PAGE ENDS **/
 
 /** STYLE FOR THE SEARCH PROJECT PAGE BEGINS **/
