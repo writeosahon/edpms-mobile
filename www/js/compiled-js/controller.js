@@ -275,7 +275,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // check if the user login was successful
                 if(serverResponse.status !== "success"){ // user log was NOT successful
-                    $('#loader-modal').get(0).hide();
                     throw serverResponse; // throw error
                 }
 
@@ -284,11 +283,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // save the user's details
                     let databaseResponse = utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                         _id: "userDetails",
-                        userDetails: {firstname, username} = serverResponse,
-                        type: "userDetails"
+                        userDetails: {firstname: serverResponse.firstname, username: serverResponse.username},
+                        type: "userDetails",
+                        _rev: (window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
+                            window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") ?
+                            window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
                     });
-                    // save the returned rev id
+                    // save the returned user details rev id
                     window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
+                }
+                else{ // user does not want to remain signed in
+                    // remove the user details rev id from storage
+                    window.localStorage.removeItem("utopiasoftware-edpms-app-status");
                 }
 
                 // move user to the main menu page
@@ -298,6 +304,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${serverResponse.firstname}`, {timeout:3000});
             }
             catch(err){
+                $('#loader-modal').get(0).hide();
                 ons.notification.confirm(err.message, {title: '<span style="color: red">Sign In Failed</span>',
                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
             }

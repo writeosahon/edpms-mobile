@@ -265,8 +265,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         formValidated: function () {
             var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-                var formData, serverResponse, _serverResponse, databaseResponse;
-
+                var formData, serverResponse, databaseResponse;
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
@@ -335,15 +334,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if the user login was successful
 
                                 if (!(serverResponse.status !== "success")) {
-                                    _context4.next = 15;
+                                    _context4.next = 14;
                                     break;
                                 }
 
-                                // user log was NOT successful
-                                $('#loader-modal').get(0).hide();
                                 throw serverResponse;
 
-                            case 15:
+                            case 14:
 
                                 // check if the user wants to remain signed in
                                 if ($('#login-page #login-remember-me').get(0).checked) {
@@ -351,28 +348,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // save the user's details
                                     databaseResponse = utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                                         _id: "userDetails",
-                                        userDetails: (_serverResponse = serverResponse, firstname = _serverResponse.firstname, username = _serverResponse.username, _serverResponse),
-                                        type: "userDetails"
+                                        userDetails: { firstname: serverResponse.firstname, username: serverResponse.username },
+                                        type: "userDetails",
+                                        _rev: window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "" ? window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
                                     });
-                                    // save the returned rev id
+                                    // save the returned user details rev id
 
                                     window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
+                                } else {
+                                    // user does not want to remain signed in
+                                    // remove the user details rev id from storage
+                                    window.localStorage.removeItem("utopiasoftware-edpms-app-status");
                                 }
 
                                 // move user to the main menu page
-                                _context4.next = 18;
+                                _context4.next = 17;
                                 return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
 
-                            case 18:
+                            case 17:
                                 // display a toast to the user
                                 ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + serverResponse.firstname, { timeout: 3000 });
                                 _context4.next = 24;
                                 break;
 
-                            case 21:
-                                _context4.prev = 21;
+                            case 20:
+                                _context4.prev = 20;
                                 _context4.t0 = _context4['catch'](6);
 
+                                $('#loader-modal').get(0).hide();
                                 ons.notification.confirm(_context4.t0.message, { title: '<span style="color: red">Sign In Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
@@ -381,7 +384,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[6, 21]]);
+                }, _callee4, this, [[6, 20]]);
             }));
 
             function formValidated() {
