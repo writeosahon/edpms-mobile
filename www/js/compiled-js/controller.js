@@ -36,12 +36,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
 
-            // load the login page
-            $('ons-splitter').get(0).content.load("login-template");
 
             if(window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
                 window.localStorage.getItem("utopiasoftware-edpms-app-status") !== ""){ // there is a previous logged in user
-                // load the user's login email
+                // load the app main page
+                $('ons-splitter').get(0).content.load("app-main-template");
+            }
+            else{ // there is no previously logged in user
+                // load the login page
+                $('ons-splitter').get(0).content.load("login-template");
             }
 
             // START ALL CORDOVA PLUGINS CONFIGURATIONS
@@ -65,10 +68,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     androidDatabaseImplementation: 2
                 });
 
-                // get a password for encrypting the app database
-                window.localStorage.setItem("utopiasoftware-edpms-rid",
-                    Random.uuid4(Random.engines.browserCrypto));
-
+                // generate a password for encrypting the app database (if it does NOT already exist)
+                if(!window.localStorage.getItem("utopiasoftware-edpms-rid") ||
+                    window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
+                    window.localStorage.setItem("utopiasoftware-edpms-rid",
+                        Random.uuid4(Random.engines.browserCrypto));
+                }
                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                 crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments'});
             }
@@ -281,7 +286,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // check if the user wants to remain signed in
                 if($('#login-page #login-remember-me').get(0).checked){ // the user wants to remian signed in
                     // save the user's details
-                    let databaseResponse = utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
+                    let databaseResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                         _id: "userDetails",
                         userDetails: {firstname: serverResponse.firstname, username: serverResponse.username},
                         type: "userDetails",

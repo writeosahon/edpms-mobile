@@ -44,12 +44,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             $('#loader-modal-message').html("Loading App...");
                             $('#loader-modal').get(0).show(); // show loader
 
-                            // load the login page
-                            $('ons-splitter').get(0).content.load("login-template");
 
-                            if (window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") {} // there is a previous logged in user
-                            // load the user's login email
-
+                            if (window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") {
+                                // there is a previous logged in user
+                                // load the app main page
+                                $('ons-splitter').get(0).content.load("app-main-template");
+                            } else {
+                                // there is no previously logged in user
+                                // load the login page
+                                $('ons-splitter').get(0).content.load("login-template");
+                            }
 
                             // START ALL CORDOVA PLUGINS CONFIGURATIONS
                             try {
@@ -72,9 +76,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     androidDatabaseImplementation: 2
                                 });
 
-                                // get a password for encrypting the app database
-                                window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
-
+                                // generate a password for encrypting the app database (if it does NOT already exist)
+                                if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
+                                    window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
+                                }
                                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments' });
                             } catch (err) {
                                 console.log("ERROR");
@@ -85,7 +90,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
                             }
 
-                        case 7:
+                        case 6:
                         case 'end':
                             return _context.stop();
                     }
@@ -341,50 +346,56 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 throw serverResponse;
 
                             case 14:
-
-                                // check if the user wants to remain signed in
-                                if ($('#login-page #login-remember-me').get(0).checked) {
-                                    // the user wants to remian signed in
-                                    // save the user's details
-                                    databaseResponse = utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
-                                        _id: "userDetails",
-                                        userDetails: { firstname: serverResponse.firstname, username: serverResponse.username },
-                                        type: "userDetails",
-                                        _rev: window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "" ? window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
-                                    });
-                                    // save the returned user details rev id
-
-                                    window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
-                                } else {
-                                    // user does not want to remain signed in
-                                    // remove the user details rev id from storage
-                                    window.localStorage.removeItem("utopiasoftware-edpms-app-status");
+                                if (!$('#login-page #login-remember-me').get(0).checked) {
+                                    _context4.next = 21;
+                                    break;
                                 }
 
-                                // move user to the main menu page
                                 _context4.next = 17;
-                                return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
+                                    _id: "userDetails",
+                                    userDetails: { firstname: serverResponse.firstname, username: serverResponse.username },
+                                    type: "userDetails",
+                                    _rev: window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "" ? window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
+                                });
 
                             case 17:
-                                // display a toast to the user
-                                ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + serverResponse.firstname, { timeout: 3000 });
-                                _context4.next = 24;
+                                databaseResponse = _context4.sent;
+
+                                // save the returned user details rev id
+                                window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
+                                _context4.next = 22;
                                 break;
 
-                            case 20:
-                                _context4.prev = 20;
+                            case 21:
+                                // user does not want to remain signed in
+                                // remove the user details rev id from storage
+                                window.localStorage.removeItem("utopiasoftware-edpms-app-status");
+
+                            case 22:
+                                _context4.next = 24;
+                                return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
+
+                            case 24:
+                                // display a toast to the user
+                                ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + serverResponse.firstname, { timeout: 3000 });
+                                _context4.next = 31;
+                                break;
+
+                            case 27:
+                                _context4.prev = 27;
                                 _context4.t0 = _context4['catch'](6);
 
                                 $('#loader-modal').get(0).hide();
                                 ons.notification.confirm(_context4.t0.message, { title: '<span style="color: red">Sign In Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 24:
+                            case 31:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[6, 20]]);
+                }, _callee4, this, [[6, 27]]);
             }));
 
             function formValidated() {
