@@ -23,7 +23,12 @@ utopiasoftware[utopiasoftware_app_namespace].model = {
   /**
    * holds the base url for reaching the application server
    */
-  appBaseUrl: 'http://132.148.150.76/edpms'
+  appBaseUrl: 'http://132.148.150.76/edpms',
+
+  /**
+   * holds the details of the currently logged in user
+   */
+  userDetails: null
 
 };
 

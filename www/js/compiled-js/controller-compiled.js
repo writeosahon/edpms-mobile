@@ -525,15 +525,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     _context6.prev = 8;
 
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes")) {
-                                        _context6.next = 28;
+                                        _context6.next = 45;
                                         break;
                                     }
 
                                     // beginning uploading app data
-                                    $('#determinate-progress-modal .modal-message').html('Downloading app project data for offline use...');
+                                    $('#determinate-progress-modal .modal-message').html('Downloading projects data for offline use...');
                                     $('#determinate-progress-modal').get(0).show();
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
 
+                                    // get the projects data to be cached
                                     _context6.next = 15;
                                     return Promise.resolve($.ajax({
                                         url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
@@ -589,33 +590,108 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 25:
 
-                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 45;
 
                                     // store the all the project data received
                                     _context6.next = 28;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 28:
-                                    _context6.next = 30;
-                                    return $('#determinate-progress-modal').get(0).hide();
+                                    // inform the user that milestone data is being downloaded for offline use
+                                    $('#determinate-progress-modal .modal-message').html('Downloading milestones data for offline use...');
 
-                                case 30:
-                                    _context6.next = 36;
-                                    break;
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 50;
+
+                                    // get the milestones data to be cached
+                                    _context6.next = 32;
+                                    return Promise.resolve($.ajax({
+                                        url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
+                                        type: "post",
+                                        contentType: "application/x-www-form-urlencoded",
+                                        beforeSend: function beforeSend(jqxhr) {
+                                            jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                        },
+                                        dataType: "text",
+                                        timeout: 240000, // wait for 4 minutes before timeout of request
+                                        processData: true,
+                                        data: {}
+                                    }));
 
                                 case 32:
-                                    _context6.prev = 32;
+                                    serverResponse = _context6.sent;
+
+
+                                    serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
+
+                                    // delete all previous milestones /docs
+                                    _context6.next = 37;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                        selector: {
+                                            "TYPE": {
+                                                "$eq": "BOQ"
+                                            } },
+                                        fields: ["_id", "_rev", "TYPE"],
+                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                    });
+
+                                case 37:
+                                    allProjects = _context6.sent;
+
+
+                                    // get all the returned milestones and delete them
+                                    allProjects = allProjects.docs.map(function (currentValue, index, array) {
+                                        currentValue._deleted = true; // mark the document as deleted
+                                        return currentValue;
+                                    });
+
+                                    // check if there are any milestone data to delete
+
+                                    if (!(allProjects.length > 0)) {
+                                        _context6.next = 42;
+                                        break;
+                                    }
+
+                                    _context6.next = 42;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+
+                                case 42:
+
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
+                                    // store the all the milestone data received
+                                    _context6.next = 45;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                                case 45:
+                                    _context6.next = 47;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails").userDetails;
+
+                                case 47:
+                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent;
+                                    _context6.next = 50;
+                                    return $('#determinate-progress-modal').get(0).hide();
+
+                                case 50:
+                                    // display a toast to the user
+                                    ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.firstname, { timeout: 3000 });
+                                    _context6.next = 57;
+                                    break;
+
+                                case 53:
+                                    _context6.prev = 53;
                                     _context6.t0 = _context6['catch'](8);
 
                                     console.log(_context6.t0);
                                     $('#determinate-progress-modal').get(0).hide();
 
-                                case 36:
+                                case 57:
                                 case 'end':
                                     return _context6.stop();
                             }
                         }
-                    }, _callee6, this, [[8, 32]]);
+                    }, _callee6, this, [[8, 53]]);
                 }));
 
                 return function loadPageOnAppReady() {
