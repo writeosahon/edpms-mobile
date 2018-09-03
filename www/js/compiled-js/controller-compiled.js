@@ -680,7 +680,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails");
 
                                 case 48:
-                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent.userDetails;
+                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent;
 
                                 case 49:
                                     _context6.next = 51;
@@ -688,7 +688,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 51:
                                     // display a toast to the user
-                                    ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.firstname, { timeout: 3000 });
+                                    ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname, { timeout: 3000 });
                                     _context6.next = 58;
                                     break;
 

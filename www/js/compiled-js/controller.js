@@ -523,13 +523,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes") { // user did NOT just log in / sign in
                         // get the userDetails data from the app database
                         utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
-                            (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails")).userDetails;
+                            (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails"));
                     }
 
                     // hide the progress loader
                     await $('#determinate-progress-modal').get(0).hide();
                     // display a toast to the user
-                    ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.firstname}`, {timeout:3000});
+                    ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}`, {timeout:3000});
                 }
                 catch(err){
                     console.log(err);
