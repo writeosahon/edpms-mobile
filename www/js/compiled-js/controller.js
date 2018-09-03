@@ -90,8 +90,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // create the database indexes used by the app
                 await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                     index: {
-                        fields: ['PROJECTID'],
-                        name: 'PROJECTID_INDEX',
+                        fields: ['TYPE'],
+                        name: 'DOC_TYPE_INDEX',
                         ddoc: 'ptracker-index-designdoc'
                     }
                 });
@@ -438,12 +438,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // delete all previous project data/docs
                         let allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                             selector: {
-                                "PROJECTID": {
-                                    "$exists": true
-                                },
+                                "TYPE": {
+                                    "$eq": "projects"
+                                }},
                                 fields: ["_id", "_rev", "PROJECTID"],
-                                use_index: ["ptracker-index-designdoc", "PROJECTID_INDEX"]
-                            }
+                                use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
                         // get all the returned projects and delete them

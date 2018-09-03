@@ -98,8 +98,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             _context.next = 13;
                             return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
-                                    fields: ['PROJECTID'],
-                                    name: 'PROJECTID_INDEX',
+                                    fields: ['TYPE'],
+                                    name: 'DOC_TYPE_INDEX',
                                     ddoc: 'ptracker-index-designdoc'
                                 }
                             });
@@ -560,12 +560,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     _context6.next = 20;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
-                                            "PROJECTID": {
-                                                "$exists": true
-                                            },
-                                            fields: ["_id", "_rev", "PROJECTID"],
-                                            use_index: ["ptracker-index-designdoc", "PROJECTID_INDEX"]
-                                        }
+                                            "TYPE": {
+                                                "$eq": "projects"
+                                            } },
+                                        fields: ["_id", "_rev", "PROJECTID"],
+                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
                                 case 20:
