@@ -74,8 +74,28 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.localStorage.setItem("utopiasoftware-edpms-rid",
                         Random.uuid4(Random.engines.browserCrypto));
                 }
-                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments'});
+                await new Promise(function(resolve, reject){
+                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                    crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments',
+                        cb: function(err, key){
+                        if(err){ // there is an error
+                            reject(err); // reject Promise
+                        }
+                        else{ // no error
+                            resolve(key); // resolve Promise
+                        }
+                    }});
+                });
+
+                // create the database indexes used by the app
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                    index: {
+                        fields: ['PROJECTID'],
+                        name: 'PROJECTID_INDEX',
+                        ddoc: 'ptracker-index-designdoc'
+                    }
+                });
+
             }
             catch(err){
                 console.log("ERROR");
@@ -161,6 +181,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // hide the loader
                 $('#loader-modal').get(0).hide();
+
+                //$('#determinate-progress-modal').get(0).show();
             }
 
         },
@@ -302,11 +324,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.localStorage.removeItem("utopiasoftware-edpms-app-status");
                 }
 
+                // flag that the user just completed a sign in for this session
+                window.sessionStorage.setItem("utopiasoftware-edpms-user-logged-in", "yes");
+
                 // move user to the main menu page
                 await Promise.all([$('ons-splitter').get(0).content.load("app-main-template"),
                     $('#loader-modal').get(0).hide()]);
                 // display a toast to the user
-                ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${serverResponse.firstname}`, {timeout:3000});
+                //ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${serverResponse.firstname}`, {timeout:3000});
             }
             catch(err){
                 $('#loader-modal').get(0).hide();
@@ -383,8 +408,69 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         $('#search-project-page ons-bottom-toolbar').css("display", "block");
                     });
 
-                // hide the loader
-                $('#loader-modal').get(0).hide();
+                try{
+                    // check if the user just completed a signin or log-in
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes") {
+                        // beginning uploading app data
+                        $('#determinate-progress-modal .modal-message').html('Downloading app project data for offline use...');
+                        $('#determinate-progress-modal').get(0).show();
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
+
+                        let serverResponse = await Promise.resolve($.ajax(
+                            {
+                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
+                                type: "post",
+                                contentType: "application/x-www-form-urlencoded",
+                                beforeSend: function(jqxhr) {
+                                    jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                },
+                                dataType: "text",
+                                timeout: 240000, // wait for 4 minutes before timeout of request
+                                processData: true,
+                                data: {}
+                            }
+                        ));
+
+                        serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 35;
+
+                        // delete all previous project data/docs
+                        let allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                            selector: {
+                                "PROJECTID": {
+                                    "$exists": true
+                                },
+                                fields: ["_id", "_rev", "PROJECTOD"],
+                                use_index: ["ptracker-index-designdoc", "PROJECTID_INDEX"]
+                            }
+                        });
+
+                        // get all the returned projects and delete them
+                        allProjects = allProjects.docs.map((currentValue, index, array) => {
+                            currentValue._deleted = true; // mark the document as deleted
+                            return currentValue;
+                        });
+
+                        // check if there are any project data to delete
+                        if(allProjects.length > 0){
+                            // delete the already saved projects
+                            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                        }
+
+                        // store the all the project data received
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+                    }
+
+                    // hide the loader
+                    await $('#determinate-progress-modal').get(0).hide();
+                }
+                catch(err){
+                    console.log(err);
+                    $('#determinate-progress-modal').get(0).hide();
+                }
             }
 
         },

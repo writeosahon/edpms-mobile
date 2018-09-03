@@ -61,41 +61,74 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            try {
-                                // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
+                            _context.prev = 5;
+                            // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
-                                // prepare the inapp browser plugin by removing the default window.open() functionality
-                                delete window.open;
+                            // prepare the inapp browser plugin by removing the default window.open() functionality
+                            delete window.open;
 
-                                // note: for most promises, we will use async-wait syntax
+                            // note: for most promises, we will use async-wait syntax
 
-                                // create the pouchdb app database
-                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
-                                    adapter: 'cordova-sqlite',
-                                    location: 'default',
-                                    androidDatabaseImplementation: 2
-                                });
+                            // create the pouchdb app database
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
+                                adapter: 'cordova-sqlite',
+                                location: 'default',
+                                androidDatabaseImplementation: 2
+                            });
 
-                                // generate a password for encrypting the app database (if it does NOT already exist)
-                                if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
-                                    window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
-                                }
-                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments' });
-                            } catch (err) {
-                                console.log("ERROR");
-                            } finally {
-                                // set status bar color
-                                StatusBar.backgroundColorByHexString("#00B2A0");
-                                navigator.splashscreen.hide(); // hide the splashscreen
-                                utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
+                            // generate a password for encrypting the app database (if it does NOT already exist)
+                            if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
+                                window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
+                            _context.next = 11;
+                            return new Promise(function (resolve, reject) {
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
+                                    cb: function cb(err, key) {
+                                        if (err) {
+                                            // there is an error
+                                            reject(err); // reject Promise
+                                        } else {
+                                            // no error
+                                            resolve(key); // resolve Promise
+                                        }
+                                    } });
+                            });
 
-                        case 6:
+                        case 11:
+                            _context.next = 13;
+                            return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                index: {
+                                    fields: ['PROJECTID'],
+                                    name: 'PROJECTID_INDEX',
+                                    ddoc: 'ptracker-index-designdoc'
+                                }
+                            });
+
+                        case 13:
+                            _context.next = 18;
+                            break;
+
+                        case 15:
+                            _context.prev = 15;
+                            _context.t0 = _context['catch'](5);
+
+                            console.log("ERROR");
+
+                        case 18:
+                            _context.prev = 18;
+
+                            // set status bar color
+                            StatusBar.backgroundColorByHexString("#00B2A0");
+                            navigator.splashscreen.hide(); // hide the splashscreen
+                            utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
+                            return _context.finish(18);
+
+                        case 23:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this);
+            }, _callee, this, [[5, 15, 18, 23]]);
         }))); // end of ons.ready()
     },
 
@@ -169,6 +202,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
+
+                                    //$('#determinate-progress-modal').get(0).show();
 
                                 case 10:
                                 case 'end':
@@ -373,12 +408,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.localStorage.removeItem("utopiasoftware-edpms-app-status");
 
                             case 22:
-                                _context4.next = 24;
+
+                                // flag that the user just completed a sign in for this session
+                                window.sessionStorage.setItem("utopiasoftware-edpms-user-logged-in", "yes");
+
+                                // move user to the main menu page
+                                _context4.next = 25;
                                 return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
 
-                            case 24:
-                                // display a toast to the user
-                                ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + serverResponse.firstname, { timeout: 3000 });
+                            case 25:
                                 _context4.next = 31;
                                 break;
 
@@ -424,6 +462,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
                 var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                    var serverResponse, allProjects;
                     return regeneratorRuntime.wrap(function _callee6$(_context6) {
                         while (1) {
                             switch (_context6.prev = _context6.next) {
@@ -483,15 +522,101 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         }, _callee5, this);
                                     })));
 
-                                    // hide the loader
-                                    $('#loader-modal').get(0).hide();
+                                    _context6.prev = 8;
 
-                                case 9:
+                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes")) {
+                                        _context6.next = 28;
+                                        break;
+                                    }
+
+                                    // beginning uploading app data
+                                    $('#determinate-progress-modal .modal-message').html('Downloading app project data for offline use...');
+                                    $('#determinate-progress-modal').get(0).show();
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
+
+                                    _context6.next = 15;
+                                    return Promise.resolve($.ajax({
+                                        url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
+                                        type: "post",
+                                        contentType: "application/x-www-form-urlencoded",
+                                        beforeSend: function beforeSend(jqxhr) {
+                                            jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                        },
+                                        dataType: "text",
+                                        timeout: 240000, // wait for 4 minutes before timeout of request
+                                        processData: true,
+                                        data: {}
+                                    }));
+
+                                case 15:
+                                    serverResponse = _context6.sent;
+
+
+                                    serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 35;
+
+                                    // delete all previous project data/docs
+                                    _context6.next = 20;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                        selector: {
+                                            "PROJECTID": {
+                                                "$exists": true
+                                            },
+                                            fields: ["_id", "_rev", "PROJECTOD"],
+                                            use_index: ["ptracker-index-designdoc", "PROJECTID_INDEX"]
+                                        }
+                                    });
+
+                                case 20:
+                                    allProjects = _context6.sent;
+
+
+                                    // get all the returned projects and delete them
+                                    allProjects = allProjects.docs.map(function (currentValue, index, array) {
+                                        currentValue._deleted = true; // mark the document as deleted
+                                        return currentValue;
+                                    });
+
+                                    // check if there are any project data to delete
+
+                                    if (!(allProjects.length > 0)) {
+                                        _context6.next = 25;
+                                        break;
+                                    }
+
+                                    _context6.next = 25;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+
+                                case 25:
+                                    _context6.next = 27;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                                case 27:
+
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
+                                case 28:
+                                    _context6.next = 30;
+                                    return $('#determinate-progress-modal').get(0).hide();
+
+                                case 30:
+                                    _context6.next = 36;
+                                    break;
+
+                                case 32:
+                                    _context6.prev = 32;
+                                    _context6.t0 = _context6['catch'](8);
+
+                                    console.log(_context6.t0);
+                                    $('#determinate-progress-modal').get(0).hide();
+
+                                case 36:
                                 case 'end':
                                     return _context6.stop();
                             }
                         }
-                    }, _callee6, this);
+                    }, _callee6, this, [[8, 32]]);
                 }));
 
                 return function loadPageOnAppReady() {

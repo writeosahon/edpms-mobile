@@ -23,6 +23,22 @@
 }
 /** STYLE FOR THE APP ALERT DIALOG ENDS **/
 
+.progress-bar--determinate-loader {
+    height: 10px;
+    background-color: transparent;
+    border-radius: 4px;
+}
+.progress-bar--determinate-loader__primary,
+.progress-bar--material__secondary {
+    background-color: #008000;
+    border-radius: 0;
+}
+.progress-bar--determinate-loader__secondary {
+    background-color: rgba(0, 209, 0, 0.28);
+    z-index: 0;
+    border-radius: 4px;
+}
+
 
 /** STYLE FOR THE LOGIN PAGE BEGINS **/
 #login-carousel ons-carousel-item.first { /* style for login slides/carousel item 1 */
