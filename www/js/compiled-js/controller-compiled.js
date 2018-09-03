@@ -588,12 +588,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
 
                                 case 25:
-                                    _context6.next = 27;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
-
-                                case 27:
 
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
+                                    // store the all the project data received
+                                    _context6.next = 28;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 28:
                                     _context6.next = 30;

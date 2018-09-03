@@ -457,10 +457,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
                         }
 
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
                         // store the all the project data received
                         await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
-
-                        $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
                     }
 
                     // hide the loader
