@@ -381,59 +381,65 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 throw serverResponse;
 
                             case 14:
-                                if (!$('#login-page #login-remember-me').get(0).checked) {
-                                    _context4.next = 21;
-                                    break;
-                                }
 
-                                _context4.next = 17;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
+                                // save the user's details
+                                utopiasoftware[utopiasoftware_app_namespace].model.userDetails = {
                                     _id: "userDetails",
                                     userDetails: { firstname: serverResponse.firstname, username: serverResponse.username },
                                     type: "userDetails",
                                     _rev: window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "" ? window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
-                                });
+                                };
 
-                            case 17:
+                                // check if the user wants to remain signed in
+
+                                if (!$('#login-page #login-remember-me').get(0).checked) {
+                                    _context4.next = 22;
+                                    break;
+                                }
+
+                                _context4.next = 18;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(utopiasoftware[utopiasoftware_app_namespace].model.userDetails);
+
+                            case 18:
                                 databaseResponse = _context4.sent;
 
                                 // save the returned user details rev id
                                 window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
-                                _context4.next = 22;
+                                _context4.next = 23;
                                 break;
 
-                            case 21:
+                            case 22:
                                 // user does not want to remain signed in
                                 // remove the user details rev id from storage
                                 window.localStorage.removeItem("utopiasoftware-edpms-app-status");
 
-                            case 22:
+                            case 23:
 
                                 // flag that the user just completed a sign in for this session
                                 window.sessionStorage.setItem("utopiasoftware-edpms-user-logged-in", "yes");
 
                                 // move user to the main menu page
-                                _context4.next = 25;
+                                _context4.next = 26;
                                 return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
 
-                            case 25:
-                                _context4.next = 31;
+                            case 26:
+                                _context4.next = 32;
                                 break;
 
-                            case 27:
-                                _context4.prev = 27;
+                            case 28:
+                                _context4.prev = 28;
                                 _context4.t0 = _context4['catch'](6);
 
                                 $('#loader-modal').get(0).hide();
                                 ons.notification.confirm(_context4.t0.message, { title: '<span style="color: red">Sign In Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 31:
+                            case 32:
                             case 'end':
                                 return _context4.stop();
                         }
                     }
-                }, _callee4, this, [[6, 27]]);
+                }, _callee4, this, [[6, 28]]);
             }));
 
             function formValidated() {
@@ -665,33 +671,40 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 45:
-                                    _context6.next = 47;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails").userDetails;
+                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes")) {
+                                        _context6.next = 49;
+                                        break;
+                                    }
 
-                                case 47:
-                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent;
-                                    _context6.next = 50;
+                                    _context6.next = 48;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails");
+
+                                case 48:
+                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent.userDetails;
+
+                                case 49:
+                                    _context6.next = 51;
                                     return $('#determinate-progress-modal').get(0).hide();
 
-                                case 50:
+                                case 51:
                                     // display a toast to the user
                                     ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.firstname, { timeout: 3000 });
-                                    _context6.next = 57;
+                                    _context6.next = 58;
                                     break;
 
-                                case 53:
-                                    _context6.prev = 53;
+                                case 54:
+                                    _context6.prev = 54;
                                     _context6.t0 = _context6['catch'](8);
 
                                     console.log(_context6.t0);
                                     $('#determinate-progress-modal').get(0).hide();
 
-                                case 57:
+                                case 58:
                                 case 'end':
                                     return _context6.stop();
                             }
                         }
-                    }, _callee6, this, [[8, 53]]);
+                    }, _callee6, this, [[8, 54]]);
                 }));
 
                 return function loadPageOnAppReady() {

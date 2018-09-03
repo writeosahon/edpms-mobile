@@ -305,17 +305,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     throw serverResponse; // throw error
                 }
 
+                // save the user's details
+                utopiasoftware[utopiasoftware_app_namespace].model.userDetails = {
+                    _id: "userDetails",
+                    userDetails: {firstname: serverResponse.firstname, username: serverResponse.username},
+                    type: "userDetails",
+                    _rev: (window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
+                        window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") ?
+                        window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
+                };
+
                 // check if the user wants to remain signed in
                 if($('#login-page #login-remember-me').get(0).checked){ // the user wants to remian signed in
-                    // save the user's details
-                    let databaseResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
-                        _id: "userDetails",
-                        userDetails: {firstname: serverResponse.firstname, username: serverResponse.username},
-                        type: "userDetails",
-                        _rev: (window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
-                            window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") ?
-                            window.localStorage.getItem("utopiasoftware-edpms-app-status") : null
-                    });
+                    // save the user's details to persistent database
+                    let databaseResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(
+                        utopiasoftware[utopiasoftware_app_namespace].model.userDetails);
                     // save the returned user details rev id
                     window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
                 }
@@ -515,9 +519,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
                     }
 
-                    // get the userDetails data from the app database
-                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails").userDetails;
+                    // check if the user just completed a signin or log-in
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes") { // user did NOT just log in / sign in
+                        // get the userDetails data from the app database
+                        utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
+                            (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails")).userDetails;
+                    }
+
                     // hide the progress loader
                     await $('#determinate-progress-modal').get(0).hide();
                     // display a toast to the user
