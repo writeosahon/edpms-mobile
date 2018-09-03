@@ -563,7 +563,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "PROJECTID": {
                                                 "$exists": true
                                             },
-                                            fields: ["_id", "_rev", "PROJECTOD"],
+                                            fields: ["_id", "_rev", "PROJECTID"],
                                             use_index: ["ptracker-index-designdoc", "PROJECTID_INDEX"]
                                         }
                                     });
