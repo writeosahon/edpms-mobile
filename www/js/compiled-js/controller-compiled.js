@@ -638,7 +638,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "BOQ"
                                             } },
-                                        fields: ["_id", "_rev", "TYPE"],
+                                        fields: ["_id", "_rev", "BOQID"],
                                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
