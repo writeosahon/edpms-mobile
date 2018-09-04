@@ -88,13 +88,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
 
                 // create the database indexes used by the app
-                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                await Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                     index: {
                         fields: ['TYPE'],
                         name: 'DOC_TYPE_INDEX',
                         ddoc: 'ptracker-index-designdoc'
-                    }
-                });
+                    }}),
+                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                        index: {
+                            fields: ['PROJECTID'],
+                            name: 'FIND_PROJECT_BY_ID_INDEX',
+                            ddoc: 'ptracker-index-designdoc'
+                        }
+                    })]);
 
             }
             catch(err){
@@ -594,7 +600,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // check which key was pressed
             if(keyEvent.which === kendo.keys.ENTER) // if the enter key was pressed
             {
-                // run the validation method for the sign-in form
+                // run the validation method for the project search form
                 utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.whenValidate();
                 keyEvent.preventDefault();
                 keyEvent.stopImmediatePropagation();
@@ -608,13 +614,62 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         async formValidated(){
+            // show the page preloader
+            $('#search-project-page .page-preloader').css("display", "block");
+            // hide all previous error messages (if any)
+            $('#search-project-page .no-project-found').css("display", "none");
             // hide the device keyboard
             Keyboard.hide();
-            // perform actions to reveal result
-            kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-            await Promise.
-            resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
-            $('#search-project-page ons-bottom-toolbar').css("display", "block");
+
+            try{
+
+                // search the app database for the project id provided
+                let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                    selector: {
+                        "PROJECTID": {
+                            "$eq": $('#search-project-page #search-project-search-input').get(0).value.trim().toLocaleUpperCase()
+                        }},
+                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                });
+
+                // check that the requested project was found
+                if(dbQueryResult.docs.length == 0){ // search project was NOT FOUND
+                    // hide the page preloader
+                    $('#search-project-page .page-preloader').css("display", "none");
+                    // inform user that no project was found
+                    $('#search-project-page .no-project-found').css("display", "block");
+                    return; // exit the method here
+                }
+
+                // if the method gets to this point, it means a project was found
+                // create the searched project details to be displayed
+                let searchedProjectDetails = `<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="color: #000000; text-transform: uppercase; padding: 1rem;">${dbQueryResult.docs[0].PROJECTID}</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Title</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">${dbQueryResult.docs[0].TITLE}</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contractor</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">${dbQueryResult.docs[0].CONTRACTOR}</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contract Sum</div>`;
+                searchedProjectDetails += `<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">${kendo.toString(kendo.parseFloat(dbQueryResult.docs[0].CONTRACTSUM), "n2")}</div>`;
+
+                // attach the generated project details to the page
+                $('#search-project-page #search-project-details').html(searchedProjectDetails);
+
+                // hide the page preloader
+                $('#search-project-page .page-preloader').css("display", "none");
+
+                // perform actions to reveal result
+                kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
+                await Promise.
+                resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
+                $('#search-project-page ons-bottom-toolbar').css("display", "block");
+            }
+            catch(err){
+                // hide the page preloader
+                $('#search-project-page .page-preloader').css("display", "none");
+                // inform user that no project was found
+                $('#search-project-page .no-project-found').css("display", "block");
+            }
         },
 
 

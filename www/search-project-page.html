@@ -19,7 +19,7 @@
         <form id="search-project-form" autocomplete="off" data-parsley-inputs="ons-input,textarea,select,ons-search-input"
               data-parsley-excluded="ons-input[type=button], ons-input[type=submit],
                               ons-input[type=reset], ons-input[type=hidden], [disabled], :hidden">
-            <ons-search-input placeholder="Find Project by ID" required style="width: 100%;"
+            <ons-search-input id="search-project-search-input" placeholder="Find Project by ID" required style="width: 100%;"
                               onkeypress="utopiasoftware[utopiasoftware_app_namespace].
                               controller.searchProjectPageViewModel.searchButtonClicked(event)"
                               data-parsley-required-message="Project ID is required"
@@ -31,9 +31,9 @@
 
     <div class="content container-fluid" style="position: absolute; top: 100px; width: 100%; display: block">
 
-        <p style="text-align: center; margin-top: 2em; display: none;">
+        <p class="no-project-found" style="text-align: center; margin-top: 2em; display: none;">
             <ons-icon icon="md-utopiasoftware-icon-folder" size="70px" style="color: grey;"></ons-icon>
-            <div style="font-size: 1.5em; color: grey; text-align: center; display: none">No Project Found</div>
+            <div class="no-project-found" style="font-size: 1.5em; color: grey; text-align: center; display: none">No Project Found</div>
         </p>
 
         <div id="search-project-details" class="row" style="width: 90%; margin-top: 2em; margin-left: 5%;
