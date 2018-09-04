@@ -597,7 +597,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "projects"
                                             } },
-                                        fields: ["_id", "_rev", "PROJECTID"],
                                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
@@ -665,7 +664,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "BOQ"
                                             } },
-                                        fields: ["_id", "_rev", "BOQID"],
                                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
@@ -829,13 +827,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 0:
                                 // show the page preloader
                                 $('#search-project-page .page-preloader').css("display", "block");
+                                // hide the previous project details being displayed
+                                $('#search-project-page #search-project-details').css("display", "none");
                                 // hide all previous error messages (if any)
                                 $('#search-project-page .no-project-found').css("display", "none");
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context8.prev = 3;
-                                _context8.next = 6;
+                                _context8.prev = 4;
+                                _context8.next = 7;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "PROJECTID": {
@@ -844,11 +844,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
-                            case 6:
+                            case 7:
                                 dbQueryResult = _context8.sent;
 
                                 if (!(dbQueryResult.docs.length == 0)) {
-                                    _context8.next = 11;
+                                    _context8.next = 13;
                                     break;
                                 }
 
@@ -857,9 +857,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page .page-preloader').css("display", "none");
                                 // inform user that no project was found
                                 $('#search-project-page .no-project-found').css("display", "block");
+                                // hide the previous project details being displayed
+                                $('#search-project-page #search-project-details').css("display", "none");
                                 return _context8.abrupt('return');
 
-                            case 11:
+                            case 13:
 
                                 // if the method gets to this point, it means a project was found
                                 // create the searched project details to be displayed
@@ -881,29 +883,31 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // perform actions to reveal result
                                 kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                _context8.next = 24;
+                                _context8.next = 26;
                                 return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
 
-                            case 24:
+                            case 26:
                                 $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                                _context8.next = 31;
+                                _context8.next = 34;
                                 break;
 
-                            case 27:
-                                _context8.prev = 27;
-                                _context8.t0 = _context8['catch'](3);
+                            case 29:
+                                _context8.prev = 29;
+                                _context8.t0 = _context8['catch'](4);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
                                 // inform user that no project was found
                                 $('#search-project-page .no-project-found').css("display", "block");
+                                // hide the previous project details being displayed
+                                $('#search-project-page #search-project-details').css("display", "none");
 
-                            case 31:
+                            case 34:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[3, 27]]);
+                }, _callee8, this, [[4, 29]]);
             }));
 
             function formValidated() {

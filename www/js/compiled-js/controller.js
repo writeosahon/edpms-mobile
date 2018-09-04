@@ -465,7 +465,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "projects"
                                 }},
-                                fields: ["_id", "_rev", "PROJECTID"],
                                 use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
@@ -516,7 +515,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "BOQ"
                                 }},
-                            fields: ["_id", "_rev", "BOQID"],
                             use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
@@ -616,6 +614,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async formValidated(){
             // show the page preloader
             $('#search-project-page .page-preloader').css("display", "block");
+            // hide the previous project details being displayed
+            $('#search-project-page #search-project-details').css("display", "none");
             // hide all previous error messages (if any)
             $('#search-project-page .no-project-found').css("display", "none");
             // hide the device keyboard
@@ -638,6 +638,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#search-project-page .page-preloader').css("display", "none");
                     // inform user that no project was found
                     $('#search-project-page .no-project-found').css("display", "block");
+                    // hide the previous project details being displayed
+                    $('#search-project-page #search-project-details').css("display", "none");
                     return; // exit the method here
                 }
 
@@ -669,6 +671,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#search-project-page .page-preloader').css("display", "none");
                 // inform user that no project was found
                 $('#search-project-page .no-project-found').css("display", "block");
+                // hide the previous project details being displayed
+                $('#search-project-page #search-project-details').css("display", "none");
             }
         },
 
