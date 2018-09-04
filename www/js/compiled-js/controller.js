@@ -630,6 +630,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     selector: {
                         "PROJECTID": {
                             "$eq": $('#search-project-page #search-project-search-input').get(0).value.trim().toLocaleUpperCase()
+                        },
+                        "TYPE": {
+                          "$eq": "projects"
                         }},
                     fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
