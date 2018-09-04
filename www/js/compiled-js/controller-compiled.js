@@ -597,6 +597,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "projects"
                                             } },
+                                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
                                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
@@ -664,6 +665,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "BOQ"
                                             } },
+                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
                                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
@@ -841,6 +843,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         "PROJECTID": {
                                             "$eq": $('#search-project-page #search-project-search-input').get(0).value.trim().toLocaleUpperCase()
                                         } },
+                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
                                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
