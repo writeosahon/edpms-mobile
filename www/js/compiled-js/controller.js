@@ -96,7 +96,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }}),
                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                         index: {
-                            fields: ['PROJECTID'],
+                            fields: ['PROJECTID', 'TYPE'],
                             name: 'FIND_PROJECT_BY_ID_INDEX',
                             ddoc: 'ptracker-index-designdoc'
                         }
