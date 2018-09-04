@@ -684,12 +684,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 49:
                                     _context6.next = 51;
-                                    return $('#determinate-progress-modal').get(0).hide();
+                                    return Promise.all([$('#determinate-progress-modal').get(0).hide(), $('#loader-modal').get(0).hide()]);
 
                                 case 51:
                                     // display a toast to the user
                                     ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname, { timeout: 3000 });
-                                    _context6.next = 58;
+                                    _context6.next = 59;
                                     break;
 
                                 case 54:
@@ -698,8 +698,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     console.log(_context6.t0);
                                     $('#determinate-progress-modal').get(0).hide();
+                                    $('#loader-modal').get(0).hide();
 
-                                case 58:
+                                case 59:
                                 case 'end':
                                     return _context6.stop();
                             }
