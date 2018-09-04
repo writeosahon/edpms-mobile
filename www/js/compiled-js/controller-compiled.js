@@ -638,7 +638,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // get the milestones data to be cached
                                     _context6.next = 33;
                                     return Promise.resolve($.ajax({
-                                        url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
+                                        url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.hiy",
                                         type: "post",
                                         contentType: "application/x-www-form-urlencoded",
                                         beforeSend: function beforeSend(jqxhr) {
@@ -723,7 +723,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     _context6.prev = 55;
                                     _context6.t0 = _context6['catch'](8);
 
-                                    console.log(_context6.t0);
+                                    // display error message indicating that projects data could not be loaded
+                                    $('#search-project-page .project-data-download-error').css("display", "block");
                                     $('#determinate-progress-modal').get(0).hide();
                                     $('#loader-modal').get(0).hide();
 
@@ -833,11 +834,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page #search-project-details').css("display", "none");
                                 // hide all previous error messages (if any)
                                 $('#search-project-page .no-project-found').css("display", "none");
+                                $('#search-project-page .project-data-download-error').css("display", "none");
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context8.prev = 4;
-                                _context8.next = 7;
+                                _context8.prev = 5;
+                                _context8.next = 8;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "PROJECTID": {
@@ -850,11 +852,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
-                            case 7:
+                            case 8:
                                 dbQueryResult = _context8.sent;
 
                                 if (!(dbQueryResult.docs.length == 0)) {
-                                    _context8.next = 13;
+                                    _context8.next = 15;
                                     break;
                                 }
 
@@ -865,12 +867,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page .no-project-found').css("display", "block");
                                 // hide the previous project details being displayed
                                 $('#search-project-page #search-project-details').css("display", "none");
+                                // hide all previous error messages
+                                $('#search-project-page .project-data-download-error').css("display", "none");
                                 return _context8.abrupt('return');
 
-                            case 13:
-
-                                console.log("RECORDS");
-                                console.log(dbQueryResult.docs);
+                            case 15:
 
                                 // if the method gets to this point, it means a project was found
                                 // create the searched project details to be displayed
@@ -902,7 +903,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 31:
                                 _context8.prev = 31;
-                                _context8.t0 = _context8['catch'](4);
+                                _context8.t0 = _context8['catch'](5);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
@@ -916,7 +917,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[4, 31]]);
+                }, _callee8, this, [[5, 31]]);
             }));
 
             function formValidated() {
@@ -993,7 +994,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         var aSlider = new ej.inputs.Slider({
                                             min: 0,
                                             max: 100,
-                                            value: 25,
+                                            value: 0,
                                             step: 1,
                                             orientation: 'Horizontal',
                                             type: 'MinRange',

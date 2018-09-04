@@ -493,7 +493,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // get the milestones data to be cached
                         serverResponse = await Promise.resolve($.ajax(
                             {
-                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
+                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.hiy",
                                 type: "post",
                                 contentType: "application/x-www-form-urlencoded",
                                 beforeSend: function(jqxhr) {
@@ -552,7 +552,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}`, {timeout:3000});
                 }
                 catch(err){
-                    console.log(err);
+                    // display error message indicating that projects data could not be loaded
+                    $('#search-project-page .project-data-download-error').css("display", "block");
                     $('#determinate-progress-modal').get(0).hide();
                     $('#loader-modal').get(0).hide();
                 }
@@ -620,6 +621,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             $('#search-project-page #search-project-details').css("display", "none");
             // hide all previous error messages (if any)
             $('#search-project-page .no-project-found').css("display", "none");
+            $('#search-project-page .project-data-download-error').css("display", "none");
             // hide the device keyboard
             Keyboard.hide();
 
@@ -646,11 +648,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#search-project-page .no-project-found').css("display", "block");
                     // hide the previous project details being displayed
                     $('#search-project-page #search-project-details').css("display", "none");
+                    // hide all previous error messages
+                    $('#search-project-page .project-data-download-error').css("display", "none");
                     return; // exit the method here
                 }
-
-                console.log("RECORDS");
-                console.log(dbQueryResult.docs);
 
                 // if the method gets to this point, it means a project was found
                 // create the searched project details to be displayed
@@ -753,7 +754,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     let aSlider = new ej.inputs.Slider({
                         min: 0,
                         max: 100,
-                        value: 25,
+                        value: 0,
                         step: 1,
                         orientation: 'Horizontal',
                         type: 'MinRange',
