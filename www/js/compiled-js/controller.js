@@ -244,6 +244,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         },
 
         /**
+         * method is triggered when the enter button is clicked on the device keyboard
+         *
+         * @param keyEvent
+         * @returns {Promise<void>}
+         */
+        async enterButtonClicked(keyEvent){
+            // check which key was pressed
+            if(keyEvent.which === kendo.keys.ENTER) // if the enter key was pressed
+            {
+                // prevent the default action from occurring
+                keyEvent.preventDefault();
+                keyEvent.stopImmediatePropagation();
+                keyEvent.stopPropagation();
+                // hide the device keyboard
+                Keyboard.hide();
+            }
+        },
+
+        /**
          * method is triggered when the form is successfully validated
          *
          * @returns {Promise<void>}
@@ -413,6 +432,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     });
 
                 try{
+                    // keep device awake during the downloading process
+                    window.plugins.insomnia.keepAwake();
                     // check if the user just completed a signin or log-in
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes") {
                         // beginning uploading app data
@@ -537,6 +558,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#determinate-progress-modal').get(0).hide();
                     $('#loader-modal').get(0).hide();
                 }
+                finally {
+                    window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                }
             }
 
         },
@@ -585,6 +609,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 keyEvent.stopPropagation();
             }
         },
+
+
+        formValidated(){}
 
 
         /**
