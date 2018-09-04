@@ -866,6 +866,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 13:
 
+                                console.log("RECORDS");
+                                console.log(dbQueryResult.docs);
+
                                 // if the method gets to this point, it means a project was found
                                 // create the searched project details to be displayed
                                 searchedProjectDetails = '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>';
@@ -886,16 +889,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // perform actions to reveal result
                                 kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                _context8.next = 26;
+                                _context8.next = 28;
                                 return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
 
-                            case 26:
+                            case 28:
                                 $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                                _context8.next = 34;
+                                _context8.next = 36;
                                 break;
 
-                            case 29:
-                                _context8.prev = 29;
+                            case 31:
+                                _context8.prev = 31;
                                 _context8.t0 = _context8['catch'](4);
 
                                 // hide the page preloader
@@ -905,12 +908,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // hide the previous project details being displayed
                                 $('#search-project-page #search-project-details').css("display", "none");
 
-                            case 34:
+                            case 36:
                             case 'end':
                                 return _context8.stop();
                         }
                     }
-                }, _callee8, this, [[4, 29]]);
+                }, _callee8, this, [[4, 31]]);
             }));
 
             function formValidated() {

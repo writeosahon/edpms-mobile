@@ -646,6 +646,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     return; // exit the method here
                 }
 
+                console.log("RECORDS");
+                console.log(dbQueryResult.docs);
+
                 // if the method gets to this point, it means a project was found
                 // create the searched project details to be displayed
                 let searchedProjectDetails = `<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>`;
