@@ -421,15 +421,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // listen for log in form validation success
                 utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('form:success',
-                    async function(){
-                        // hide the device keyboard
-                        Keyboard.hide();
-                        // perform actions to reveal result
-                        kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                        await Promise.
-                        resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
-                        $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                    });
+                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidated);
 
                 try{
                     // keep device awake during the downloading process
@@ -611,7 +603,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         },
 
 
-        formValidated(){}
+        /**
+         * method is triggered when the project search search/find form is successfully validated
+         * @returns {Promise<void>}
+         */
+        async formValidated(){
+            // hide the device keyboard
+            Keyboard.hide();
+            // perform actions to reveal result
+            kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
+            await Promise.
+            resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
+            $('#search-project-page ons-bottom-toolbar').css("display", "block");
+        },
 
 
         /**

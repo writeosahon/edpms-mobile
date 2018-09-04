@@ -506,19 +506,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+                var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
                     var serverResponse, allProjects;
-                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                    return regeneratorRuntime.wrap(function _callee6$(_context6) {
                         while (1) {
-                            switch (_context7.prev = _context7.next) {
+                            switch (_context6.prev = _context6.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
-                                        _context7.next = 3;
+                                        _context6.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context7.abrupt('return');
+                                    return _context6.abrupt('return');
 
                                 case 3:
 
@@ -544,37 +544,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                     // listen for log in form validation success
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('form:success', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-                                        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-                                            while (1) {
-                                                switch (_context6.prev = _context6.next) {
-                                                    case 0:
-                                                        // hide the device keyboard
-                                                        Keyboard.hide();
-                                                        // perform actions to reveal result
-                                                        kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                                        _context6.next = 4;
-                                                        return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('form:success', utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidated);
 
-                                                    case 4:
-                                                        $('#search-project-page ons-bottom-toolbar').css("display", "block");
-
-                                                    case 5:
-                                                    case 'end':
-                                                        return _context6.stop();
-                                                }
-                                            }
-                                        }, _callee6, this);
-                                    })));
-
-                                    _context7.prev = 8;
+                                    _context6.prev = 8;
 
                                     // keep device awake during the downloading process
                                     window.plugins.insomnia.keepAwake();
                                     // check if the user just completed a signin or log-in
 
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes")) {
-                                        _context7.next = 46;
+                                        _context6.next = 46;
                                         break;
                                     }
 
@@ -584,7 +563,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
 
                                     // get the projects data to be cached
-                                    _context7.next = 16;
+                                    _context6.next = 16;
                                     return Promise.resolve($.ajax({
                                         url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
                                         type: "post",
@@ -599,7 +578,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }));
 
                                 case 16:
-                                    serverResponse = _context7.sent;
+                                    serverResponse = _context6.sent;
 
 
                                     serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
@@ -607,7 +586,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 35;
 
                                     // delete all previous project data/docs
-                                    _context7.next = 21;
+                                    _context6.next = 21;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "TYPE": {
@@ -618,7 +597,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                 case 21:
-                                    allProjects = _context7.sent;
+                                    allProjects = _context6.sent;
 
 
                                     // get all the returned projects and delete them
@@ -630,11 +609,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if there are any project data to delete
 
                                     if (!(allProjects.length > 0)) {
-                                        _context7.next = 26;
+                                        _context6.next = 26;
                                         break;
                                     }
 
-                                    _context7.next = 26;
+                                    _context6.next = 26;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
 
                                 case 26:
@@ -642,7 +621,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 45;
 
                                     // store the all the project data received
-                                    _context7.next = 29;
+                                    _context6.next = 29;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 29:
@@ -652,7 +631,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 50;
 
                                     // get the milestones data to be cached
-                                    _context7.next = 33;
+                                    _context6.next = 33;
                                     return Promise.resolve($.ajax({
                                         url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
                                         type: "post",
@@ -667,7 +646,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }));
 
                                 case 33:
-                                    serverResponse = _context7.sent;
+                                    serverResponse = _context6.sent;
 
 
                                     serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
@@ -675,7 +654,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
 
                                     // delete all previous milestones /docs
-                                    _context7.next = 38;
+                                    _context6.next = 38;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "TYPE": {
@@ -686,7 +665,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                 case 38:
-                                    allProjects = _context7.sent;
+                                    allProjects = _context6.sent;
 
 
                                     // get all the returned milestones and delete them
@@ -698,11 +677,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if there are any milestone data to delete
 
                                     if (!(allProjects.length > 0)) {
-                                        _context7.next = 43;
+                                        _context6.next = 43;
                                         break;
                                     }
 
-                                    _context7.next = 43;
+                                    _context6.next = 43;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
 
                                 case 43:
@@ -710,51 +689,51 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                                     // store the all the milestone data received
-                                    _context7.next = 46;
+                                    _context6.next = 46;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 46:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes")) {
-                                        _context7.next = 50;
+                                        _context6.next = 50;
                                         break;
                                     }
 
-                                    _context7.next = 49;
+                                    _context6.next = 49;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails");
 
                                 case 49:
-                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context7.sent;
+                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context6.sent;
 
                                 case 50:
-                                    _context7.next = 52;
+                                    _context6.next = 52;
                                     return Promise.all([$('#determinate-progress-modal').get(0).hide(), $('#loader-modal').get(0).hide()]);
 
                                 case 52:
                                     // display a toast to the user
                                     ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname, { timeout: 3000 });
-                                    _context7.next = 60;
+                                    _context6.next = 60;
                                     break;
 
                                 case 55:
-                                    _context7.prev = 55;
-                                    _context7.t0 = _context7['catch'](8);
+                                    _context6.prev = 55;
+                                    _context6.t0 = _context6['catch'](8);
 
-                                    console.log(_context7.t0);
+                                    console.log(_context6.t0);
                                     $('#determinate-progress-modal').get(0).hide();
                                     $('#loader-modal').get(0).hide();
 
                                 case 60:
-                                    _context7.prev = 60;
+                                    _context6.prev = 60;
 
                                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                    return _context7.finish(60);
+                                    return _context6.finish(60);
 
                                 case 63:
                                 case 'end':
-                                    return _context7.stop();
+                                    return _context6.stop();
                             }
                         }
-                    }, _callee7, this, [[8, 55, 60, 63]]);
+                    }, _callee6, this, [[8, 55, 60, 63]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -800,10 +779,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         searchButtonClicked: function () {
-            var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(keyEvent) {
-                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(keyEvent) {
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
                     while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context7.prev = _context7.next) {
                             case 0:
 
                                 // check which key was pressed
@@ -818,17 +797,53 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 1:
                             case 'end':
+                                return _context7.stop();
+                        }
+                    }
+                }, _callee7, this);
+            }));
+
+            function searchButtonClicked(_x2) {
+                return _ref7.apply(this, arguments);
+            }
+
+            return searchButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the project search search/find form is successfully validated
+         * @returns {Promise<void>}
+         */
+        formValidated: function () {
+            var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                    while (1) {
+                        switch (_context8.prev = _context8.next) {
+                            case 0:
+                                // hide the device keyboard
+                                Keyboard.hide();
+                                // perform actions to reveal result
+                                kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
+                                _context8.next = 4;
+                                return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
+
+                            case 4:
+                                $('#search-project-page ons-bottom-toolbar').css("display", "block");
+
+                            case 5:
+                            case 'end':
                                 return _context8.stop();
                         }
                     }
                 }, _callee8, this);
             }));
 
-            function searchButtonClicked(_x2) {
+            function formValidated() {
                 return _ref8.apply(this, arguments);
             }
 
-            return searchButtonClicked;
+            return formValidated;
         }(),
 
 
