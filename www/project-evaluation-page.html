@@ -67,14 +67,27 @@
             </ons-carousel-item>
             <ons-carousel-item>
                 <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">
-                    <div class="col-xs-6" style="padding: 0.5em;">
-                        <img src="css/app-images/xxxhdpi_icon.png" style="width: 100%;" alt="picture 1">
+                    <div class="col-xs-6" style="padding: 0.5em; position: relative">
+                        <div style="position: absolute; text-align: right">
+                            <ons-speed-dial direction="down" style="transform: scale(0.5)">
+                                <ons-fab>
+                                    <ons-icon icon="md-image-o"></ons-icon>
+                                </ons-fab>
+                                <ons-speed-dial-item>
+                                    <ons-icon icon="md-camera"></ons-icon>
+                                </ons-speed-dial-item>
+                                <ons-speed-dial-item>
+                                    <ons-icon icon="md-delete"></ons-icon>
+                                </ons-speed-dial-item>
+                            </ons-speed-dial>
+                        </div>
+                        <img src="css/app-images/xxxhdpi_icon.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">
                     </div>
                     <div class="col-xs-6" style="padding: 0.5em;">
-                        <img src="css/app-images/xxxhdpi_landscape.png" style="width: 100%;">
+                        <img src="css/app-images/xxxhdpi_landscape.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
                     </div>
                     <div class="col-lg-offset-3 col-xs-6" style="padding: 0.5em;">
-                        <img src="css/app-images/xxxhdpi_portrait.png" style="width: 100%;">
+                        <img src="css/app-images/xxxhdpi_portrait.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">
                     </div>
                 </div>
 
