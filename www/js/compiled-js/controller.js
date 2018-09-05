@@ -160,7 +160,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 };
 
                 // adjust the window/view-port settings for when the soft keyboard is displayed
-                window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+                //window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+                window.SoftInputMode.set('adjustResize');
 
                 // initialise the login form validation
                 utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator =
@@ -201,7 +202,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             $('ons-splitter-side').removeAttr("swipeable");
 
             // adjust the window/view-port settings for when the soft keyboard is displayed
-            window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+            window.SoftInputMode.set('adjustResize'); // let the window/view-port 'pan' when the soft keyboard is displayed
         },
 
 
