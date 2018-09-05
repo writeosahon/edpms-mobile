@@ -505,6 +505,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         formValidator: null,
 
         /**
+         * object holds the currently searched and chosen project object
+         */
+        currentlySelectedProject: null,
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function pageInit(event) {
@@ -772,12 +777,27 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageHide: function pageHide() {
             // adjust the window/view-port settings for when the soft keyboard is displayed
             // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+            try {
+                // remove any tooltip being displayed on all forms on the page
+                $('#search-project-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+                $('#search-project-page [data-hint]').removeAttr("data-hint");
+                // reset the form validator object on the page
+                utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.reset();
+            } catch (err) {}
         },
 
         /**
          * method is triggered when page is destroyed
          */
-        pageDestroy: function pageDestroy() {},
+        pageDestroy: function pageDestroy() {
+            // remove any tooltip being displayed on all forms on the page
+            $('#search-project-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
+            $('#search-project-page [data-hint]').removeAttr("data-hint");
+            // reset the form validator object on the page
+            utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.destroy();
+            // destroy the currently selected project object
+            utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.currentlySelectedProject = null;
+        },
 
         /**
          * method is triggered when the "Project Search" button is clicked
@@ -818,7 +838,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
 
         /**
-         * method is triggered when the dpwnload of projects data fails and
+         * method is triggered when the download of projects data fails and
          * the user hits the "Please Retry" button
          *
          * @returns {Promise<void>}
@@ -891,11 +911,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // hide all previous error messages (if any)
                                 $('#search-project-page .no-project-found').css("display", "none");
                                 $('#search-project-page .project-data-download-error').css("display", "none");
+                                // hide the bottom toolbar of the page
+                                $('#search-project-page ons-bottom-toolbar').css("display", "none");
+
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context9.prev = 5;
-                                _context9.next = 8;
+                                _context9.prev = 6;
+                                _context9.next = 9;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "PROJECTID": {
@@ -908,11 +931,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
-                            case 8:
+                            case 9:
                                 dbQueryResult = _context9.sent;
 
                                 if (!(dbQueryResult.docs.length == 0)) {
-                                    _context9.next = 15;
+                                    _context9.next = 17;
                                     break;
                                 }
 
@@ -925,11 +948,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page #search-project-details').css("display", "none");
                                 // hide all previous error messages
                                 $('#search-project-page .project-data-download-error').css("display", "none");
+                                // hide the bottom toolbar of the page
+                                $('#search-project-page ons-bottom-toolbar').css("display", "none");
                                 return _context9.abrupt('return');
 
-                            case 15:
+                            case 17:
 
                                 // if the method gets to this point, it means a project was found
+                                // assign the searched project object as the currently searched and chosen project object
+                                utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.currentlySelectedProject = dbQueryResult.docs[0];
                                 // create the searched project details to be displayed
                                 searchedProjectDetails = '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>';
 
@@ -949,17 +976,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // perform actions to reveal result
                                 kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                _context9.next = 28;
+                                _context9.next = 31;
                                 return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
 
-                            case 28:
+                            case 31:
                                 $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                                _context9.next = 36;
+                                _context9.next = 41;
                                 break;
 
-                            case 31:
-                                _context9.prev = 31;
-                                _context9.t0 = _context9['catch'](5);
+                            case 34:
+                                _context9.prev = 34;
+                                _context9.t0 = _context9['catch'](6);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
@@ -967,13 +994,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page .no-project-found').css("display", "block");
                                 // hide the previous project details being displayed
                                 $('#search-project-page #search-project-details').css("display", "none");
+                                // hide the project data download error
+                                $('#search-project-page .project-data-download-error').css("display", "none");
+                                // hide the bottom toolbar of the page
+                                $('#search-project-page ons-bottom-toolbar').css("display", "none");
 
-                            case 36:
+                            case 41:
                             case 'end':
                                 return _context9.stop();
                         }
                     }
-                }, _callee9, this, [[5, 31]]);
+                }, _callee9, this, [[6, 34]]);
             }));
 
             function formValidated() {
@@ -988,7 +1019,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked: function backButtonClicked() {
-
             ons.notification.confirm('Do you want to close the app?', { title: 'Exit App',
                 buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' }) // Ask for confirmation
             .then(function (index) {
@@ -1005,8 +1035,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         proceedButtonClicked: function proceedButtonClicked() {
 
-            // move to the project evaluation page
-            $('#app-main-navigator').get(0).pushPage("project-evaluation-page.html", { animation: "lift-md" });
+            // move to the project evaluation page. Also pass along the currently chosen project object
+            $('#app-main-navigator').get(0).pushPage("project-evaluation-page.html", { animation: "lift-md",
+                data: { projectData: utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.currentlySelectedProject } });
         }
     },
 
@@ -1032,7 +1063,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         while (1) {
                             switch (_context10.prev = _context10.next) {
                                 case 0:
-                                    if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false || !ej)) {
+                                    if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false || !ej || !Viewer)) {
                                         _context10.next = 3;
                                         break;
                                     }
@@ -1044,6 +1075,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // listen for the back button event
                                     $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
+
+                                    // show the page preloader
+                                    /*$('#project-evaluation-page .page-preloader').css("display", "block");
+                                    // hide the items that are not to be displayed
+                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                                    css("display", "none");
+                                      // pick the project data object for which milestones are to be evaluated
+                                    let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
+                                      try{
+                                          // search the app database for milestones using the project id provided
+                                        let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                            selector: {
+                                                "PROJECTID": {
+                                                    "$eq": projectData.PROJECTID
+                                                },
+                                                "TYPE": {
+                                                    "$eq": "BOQ"
+                                                }},
+                                            use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                                        });
+                                          // check if any milestones were returned
+                                        if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
+                                          }
+                                        // create the evaluation carousel item based on the milestones retrieved
+                                      }
+                                    catch (e) {
+                                      }*/
 
                                     // create the slider elements
                                     $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
@@ -1064,10 +1122,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         aSlider.appendTo(element);
                                     });
 
+                                    new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0));
+
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 6:
+                                case 7:
                                 case 'end':
                                     return _context10.stop();
                             }
