@@ -818,15 +818,71 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
 
         /**
+         * method is triggered when the dpwnload of projects data fails and
+         * the user hits the "Please Retry" button
+         *
+         * @returns {Promise<void>}
+         */
+        retryProjectDataDownloadButtonClicked: function () {
+            var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                    while (1) {
+                        switch (_context8.prev = _context8.next) {
+                            case 0:
+
+                                // hide the page preloader
+                                $('#search-project-page .page-preloader').css("display", "none");
+                                // hide the previous project details being displayed
+                                $('#search-project-page #search-project-details').css("display", "none");
+                                // hide all previous error messages (if any)
+                                $('#search-project-page .no-project-found').css("display", "none");
+                                $('#search-project-page .project-data-download-error').css("display", "none");
+                                // hide the device keyboard
+                                Keyboard.hide();
+
+                                _context8.prev = 5;
+                                _context8.next = 8;
+                                return utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
+
+                            case 8:
+                                // error the project data download error message
+                                $('#search-project-page .project-data-download-error').css("display", "none");
+                                _context8.next = 14;
+                                break;
+
+                            case 11:
+                                _context8.prev = 11;
+                                _context8.t0 = _context8['catch'](5);
+
+                                // display the project data download error message
+                                $('#search-project-page .project-data-download-error').css("display", "block");
+
+                            case 14:
+                            case 'end':
+                                return _context8.stop();
+                        }
+                    }
+                }, _callee8, this, [[5, 11]]);
+            }));
+
+            function retryProjectDataDownloadButtonClicked() {
+                return _ref8.apply(this, arguments);
+            }
+
+            return retryProjectDataDownloadButtonClicked;
+        }(),
+
+
+        /**
          * method is triggered when the project search search/find form is successfully validated
          * @returns {Promise<void>}
          */
         formValidated: function () {
-            var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
                 var dbQueryResult, searchedProjectDetails;
-                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                return regeneratorRuntime.wrap(function _callee9$(_context9) {
                     while (1) {
-                        switch (_context8.prev = _context8.next) {
+                        switch (_context9.prev = _context9.next) {
                             case 0:
                                 // show the page preloader
                                 $('#search-project-page .page-preloader').css("display", "block");
@@ -838,8 +894,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context8.prev = 5;
-                                _context8.next = 8;
+                                _context9.prev = 5;
+                                _context9.next = 8;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "PROJECTID": {
@@ -853,10 +909,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 8:
-                                dbQueryResult = _context8.sent;
+                                dbQueryResult = _context9.sent;
 
                                 if (!(dbQueryResult.docs.length == 0)) {
-                                    _context8.next = 15;
+                                    _context9.next = 15;
                                     break;
                                 }
 
@@ -869,7 +925,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page #search-project-details').css("display", "none");
                                 // hide all previous error messages
                                 $('#search-project-page .project-data-download-error').css("display", "none");
-                                return _context8.abrupt('return');
+                                return _context9.abrupt('return');
 
                             case 15:
 
@@ -893,17 +949,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // perform actions to reveal result
                                 kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                _context8.next = 28;
+                                _context9.next = 28;
                                 return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
 
                             case 28:
                                 $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                                _context8.next = 36;
+                                _context9.next = 36;
                                 break;
 
                             case 31:
-                                _context8.prev = 31;
-                                _context8.t0 = _context8['catch'](5);
+                                _context9.prev = 31;
+                                _context9.t0 = _context9['catch'](5);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
@@ -914,14 +970,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 36:
                             case 'end':
-                                return _context8.stop();
+                                return _context9.stop();
                         }
                     }
-                }, _callee8, this, [[5, 31]]);
+                }, _callee9, this, [[5, 31]]);
             }));
 
             function formValidated() {
-                return _ref8.apply(this, arguments);
+                return _ref9.apply(this, arguments);
             }
 
             return formValidated;
@@ -971,18 +1027,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-                    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+                    return regeneratorRuntime.wrap(function _callee10$(_context10) {
                         while (1) {
-                            switch (_context9.prev = _context9.next) {
+                            switch (_context10.prev = _context10.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false || !ej)) {
-                                        _context9.next = 3;
+                                        _context10.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context9.abrupt('return');
+                                    return _context10.abrupt('return');
 
                                 case 3:
 
@@ -1013,14 +1069,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 6:
                                 case 'end':
-                                    return _context9.stop();
+                                    return _context10.stop();
                             }
                         }
-                    }, _callee9, this);
+                    }, _callee10, this);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref9.apply(this, arguments);
+                    return _ref10.apply(this, arguments);
                 };
             }();
 

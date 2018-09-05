@@ -34,5 +34,141 @@ const utopiasoftware_app_namespace = 'edpms';
  * @type {{}}
  */
 const utopiasoftware = {
-    [utopiasoftware_app_namespace]: {}
+    [utopiasoftware_app_namespace]: {
+
+        /**
+         * object is responsible for handling operations on the app's cached data
+         */
+        appCachedData: {
+
+            /**
+             * method is used to download the project data to be cached. This includes project data and milestones data
+             * @param showProgressModal {Boolean}
+             * @returns {Promise<void>}
+             */
+            async loadProjectData(showProgressModal = true){
+                try{
+                    // keep device awake during the downloading process
+                    window.plugins.insomnia.keepAwake();
+
+                    if(showProgressModal === true){ // check if download progress modal should be displayed to user
+                        // show download progress
+                        $('#determinate-progress-modal .modal-message').html('Downloading projects data for offline use...');
+                        $('#determinate-progress-modal').get(0).show();
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
+                    }
+
+                    // get the projects data to be cached
+                    let serverResponse = await Promise.resolve($.ajax(
+                        {
+                            url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
+                            type: "post",
+                            contentType: "application/x-www-form-urlencoded",
+                            beforeSend: function(jqxhr) {
+                                jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                            },
+                            dataType: "text",
+                            timeout: 240000, // wait for 4 minutes before timeout of request
+                            processData: true,
+                            data: {}
+                        }
+                    ));
+
+                    serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                    $('#determinate-progress-modal #determinate-progress').get(0).value = 35;
+
+                    // delete all previous project data/docs
+                    let allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                        selector: {
+                            "TYPE": {
+                                "$eq": "projects"
+                            }},
+                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                    });
+
+                    // get all the returned projects and delete them
+                    allProjects = allProjects.docs.map((currentValue, index, array) => {
+                        currentValue._deleted = true; // mark the document as deleted
+                        return currentValue;
+                    });
+
+                    // check if there are any project data to delete
+                    if(allProjects.length > 0){
+                        // delete the already saved projects
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                    }
+
+                    $('#determinate-progress-modal #determinate-progress').get(0).value = 45;
+
+                    // store all the project data received
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                    // inform the user that milestone data is being downloaded for offline use
+                    $('#determinate-progress-modal .modal-message').html('Downloading milestones data for offline use...');
+
+                    $('#determinate-progress-modal #determinate-progress').get(0).value = 50;
+
+                    // get the milestones data to be cached
+                    serverResponse = await Promise.resolve($.ajax(
+                        {
+                            url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
+                            type: "post",
+                            contentType: "application/x-www-form-urlencoded",
+                            beforeSend: function(jqxhr) {
+                                jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                            },
+                            dataType: "text",
+                            timeout: 240000, // wait for 4 minutes before timeout of request
+                            processData: true,
+                            data: {}
+                        }
+                    ));
+
+                    serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                    $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
+
+                    // delete all previous milestones /docs
+                    allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                        selector: {
+                            "TYPE": {
+                                "$eq": "BOQ"
+                            }},
+                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
+                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                    });
+
+                    // get all the returned milestones and delete them
+                    allProjects = allProjects.docs.map((currentValue, index, array) => {
+                        currentValue._deleted = true; // mark the document as deleted
+                        return currentValue;
+                    });
+
+                    // check if there are any milestone data to delete
+                    if(allProjects.length > 0){
+                        // delete the already saved milestone data
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                    }
+
+                    $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
+                    // store the all the milestone data received
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                    if(showProgressModal === true){
+                        // hide the progress loader
+                        await $('#determinate-progress-modal').get(0).hide();
+                    }
+                }
+                finally {
+                    if(showProgressModal === true){
+                        // hide the progress loader
+                        await $('#determinate-progress-modal').get(0).hide();
+                    }
+                    window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                }
+            }
+        }
+    }
 };

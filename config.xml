@@ -77,9 +77,6 @@
         <preference name="HeaderColor" value="#00B2A0" />
         <!-- set the load url timeout for the app -->
         <preference name="loadUrlTimeoutValue" value="240000" />
-        <!-- set the background color for the app webview -->
-        <preference name="BackgroundColor" value="0xff00b2a0" />
-        <preference name="ShowTitle" value="true" />
     </platform>
 
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect --ignore-gpu-blacklist "/>

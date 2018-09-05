@@ -609,6 +609,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
         },
 
+        /**
+         * method is triggered when the dpwnload of projects data fails and
+         * the user hits the "Please Retry" button
+         *
+         * @returns {Promise<void>}
+         */
+        async retryProjectDataDownloadButtonClicked(){
+
+            // hide the page preloader
+            $('#search-project-page .page-preloader').css("display", "none");
+            // hide the previous project details being displayed
+            $('#search-project-page #search-project-details').css("display", "none");
+            // hide all previous error messages (if any)
+            $('#search-project-page .no-project-found').css("display", "none");
+            $('#search-project-page .project-data-download-error').css("display", "none");
+            // hide the device keyboard
+            Keyboard.hide();
+
+            try {
+                // call the method used to load app project data into the persistent database
+                await utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
+                // error the project data download error message
+                $('#search-project-page .project-data-download-error').css("display", "none");
+            }
+            catch(err){
+                // display the project data download error message
+                $('#search-project-page .project-data-download-error').css("display", "block");
+            }
+        },
+
 
         /**
          * method is triggered when the project search search/find form is successfully validated
