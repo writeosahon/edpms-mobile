@@ -1060,7 +1060,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
                 var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-                    var projectData;
                     return regeneratorRuntime.wrap(function _callee10$(_context10) {
                         while (1) {
                             switch (_context10.prev = _context10.next) {
@@ -1078,15 +1077,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // listen for the back button event
                                     $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
 
-                                    // show the page preloader
+                                    /*// show the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
-                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "none");
-
-                                    // pick the project data object for which milestones are to be evaluated
-                                    projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
-
-                                    /*try{
+                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                                    css("display", "none");
+                                      // pick the project data object for which milestones are to be evaluated
+                                    let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
+                                      try{
                                           // search the app database for milestones using the project id provided
                                         let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                             selector: {
@@ -1107,7 +1105,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                       }*/
 
                                     // create the slider elements
-
                                     $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
                                         var aSlider = new ej.inputs.Slider({
                                             min: 0,
@@ -1131,7 +1128,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 10:
+                                case 7:
                                 case 'end':
                                     return _context10.stop();
                             }

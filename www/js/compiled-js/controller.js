@@ -813,7 +813,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#app-main-navigator').get(0).topPage.onDeviceBackButton =
                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
 
-                // show the page preloader
+                /*// show the page preloader
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
                 $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
@@ -822,7 +822,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // pick the project data object for which milestones are to be evaluated
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
 
-                /*try{
+                try{
 
                     // search the app database for milestones using the project id provided
                     let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
