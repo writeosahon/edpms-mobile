@@ -178,49 +178,8 @@
     padding-top: 0.7rem;
     border: 3px #36366C ridge;
 }
-/** STYLE FOR THE SPEEDIALS ON PAGE **/
-.fab--utopiasoftware-pic-capture {
-    position: relative;
-    display: inline-block;
-    box-sizing: border-box;
-    background-clip: padding-box;
-    padding: 0;
-    margin: 0;
-    font: inherit;
-    color: inherit;
-    background: transparent;
-    border: none;
-    line-height: normal;
-    font-family: -apple-system, 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    cursor: default;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    width: 56px;
-    height: 56px;
-    text-decoration: none;
-    font-size: 25px;
-    line-height: 56px;
-    letter-spacing: 0;
-    vertical-align: middle;
-    text-align: center;
-    border: 0 solid currentColor;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
-    transition: all 0.1s linear;
-    font-family: 'Roboto', 'Noto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 400;
-    width: 56px;
-    height: 56px;
-    text-decoration: none;
-    font-size: 25px;
-    line-height: 56px;
+/** STYLE FOR THE SPEED DIALS ON PAGE **/
+.utopiasoftware-pic-capture-speed-dial {
     color: #FFFFFF;
     background-color: #3F51B5;
     box-shadow:
@@ -229,7 +188,7 @@
             0 2px 4px -1px rgba(0, 0, 0, .4);
     transition: all 0.2s ease-in-out;
 }
-.fab--utopiasoftware-pic-capture:active {
+.utopiasoftware-pic-capture-speed-dial:active {
     box-shadow:
             0 8px 10px 1px rgba(0, 0, 0, .14),
             0 3px 14px 2px rgba(0, 0, 0, .12),
