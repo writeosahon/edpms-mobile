@@ -1122,12 +1122,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         aSlider.appendTo(element);
                                     });
 
-                                    new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0));
+                                    //new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0));
+
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 7:
+                                case 6:
                                 case 'end':
                                     return _context10.stop();
                             }

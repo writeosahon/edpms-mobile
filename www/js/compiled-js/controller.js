@@ -866,7 +866,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     aSlider.appendTo(element);
                 });
 
-                new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0));
+                //new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0));
 
 
 
