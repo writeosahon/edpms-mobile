@@ -493,7 +493,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // get the milestones data to be cached
                         serverResponse = await Promise.resolve($.ajax(
                             {
-                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.hiy",
+                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
                                 type: "post",
                                 contentType: "application/x-www-form-urlencoded",
                                 beforeSend: function(jqxhr) {
