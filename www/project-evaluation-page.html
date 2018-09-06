@@ -28,6 +28,19 @@
                   class="project-evaluation-instructions">
             Evaluate the milestones of project completion on a scale of 0 - 100%
         </ons-card>
+
+        <p class="no-milestone-found" style="text-align: center; margin-top: 2em; display: none;">
+            <ons-icon icon="md-utopiasoftware-icon-folder" size="70px" style="color: grey;"></ons-icon>
+        <div class="no-milestone-found" style="font-size: 1.5em; color: grey; text-align: center; display: none">
+            No Milestone Found For Project
+        </div>
+        <div class="no-milestone-found" style="text-align: center; margin-top: 1em; display: none">
+            <ons-button style="background-color: #3f51b5;"
+                        onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.projectEvaluationPageViewModel.backButtonClicked()">Find Another Project</ons-button>
+        </div>
+        </p>
+
     </div>
 
     <div style="position: fixed; width: 100%; top: 190px; margin-left: 2em; display: none;" class="project-evaluation-instructions">
@@ -35,7 +48,7 @@
               style="text-transform: capitalize; transform: scale(1.5);">Milestone 1</span>
     </div>
 
-    <div class="content" style="position: absolute; top: 230px; width: 100%; display: none">
+    <div class="content container-fluid" style="position: absolute; top: 230px; width: 100%; display: none">
         <ons-carousel id="project-evaluation-carousel" swipeable fullscreen auto-refresh direction="horizontal" auto-scroll auto-scroll-ratio="0.1"
                       item-width="100%" initial-index="0">
             <!--<ons-carousel-item>

@@ -821,7 +821,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // show the page preloader
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
-                $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                $('#project-evaluation-page .project-evaluation-instructions, ' +
+                    '#project-evaluation-page .content, #project-evaluation-page .no-milestone-found').
                 css("display", "none");
 
                 // pick the project data object for which milestones are to be evaluated
@@ -842,7 +843,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     // check if any milestones were returned
                     if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
-
+                        throw "error"; // throw an error
                     }
 
                     // create the evaluation carousel item based on the milestones retrieved
@@ -928,8 +929,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
-                    // refresh the project evaluation carousel
-                    //$('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
 
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').
@@ -997,7 +996,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         size: 'large',
                                     },
                                     flipVertical: {
-                                        show: true,
+                                        show: false,
                                         size: 'large',
                                     }
                                 },
@@ -1010,11 +1009,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "block");
                 }
                 catch (e) {
-
+                    // hide the page preloader
+                    $('#project-evaluation-page .page-preloader').css("display", "none");
+                    // hide the items that are not to be displayed
+                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                    css("display", "none");
+                    // display the message to inform user that there are no milestones available for the project
+                    $('#project-evaluation-page .no-milestone-found').css("display", "block");
                 }
-
-                // hide the loader
-                $('#loader-modal').get(0).hide();
+                finally{
+                    // hide the loader
+                    $('#loader-modal').get(0).hide();
+                }
             }
 
         },
