@@ -1086,13 +1086,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
-                                    // $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
-                                    // css("display", "block");
+                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "none");
 
                                     // pick the project data object for which milestones are to be evaluated
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
-                                    _context10.prev = 6;
-                                    _context10.next = 9;
+                                    _context10.prev = 7;
+                                    _context10.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "PROJECTID": {
@@ -1104,7 +1103,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                     });
 
-                                case 9:
+                                case 10:
                                     dbQueryResult = _context10.sent;
 
 
@@ -1198,26 +1197,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // show the items that are to be displayed
-                                    // $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
-                                    // css("display", "block");
-                                    _context10.next = 22;
+                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
+                                    _context10.next = 24;
                                     break;
 
-                                case 20:
-                                    _context10.prev = 20;
-                                    _context10.t0 = _context10['catch'](6);
-
                                 case 22:
+                                    _context10.prev = 22;
+                                    _context10.t0 = _context10['catch'](7);
+
+                                case 24:
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 23:
+                                case 25:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[6, 20]]);
+                    }, _callee10, this, [[7, 22]]);
                 }));
 
                 return function loadPageOnAppReady() {
