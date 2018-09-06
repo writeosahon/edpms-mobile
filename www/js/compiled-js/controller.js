@@ -822,7 +822,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
                 $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
-                css("display", "none");
+                css("display", "block");
 
                 // pick the project data object for which milestones are to be evaluated
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
@@ -901,7 +901,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
                                 </div>
-                                <img src="css/app-images/css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
+                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
                             </div>
                             <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
@@ -1005,8 +1005,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
                     // show the items that are to be displayed
-                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
-                    css("display", "block");
+                    // $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                    // css("display", "block");
                 }
                 catch (e) {
 
