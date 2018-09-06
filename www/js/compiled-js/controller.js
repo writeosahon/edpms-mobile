@@ -928,7 +928,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').html(carouselContent);
                     // refresh the project evaluation carousel
-                    $('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
+                    //$('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
 
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').

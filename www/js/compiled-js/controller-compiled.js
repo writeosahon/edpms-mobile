@@ -1123,7 +1123,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').html(carouselContent);
                                     // refresh the project evaluation carousel
-                                    $('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
+                                    //$('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
 
                                     // create the project evaluation slider elements
                                     $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
@@ -1197,24 +1197,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
-                                    _context10.next = 25;
+                                    _context10.next = 24;
                                     break;
 
-                                case 23:
-                                    _context10.prev = 23;
+                                case 22:
+                                    _context10.prev = 22;
                                     _context10.t0 = _context10['catch'](7);
 
-                                case 25:
+                                case 24:
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
 
-                                case 26:
+                                case 25:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 23]]);
+                    }, _callee10, this, [[7, 22]]);
                 }));
 
                 return function loadPageOnAppReady() {
