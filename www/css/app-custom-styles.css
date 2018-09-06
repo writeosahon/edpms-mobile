@@ -179,7 +179,7 @@
     border: 3px #36366C ridge;
 }
 /** STYLE FOR THE SPEED DIALS ON PAGE **/
-.utopiasoftware-pic-capture-speed-dial {
+.utopiasoftware-pic-capture-speed-dial { /** specify the color for the speed dials and all its items **/
     color: #FFFFFF;
     background-color: #3F51B5;
     box-shadow:
@@ -188,7 +188,7 @@
             0 2px 4px -1px rgba(0, 0, 0, .4);
     transition: all 0.2s ease-in-out;
 }
-.utopiasoftware-pic-capture-speed-dial:active {
+.utopiasoftware-pic-capture-speed-dial:active { /** specify the active color for the speed dials and all its items **/
     box-shadow:
             0 8px 10px 1px rgba(0, 0, 0, .14),
             0 3px 14px 2px rgba(0, 0, 0, .12),
@@ -197,10 +197,10 @@
     background-color: rgba(63, 81, 181, .7);
     transition: all 0.2s ease;
 }
-.fab--utopiasoftware-pic-capture-speed-dial{
+.fab--utopiasoftware-pic-capture-speed-dial{ /** specific style for JUST the SPEED DIALS **/
     transform: scale(0.8) !important;
 }
-.speed-dial__item--utopiasoftware-pic-capture-speed-dial-item {
+.speed-dial__item--utopiasoftware-pic-capture-speed-dial-item { /** specific style for JUST the SPEED DIAL ITEMS **/
     font-size: 20px;
     width: 30px;
     height: 30px;
