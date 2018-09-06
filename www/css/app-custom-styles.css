@@ -197,6 +197,9 @@
     background-color: rgba(63, 81, 181, .7);
     transition: all 0.2s ease;
 }
+.fab--utopiasoftware-pic-capture-speed-dial{
+    transform: scale(0.8) !important;
+}
 .speed-dial__item--utopiasoftware-pic-capture-speed-dial-item {
     font-size: 20px;
     width: 30px;
