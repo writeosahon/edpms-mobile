@@ -821,8 +821,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // show the page preloader
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
-                $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
-                css("display", "block");
+                // $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                // css("display", "block");
 
                 // pick the project data object for which milestones are to be evaluated
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
@@ -849,7 +849,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     let carouselContent = "";
                     for(let index = 0; index < dbQueryResult.docs.length; index++)
                     {
-                        carouselContent += `
+                        carouselContent = `
                         <ons-carousel-item>
                             <ons-card>
                                 <div style="font-size: 1.1em">
@@ -859,10 +859,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             </ons-card>
                         </ons-carousel-item>`;
+                        $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
                     } // end of for loop
 
                     // append the carousel content used for displaying evaluation pictures
-                    carouselContent += `
+                    carouselContent = `
                     <ons-carousel-item style="overflow-y: scroll">
                         <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">
                             <div class="col-xs-6" style="padding: 0.5em; position: relative">
@@ -926,7 +927,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     </ons-carousel-item>`;
 
                     // append the generated carousel content to the project evaluation carousel
-                    $('#project-evaluation-page #project-evaluation-carousel').html(carouselContent);
+                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
                     // refresh the project evaluation carousel
                     //$('#project-evaluation-page #project-evaluation-carousel').get(0).refresh();
 
