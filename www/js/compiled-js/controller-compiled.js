@@ -241,6 +241,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // adjust the window/view-port settings for when the soft keyboard is displayed
             window.SoftInputMode.set('adjustResize'); // let the window/view-port 'pan' when the soft keyboard is displayed
+
+            // listen for when the device keyboard is hidden
+            window.addEventListener("keyboardDidHide", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.keyboardHidden);
+
+            // listen for when the device keyboard is shown
+            window.addEventListener("keyboardDidShow", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.keyboardShown);
         },
 
         /**
@@ -251,6 +257,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
 
             try {
+                // remove the listeners registered to listen for when the device keyboard is hidden and shown
+                window.removeEventListener("keyboardDidHide", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.keyboardHidden);
+                window.addEventListener("keyboardDidShow", utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.keyboardShown);
                 // remove any tooltip being displayed on all forms on the page
                 $('#login-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
                 $('#login-page [data-hint]').removeAttr("data-hint");
@@ -272,6 +281,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.destroy();
             } catch (err) {}
         },
+
+        /**
+         * method will be triggered when the device keyboard is hidden. This is an event listener
+         */
+        keyboardHidden: function keyboardHidden() {
+            // show the title banner on the home page
+            $('#login-page .login-title-banner').css("display", "block");
+        },
+
+
+        /**
+         * method will be triggered when the device keyboard is shown. This is an event listener
+         */
+        keyboardShown: function keyboardShown() {
+            // hide the title banner on the home page
+            $('#login-page .login-title-banner').css("display", "none");
+        },
+
 
         /**
          * method is triggered when the "Sign In / Log In" button is clicked
@@ -1265,7 +1292,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when page is destroyed
          */
-        pageDestroy: function pageDestroy() {},
+        pageDestroy: function pageDestroy() {
+            // destroy the pictures Viewer widget instance
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
+        },
 
         /**
          * method is triggered when the device back button is clicked OR a similar action is triggered
