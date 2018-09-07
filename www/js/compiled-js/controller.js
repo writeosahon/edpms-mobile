@@ -583,7 +583,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     await Promise.all([$('#determinate-progress-modal').get(0).hide(),
                         $('#loader-modal').get(0).hide()]);
                     // display a toast to the user
-                    ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}`, {timeout:3000});
+                    ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}</span>`, {timeout:3000});
                 }
                 catch(err){
                     // display error message indicating that projects data could not be loaded
