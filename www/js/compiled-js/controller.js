@@ -897,9 +897,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">
                             <div class="col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
-                                    <ons-speed-dial direction="down">
+                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-1" direction="down">
                                         <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
-                                                 class="utopiasoftware-pic-capture-speed-dial">
+                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)">
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -916,9 +918,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             </div>
                             <div class="col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
-                                    <ons-speed-dial direction="down">
+                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-2" direction="down">
                                         <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
-                                                 class="utopiasoftware-pic-capture-speed-dial">
+                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)">
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -935,9 +939,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             </div>
                             <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
-                                    <ons-speed-dial direction="down">
+                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-3" direction="down">
                                         <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
-                                                 class="utopiasoftware-pic-capture-speed-dial">
+                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)">
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -1090,6 +1096,43 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // move to the project evaluation page
             $('#app-main-navigator').get(0).popPage();
+        },
+
+        /**
+         *
+         * @param pictureNumber {Integer} holds the number/position of the picture.
+         * The position of pictures starts from 1 (i.e. 1-based counting)
+         */
+        pictureSpeedDialClicked(pictureNumber){
+
+            // handler conditions for each picture speed-dial
+            switch(pictureNumber){ // determine what to do based on the picture number value
+
+                case 1:
+                    // check if the speed-dial widget that was clicked is currently opened
+                    if($('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).isOpen()){ // speed-dial is open
+                        // close all other picture speed-dials
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).hideItems();
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-3').get(0).hideItems();
+                    }
+                    break;
+
+                case 2:
+                    if($('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).isOpen()){ // speed-dial is open
+                        // close all other picture speed-dials
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).hideItems();
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).hideItems();
+                    }
+                    break;
+
+                case 3:
+                    if($('#project-evaluation-page #project-evaluation-picture-speed-dial-3').get(0).isOpen()){ // speed-dial is open
+                        // close all other picture speed-dials
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).hideItems();
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).hideItems();
+                    }
+                    break;
+            }
         },
 
         /**
