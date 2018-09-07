@@ -914,7 +914,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)">
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -935,7 +937,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)">
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -956,7 +960,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-image-o"></ons-icon>
                                         </ons-fab>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)">
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
@@ -1114,6 +1120,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         },
 
         /**
+         * method is used to control the behaviour of the picture speed dials
          *
          * @param pictureNumber {Integer} holds the number/position of the picture.
          * The position of pictures starts from 1 (i.e. 1-based counting)
@@ -1148,6 +1155,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }
                     break;
             }
+        },
+
+        /**
+         * method is used to capture project evaluation photos with the user's camera
+         *
+         * @param pictureNumber {Integer} holds the number/position of the picture.
+         * The position of pictures starts from 1 (i.e. 1-based counting)
+         */
+        async pictureCaptureButtonClicked(pictureNumber){
+
+            var permissionStatuses = null; // holds the statuses of the runtime permissions requested
+
+            try{
+                // request runtime permissions to use device's camera
+                permissionStatuses =  await new Promise(function(resolve, reject){
+                    cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject,[
+                        cordova.plugins.diagnostic.permission.CAMERA
+                    ]);
+                });
+
+                // check if the user has given permission to use the device's camera
+                if((!permissionStatuses) ||
+                    permissionStatuses[cordova.plugins.diagnostic.permission.CAMERA] !==
+                    cordova.plugins.diagnostic.permissionStatus.GRANTED){
+                    throw "error - no runtime permissions";
+                }
+            }
+            catch(err){}
         },
 
         /**
@@ -1207,7 +1242,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#project-evaluation-page #project-evaluation-primary-instruction').
                 html('Provide any remarks on the project evaluation (optional)');
                 // change the milestone number
-                $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Evaluation Remarks `);
+                $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Evaluation Remarks`);
             }
 
         },
