@@ -1085,6 +1085,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pictureViewer: null,
 
         /**
+         * used to hold the retrieved project milestones
+         */
+        projectMilestones: null,
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function pageInit(event) {
@@ -1141,6 +1146,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     throw "error";
 
                                 case 13:
+
+                                    // if the code gets to this point, milestones were returned
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
                                     // create the evaluation carousel item based on the milestones retrieved
                                     carouselContent = "";
@@ -1228,33 +1236,35 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
-                                    _context10.next = 28;
+                                    $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
+                                    _context10.next = 31;
                                     break;
 
-                                case 23:
-                                    _context10.prev = 23;
+                                case 25:
+                                    _context10.prev = 25;
                                     _context10.t0 = _context10['catch'](7);
 
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "none");
+                                    $('#project-evaluation-page #project-evaluation-prev-button, #project-evaluation-page #project-evaluation-next-button').css("display", "none");
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 28:
-                                    _context10.prev = 28;
+                                case 31:
+                                    _context10.prev = 31;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(28);
+                                    return _context10.finish(31);
 
-                                case 31:
+                                case 34:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 23, 28, 31]]);
+                    }, _callee10, this, [[7, 25, 31, 34]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -1295,6 +1305,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageDestroy: function pageDestroy() {
             // destroy the pictures Viewer widget instance
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = null;
         },
 
         /**
@@ -1319,7 +1330,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 case 1:
                     // check if the speed-dial widget that was clicked is currently opened
-                    if ($('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).isOpen()) {
+                    if (!$('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).isOpen()) {
                         // speed-dial is open
                         // close all other picture speed-dials
                         $('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).hideItems();
@@ -1328,16 +1339,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     break;
 
                 case 2:
-                    if ($('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).isOpen()) {
+                    if (!$('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).isOpen()) {
                         // speed-dial is open
                         // close all other picture speed-dials
                         $('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).hideItems();
-                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-2').get(0).hideItems();
+                        $('#project-evaluation-page #project-evaluation-picture-speed-dial-3').get(0).hideItems();
                     }
                     break;
 
                 case 3:
-                    if ($('#project-evaluation-page #project-evaluation-picture-speed-dial-3').get(0).isOpen()) {
+                    if (!$('#project-evaluation-page #project-evaluation-picture-speed-dial-3').get(0).isOpen()) {
                         // speed-dial is open
                         // close all other picture speed-dials
                         $('#project-evaluation-page #project-evaluation-picture-speed-dial-1').get(0).hideItems();
@@ -1354,23 +1365,50 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         carouselChanged: function carouselChanged(event) {
             // change the css display the prev fab button
-            $('#project-evaluation-prev-button').css("display", "inline-block");
+            $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
             // check if the carousel is at the last item
-            if (event.originalEvent.activeIndex === 2) {
+            if (event.originalEvent.activeIndex === event.originalEvent.carousel.itemCount - 1) {
                 // this is the last carousel item, so hide the next slide button
                 // hide the next fab button
-                $('#project-evaluation-next-button').css("transform", "scale(0)");
+                $('#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(0)");
             } else if (event.originalEvent.activeIndex === 0) {
                 // this is the first carousel item, so hide the prev slide button
                 // hide the prev fab button
-                $('#project-evaluation-prev-button').css("transform", "scale(0)");
+                $('#project-evaluation-page #project-evaluation-prev-button').css("transform", "scale(0)");
             } else {
                 // this is not the first or last item
-                $('#project-evaluation-prev-button,#project-evaluation-next-button').css("transform", "scale(1)");
+                $('#project-evaluation-page #project-evaluation-prev-button,#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(1)");
             }
 
-            // change the milestone number
-            $('#project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+            // update the primary instruction and the milestone badge
+            if (event.originalEvent.activeIndex < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is less than the number of project milestones
+                {
+                    // change the primary instructions
+                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
+                    // change the milestone number
+                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+                }
+            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is at the picture capture point
+                {
+                    // change the primary instructions
+                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project progress in photos');
+                    // change the milestone number
+                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
+                }
+            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1) // the carousel active index is at the geolocation capture point
+                {
+                    // change the primary instructions
+                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project geographical location');
+                    // change the milestone number
+                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
+                }
+            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2) // the carousel active index is at the project remarks point
+                {
+                    // change the primary instructions
+                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Provide any remarks on the project evaluation (optional)');
+                    // change the milestone number
+                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks ');
+                }
         },
 
 
