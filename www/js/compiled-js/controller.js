@@ -1201,7 +1201,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 console.log("URL", imageUrl);
             }
-            catch(err){}
+            catch(err){
+                console.log(err);
+            }
         },
 
         /**
