@@ -1373,31 +1373,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
+
+                                console.log("I AM IN METHOD");
+
                                 permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
-                                _context11.prev = 1;
-                                _context11.next = 4;
+                                _context11.prev = 2;
+                                _context11.next = 5;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.CAMERA]);
                                 });
 
-                            case 4:
+                            case 5:
                                 permissionStatuses = _context11.sent;
 
                                 if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.CAMERA] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
-                                    _context11.next = 7;
+                                    _context11.next = 8;
                                     break;
                                 }
 
                                 throw "error - no runtime permissions";
 
-                            case 7:
+                            case 8:
 
                                 // disable screen orientation lock
                                 screen.orientation.unlock();
 
                                 // open the device camera app and capture a photo
-                                _context11.next = 10;
+                                _context11.next = 11;
                                 return new Promise(function (resolve, reject) {
                                     navigator.camera.getPicture(resolve, reject, {
                                         quality: 70,
@@ -1411,24 +1414,26 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
                                 });
 
-                            case 10:
+                            case 11:
                                 imageUrl = _context11.sent;
 
 
                                 console.log("URL", imageUrl);
-                                _context11.next = 16;
+                                _context11.next = 18;
                                 break;
 
-                            case 14:
-                                _context11.prev = 14;
-                                _context11.t0 = _context11['catch'](1);
+                            case 15:
+                                _context11.prev = 15;
+                                _context11.t0 = _context11['catch'](2);
 
-                            case 16:
+                                console.log(_context11.t0);
+
+                            case 18:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[1, 14]]);
+                }, _callee11, this, [[2, 15]]);
             }));
 
             function pictureCaptureButtonClicked(_x3) {

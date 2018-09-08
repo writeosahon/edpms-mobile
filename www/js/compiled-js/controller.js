@@ -1165,6 +1165,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async pictureCaptureButtonClicked(pictureNumber){
 
+            console.log("I AM IN METHOD");
+
             var permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
             try{
