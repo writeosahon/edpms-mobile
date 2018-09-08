@@ -308,7 +308,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if(navigator.connection.type === Connection.NONE){ // no Internet Connection
                 // inform the user that they cannot proceed without Internet
                 window.plugins.toast.showWithOptions({
-                    message: "You cannot sign in with an Internet Connection",
+                    message: "You cannot sign in without an Internet Connection",
                     duration: 4000,
                     position: "top",
                     styling: {
@@ -827,6 +827,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         projectMilestones: null,
 
         /**
+         * holds the project picturesUrls array.
+         * the 1st element of the array is ALWAYS null with subsequent elements holds the url for the pictures
+         */
+        projectPicturesUrls: [null],
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function(event){
@@ -925,7 +931,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
                                 </div>
-                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">
+                                <img id="project-evaluation-picture-1" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">
                             </div>
                             <div class="col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
@@ -948,7 +954,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
                                 </div>
-                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
+                                <img id="project-evaluation-picture-2" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
                             </div>
                             <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">
                                 <div style="position: absolute; top: 5px;">
@@ -971,7 +977,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
                                 </div>
-                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">
+                                <img id="project-evaluation-picture-3" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">
                             </div>
                         </div>
                     </ons-carousel-item>`;
@@ -1107,6 +1113,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 projectEvaluationPageViewModel.pictureViewer.destroy();
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones = null;
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectPicturesUrls = null;
         },
 
 
@@ -1165,8 +1173,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async pictureCaptureButtonClicked(pictureNumber){
 
-            console.log("I AM IN METHOD");
-
             var permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
             try{
@@ -1193,7 +1199,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         quality: 70,
                         destinationType: Camera.DestinationType.FILE_URI,
                         sourceType: Camera.PictureSourceType.CAMERA,
-                        allowEdit: true,
+                        allowEdit: false,
                         encodingType: Camera.EncodingType.JPEG,
                         correctOrientation: false,
                         saveToPhotoAlbum: false,
@@ -1201,10 +1207,54 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     });
                 });
 
-                console.log("URL", imageUrl);
+                // check what picture number the camera was used for and then display it
+                switch(pictureNumber){
+                    case 1:
+                        // store the image url in the correct picturesUrls array index
+                        utopiasoftware[utopiasoftware_app_namespace].controller.
+                            projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                        // update the image src for the correct project picture, so that picture can be displayed
+                        $('#project-evaluation-page #project-evaluation-picture-1').attr("src", imageUrl);
+                        break;
+
+                    case 2:
+                        // store the image url in the correct picturesUrls array index
+                        utopiasoftware[utopiasoftware_app_namespace].controller.
+                            projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                        // update the image src for the correct project picture, so that picture can be displayed
+                        $('#project-evaluation-page #project-evaluation-picture-2').attr("src", imageUrl);
+                        break;
+
+                    case 3:
+                        // store the image url in the correct picturesUrls array index
+                        utopiasoftware[utopiasoftware_app_namespace].controller.
+                            projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                        // update the image src for the correct project picture, so that picture can be displayed
+                        $('#project-evaluation-page #project-evaluation-picture-3').attr("src", imageUrl);
+                        break;
+                }
+
+                // update the picture viewer widget
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.pictureViewer.update();
             }
             catch(err){
-                console.log(err);
+                // in form the user of the error
+                window.plugins.toast.showWithOptions({
+                    message: "Photo Capture Failed - " + err,
+                    duration: 4000,
+                    position: "top",
+                    styling: {
+                        opacity: 1,
+                        backgroundColor: '#ff0000', //red
+                        textColor: '#FFFFFF',
+                        textSize: 14
+                    }
+                }, function(toastEvent){
+                    if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                        window.plugins.toast.hide();
+                    }
+                });
             }
         },
 
@@ -1215,6 +1265,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         carouselChanged(event){
             // change the css display the prev fab button
             $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
+
+            // update the stay of the the fab "prev" or "next" buttons
              // check if the carousel is at the last item
             if(event.originalEvent.activeIndex ===
                 event.originalEvent.carousel.itemCount - 1) { // this is the last carousel item, so hide the next slide button
@@ -1239,6 +1291,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Evaluate the milestones of project completion on a scale of 0 - 100%');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Milestone ${event.originalEvent.activeIndex + 1}`);
+                return;
             }
             if(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is at the picture capture point
@@ -1248,6 +1301,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Capture the project progress in photos');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Photos`);
+                return;
             }
             if(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones.length + 1) // the carousel active index is at the geolocation capture point
@@ -1257,6 +1311,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Capture the project geographical location');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Location`);
+                return;
             }
             if(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones.length + 2) // the carousel active index is at the project remarks point
@@ -1266,6 +1321,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Provide any remarks on the project evaluation (optional)');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Evaluation Remarks`);
+                return;
             }
 
         },

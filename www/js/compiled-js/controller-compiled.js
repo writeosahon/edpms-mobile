@@ -390,7 +390,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // no Internet Connection
                                 // inform the user that they cannot proceed without Internet
                                 window.plugins.toast.showWithOptions({
-                                    message: "You cannot sign in with an Internet Connection",
+                                    message: "You cannot sign in without an Internet Connection",
                                     duration: 4000,
                                     position: "top",
                                     styling: {
@@ -1090,6 +1090,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         projectMilestones: null,
 
         /**
+         * holds the project picturesUrls array.
+         * the 1st element of the array is ALWAYS null with subsequent elements holds the url for the pictures
+         */
+        projectPicturesUrls: [null],
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function pageInit(event) {
@@ -1159,7 +1165,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     } // end of for loop
 
                                     // append the carousel content used for displaying evaluation pictures
-                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: scroll">\n                        <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-1" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">\n                            </div>\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-2" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">\n                            </div>\n                            <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-3" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">\n                            </div>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: scroll">\n                        <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-1" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-1" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">\n                            </div>\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-2" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-2" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">\n                            </div>\n                            <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-3" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-3" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">\n                            </div>\n                        </div>\n                    </ons-carousel-item>';
 
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
@@ -1306,6 +1312,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // destroy the pictures Viewer widget instance
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = null;
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls = null;
         },
 
         /**
@@ -1373,40 +1380,37 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
-
-                                console.log("I AM IN METHOD");
-
                                 permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
-                                _context11.prev = 2;
-                                _context11.next = 5;
+                                _context11.prev = 1;
+                                _context11.next = 4;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.CAMERA]);
                                 });
 
-                            case 5:
+                            case 4:
                                 permissionStatuses = _context11.sent;
 
                                 if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.CAMERA] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
-                                    _context11.next = 8;
+                                    _context11.next = 7;
                                     break;
                                 }
 
                                 throw "error - no runtime permissions";
 
-                            case 8:
+                            case 7:
 
                                 // disable screen orientation lock
                                 screen.orientation.unlock();
 
                                 // open the device camera app and capture a photo
-                                _context11.next = 11;
+                                _context11.next = 10;
                                 return new Promise(function (resolve, reject) {
                                     navigator.camera.getPicture(resolve, reject, {
                                         quality: 70,
                                         destinationType: Camera.DestinationType.FILE_URI,
                                         sourceType: Camera.PictureSourceType.CAMERA,
-                                        allowEdit: true,
+                                        allowEdit: false,
                                         encodingType: Camera.EncodingType.JPEG,
                                         correctOrientation: false,
                                         saveToPhotoAlbum: false,
@@ -1414,26 +1418,68 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
                                 });
 
-                            case 11:
+                            case 10:
                                 imageUrl = _context11.sent;
-
-
-                                console.log("URL", imageUrl);
-                                _context11.next = 18;
+                                _context11.t0 = pictureNumber;
+                                _context11.next = _context11.t0 === 1 ? 14 : _context11.t0 === 2 ? 17 : _context11.t0 === 3 ? 20 : 23;
                                 break;
 
-                            case 15:
-                                _context11.prev = 15;
-                                _context11.t0 = _context11['catch'](2);
+                            case 14:
+                                // store the image url in the correct picturesUrls array index
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                                // update the image src for the correct project picture, so that picture can be displayed
+                                $('#project-evaluation-page #project-evaluation-picture-1').attr("src", imageUrl);
+                                return _context11.abrupt('break', 23);
 
-                                console.log(_context11.t0);
+                            case 17:
+                                // store the image url in the correct picturesUrls array index
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                                // update the image src for the correct project picture, so that picture can be displayed
+                                $('#project-evaluation-page #project-evaluation-picture-2').attr("src", imageUrl);
+                                return _context11.abrupt('break', 23);
 
-                            case 18:
+                            case 20:
+                                // store the image url in the correct picturesUrls array index
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
+                                // update the image src for the correct project picture, so that picture can be displayed
+                                $('#project-evaluation-page #project-evaluation-picture-3').attr("src", imageUrl);
+                                return _context11.abrupt('break', 23);
+
+                            case 23:
+
+                                // update the picture viewer widget
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.update();
+                                _context11.next = 29;
+                                break;
+
+                            case 26:
+                                _context11.prev = 26;
+                                _context11.t1 = _context11['catch'](1);
+
+                                // in form the user of the error
+                                window.plugins.toast.showWithOptions({
+                                    message: "Photo Capture Failed - " + _context11.t1,
+                                    duration: 4000,
+                                    position: "top",
+                                    styling: {
+                                        opacity: 1,
+                                        backgroundColor: '#ff0000', //red
+                                        textColor: '#FFFFFF',
+                                        textSize: 14
+                                    }
+                                }, function (toastEvent) {
+                                    if (toastEvent && toastEvent.event == "touch") {
+                                        // user tapped the toast, so hide toast immediately
+                                        window.plugins.toast.hide();
+                                    }
+                                });
+
+                            case 29:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[2, 15]]);
+                }, _callee11, this, [[1, 26]]);
             }));
 
             function pictureCaptureButtonClicked(_x3) {
@@ -1451,6 +1497,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         carouselChanged: function carouselChanged(event) {
             // change the css display the prev fab button
             $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
+
+            // update the stay of the the fab "prev" or "next" buttons
             // check if the carousel is at the last item
             if (event.originalEvent.activeIndex === event.originalEvent.carousel.itemCount - 1) {
                 // this is the last carousel item, so hide the next slide button
@@ -1472,6 +1520,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
                     // change the milestone number
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+                    return;
                 }
             if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is at the picture capture point
                 {
@@ -1479,6 +1528,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project progress in photos');
                     // change the milestone number
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
+                    return;
                 }
             if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1) // the carousel active index is at the geolocation capture point
                 {
@@ -1486,6 +1536,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project geographical location');
                     // change the milestone number
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
+                    return;
                 }
             if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2) // the carousel active index is at the project remarks point
                 {
@@ -1493,6 +1544,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-primary-instruction').html('Provide any remarks on the project evaluation (optional)');
                     // change the milestone number
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks');
+                    return;
                 }
         },
 
