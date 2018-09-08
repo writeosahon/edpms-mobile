@@ -393,7 +393,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
             catch(err){
                 $('#loader-modal').get(0).hide();
-                ons.notification.confirm(err.message, {title: '<span style="color: red">Sign In Failed</span>',
+                ons.notification.alert(err.message, {title: '<span style="color: red">Sign In Failed</span>',
                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
             }
         }
@@ -978,7 +978,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
                                                              class="utopiasoftware-pic-capture-speed-dial" 
                                                              onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)">
+                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(3)">
                                             <ons-icon icon="md-delete"></ons-icon>
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
@@ -1276,12 +1276,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async deletePictureButtonClicked(pictureNumber){
 
+            // ask user to confirm photo delete
+            let deletePhoto = await ons.notification.confirm('Do you want to delete the photo?',
+                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="34px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Sign In Failed</span>',
+                buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+            if(deletePhoto == 0){ // user does not want to delete photo, so exit method now
+                return; // exit method
+            }
+
             // remove the image url in the correct picturesUrls array index
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = null;
             // update the image src to the "no photo" display
             $('#project-evaluation-page #project-evaluation-picture-' + pictureNumber).
-            attr("src", "wcss/app-images/project-evaluation-photo-placeholder.png");
+            attr("src", "css/app-images/project-evaluation-photo-placeholder.png");
 
             // update the picture viewer widget
             utopiasoftware[utopiasoftware_app_namespace].controller.
