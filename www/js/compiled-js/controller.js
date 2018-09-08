@@ -1181,6 +1181,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     cordova.plugins.diagnostic.permissionStatus.GRANTED){
                     throw "error - no runtime permissions";
                 }
+
+                // disable screen orientation lock
+                screen.orientation.unlock();
+
+                // open the device camera app and capture a photo
+                let imageUrl = await new Promise(function(resolve, reject){
+                    navigator.camera.getPicture(resolve, reject, {
+                        quality: 70,
+                        destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        allowEdit: true,
+                        encodingType: Camera.EncodingType.JPEG,
+                        correctOrientation: false,
+                        saveToPhotoAlbum: false,
+                        cameraDirection: Camera.Direction.BACK
+                    });
+                });
+
+                console.log("URL", imageUrl);
             }
             catch(err){}
         },

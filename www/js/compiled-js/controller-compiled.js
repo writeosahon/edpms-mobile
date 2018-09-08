@@ -1368,7 +1368,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         pictureCaptureButtonClicked: function () {
             var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(pictureNumber) {
-                var permissionStatuses;
+                var permissionStatuses, imageUrl;
                 return regeneratorRuntime.wrap(function _callee11$(_context11) {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
@@ -1392,19 +1392,43 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 throw "error - no runtime permissions";
 
                             case 7:
-                                _context11.next = 11;
+
+                                // disable screen orientation lock
+                                screen.orientation.unlock();
+
+                                // open the device camera app and capture a photo
+                                _context11.next = 10;
+                                return new Promise(function (resolve, reject) {
+                                    navigator.camera.getPicture(resolve, reject, {
+                                        quality: 70,
+                                        destinationType: Camera.DestinationType.FILE_URI,
+                                        sourceType: Camera.PictureSourceType.CAMERA,
+                                        allowEdit: true,
+                                        encodingType: Camera.EncodingType.JPEG,
+                                        correctOrientation: false,
+                                        saveToPhotoAlbum: false,
+                                        cameraDirection: Camera.Direction.BACK
+                                    });
+                                });
+
+                            case 10:
+                                imageUrl = _context11.sent;
+
+
+                                console.log("URL", imageUrl);
+                                _context11.next = 16;
                                 break;
 
-                            case 9:
-                                _context11.prev = 9;
+                            case 14:
+                                _context11.prev = 14;
                                 _context11.t0 = _context11['catch'](1);
 
-                            case 11:
+                            case 16:
                             case 'end':
                                 return _context11.stop();
                         }
                     }
-                }, _callee11, this, [[1, 9]]);
+                }, _callee11, this, [[1, 14]]);
             }));
 
             function pictureCaptureButtonClicked(_x3) {
