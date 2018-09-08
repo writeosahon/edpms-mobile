@@ -926,7 +926,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)">
                                             <ons-icon icon="md-delete"></ons-icon>
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
@@ -949,7 +951,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(2)">
                                             <ons-icon icon="md-delete"></ons-icon>
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
@@ -972,7 +976,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             <ons-icon icon="md-camera"></ons-icon>
                                         </ons-speed-dial-item>
                                         <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
-                                                             class="utopiasoftware-pic-capture-speed-dial">
+                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)">
                                             <ons-icon icon="md-delete"></ons-icon>
                                         </ons-speed-dial-item>
                                     </ons-speed-dial>
@@ -1010,6 +1016,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         projectEvaluationPageViewModel.pictureViewer =
                         new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0),
                             {toolbar: {
+                                    prev: {
+                                        show: true,
+                                        size: 'large',
+                                    },
+                                    next: {
+                                        show: true,
+                                        size: 'large',
+                                    },
                                     zoomIn: {
                                         show: true,
                                         size: 'large',
@@ -1026,16 +1040,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         show: true,
                                         size: 'large',
                                     },
-                                    prev: {
-                                        show: true,
-                                        size: 'large',
-                                    },
                                     play: {
                                         show: false,
-                                        size: 'large',
-                                    },
-                                    next: {
-                                        show: true,
                                         size: 'large',
                                     },
                                     rotateLeft: {
@@ -1256,6 +1262,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }
                 });
             }
+            finally {
+                // lock the device orientation back to 'portrait'
+                screen.orientation.lock('portrait');
+            }
+        },
+
+        /**
+         * method is used to delete/remove project evaluation photos from the collection and display
+         *
+         * @param pictureNumber {Integer} holds the number/position of the picture.
+         * The position of pictures starts from 1 (i.e. 1-based counting)
+         */
+        async deletePictureButtonClicked(pictureNumber){
+
+            // remove the image url in the correct picturesUrls array index
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = null;
+            // update the image src to the "no photo" display
+            $('#project-evaluation-page #project-evaluation-picture-' + pictureNumber).
+            attr("src", "wcss/app-images/project-evaluation-photo-placeholder.png");
+
+            // update the picture viewer widget
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+            projectEvaluationPageViewModel.pictureViewer.update();
         },
 
         /**
