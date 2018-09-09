@@ -1096,6 +1096,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         projectPicturesUrls: [null],
 
         /**
+         * this property indicates if the picture viewer widget is being displayed or not
+         */
+        isPictureViewerShowing: false,
+
+        /**
+         * property indicates if project evaluation has commenced on the selected/chosen project.
+         * Project evaluation is marked has 'started' if any of the initial states for evaluation is changed by the user
+         */
+        hasProjectEvaluationStarted: false,
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function pageInit(event) {
@@ -1184,13 +1195,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             },
                                             change: function change(changeEvent) {
                                                 $('.e-handle', element).text(changeEvent.value);
+                                                // update the project evaluation started flag to indicate evaluation has started
+                                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                                             }
                                         });
                                         aSlider.appendTo(element);
                                     });
 
                                     // create the Viewer widget used to view the project evaluation photos
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer = new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0), { toolbar: {
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer = new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0), { inline: false,
+                                        toolbar: {
                                             prev: {
                                                 show: true,
                                                 size: 'large'
@@ -1236,7 +1250,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 size: 'large'
                                             }
                                         },
-                                        backdrop: 'static' });
+                                        backdrop: 'static',
+                                        shown: function shown() {
+                                            // event is triggered when Picture Viewer is shown
+                                            // indicate that the picture viewer widget is showing
+                                            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing == true;
+                                        },
+                                        hidden: function hidden() {
+                                            // event is triggered when Picture Viewer is hidden
+                                            // indicate that the picture viewer widget is hidden
+                                            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing == false;
+                                        } });
 
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
@@ -1311,18 +1335,73 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageDestroy: function pageDestroy() {
             // destroy the pictures Viewer widget instance
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
+            // reset other object properties
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = null;
-            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls = null;
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls = [null];
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted = false;
         },
 
         /**
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
-        backButtonClicked: function backButtonClicked() {
+        backButtonClicked: function () {
+            var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+                var leaveProjectEvaluation;
+                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                    while (1) {
+                        switch (_context11.prev = _context11.next) {
+                            case 0:
+                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing === true)) {
+                                    _context11.next = 3;
+                                    break;
+                                }
 
-            // move to the project evaluation page
-            $('#app-main-navigator').get(0).popPage();
-        },
+                                // Picture Viewer is showing
+                                // hide it
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.hide();
+                                return _context11.abrupt('return');
+
+                            case 3:
+                                if (!( // update the project evaluation started flag to indicate evaluation has started
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted === true)) {
+                                    _context11.next = 9;
+                                    break;
+                                }
+
+                                _context11.next = 6;
+                                return ons.notification.confirm(undefined, { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
+                                    messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?',
+                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 6:
+                                leaveProjectEvaluation = _context11.sent;
+
+                                if (!(leaveProjectEvaluation == 0)) {
+                                    _context11.next = 9;
+                                    break;
+                                }
+
+                                return _context11.abrupt('return');
+
+                            case 9:
+
+                                // move to the project evaluation page
+                                $('#app-main-navigator').get(0).popPage();
+
+                            case 10:
+                            case 'end':
+                                return _context11.stop();
+                        }
+                    }
+                }, _callee11, this);
+            }));
+
+            function backButtonClicked() {
+                return _ref11.apply(this, arguments);
+            }
+
+            return backButtonClicked;
+        }(),
 
 
         /**
@@ -1374,25 +1453,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * The position of pictures starts from 1 (i.e. 1-based counting)
          */
         pictureCaptureButtonClicked: function () {
-            var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(pictureNumber) {
+            var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(pictureNumber) {
                 var permissionStatuses, imageUrl;
-                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                return regeneratorRuntime.wrap(function _callee12$(_context12) {
                     while (1) {
-                        switch (_context11.prev = _context11.next) {
+                        switch (_context12.prev = _context12.next) {
                             case 0:
                                 permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
-                                _context11.prev = 1;
-                                _context11.next = 4;
+                                _context12.prev = 1;
+                                _context12.next = 4;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.CAMERA]);
                                 });
 
                             case 4:
-                                permissionStatuses = _context11.sent;
+                                permissionStatuses = _context12.sent;
 
                                 if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.CAMERA] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
-                                    _context11.next = 7;
+                                    _context12.next = 7;
                                     break;
                                 }
 
@@ -1404,7 +1483,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.unlock();
 
                                 // open the device camera app and capture a photo
-                                _context11.next = 10;
+                                _context12.next = 10;
                                 return new Promise(function (resolve, reject) {
                                     navigator.camera.getPicture(resolve, reject, {
                                         quality: 70,
@@ -1419,9 +1498,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 10:
-                                imageUrl = _context11.sent;
-                                _context11.t0 = pictureNumber;
-                                _context11.next = _context11.t0 === 1 ? 14 : _context11.t0 === 2 ? 17 : _context11.t0 === 3 ? 20 : 23;
+                                imageUrl = _context12.sent;
+                                _context12.t0 = pictureNumber;
+                                _context12.next = _context12.t0 === 1 ? 14 : _context12.t0 === 2 ? 17 : _context12.t0 === 3 ? 20 : 23;
                                 break;
 
                             case 14:
@@ -1429,36 +1508,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-1').attr("src", imageUrl);
-                                return _context11.abrupt('break', 23);
+                                return _context12.abrupt('break', 23);
 
                             case 17:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-2').attr("src", imageUrl);
-                                return _context11.abrupt('break', 23);
+                                return _context12.abrupt('break', 23);
 
                             case 20:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-3').attr("src", imageUrl);
-                                return _context11.abrupt('break', 23);
+                                return _context12.abrupt('break', 23);
 
                             case 23:
 
+                                // update the project evaluation started flag to indicate evaluation has started
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
+
                                 // update the picture viewer widget
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.update();
-                                _context11.next = 29;
+                                _context12.next = 30;
                                 break;
 
-                            case 26:
-                                _context11.prev = 26;
-                                _context11.t1 = _context11['catch'](1);
+                            case 27:
+                                _context12.prev = 27;
+                                _context12.t1 = _context12['catch'](1);
 
                                 // in form the user of the error
                                 window.plugins.toast.showWithOptions({
-                                    message: "Photo Capture Failed - " + _context11.t1,
+                                    message: "Photo Capture Failed - " + _context12.t1,
                                     duration: 4000,
                                     position: "top",
                                     styling: {
@@ -1474,23 +1556,23 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 29:
-                                _context11.prev = 29;
+                            case 30:
+                                _context12.prev = 30;
 
                                 // lock the device orientation back to 'portrait'
                                 screen.orientation.lock('portrait');
-                                return _context11.finish(29);
+                                return _context12.finish(30);
 
-                            case 32:
+                            case 33:
                             case 'end':
-                                return _context11.stop();
+                                return _context12.stop();
                         }
                     }
-                }, _callee11, this, [[1, 26, 29, 32]]);
+                }, _callee12, this, [[1, 27, 30, 33]]);
             }));
 
             function pictureCaptureButtonClicked(_x3) {
-                return _ref11.apply(this, arguments);
+                return _ref12.apply(this, arguments);
             }
 
             return pictureCaptureButtonClicked;
@@ -1504,27 +1586,35 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * The position of pictures starts from 1 (i.e. 1-based counting)
          */
         deletePictureButtonClicked: function () {
-            var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(pictureNumber) {
+            var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(pictureNumber) {
                 var deletePhoto;
-                return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                return regeneratorRuntime.wrap(function _callee13$(_context13) {
                     while (1) {
-                        switch (_context12.prev = _context12.next) {
+                        switch (_context13.prev = _context13.next) {
                             case 0:
-                                _context12.next = 2;
-                                return ons.notification.confirm('Do you want to delete the photo?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="34px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Sign In Failed</span>',
-                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
-
-                            case 2:
-                                deletePhoto = _context12.sent;
-
-                                if (!(deletePhoto == 0)) {
-                                    _context12.next = 5;
+                                if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber]) {
+                                    _context13.next = 2;
                                     break;
                                 }
 
-                                return _context12.abrupt('return');
+                                return _context13.abrupt('return');
 
-                            case 5:
+                            case 2:
+                                _context13.next = 4;
+                                return ons.notification.confirm('Do you want to delete the photo?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
+                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 4:
+                                deletePhoto = _context13.sent;
+
+                                if (!(deletePhoto == 0)) {
+                                    _context13.next = 7;
+                                    break;
+                                }
+
+                                return _context13.abrupt('return');
+
+                            case 7:
 
                                 // remove the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = null;
@@ -1534,16 +1624,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // update the picture viewer widget
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.update();
 
-                            case 8:
+                            case 10:
                             case 'end':
-                                return _context12.stop();
+                                return _context13.stop();
                         }
                     }
-                }, _callee12, this);
+                }, _callee13, this);
             }));
 
             function deletePictureButtonClicked(_x4) {
-                return _ref12.apply(this, arguments);
+                return _ref13.apply(this, arguments);
             }
 
             return deletePictureButtonClicked;

@@ -833,6 +833,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         projectPicturesUrls: [null],
 
         /**
+         * this property indicates if the picture viewer widget is being displayed or not
+         */
+        isPictureViewerShowing: false,
+
+        /**
+         * property indicates if project evaluation has commenced on the selected/chosen project.
+         * Project evaluation is marked has 'started' if any of the initial states for evaluation is changed by the user
+         */
+        hasProjectEvaluationStarted: false,
+
+        /**
          * event is triggered when page is initialised
          */
         pageInit: function(event){
@@ -1006,6 +1017,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             },
                             change: function(changeEvent){
                                 $('.e-handle', element).text(changeEvent.value);
+                                // update the project evaluation started flag to indicate evaluation has started
+                                utopiasoftware[utopiasoftware_app_namespace].controller.
+                                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                             }
                         });
                         aSlider.appendTo(element);
@@ -1015,7 +1029,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.pictureViewer =
                         new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0),
-                            {toolbar: {
+                            {inline: false,
+                                toolbar: {
                                     prev: {
                                         show: true,
                                         size: 'large',
@@ -1061,7 +1076,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         size: 'large',
                                     }
                                 },
-                                backdrop: 'static'});
+                                backdrop: 'static',
+                                shown: function(){ // event is triggered when Picture Viewer is shown
+                                    // indicate that the picture viewer widget is showing
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                                        projectEvaluationPageViewModel.isPictureViewerShowing == true;
+                                },
+                                hidden: function(){ // event is triggered when Picture Viewer is hidden
+                                    // indicate that the picture viewer widget is hidden
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                                        projectEvaluationPageViewModel.isPictureViewerShowing == false;
+                                }});
 
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
@@ -1117,17 +1142,45 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // destroy the pictures Viewer widget instance
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.pictureViewer.destroy();
+            // reset other object properties
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones = null;
             utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.projectPicturesUrls = null;
+                projectEvaluationPageViewModel.projectPicturesUrls = [null];
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.hasProjectEvaluationStarted = false;
         },
 
 
         /**
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
-        backButtonClicked(){
+        async backButtonClicked(){
+
+            // check if the Picture Viewer widget is showing
+            if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.isPictureViewerShowing === true){ // Picture Viewer is showing
+                // hide it
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.pictureViewer.hide();
+                return; // exit
+            }
+
+            // check if project evaluation has already started
+           if(// update the project evaluation started flag to indicate evaluation has started
+               utopiasoftware[utopiasoftware_app_namespace].controller.
+                   projectEvaluationPageViewModel.hasProjectEvaluationStarted === true){ // evaluation has started
+
+               // inform user that leaving this page will mean that current evaluation data is lost. does user want to leave?
+               let leaveProjectEvaluation = await ons.notification.confirm(undefined,
+                   {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
+                       messageHTML: `You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?`,
+                       buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+
+               if(leaveProjectEvaluation == 0){ // user does not want to project evaluation, so exit method now
+                   return; // exit method
+               }
+           }
 
             // move to the project evaluation page
             $('#app-main-navigator').get(0).popPage();
@@ -1240,6 +1293,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         break;
                 }
 
+                // update the project evaluation started flag to indicate evaluation has started
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
+
                 // update the picture viewer widget
                 utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.pictureViewer.update();
@@ -1276,10 +1333,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async deletePictureButtonClicked(pictureNumber){
 
+            // check if the selected photo has been changed from the default (no photo)
+            if(! utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber]){ // the photo is in the default
+                // since the photo is in the default, there is no need to delete photo. so exit
+                return; // exit
+            }
+
             // ask user to confirm photo delete
             let deletePhoto = await ons.notification.confirm('Do you want to delete the photo?',
-                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="34px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Sign In Failed</span>',
+                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
                 buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+
             if(deletePhoto == 0){ // user does not want to delete photo, so exit method now
                 return; // exit method
             }
