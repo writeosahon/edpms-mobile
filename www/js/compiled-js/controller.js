@@ -911,11 +911,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     ${dbQueryResult.docs[index].CATEGORY}
                                 </div>
                                 <div class="project-evaluation-slider"></div>
-                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 0.8em;">
+                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">
                                     <span style="display: inline-block; font-style: italic">Milestone Value </span> 
                                     ${kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2")}
                                 </div>
-                                <div class="project-evaluation-milestone-current-value" style="font-size: 0.8em;">
+                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">
                                     <span style="display: inline-block; font-style: italic">Value Completed </span> 
                                     ${kendo.toString(kendo.parseFloat(0), "n2")}
                                 </div>
@@ -1029,9 +1029,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                             },
                             changed: function(changedEvent){
+                                console.log("INSIDE EVENT");
                                 $(`#project-evaluation-page .project-evaluation-slider:nth-of-type(${index+1}) ~ .project-evaluation-milestone-current-value`)
                                     .html(`<span style="display: inline-block; font-style: italic">Value Completed </span> 
-                                    ${kendo.toString(kendo.parseFloat((changedEvent / 100) * dbQueryResult.docs[index].AMOUNT), "n2")}`);
+                                    ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * dbQueryResult.docs[index].AMOUNT), "n2")}`);
                                 // update the project evaluation started flag to indicate evaluation has started
                                 utopiasoftware[utopiasoftware_app_namespace].controller.
                                     projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
@@ -1187,7 +1188,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                    projectEvaluationPageViewModel.hasProjectEvaluationStarted === true){ // evaluation has started
 
                // inform user that leaving this page will mean that current evaluation data is lost. does user want to leave?
-               let leaveProjectEvaluation = await ons.notification.confirm(undefined,
+               let leaveProjectEvaluation = await ons.notification.confirm('',
                    {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
                        messageHTML: `You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?`,
                        buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
