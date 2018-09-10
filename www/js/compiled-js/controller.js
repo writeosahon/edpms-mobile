@@ -1190,7 +1190,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                // inform user that leaving this page will mean that current evaluation data is lost. does user want to leave?
                let leaveProjectEvaluation = await ons.notification.confirm('',
                    {title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
-                       messageHTML: `You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?`,
+                       messageHTML: `You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?`,
                        buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
 
                if(leaveProjectEvaluation == 0){ // user does not want to project evaluation, so exit method now
