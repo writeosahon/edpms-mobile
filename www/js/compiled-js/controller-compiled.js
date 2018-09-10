@@ -1690,29 +1690,50 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 isGPSEnabled = _context14.sent;
 
                                 if (!(isGPSEnabled === false)) {
-                                    _context14.next = 13;
+                                    _context14.next = 18;
                                     break;
                                 }
 
                                 _context14.next = 13;
                                 return ons.notification.alert('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
-                                    messageHTML: 'You need to enable you device location service to capture the project location. <br>Switch to Location Settings and enable the location service?',
+                                    messageHTML: 'You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?',
                                     buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 13:
-                                _context14.next = 17;
-                                break;
+                                _context14.next = 15;
+                                return new Promise(function (resolve, reject) {
+                                    cordova.plugins.locationAccuracy.request(function () {
+                                        resolve(true);
+                                    }, function () {
+                                        resolve(false);
+                                    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+                                });
 
                             case 15:
-                                _context14.prev = 15;
+                                isGPSEnabled = _context14.sent;
+
+                                if (isGPSEnabled === false) {
+                                    // GPS IS STILL NOT ENABLED
+                                    // switch to the Location Settings screen, so user can manually enable Location Services
+                                    cordova.plugins.diagnostic.switchToLocationSettings();
+                                }
+
+                                return _context14.abrupt('return');
+
+                            case 18:
+                                _context14.next = 22;
+                                break;
+
+                            case 20:
+                                _context14.prev = 20;
                                 _context14.t0 = _context14['catch'](1);
 
-                            case 17:
+                            case 22:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 15]]);
+                }, _callee14, this, [[1, 20]]);
             }));
 
             function getProjectGeoLocation() {

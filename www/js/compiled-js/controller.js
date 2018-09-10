@@ -1417,13 +1417,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 let isGPSEnabled = await new Promise(function(resolve, reject){
                     cordova.plugins.diagnostic.isGpsLocationEnabled(resolve, reject);
                 });
+
                 if(isGPSEnabled === false){ // GPS NOT ENABLED
                     // inform user to enable location on device
                     await ons.notification.alert('',
                         {title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
-                            messageHTML: `You need to enable you device location service to capture the project location. <br>Switch to Location Settings and enable the location service?`,
+                            messageHTML: `You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?`,
                             buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog'});
 
+                    // turn on the user's location services
+                    isGPSEnabled = await new Promise(function(resolve, reject){
+                        cordova.plugins.locationAccuracy.request(function(){resolve(true)}, function(){resolve(false)},
+                            cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+                    });
+                    if(isGPSEnabled === false){ // GPS IS STILL NOT ENABLED
+                        // switch to the Location Settings screen, so user can manually enable Location Services
+                        cordova.plugins.diagnostic.switchToLocationSettings();
+                    }
+
+                    return; // exit method
                 }
             }
             catch(err){}
