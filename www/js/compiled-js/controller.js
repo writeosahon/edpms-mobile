@@ -1012,6 +1012,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').
                     each(function(index, element){
+                        element._ptracker_index = index;
+                        element._ptracker_
                         let aSlider = new ej.inputs.Slider({
                             min: 0,
                             max: 100,
@@ -1033,9 +1035,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 console.log("SLIDER VALUE", changedEvent.value);
                                 console.log("SLIDER VALUE", this.value);
                                 console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
-                                $(`#project-evaluation-page .e-slider-container:nth-of-type(${index+1}) ~ .project-evaluation-milestone-current-value`)
+                                $(`#project-evaluation-page .e-slider-container:nth-of-type(${element._ptracker_index + 1}) ~ .project-evaluation-milestone-current-value`)
                                     .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> 
-                                    ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2")}`);
+                                    ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2")}`);
                             }
                         });
                         aSlider.appendTo(element);
