@@ -912,11 +912,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 </div>
                                 <div class="project-evaluation-slider"></div>
                                 <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">
-                                    <span style="display: inline-block; font-style: italic">Milestone Value </span> 
+                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> 
                                     ${kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2")}
                                 </div>
                                 <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">
-                                    <span style="display: inline-block; font-style: italic">Value Completed </span> 
+                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
                                     ${kendo.toString(kendo.parseFloat(0), "n2")}
                                 </div>
                             </ons-card>
@@ -1033,12 +1033,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 console.log("SLIDER VALUE", changedEvent.value);
                                 console.log("SLIDER VALUE", this.value);
                                 console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
-                                $(`#project-evaluation-page .project-evaluation-slider:nth-of-type(${index+1}) ~ .project-evaluation-milestone-current-value`)
-                                    .html(`<span style="display: inline-block; font-style: italic">Value Completed *</span> 
+                                $(element).siblings('.project-evaluation-milestone-current-value')
+                                    .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> 
                                     ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2")}`);
-                                // update the project evaluation started flag to indicate evaluation has started
-                                utopiasoftware[utopiasoftware_app_namespace].controller.
-                                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                             }
                         });
                         aSlider.appendTo(element);
