@@ -1171,7 +1171,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     carouselContent = "";
 
                                     for (index = 0; index < dbQueryResult.docs.length; index++) {
-                                        carouselContent = '\n                        <ons-carousel-item style="overflow-y: auto">\n                            <ons-card>\n                                <div style="font-size: 1.1em">\n                                    ' + dbQueryResult.docs[index].CATEGORY + '\n                                </div>\n                                <div class="project-evaluation-slider"></div>\n                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> \n                                    ' + kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2") + '\n                                </div>\n                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(0), "n2") + '\n                                </div>\n                            </ons-card>\n                        </ons-carousel-item>';
+                                        carouselContent = '\n                        <ons-carousel-item style="overflow-y: auto">\n                            <ons-card>\n                                <div style="font-size: 1.2em">\n                                    ' + dbQueryResult.docs[index].CATEGORY + '\n                                </div>\n                                <div class="project-evaluation-slider"></div>\n                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> \n                                    ' + kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2") + '\n                                </div>\n                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(0), "n2") + '\n                                </div>\n                            </ons-card>\n                        </ons-carousel-item>';
                                         $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
                                     } // end of for loop
 
@@ -1203,7 +1203,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 console.log("SLIDER VALUE", changedEvent.value);
                                                 console.log("SLIDER VALUE", this.value);
                                                 console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
-                                                $(element).siblings('.project-evaluation-milestone-current-value').html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> \n                                    ' + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2"));
+                                                $('#project-evaluation-page .e-slider-container:nth-of-type(' + (index + 1) + ') ~ .project-evaluation-milestone-current-value').html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> \n                                    ' + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2"));
                                             }
                                         });
                                         aSlider.appendTo(element);
@@ -1377,7 +1377,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 _context11.next = 6;
                                 return ons.notification.confirm('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
-                                    messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?',
+                                    messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 6:

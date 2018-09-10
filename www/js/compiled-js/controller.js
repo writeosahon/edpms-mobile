@@ -907,7 +907,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         carouselContent = `
                         <ons-carousel-item style="overflow-y: auto">
                             <ons-card>
-                                <div style="font-size: 1.1em">
+                                <div style="font-size: 1.2em">
                                     ${dbQueryResult.docs[index].CATEGORY}
                                 </div>
                                 <div class="project-evaluation-slider"></div>
@@ -1033,7 +1033,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 console.log("SLIDER VALUE", changedEvent.value);
                                 console.log("SLIDER VALUE", this.value);
                                 console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
-                                $(element).siblings('.project-evaluation-milestone-current-value')
+                                $(`#project-evaluation-page .e-slider-container:nth-of-type(${index+1}) ~ .project-evaluation-milestone-current-value`)
                                     .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> 
                                     ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2")}`);
                             }
