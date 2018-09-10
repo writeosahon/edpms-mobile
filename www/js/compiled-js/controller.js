@@ -1421,7 +1421,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(isGPSEnabled === false){ // GPS NOT ENABLED
                     // inform user to enable location on device
                     await ons.notification.alert('',
-                        {title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
+                        {title: '<ons-icon icon="md-pin" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
                             messageHTML: `You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?`,
                             buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog'});
 
