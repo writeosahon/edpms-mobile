@@ -905,13 +905,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     for(let index = 0; index < dbQueryResult.docs.length; index++)
                     {
                         carouselContent = `
-                        <ons-carousel-item>
+                        <ons-carousel-item style="overflow-y: auto">
                             <ons-card>
                                 <div style="font-size: 1.1em">
                                     ${dbQueryResult.docs[index].CATEGORY}
                                 </div>
                                 <div class="project-evaluation-slider"></div>
-
+                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 0.8em;">
+                                    <span style="display: inline-block; font-style: italic">Milestone Value </span> 
+                                    ${kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2")}
+                                </div>
+                                <div class="project-evaluation-milestone-current-value" style="font-size: 0.8em;">
+                                    <span style="display: inline-block; font-style: italic">Value Completed </span> 
+                                    ${kendo.toString(kendo.parseFloat(0), "n2")}
+                                </div>
                             </ons-card>
                         </ons-carousel-item>`;
                         $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
@@ -1017,6 +1024,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             },
                             change: function(changeEvent){
                                 $('.e-handle', element).text(changeEvent.value);
+                                // update the project evaluation started flag to indicate evaluation has started
+                                utopiasoftware[utopiasoftware_app_namespace].controller.
+                                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
+                            },
+                            changed: function(changedEvent){
+                                $(`#project-evaluation-page .project-evaluation-slider:nth-of-type(${index+1}) ~ .project-evaluation-milestone-current-value`)
+                                    .html(`<span style="display: inline-block; font-style: italic">Value Completed </span> 
+                                    ${kendo.toString(kendo.parseFloat((changedEvent / 100) * dbQueryResult.docs[index].AMOUNT), "n2")}`);
                                 // update the project evaluation started flag to indicate evaluation has started
                                 utopiasoftware[utopiasoftware_app_namespace].controller.
                                     projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
