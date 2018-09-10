@@ -47,6 +47,9 @@
     <plugin name="cordova-plugin-insomnia" spec="4.3.0"/>
     <plugin name="cordova.plugins.diagnostic" spec="4.0.10"/>
     <plugin name="cordova-plugin-camera" spec="4.0.3"/>
+    <plugin name="cordova-plugin-googlemaps" spec="2.4.2">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAkL1VM-W6nXPfQurS3sC-wqMLI9gfM7-0" />
+    </plugin>
 
     <plugin name="cordova-plugin-whitelist" spec="1.3.3"/>
 
@@ -54,6 +57,7 @@
         <uses-permission android:name="android.permission.INTERNET" />
     </config-file>
 
+    <!-- add config options necessary to use device camera -->
     <config-file platform="android" target="AndroidManifest.xml" parent="/manifest">
         <uses-feature android:name="android.hardware.camera" android:required="true" />
         <uses-permission android:name="android.permission.CAMERA"/>

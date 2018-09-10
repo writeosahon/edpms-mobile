@@ -1005,15 +1005,26 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             </div>
                         </div>
                     </ons-carousel-item>`;
+                    // append the generated carousel content to the project evaluation carousel
+                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
+                    // append the carousel content used for displaying project location on a map
+                    carouselContent = `
+                    <ons-carousel-item style="position: relative;">
+                        <div id="project-evaluation-map" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; bottom: 0">
+                            <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;
+                            display: inline-block; margin-left: auto; margin-right: auto;"
+                            onclick="">Get Project Location</ons-button>
+                        </div>
+                    </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').
                     each(function(index, element){
-                        element._ptracker_index = index;
-                        element._ptracker_
+                        element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
+                        // create each milestone evaluation slider
                         let aSlider = new ej.inputs.Slider({
                             min: 0,
                             max: 100,
@@ -1031,12 +1042,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                             },
                             changed: function(changedEvent){
-                                console.log("INSIDE EVENT");
-                                console.log("SLIDER VALUE", changedEvent.value);
-                                console.log("SLIDER VALUE", this.value);
-                                console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
+                                // update the milestone current value based on changes in the slider
                                 $('.project-evaluation-milestone-current-value', $(element).parents('ons-card'))
-                                    .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed *</span> 
+                                    .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
                                     ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2")}`);
                             }
                         });
@@ -1098,12 +1106,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 shown: function(){ // event is triggered when Picture Viewer is shown
                                     // indicate that the picture viewer widget is showing
                                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.isPictureViewerShowing == true;
+                                        projectEvaluationPageViewModel.isPictureViewerShowing = true;
                                 },
                                 hidden: function(){ // event is triggered when Picture Viewer is hidden
                                     // indicate that the picture viewer widget is hidden
                                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.isPictureViewerShowing == false;
+                                        projectEvaluationPageViewModel.isPictureViewerShowing = false;
                                 }});
 
                     // hide the page preloader
