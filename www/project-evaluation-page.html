@@ -143,10 +143,12 @@
                 </div>
             </ons-carousel-item>
             <ons-carousel-item style="position: relative;">
-                <div id="project-evaluation-map" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; bottom: 0">
+                <div id="project-evaluation-map" style="position: relative; top: 1px; left: 0; width: calc(100% - 2px);
+                height: (100% - 2px); bottom: 1px; border: 1px #00d5c3 solid; text-align: center;">
                     <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;
-                    display: inline-block; margin-left: auto; margin-right: auto;"
-                        onclick="">
+                    display: inline-block;"
+                        onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.projectEvaluationPageViewModel.getProjectGeoLocation()">
                         Get Project Location</ons-button>
                 </div>
             </ons-carousel-item>

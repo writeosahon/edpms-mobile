@@ -1011,10 +1011,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // append the carousel content used for displaying project location on a map
                     carouselContent = `
                     <ons-carousel-item style="position: relative;">
-                        <div id="project-evaluation-map" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; bottom: 0">
+                        <div id="project-evaluation-map" style="position: relative; top: 1px; left: 0; width: calc(100% - 2px); 
+                height: (100% - 2px); bottom: 1px; border: 1px #00d5c3 solid; text-align: center;">
                             <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;
-                            display: inline-block; margin-left: auto; margin-right: auto;"
-                            onclick="">Get Project Location</ons-button>
+                            display: inline-block;"
+                            onclick="utopiasoftware[utopiasoftware_app_namespace].
+                            controller.projectEvaluationPageViewModel.getProjectGeoLocation()">Get Project Location</ons-button>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1385,6 +1387,46 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // update the picture viewer widget
             utopiasoftware[utopiasoftware_app_namespace].controller.
             projectEvaluationPageViewModel.pictureViewer.update();
+        },
+
+        /**
+         * method is used to retrieve the project location by using the current GPS location of the device
+         *
+         * @returns {Promise<void>}
+         */
+        async getProjectGeoLocation(){
+
+            var permissionStatuses = null; // holds the statuses of the runtime permissions requested
+
+            try{
+                // request runtime permissions to use device's GPS
+                permissionStatuses =  await new Promise(function(resolve, reject){
+                    cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject,[
+                        cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION
+                    ]);
+                });
+
+                // check if the user has given permission to use the device's GPS
+                if((!permissionStatuses) ||
+                    permissionStatuses[cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION] !==
+                    cordova.plugins.diagnostic.permissionStatus.GRANTED){
+                    throw "error - no location permission";
+                }
+
+                // check if the device GPS is enabled
+                let isGPSEnabled = await new Promise(function(resolve, reject){
+                    cordova.plugins.diagnostic.isGpsLocationEnabled(resolve, reject);
+                });
+                if(isGPSEnabled === false){ // GPS NOT ENABLED
+                    // inform user to enable location on device
+                    await ons.notification.alert('',
+                        {title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
+                            messageHTML: `You need to enable you device location service to capture the project location. <br>Switch to Location Settings and enable the location service?`,
+                            buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog'});
+
+                }
+            }
+            catch(err){}
         },
 
         /**

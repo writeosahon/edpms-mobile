@@ -46,6 +46,7 @@
     <plugin name="cordova-sqlite-evcore-extbuild-free" spec="0.9.7"/>
     <plugin name="cordova-plugin-insomnia" spec="4.3.0"/>
     <plugin name="cordova.plugins.diagnostic" spec="4.0.10"/>
+    <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.3"/>
     <plugin name="cordova-plugin-camera" spec="4.0.3"/>
     <plugin name="cordova-plugin-googlemaps" spec="2.4.2">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAkL1VM-W6nXPfQurS3sC-wqMLI9gfM7-0" />

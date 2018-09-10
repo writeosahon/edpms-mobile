@@ -1181,7 +1181,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: relative; top: 0; left: 0; width: 100%; height: 100%; bottom: 0">\n                            <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;\n                            display: inline-block; margin-left: auto; margin-right: auto;"\n                            onclick="">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: relative; top: 1px; left: 0; width: calc(100% - 2px); \n                height: (100% - 2px); bottom: 1px; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocation()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1647,6 +1647,79 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return deletePictureButtonClicked;
+        }(),
+
+
+        /**
+         * method is used to retrieve the project location by using the current GPS location of the device
+         *
+         * @returns {Promise<void>}
+         */
+        getProjectGeoLocation: function () {
+            var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+                var permissionStatuses, isGPSEnabled;
+                return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                    while (1) {
+                        switch (_context14.prev = _context14.next) {
+                            case 0:
+                                permissionStatuses = null; // holds the statuses of the runtime permissions requested
+
+                                _context14.prev = 1;
+                                _context14.next = 4;
+                                return new Promise(function (resolve, reject) {
+                                    cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION]);
+                                });
+
+                            case 4:
+                                permissionStatuses = _context14.sent;
+
+                                if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
+                                    _context14.next = 7;
+                                    break;
+                                }
+
+                                throw "error - no location permission";
+
+                            case 7:
+                                _context14.next = 9;
+                                return new Promise(function (resolve, reject) {
+                                    cordova.plugins.diagnostic.isGpsLocationEnabled(resolve, reject);
+                                });
+
+                            case 9:
+                                isGPSEnabled = _context14.sent;
+
+                                if (!(isGPSEnabled === false)) {
+                                    _context14.next = 13;
+                                    break;
+                                }
+
+                                _context14.next = 13;
+                                return ons.notification.alert('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
+                                    messageHTML: 'You need to enable you device location service to capture the project location. <br>Switch to Location Settings and enable the location service?',
+                                    buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 13:
+                                _context14.next = 17;
+                                break;
+
+                            case 15:
+                                _context14.prev = 15;
+                                _context14.t0 = _context14['catch'](1);
+
+                            case 17:
+                            case 'end':
+                                return _context14.stop();
+                        }
+                    }
+                }, _callee14, this, [[1, 15]]);
+            }));
+
+            function getProjectGeoLocation() {
+                return _ref14.apply(this, arguments);
+            }
+
+            return getProjectGeoLocation;
         }(),
 
 
