@@ -1200,7 +1200,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             },
                                             changed: function changed(changedEvent) {
                                                 console.log("INSIDE EVENT");
-                                                $('#project-evaluation-page .project-evaluation-slider:nth-of-type(' + (index + 1) + ') ~ .project-evaluation-milestone-current-value').html('<span style="display: inline-block; font-style: italic">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * dbQueryResult.docs[index].AMOUNT), "n2"));
+                                                console.log("SLIDER VALUE", changedEvent.value);
+                                                console.log("SLIDER VALUE", this.value);
+                                                console.log("MILESTONE VALUE", dbQueryResult.docs[index].AMOUNT);
+                                                $('#project-evaluation-page .project-evaluation-slider:nth-of-type(' + (index + 1) + ') ~ .project-evaluation-milestone-current-value').html('<span style="display: inline-block; font-style: italic">Value Completed *</span> \n                                    ' + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * kendo.parseFloat(dbQueryResult.docs[index].AMOUNT)), "n2"));
                                                 // update the project evaluation started flag to indicate evaluation has started
                                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
                                             }
@@ -1375,7 +1378,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
 
                                 _context11.next = 6;
-                                return ons.notification.confirm('', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
+                                return ons.notification.confirm('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
                                     messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br> Do you want to leave the project evaluation?',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
