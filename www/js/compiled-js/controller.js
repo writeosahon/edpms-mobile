@@ -1463,7 +1463,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         },
                         'building': false
                     }
-                })
+                });
             }
             catch(err){
                 // inform the user of the error
