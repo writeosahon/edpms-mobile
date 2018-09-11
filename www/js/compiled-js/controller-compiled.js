@@ -1778,7 +1778,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if Map already exists and is ready to be used
 
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true)) {
-                                    _context14.next = 31;
+                                    _context14.next = 32;
                                     break;
                                 }
 
@@ -1788,10 +1788,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     target: { lat: geoPosition.coords.latitude,
                                         lng: geoPosition.coords.longitude }
                                 });
+
+                                // hide circular progress display
+                                $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                                 console.log("EXITED");
                                 return _context14.abrupt('return');
 
-                            case 31:
+                            case 32:
 
                                 // generate the geo map for the project evaluation
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
@@ -1829,11 +1832,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setClickable(false);
                                     console.log("MAP READY");
                                 });
-                                _context14.next = 39;
+                                _context14.next = 40;
                                 break;
 
-                            case 36:
-                                _context14.prev = 36;
+                            case 37:
+                                _context14.prev = 37;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1854,12 +1857,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 39:
+                            case 40:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 36]]);
+                }, _callee14, this, [[1, 37]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {

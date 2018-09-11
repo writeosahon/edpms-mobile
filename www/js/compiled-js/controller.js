@@ -1511,6 +1511,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         target: {lat: geoPosition.coords.latitude,
                             lng: geoPosition.coords.longitude}
                     });
+
+                    // hide circular progress display
+                    $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
 console.log("EXITED");
                     return; // exit method
                 }
