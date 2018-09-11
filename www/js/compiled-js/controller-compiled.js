@@ -1181,7 +1181,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                            <ons-progress-circular id="project-evaluation-gps-progress" indeterminate modifier="project-gps-location-progress" \n                            style="position: relative; display: none; top: 65px"></ons-progress-circular>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1724,12 +1724,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context14.abrupt('return');
 
                             case 19:
-                                _context14.next = 21;
+
+                                // if method get here, GPS has been successfully enabled and app has authorisation to use it
+                                // show the circular progress to indicate app has started working on getting user gps
+                                $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "inline-block");
+                                // get project's current location using device's gps geolocation
+                                _context14.next = 22;
                                 return new Promise(function (resolve, reject) {
                                     navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 300000, maximumAge: 5000 });
                                 });
 
-                            case 21:
+                            case 22:
                                 geoPosition = _context14.sent;
 
 
@@ -1758,13 +1763,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 aMap.one(plugin.google.maps.event.MAP_READY, function () {
                                     console.log("MAP READY");
+                                    // hide circular progress display
+                                    $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                                     //aMap.setVisible(true);
                                 });
-                                _context14.next = 30;
+                                _context14.next = 31;
                                 break;
 
-                            case 27:
-                                _context14.prev = 27;
+                            case 28:
+                                _context14.prev = 28;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1785,12 +1792,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 30:
+                            case 31:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 27]]);
+                }, _callee14, this, [[1, 28]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {

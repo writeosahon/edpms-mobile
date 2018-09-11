@@ -1017,6 +1017,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             display: inline-block;"
                             onclick="utopiasoftware[utopiasoftware_app_namespace].
                             controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>
+                            <ons-progress-circular id="project-evaluation-gps-progress" indeterminate modifier="project-gps-location-progress" 
+                            style="position: relative; display: none; top: 65px"></ons-progress-circular>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1439,6 +1441,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }
 
                 // if method get here, GPS has been successfully enabled and app has authorisation to use it
+                // show the circular progress to indicate app has started working on getting user gps
+                $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "inline-block");
                 // get project's current location using device's gps geolocation
                 let geoPosition = await new Promise(function(resolve, reject){
                     navigator.geolocation.getCurrentPosition(resolve,
@@ -1470,6 +1474,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 aMap.one(plugin.google.maps.event.MAP_READY, function() {
                     console.log("MAP READY");
+                    // hide circular progress display
+                    $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                     //aMap.setVisible(true);
                 });
             }
