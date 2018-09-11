@@ -1011,7 +1011,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // append the carousel content used for displaying project location on a map
                     carouselContent = `
                     <ons-carousel-item style="position: relative;">
-                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 300px; 
+                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; 
                             height: 300px; border: 1px #00d5c3 solid; text-align: center;">
                             <ons-button style="background-color: #3f51b5; position: relative; top: 3px;
                             display: inline-block;"

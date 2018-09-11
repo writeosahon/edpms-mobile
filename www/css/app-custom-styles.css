@@ -151,9 +151,9 @@
     text-transform: uppercase;
 }
 /** STYLE FOR THE SEARCH PROJECT PAGE ENDS **/
- .page--material__background, .page--material__content {
-     background-color: transparent !important;
-     background: transparent !important;
+ #project-evaluation-page .page--material__background, #project-evaluation-page .page--material__content {
+     background-color: transparent;
+     background: transparent;
  }
 
 /** STYLE FOR THE PROJECT EVALUATION PAGE BEGINS **/
