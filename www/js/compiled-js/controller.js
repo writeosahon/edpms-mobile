@@ -1028,7 +1028,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             onclick="utopiasoftware[utopiasoftware_app_namespace].
                             controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>
                             <ons-progress-circular id="project-evaluation-gps-progress" indeterminate modifier="project-gps-location-progress" 
-                            style="position: relative; display: none; top: 65px"></ons-progress-circular>
+                            style="position: relative; display: none; top: 65px; text-align: center"></ons-progress-circular>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1181,10 +1181,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if(utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap &&
                 utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
             // hide the map object
             utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.setVisible(false);
+                projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
             }
         },
 
@@ -1207,7 +1207,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if(utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap &&
                 utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectEvaluationMap.remove();
             }
@@ -1500,7 +1500,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap &&
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
                     // map has previously been created and is ready for use
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
@@ -1545,7 +1545,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                     // flag an internal property that indicates the the map is ready to be used
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap_ptracker_isMapReady = true;
+                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;
                 });
             }
             catch(err){
@@ -1618,7 +1618,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap &&
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
                     // make the map invisible
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
@@ -1642,7 +1642,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap &&
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
                     // make the map visible
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
@@ -1662,7 +1662,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap &&
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
                     // make the map invisible
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
