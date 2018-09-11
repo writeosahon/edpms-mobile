@@ -1525,7 +1525,6 @@ console.log("EXITED");
                             lat: geoPosition.coords.latitude,
                             lng: geoPosition.coords.longitude
                         },
-                        bearing: geoPosition.coords.heading,
                         tilt: 90,
                         zoom: 20
                     },

@@ -1804,7 +1804,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             lat: geoPosition.coords.latitude,
                                             lng: geoPosition.coords.longitude
                                         },
-                                        bearing: geoPosition.coords.heading,
                                         tilt: 90,
                                         zoom: 20
                                     },
