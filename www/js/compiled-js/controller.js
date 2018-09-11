@@ -1011,12 +1011,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // append the carousel content used for displaying project location on a map
                     carouselContent = `
                     <ons-carousel-item style="position: relative;">
-                        <div id="project-evaluation-map" style="position: relative; top: 1px; left: 0; width: calc(100% - 2px); 
-                height: (100% - 2px); bottom: 1px; border: 1px #00d5c3 solid; text-align: center;">
-                            <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;
+                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: calc(100% - 0px); 
+                            height: (100% - 0px); bottom: 0; border: 1px #00d5c3 solid; text-align: center;">
+                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;
                             display: inline-block;"
                             onclick="utopiasoftware[utopiasoftware_app_namespace].
-                            controller.projectEvaluationPageViewModel.getProjectGeoLocation()">Get Project Location</ons-button>
+                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1330,7 +1330,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     projectEvaluationPageViewModel.pictureViewer.update();
             }
             catch(err){
-                // in form the user of the error
+                // inform the user of the error
                 window.plugins.toast.showWithOptions({
                     message: "Photo Capture Failed - " + err,
                     duration: 4000,
@@ -1394,7 +1394,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          *
          * @returns {Promise<void>}
          */
-        async getProjectGeoLocation(){
+        async getProjectGeoLocationButtonClicked(){
 
             var permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
@@ -1425,7 +1425,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             messageHTML: `You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?`,
                             buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog'});
 
-                    // turn on the user's location services
+                    // turn on the user's location services automatically
                     isGPSEnabled = await new Promise(function(resolve, reject){
                         cordova.plugins.locationAccuracy.request(function(){resolve(true)}, function(){resolve(false)},
                             cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
@@ -1433,12 +1433,56 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     if(isGPSEnabled === false){ // GPS IS STILL NOT ENABLED
                         // switch to the Location Settings screen, so user can manually enable Location Services
                         cordova.plugins.diagnostic.switchToLocationSettings();
-                    }
 
-                    return; // exit method
+                        return; // exit method
+                    }
                 }
+
+                // if method get here, GPS has been successfully enabled and app has authorisation to use it
+                // get project's current location using device's gps geolocation
+                let geoPosition = await new Promise(function(resolve, reject){
+                    navigator.geolocation.getCurrentPosition(resolve,
+                        reject,
+                        {enableHighAccuracy: true, timeout: 300000, maximumAge: 5000});
+                });
+
+                // generate the geo map for the project evaluation
+                plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
+                    'mapType': plugin.google.maps.MapTypeId.ROADMAP,
+                    'camera' : {
+                        target: {
+                            lat: geoPosition.coords.latitude,
+                            lng: geoPosition.coords.longitude
+                        },
+                        zoom: 10
+                    },
+                    'preferences': {
+                        'zoom': {
+                            'minZoom': 10,
+                            'maxZoom': 18
+                        },
+                        'building': false
+                    }
+                })
             }
-            catch(err){}
+            catch(err){
+                // inform the user of the error
+                window.plugins.toast.showWithOptions({
+                    message: "Location Capture Failed - " + (typeof err === "string"? err : err.message),
+                    duration: 4000,
+                    position: "top",
+                    styling: {
+                        opacity: 1,
+                        backgroundColor: '#ff0000', //red
+                        textColor: '#FFFFFF',
+                        textSize: 14
+                    }
+                }, function(toastEvent){
+                    if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                        window.plugins.toast.hide();
+                    }
+                });
+            }
         },
 
         /**

@@ -1181,7 +1181,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: relative; top: 1px; left: 0; width: calc(100% - 2px); \n                height: (100% - 2px); bottom: 1px; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: absolute; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocation()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: calc(100% - 0px); \n                            height: (100% - 0px); bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1548,7 +1548,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context12.prev = 27;
                                 _context12.t1 = _context12['catch'](1);
 
-                                // in form the user of the error
+                                // inform the user of the error
                                 window.plugins.toast.showWithOptions({
                                     message: "Photo Capture Failed - " + _context12.t1,
                                     duration: 4000,
@@ -1655,9 +1655,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          *
          * @returns {Promise<void>}
          */
-        getProjectGeoLocation: function () {
+        getProjectGeoLocationButtonClicked: function () {
             var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-                var permissionStatuses, isGPSEnabled;
+                var permissionStatuses, isGPSEnabled, geoPosition;
                 return regeneratorRuntime.wrap(function _callee14$(_context14) {
                     while (1) {
                         switch (_context14.prev = _context14.next) {
@@ -1690,7 +1690,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 isGPSEnabled = _context14.sent;
 
                                 if (!(isGPSEnabled === false)) {
-                                    _context14.next = 18;
+                                    _context14.next = 19;
                                     break;
                                 }
 
@@ -1712,35 +1712,83 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 15:
                                 isGPSEnabled = _context14.sent;
 
-                                if (isGPSEnabled === false) {
-                                    // GPS IS STILL NOT ENABLED
-                                    // switch to the Location Settings screen, so user can manually enable Location Services
-                                    cordova.plugins.diagnostic.switchToLocationSettings();
+                                if (!(isGPSEnabled === false)) {
+                                    _context14.next = 19;
+                                    break;
                                 }
+
+                                // GPS IS STILL NOT ENABLED
+                                // switch to the Location Settings screen, so user can manually enable Location Services
+                                cordova.plugins.diagnostic.switchToLocationSettings();
 
                                 return _context14.abrupt('return');
 
-                            case 18:
-                                _context14.next = 22;
+                            case 19:
+                                _context14.next = 21;
+                                return new Promise(function (resolve, reject) {
+                                    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 300000, maximumAge: 5000 });
+                                });
+
+                            case 21:
+                                geoPosition = _context14.sent;
+
+
+                                // generate the geo map for the project evaluation
+                                plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
+                                    'mapType': plugin.google.maps.MapTypeId.ROADMAP,
+                                    'camera': {
+                                        target: {
+                                            lat: geoPosition.coords.latitude,
+                                            lng: geoPosition.coords.longitude
+                                        },
+                                        zoom: 10
+                                    },
+                                    'preferences': {
+                                        'zoom': {
+                                            'minZoom': 10,
+                                            'maxZoom': 18
+                                        },
+                                        'building': false
+                                    }
+                                });
+                                _context14.next = 28;
                                 break;
 
-                            case 20:
-                                _context14.prev = 20;
+                            case 25:
+                                _context14.prev = 25;
                                 _context14.t0 = _context14['catch'](1);
 
-                            case 22:
+                                // inform the user of the error
+                                window.plugins.toast.showWithOptions({
+                                    message: "Location Capture Failed - " + (typeof _context14.t0 === "string" ? _context14.t0 : _context14.t0.message),
+                                    duration: 4000,
+                                    position: "top",
+                                    styling: {
+                                        opacity: 1,
+                                        backgroundColor: '#ff0000', //red
+                                        textColor: '#FFFFFF',
+                                        textSize: 14
+                                    }
+                                }, function (toastEvent) {
+                                    if (toastEvent && toastEvent.event == "touch") {
+                                        // user tapped the toast, so hide toast immediately
+                                        window.plugins.toast.hide();
+                                    }
+                                });
+
+                            case 28:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 20]]);
+                }, _callee14, this, [[1, 25]]);
             }));
 
-            function getProjectGeoLocation() {
+            function getProjectGeoLocationButtonClicked() {
                 return _ref14.apply(this, arguments);
             }
 
-            return getProjectGeoLocation;
+            return getProjectGeoLocationButtonClicked;
         }(),
 
 
