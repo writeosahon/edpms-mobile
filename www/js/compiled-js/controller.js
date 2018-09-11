@@ -1027,8 +1027,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             display: inline-block;"
                             onclick="utopiasoftware[utopiasoftware_app_namespace].
                             controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>
-                            <ons-progress-circular id="project-evaluation-gps-progress" indeterminate modifier="project-gps-location-progress" 
-                            style="position: relative; display: none; top: 65px; text-align: center"></ons-progress-circular>
+                            <div id="project-evaluation-gps-progress" 
+                            style="position: relative; display: none; top: 65px; text-align: center">
+                                <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>
+                            </div>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1523,6 +1525,8 @@ console.log("EXITED");
                             lat: geoPosition.coords.latitude,
                             lng: geoPosition.coords.longitude
                         },
+                        bearing: geoPosition.coords.heading,
+                        tilt: 90,
                         zoom: 20
                     },
                     'preferences': {
