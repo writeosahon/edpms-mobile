@@ -1529,13 +1529,21 @@ console.log("EXITED");
                             lng: geoPosition.coords.longitude
                         },
                         tilt: 90,
-                        zoom: 20,
+                        zoom: 20
+                    },
+                    controls: {
                         'compass': false,
                         'myLocationButton': false,
                         'myLocation': false,
                         'indoorPicker': false,
                         'zoom': false,
                         'mapToolbar': false
+                    },
+                    gestures: {
+                        scroll: false,
+                        tilt: false,
+                        zoom: false,
+                        rotate: false
                     },
                     'preferences': {
                         'zoom': {
