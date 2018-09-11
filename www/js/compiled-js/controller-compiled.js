@@ -1349,16 +1349,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
 
             // REMOVE the app background transparency, map np longer showing
-            /*$('html, body').removeClass('utopiasoftware-transparent');
-              // check if Map already exists and is ready to be used
-            if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap &&
-                utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
-            // hide the map object
-            utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
-            }*/
+            $('html, body').removeClass('utopiasoftware-transparent');
+
+            // check if Map already exists and is ready to be used
+            if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
+                // hide the map object
+                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+            }
         },
 
         /**
@@ -1373,15 +1370,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted = false;
 
             // check if Map already exists and is ready to be used
-            /*if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap &&
-                utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
-            utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.projectEvaluationMap.remove();
+            if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
+                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.remove();
             }
-              utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.projectEvaluationMap = null;*/
+
+            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = null;
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition = null;
         },
 
@@ -1779,22 +1772,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // make the app background transparent, so the map can show
                                 $('html, body').addClass('utopiasoftware-transparent');
 
-                                /*// check if Map already exists and is ready to be used
-                                if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                                    projectEvaluationPageViewModel.projectEvaluationMap &&
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
-                                    // map has previously been created and is ready for use
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
-                                        target: {lat: geoPosition.coords.latitude,
-                                            lng: geoPosition.coords.longitude}
-                                    });
+                                // check if Map already exists and is ready to be used
+
+                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true)) {
+                                    _context14.next = 31;
+                                    break;
+                                }
+
+                                // map has previously been created and is ready for use
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
+                                    target: { lat: geoPosition.coords.latitude,
+                                        lng: geoPosition.coords.longitude },
+                                    tilt: 0
+                                });
                                 console.log("EXITED");
-                                    return; // exit method
-                                }*/
+                                return _context14.abrupt('return');
+
+                            case 31:
 
                                 // generate the geo map for the project evaluation
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
@@ -1816,20 +1811,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
+                                console.log('HEADING', geoPosition.coords.heading);
+
                                 // listen for when the map object is successfully created
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.one(plugin.google.maps.event.MAP_READY, function () {
                                     // hide circular progress display
                                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                                     // flag an internal property that indicates the the map is ready to be used
-                                    /*utopiasoftware[utopiasoftware_app_namespace].controller.
-                                        projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;*/
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;
                                     console.log("MAP READY");
                                 });
-                                _context14.next = 33;
+                                _context14.next = 39;
                                 break;
 
-                            case 30:
-                                _context14.prev = 30;
+                            case 36:
+                                _context14.prev = 36;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1850,12 +1846,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 33:
+                            case 39:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 30]]);
+                }, _callee14, this, [[1, 36]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {
@@ -1871,10 +1867,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @param event
          */
         carouselChanged: function carouselChanged(event) {
-            /*// change the css display the prev fab button
-            $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");*/
+            // change the css display the prev fab button
+            $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
             // REMOVE the app background transparency, map np longer showing
-            // $('html, body').removeClass('utopiasoftware-transparent');
+            $('html, body').removeClass('utopiasoftware-transparent');
 
             // update the stay of the the fab "prev" or "next" buttons
             // check if the carousel is at the last item
@@ -1908,14 +1904,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
 
                     // check if Map already exists and is ready to be used
-                    /*if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap &&
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
+                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
                         // make the map invisible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
-                    }*/
+                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                    }
 
                     return;
                 }
@@ -1927,16 +1919,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
 
                     // check if Map already exists and is ready to be used
-                    /*if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap &&
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
+                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
                         // make the app background transparent, so the map can show
                         $('html, body').addClass('utopiasoftware-transparent');
                         // make the map visible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
-                    }*/
+                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
+                    }
                     return;
                 }
             if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2) // the carousel active index is at the project remarks point
@@ -1947,14 +1935,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks');
 
                     // check if Map already exists and is ready to be used
-                    /*if(utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap &&
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                            projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
+                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
                         // make the map invisible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
-                    }*/
+                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                    }
                     return;
                 }
         },
