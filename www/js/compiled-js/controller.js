@@ -1447,7 +1447,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
 
                 // generate the geo map for the project evaluation
-                plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
+                let aMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
                     'mapType': plugin.google.maps.MapTypeId.ROADMAP,
                     'camera' : {
                         target: {
@@ -1463,6 +1463,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         },
                         'building': false
                     }
+                });
+
+                aMap.one(plugin.google.maps.event.MAP_READY, function() {
+                    console.log("MAP READY");
+                    aMap.setVisible(true);
                 });
             }
             catch(err){
