@@ -1511,7 +1511,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         bearing: geoPosition.coords.heading,
                         tilt: 45
                     });
-
+console.log("EXITED");
                     return; // exit method
                 }
 
