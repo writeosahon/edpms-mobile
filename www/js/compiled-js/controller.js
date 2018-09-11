@@ -1012,7 +1012,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     carouselContent = `
                     <ons-carousel-item style="position: relative;">
                         <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; 
-                            height: 300px; border: 1px #00d5c3 solid; text-align: center;">
+                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">
                             <ons-button style="background-color: #3f51b5; position: relative; top: 3px;
                             display: inline-block;"
                             onclick="utopiasoftware[utopiasoftware_app_namespace].
@@ -1446,6 +1446,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         {enableHighAccuracy: true, timeout: 300000, maximumAge: 5000});
                 });
 
+                // make the app background transparent, so the image can show
+                $('html, body').addClass('utopiasoftware-transparent');
+
                 // generate the geo map for the project evaluation
                 let aMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
                     'mapType': plugin.google.maps.MapTypeId.ROADMAP,
@@ -1454,12 +1457,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             lat: geoPosition.coords.latitude,
                             lng: geoPosition.coords.longitude
                         },
-                        zoom: 10
+                        zoom: 20
                     },
                     'preferences': {
                         'zoom': {
-                            'minZoom': 10,
-                            'maxZoom': 18
+                            'minZoom': 20,
+                            'maxZoom': 30
                         },
                         'building': false
                     }
@@ -1467,7 +1470,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 aMap.one(plugin.google.maps.event.MAP_READY, function() {
                     console.log("MAP READY");
-                    aMap.setVisible(true);
+                    //aMap.setVisible(true);
                 });
             }
             catch(err){

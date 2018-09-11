@@ -151,7 +151,8 @@
     text-transform: uppercase;
 }
 /** STYLE FOR THE SEARCH PROJECT PAGE ENDS **/
- #project-evaluation-page .page--material__background, #project-evaluation-page .page--material__content {
+ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__background,
+ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__content {
      background-color: transparent;
      background: transparent;
  }

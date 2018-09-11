@@ -1181,7 +1181,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 300px; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1733,6 +1733,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 geoPosition = _context14.sent;
 
 
+                                // make the app background transparent, so the image can show
+                                $('html, body').addClass('utopiasoftware-transparent');
+
                                 // generate the geo map for the project evaluation
                                 aMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
                                     'mapType': plugin.google.maps.MapTypeId.ROADMAP,
@@ -1741,12 +1744,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             lat: geoPosition.coords.latitude,
                                             lng: geoPosition.coords.longitude
                                         },
-                                        zoom: 10
+                                        zoom: 20
                                     },
                                     'preferences': {
                                         'zoom': {
-                                            'minZoom': 10,
-                                            'maxZoom': 18
+                                            'minZoom': 20,
+                                            'maxZoom': 30
                                         },
                                         'building': false
                                     }
@@ -1755,13 +1758,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 aMap.one(plugin.google.maps.event.MAP_READY, function () {
                                     console.log("MAP READY");
-                                    aMap.setVisible(true);
+                                    //aMap.setVisible(true);
                                 });
-                                _context14.next = 29;
+                                _context14.next = 30;
                                 break;
 
-                            case 26:
-                                _context14.prev = 26;
+                            case 27:
+                                _context14.prev = 27;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1782,12 +1785,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 29:
+                            case 30:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 26]]);
+                }, _callee14, this, [[1, 27]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {
