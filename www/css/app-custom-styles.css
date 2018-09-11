@@ -207,13 +207,12 @@
     line-height: 30px;
     left: 15px !important;
 }
-
-
+/** STYLE FOR THE MAP ELEMENTS ON PAGE **/
 html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__background,
-html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__content {
+html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__content { /** make entire app page background transparent **/
     background-color: transparent !important;
     background: transparent !important;
 }
-.progress-circular--project-gps-location-progress__primary {
+.progress-circular--project-gps-location-progress__primary { /** style for circular progress bar on map **/
     stroke: #00D5C3;
 }

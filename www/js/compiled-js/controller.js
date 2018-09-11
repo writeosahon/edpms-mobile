@@ -833,6 +833,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         projectPicturesUrls: [null],
 
         /**
+         * holds the Google Map object used to display the current location of the project being evaluated
+         */
+        projectEvaluationMap: null,
+
+        /**
+         * holds the Geo location object for the project. The object is gotten from the device's GPS
+         */
+        projectGeoPosition: null,
+
+        /**
          * this property indicates if the picture viewer widget is being displayed or not
          */
         isPictureViewerShowing: false,
@@ -1163,6 +1173,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         pageHide: function(){
             // adjust the window/view-port settings for when the soft keyboard is displayed
             // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+
+            // REMOVE the app background transparency, map np longer showing
+            $('html, body').removeClass('utopiasoftware-transparent');
+
+            // check if Map already exists and is ready to be used
+            if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap &&
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+            // hide the map object
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.setVisible(false);
+            }
         },
 
         /**
@@ -1179,6 +1202,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 projectEvaluationPageViewModel.projectPicturesUrls = [null];
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.hasProjectEvaluationStarted = false;
+
+            // check if Map already exists and is ready to be used
+            if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap &&
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectEvaluationMap.remove();
+            }
+
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectEvaluationMap = null;
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectGeoPosition = null;
         },
 
 
@@ -1442,26 +1479,55 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // if method get here, GPS has been successfully enabled and app has authorisation to use it
                 // show the circular progress to indicate app has started working on getting user gps
-                $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "inline-block");
+                $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "block");
                 // get project's current location using device's gps geolocation
                 let geoPosition = await new Promise(function(resolve, reject){
                     navigator.geolocation.getCurrentPosition(resolve,
                         reject,
                         {enableHighAccuracy: true, timeout: 300000, maximumAge: 5000});
                 });
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectGeoPosition = geoPosition; // assign the retrieved geo position object to its appropriate object property
 
-                // make the app background transparent, so the image can show
+                // flag that progress evaluation has started
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
+
+                // make the app background transparent, so the map can show
                 $('html, body').addClass('utopiasoftware-transparent');
 
+                // check if Map already exists and is ready to be used
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap &&
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    // map has previously been created and is ready for use
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
+                        target: {lat: geoPosition.coords.latitude,
+                            lng: geoPosition.coords.longitude},
+                        bearing: geoPosition.coords.heading,
+                        tilt: 45
+                    });
+
+                    return; // exit method
+                }
+
                 // generate the geo map for the project evaluation
-                let aMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap =
+                    plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
                     'mapType': plugin.google.maps.MapTypeId.ROADMAP,
                     'camera' : {
                         target: {
                             lat: geoPosition.coords.latitude,
                             lng: geoPosition.coords.longitude
                         },
-                        zoom: 20
+                        zoom: 20,
+                        bearing: geoPosition.coords.heading,
+                        tilt: 90
                     },
                     'preferences': {
                         'zoom': {
@@ -1472,11 +1538,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }
                 });
 
-                aMap.one(plugin.google.maps.event.MAP_READY, function() {
-                    console.log("MAP READY");
+                // listen for when the map object is successfully created
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectEvaluationMap.one(plugin.google.maps.event.MAP_READY, function() {
                     // hide circular progress display
                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
-                    //aMap.setVisible(true);
+                    // flag an internal property that indicates the the map is ready to be used
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap_ptracker_isMapReady = true;
                 });
             }
             catch(err){
@@ -1506,6 +1575,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         carouselChanged(event){
             // change the css display the prev fab button
             $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
+            // REMOVE the app background transparency, map np longer showing
+            $('html, body').removeClass('utopiasoftware-transparent');
 
             // update the stay of the the fab "prev" or "next" buttons
              // check if the carousel is at the last item
@@ -1542,6 +1613,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Capture the project progress in photos');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Photos`);
+
+                // check if Map already exists and is ready to be used
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap &&
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    // make the map invisible
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                }
+
                 return;
             }
             if(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.
@@ -1552,6 +1634,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Capture the project geographical location');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Location`);
+
+                // make the app background transparent, so the map can show
+                $('html, body').addClass('utopiasoftware-transparent');
+
+                // check if Map already exists and is ready to be used
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap &&
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    // make the map visible
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
+                }
                 return;
             }
             if(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.
@@ -1562,6 +1657,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 html('Provide any remarks on the project evaluation (optional)');
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Evaluation Remarks`);
+
+                // check if Map already exists and is ready to be used
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap &&
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.projectEvaluationMap_ptracker_isMapReady === true){
+                    // make the map invisible
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                }
                 return;
             }
 
