@@ -1509,8 +1509,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
                         target: {lat: geoPosition.coords.latitude,
-                            lng: geoPosition.coords.longitude},
-                        tilt: 0
+                            lng: geoPosition.coords.longitude}
                     });
 console.log("EXITED");
                     return; // exit method
@@ -1527,7 +1526,13 @@ console.log("EXITED");
                             lng: geoPosition.coords.longitude
                         },
                         tilt: 90,
-                        zoom: 20
+                        zoom: 20,
+                        'compass': false,
+                        'myLocationButton': false,
+                        'myLocation': false,
+                        'indoorPicker': false,
+                        'zoom': false,
+                        'mapToolbar': false
                     },
                     'preferences': {
                         'zoom': {
@@ -1548,6 +1553,9 @@ console.log("EXITED");
                     // flag an internal property that indicates the the map is ready to be used
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;
+                    // disable the ability to click on the map
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.setClickable(false);
                     console.log("MAP READY");
                 });
             }

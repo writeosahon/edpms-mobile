@@ -1,5 +1,7 @@
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /**
@@ -1684,7 +1686,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         getProjectGeoLocationButtonClicked: function () {
             var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-                var permissionStatuses, isGPSEnabled, geoPosition;
+                var permissionStatuses, _camera, isGPSEnabled, geoPosition;
+
                 return regeneratorRuntime.wrap(function _callee14$(_context14) {
                     while (1) {
                         switch (_context14.prev = _context14.next) {
@@ -1783,8 +1786,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
                                     target: { lat: geoPosition.coords.latitude,
-                                        lng: geoPosition.coords.longitude },
-                                    tilt: 0
+                                        lng: geoPosition.coords.longitude }
                                 });
                                 console.log("EXITED");
                                 return _context14.abrupt('return');
@@ -1794,14 +1796,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // generate the geo map for the project evaluation
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
                                     'mapType': plugin.google.maps.MapTypeId.ROADMAP,
-                                    'camera': {
+                                    'camera': (_camera = {
                                         target: {
                                             lat: geoPosition.coords.latitude,
                                             lng: geoPosition.coords.longitude
                                         },
                                         tilt: 90,
-                                        zoom: 20
-                                    },
+                                        zoom: 20,
+                                        'compass': false,
+                                        'myLocationButton': false,
+                                        'myLocation': false,
+                                        'indoorPicker': false
+                                    }, _defineProperty(_camera, 'zoom', false), _defineProperty(_camera, 'mapToolbar', false), _camera),
                                     'preferences': {
                                         'zoom': {
                                             'minZoom': 20,
@@ -1819,6 +1825,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
                                     // flag an internal property that indicates the the map is ready to be used
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;
+                                    // disable the ability to click on the map
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setClickable(false);
                                     console.log("MAP READY");
                                 });
                                 _context14.next = 39;

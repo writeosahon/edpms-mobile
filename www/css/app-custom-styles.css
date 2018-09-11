@@ -208,8 +208,8 @@
     left: 15px !important;
 }
 /** STYLE FOR THE MAP ELEMENTS ON PAGE **/
-html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__background,
-html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__content { /** make entire app page background transparent **/
+html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__background:not(#side-menu-page),
+html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material__content:not(#side-menu-page) { /** make entire app page background transparent **/
     background-color: transparent !important;
     background: transparent !important;
 }
