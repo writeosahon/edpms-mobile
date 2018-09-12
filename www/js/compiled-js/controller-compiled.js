@@ -1837,8 +1837,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady = true;
                                     // disable the ability to click on the map
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setClickable(false);
+
                                     // add a marker to identify the project's location on the map
-                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.addMarker({
+                                    var projectMarker = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.addMarker({
                                         position: {
                                             "lat": utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition.coords.latitude,
                                             "lng": utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition.coords.longitude
@@ -1847,6 +1848,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         'title': $('#app-main-navigator').get(0).topPage.data.projectData.TITLE.toLocaleUpperCase(),
                                         animation: plugin.google.maps.Animation.BOUNCE
                                     });
+                                    // display marker info window
+                                    projectMarker.showInfoWindow();
                                     console.log("MAP READY");
                                 });
                                 _context14.next = 40;
