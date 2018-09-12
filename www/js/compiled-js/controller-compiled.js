@@ -1158,7 +1158,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 "$eq": projectData.PROJECTID
                                             }
                                         },
-                                        sort: ['BOQID']
+                                        sort: ['BOQID'],
+                                        use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
+
                                     });
 
                                 case 12:
