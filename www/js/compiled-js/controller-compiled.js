@@ -1138,7 +1138,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     _context10.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
-                                            "BOQID": {
+                                            "_id": {
                                                 "$gte": null
                                             },
                                             "TYPE": {
@@ -1148,7 +1148,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 "$eq": projectData.PROJECTID
                                             }
                                         },
-                                        sort: ['BOQID']
+                                        sort: ['_id']
                                     });
 
                                 case 10:
