@@ -107,6 +107,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     name: 'FIND_PROJECT_BY_ID_INDEX',
                                     ddoc: 'ptracker-index-designdoc'
                                 }
+                            }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                index: {
+                                    fields: ['PROJECTID', 'TYPE', 'BOQID'],
+                                    name: 'FIND_BOQ_BY_ID_INDEX',
+                                    ddoc: 'ptracker-index-designdoc'
+                                }
                             })]);
 
                         case 13:
@@ -1158,8 +1164,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             },
                                             "TYPE": {
                                                 "$eq": "BOQ"
-                                            } },
-                                        use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                                            },
+                                            "BOQID": {
+                                                "$gt": null
+                                            }
+                                        },
+                                        sort: [{ "BOQID": "asc" }],
+                                        use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
                                     });
 
                                 case 10:
@@ -1196,7 +1207,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project remarks textarea
-                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 3em; margin-left: 10%;\n                        margin-right: 10%; border: 0; border: 1px #00D5C3"></textarea>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 3em; margin-left: 10%;\n                        margin-right: 10%; border: none; border: 2px #00D5C3 solid"></textarea>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
