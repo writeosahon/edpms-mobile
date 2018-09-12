@@ -95,30 +95,51 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                         case 11:
-                            _context.next = 16;
-                            break;
+                            _context.next = 13;
+                            return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                index: {
+                                    fields: ['TYPE'],
+                                    name: 'DOC_TYPE_INDEX',
+                                    ddoc: 'ptracker-index-designdoc'
+                                } }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                index: {
+                                    fields: ['PROJECTID', 'TYPE'],
+                                    name: 'FIND_PROJECT_BY_ID_INDEX',
+                                    ddoc: 'ptracker-index-designdoc'
+                                }
+                            }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                index: {
+                                    fields: ['BOQID'],
+                                    name: 'FIND_BOQ_BY_ID_INDEX',
+                                    ddoc: 'ptracker-index-designdoc'
+                                }
+                            })]);
 
                         case 13:
-                            _context.prev = 13;
+                            _context.next = 18;
+                            break;
+
+                        case 15:
+                            _context.prev = 15;
                             _context.t0 = _context['catch'](5);
 
                             console.log("ERROR");
 
-                        case 16:
-                            _context.prev = 16;
+                        case 18:
+                            _context.prev = 18;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(16);
+                            return _context.finish(18);
 
-                        case 21:
+                        case 23:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[5, 13, 16, 21]]);
+            }, _callee, this, [[5, 15, 18, 23]]);
         }))); // end of ons.ready()
     },
 
@@ -615,8 +636,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "projects"
                                             } },
-                                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
-                                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
                                 case 21:
@@ -683,8 +704,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "BOQ"
                                             } },
-                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"]
-                                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
+                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
                                 case 38:
@@ -940,8 +961,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         "TYPE": {
                                             "$eq": "projects"
                                         } },
-                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
-                                    // use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
                             case 9:
@@ -1136,20 +1157,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
                                     _context10.prev = 7;
                                     _context10.next = 10;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
-                                        index: {
-                                            fields: ['BOQID'],
-                                            name: 'FIND_BOQ_BY_ID_INDEX',
-                                            ddoc: 'ptracker-index-designdoc'
-                                        }
-                                    });
-
-                                case 10:
-                                    _context10.next = 12;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
-                                                "$gte": null
+                                                "$exists": true
                                             },
                                             "TYPE": {
                                                 "$eq": "BOQ"
@@ -1158,24 +1169,28 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 "$eq": projectData.PROJECTID
                                             }
                                         },
-                                        sort: ['BOQID'],
                                         use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
 
                                     });
 
-                                case 12:
+                                case 10:
                                     dbQueryResult = _context10.sent;
 
                                     if (!(dbQueryResult.docs.length == 0)) {
-                                        _context10.next = 15;
+                                        _context10.next = 13;
                                         break;
                                     }
 
                                     throw "error";
 
-                                case 15:
+                                case 13:
 
                                     // if the code gets to this point, milestones were returned
+                                    // sort the returned milestones array
+                                    dbQueryResult.docs.sort(function (firstElem, secondElement) {
+                                        return window.parseInt(firstElem.BOQID) - window.parseInt(secondElement.BOQID);
+                                    });
+
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
                                     // create the evaluation carousel item based on the milestones retrieved
@@ -1293,11 +1308,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context10.next = 38;
+                                    _context10.next = 37;
                                     break;
 
-                                case 31:
-                                    _context10.prev = 31;
+                                case 30:
+                                    _context10.prev = 30;
                                     _context10.t0 = _context10['catch'](7);
 
                                     console.log("ERROR 1 ", _context10.t0);
@@ -1309,19 +1324,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 38:
-                                    _context10.prev = 38;
+                                case 37:
+                                    _context10.prev = 37;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(38);
+                                    return _context10.finish(37);
 
-                                case 41:
+                                case 40:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 31, 38, 41]]);
+                    }, _callee10, this, [[7, 30, 37, 40]]);
                 }));
 
                 return function loadPageOnAppReady() {
