@@ -109,7 +109,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
-                                    fields: ['BOQID', 'PROJECTID', 'TYPE'],
+                                    fields: ['BOQID', 'PROJECTID', 'TYPE', "_id"],
                                     name: 'FIND_BOQ_BY_ID_INDEX',
                                     ddoc: 'ptracker-index-designdoc'
                                 }
@@ -1160,15 +1160,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
-                                                "$exists": true
+                                                "$gte": null
                                             },
                                             "PROJECTID": {
                                                 "$eq": projectData.PROJECTID
                                             },
                                             "TYPE": {
                                                 "$eq": "BOQ"
+                                            },
+                                            "_id:": {
+                                                "$gte": null
                                             }
                                         },
+                                        sort: ['BOQID', 'PROJECTID', 'TYPE', "_id"],
                                         fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
                                         use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
                                     });
