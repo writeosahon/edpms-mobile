@@ -899,7 +899,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // search the app database for milestones using the project id provided
                     let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
-                            "BOQID": {
+                            "_id": {
                                 "$gte": null
                             },
                             "TYPE": {
@@ -907,12 +907,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             },
                             "PROJECTID": {
                                 "$eq": projectData.PROJECTID
-                            },
-                            "_id:": {
-                                "$gte": null
-                            },
+                            }
                         },
-                        sort: ['BOQID']
+                        sort: ['_id']
                     });
 
                     // check if any milestones were returned
