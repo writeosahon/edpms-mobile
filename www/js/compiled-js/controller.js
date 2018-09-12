@@ -900,7 +900,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
                             "BOQID": {
-                                "$gt": null
+                                "$exists": true
                             },
                             "PROJECTID": {
                                 "$eq": projectData.PROJECTID
@@ -910,6 +910,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             }
                         },
                         sort: [{"BOQID": "asc"}],
+                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
                         use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
                     });
 
@@ -1161,6 +1162,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "inline-block");
                 }
                 catch (e) {
+                    console.log("ERROR 1 ", e);
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
                     // hide the items that are not to be displayed

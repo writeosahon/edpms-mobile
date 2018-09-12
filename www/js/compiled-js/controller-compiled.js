@@ -1160,7 +1160,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
-                                                "$gt": null
+                                                "$exists": true
                                             },
                                             "PROJECTID": {
                                                 "$eq": projectData.PROJECTID
@@ -1170,6 +1170,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             }
                                         },
                                         sort: [{ "BOQID": "asc" }],
+                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
                                         use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
                                     });
 
@@ -1303,13 +1304,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context10.next = 35;
+                                    _context10.next = 36;
                                     break;
 
                                 case 29:
                                     _context10.prev = 29;
                                     _context10.t0 = _context10['catch'](7);
 
+                                    console.log("ERROR 1 ", _context10.t0);
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
@@ -1318,19 +1320,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 35:
-                                    _context10.prev = 35;
+                                case 36:
+                                    _context10.prev = 36;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(35);
+                                    return _context10.finish(36);
 
-                                case 38:
+                                case 39:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 29, 35, 38]]);
+                    }, _callee10, this, [[7, 29, 36, 39]]);
                 }));
 
                 return function loadPageOnAppReady() {
