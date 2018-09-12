@@ -1169,7 +1169,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 "$eq": "BOQ"
                                             }
                                         },
-                                        sort: [{ "BOQID:string": "asc" }, { "PROJECTID:string": "asc" }, { "TYPE:string": "asc" }],
                                         fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
                                         use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
                                     });
