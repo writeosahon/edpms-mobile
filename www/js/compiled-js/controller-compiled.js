@@ -109,7 +109,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
-                                    fields: ['PROJECTID', 'TYPE', 'BOQID'],
+                                    fields: ['BOQID', 'PROJECTID', 'TYPE'],
                                     name: 'FIND_BOQ_BY_ID_INDEX',
                                     ddoc: 'ptracker-index-designdoc'
                                 }
@@ -1159,14 +1159,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     _context10.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
+                                            "BOQID": {
+                                                "$gt": null
+                                            },
                                             "PROJECTID": {
                                                 "$eq": projectData.PROJECTID
                                             },
                                             "TYPE": {
                                                 "$eq": "BOQ"
-                                            },
-                                            "BOQID": {
-                                                "$gt": null
                                             }
                                         },
                                         sort: [{ "BOQID": "asc" }],
@@ -1379,7 +1379,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         pageDestroy: function pageDestroy() {
             // destroy the pictures Viewer widget instance
-            utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
+            if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer) {
+                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.destroy();
+            }
             // reset other object properties
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = null;
             utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls = [null];

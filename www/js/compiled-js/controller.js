@@ -103,7 +103,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }),
                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                         index: {
-                            fields: ['PROJECTID', 'TYPE', 'BOQID'],
+                            fields: ['BOQID', 'PROJECTID', 'TYPE'],
                             name: 'FIND_BOQ_BY_ID_INDEX',
                             ddoc: 'ptracker-index-designdoc'
                         }
@@ -899,14 +899,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // search the app database for milestones using the project id provided
                     let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
+                            "BOQID": {
+                                "$gt": null
+                            },
                             "PROJECTID": {
                                 "$eq": projectData.PROJECTID
                             },
                             "TYPE": {
                                 "$eq": "BOQ"
-                            },
-                            "BOQID": {
-                                "$gt": null
                             }
                         },
                         sort: [{"BOQID": "asc"}],
@@ -1217,8 +1217,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         pageDestroy: function(){
             // destroy the pictures Viewer widget instance
+            if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.pictureViewer){
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.pictureViewer.destroy();
+            }
             // reset other object properties
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones = null;
