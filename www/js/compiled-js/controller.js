@@ -1036,6 +1036,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
+                    // append the carousel content used for displaying project remarks textarea
+                    carouselContent = `
+                    <ons-carousel-item style="overflow-y: auto">
+                        <textarea id="project-evaluation-remarks" spellcheck="true" 
+                        style="width: 80%; height: 3em; margin-left: 10%;
+                        margin-right: 10%; border: 0; border: 1px #00D5C3"></textarea>
+                    </ons-carousel-item>`;
+                    // append the generated carousel content to the project evaluation carousel
+                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').
                     each(function(index, element){
@@ -1510,7 +1520,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     // hide circular progress display
                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
-                    
+
                     // animate the map camera
                     await new Promise(function(resolve, reject){
                         utopiasoftware[utopiasoftware_app_namespace].controller.
@@ -1541,7 +1551,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // display marker info window
                     projectMarker.showInfoWindow();
 
-console.log("EXITED");
                     return; // exit method
                 }
 
@@ -1581,8 +1590,6 @@ console.log("EXITED");
                     }
                 });
 
-                console.log('HEADING', geoPosition.coords.heading);
-
                 // listen for when the map object is successfully created
                 utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectEvaluationMap.one(plugin.google.maps.event.MAP_READY, function() {
@@ -1610,7 +1617,6 @@ console.log("EXITED");
                     });
                     // display marker info window
                     projectMarker.showInfoWindow();
-                    console.log("MAP READY");
                 });
             }
             catch(err){

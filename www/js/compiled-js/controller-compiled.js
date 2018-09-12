@@ -1195,6 +1195,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
+                                    // append the carousel content used for displaying project remarks textarea
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 3em; margin-left: 10%;\n                        margin-right: 10%; border: 0; border: 1px #00D5C3"></textarea>\n                    </ons-carousel-item>';
+                                    // append the generated carousel content to the project evaluation carousel
+                                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+
                                     // create the project evaluation slider elements
                                     $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
                                         element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
@@ -1287,11 +1292,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context10.next = 33;
+                                    _context10.next = 35;
                                     break;
 
-                                case 27:
-                                    _context10.prev = 27;
+                                case 29:
+                                    _context10.prev = 29;
                                     _context10.t0 = _context10['catch'](7);
 
                                     // hide the page preloader
@@ -1302,19 +1307,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 33:
-                                    _context10.prev = 33;
+                                case 35:
+                                    _context10.prev = 35;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(33);
+                                    return _context10.finish(35);
 
-                                case 36:
+                                case 38:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 27, 33, 36]]);
+                    }, _callee10, this, [[7, 29, 35, 38]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -1775,7 +1780,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if Map already exists and is ready to be used
 
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true)) {
-                                    _context14.next = 37;
+                                    _context14.next = 36;
                                     break;
                                 }
 
@@ -1818,10 +1823,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 projectMarker.showInfoWindow();
 
-                                console.log("EXITED");
                                 return _context14.abrupt('return');
 
-                            case 37:
+                            case 36:
 
                                 // generate the geo map for the project evaluation
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
@@ -1857,8 +1861,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                                console.log('HEADING', geoPosition.coords.heading);
-
                                 // listen for when the map object is successfully created
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.one(plugin.google.maps.event.MAP_READY, function () {
                                     // hide circular progress display
@@ -1880,13 +1882,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
                                     // display marker info window
                                     projectMarker.showInfoWindow();
-                                    console.log("MAP READY");
                                 });
-                                _context14.next = 45;
+                                _context14.next = 43;
                                 break;
 
-                            case 42:
-                                _context14.prev = 42;
+                            case 40:
+                                _context14.prev = 40;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1907,12 +1908,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 45:
+                            case 43:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 42]]);
+                }, _callee14, this, [[1, 40]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {
