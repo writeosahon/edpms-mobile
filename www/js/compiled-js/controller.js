@@ -912,8 +912,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "$gte": null
                             },
                         },
-                        sort: ['BOQID'],
-                        use_index: ["ptracker-index-designdoc", "FIND_BOQ_BY_ID_INDEX"]
+                        sort: ['BOQID']
                     });
 
                     // check if any milestones were returned
