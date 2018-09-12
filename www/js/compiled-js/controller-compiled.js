@@ -1684,7 +1684,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         getProjectGeoLocationButtonClicked: function () {
             var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-                var permissionStatuses, isGPSEnabled, geoPosition;
+                var permissionStatuses, isGPSEnabled, geoPosition, projectMarker;
                 return regeneratorRuntime.wrap(function _callee14$(_context14) {
                     while (1) {
                         switch (_context14.prev = _context14.next) {
@@ -1775,23 +1775,53 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if Map already exists and is ready to be used
 
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true)) {
-                                    _context14.next = 32;
+                                    _context14.next = 37;
                                     break;
                                 }
 
                                 // map has previously been created and is ready for use
-                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
-                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
-                                    target: { lat: geoPosition.coords.latitude,
-                                        lng: geoPosition.coords.longitude }
-                                });
+                                utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true); // make map visible
 
                                 // hide circular progress display
                                 $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
+
+                                // animate the map camera
+                                _context14.next = 31;
+                                return new Promise(function (resolve, reject) {
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
+                                        target: { lat: geoPosition.coords.latitude,
+                                            lng: geoPosition.coords.longitude }
+                                    }, function () {
+                                        resolve();
+                                    });
+                                });
+
+                            case 31:
+                                _context14.next = 33;
+                                return new Promise(function (resolve, reject) {
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.clear(function () {
+                                        resolve();
+                                    });
+                                });
+
+                            case 33:
+                                projectMarker = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.addMarker({
+                                    position: {
+                                        "lat": utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition.coords.latitude,
+                                        "lng": utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition.coords.longitude
+                                    },
+                                    icon: '#00D5C3',
+                                    'title': $('#app-main-navigator').get(0).topPage.data.projectData.TITLE.toLocaleUpperCase(),
+                                    animation: plugin.google.maps.Animation.BOUNCE
+                                });
+                                // display marker info window
+
+                                projectMarker.showInfoWindow();
+
                                 console.log("EXITED");
                                 return _context14.abrupt('return');
 
-                            case 32:
+                            case 37:
 
                                 // generate the geo map for the project evaluation
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap = plugin.google.maps.Map.getMap($('#project-evaluation-page #project-evaluation-map').get(0), {
@@ -1852,11 +1882,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectMarker.showInfoWindow();
                                     console.log("MAP READY");
                                 });
-                                _context14.next = 40;
+                                _context14.next = 45;
                                 break;
 
-                            case 37:
-                                _context14.prev = 37;
+                            case 42:
+                                _context14.prev = 42;
                                 _context14.t0 = _context14['catch'](1);
 
                                 // inform the user of the error
@@ -1877,12 +1907,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 40:
+                            case 45:
                             case 'end':
                                 return _context14.stop();
                         }
                     }
-                }, _callee14, this, [[1, 37]]);
+                }, _callee14, this, [[1, 42]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {

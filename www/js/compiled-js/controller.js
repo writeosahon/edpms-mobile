@@ -1503,17 +1503,44 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     projectEvaluationPageViewModel.projectEvaluationMap &&
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true){
+
                     // map has previously been created and is ready for use
                     utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
-                    utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
-                        target: {lat: geoPosition.coords.latitude,
-                            lng: geoPosition.coords.longitude}
-                    });
+                        projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true); // make map visible
 
                     // hide circular progress display
                     $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
+                    
+                    // animate the map camera
+                    await new Promise(function(resolve, reject){
+                        utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
+                            target: {lat: geoPosition.coords.latitude,
+                                lng: geoPosition.coords.longitude}
+                        }, function(){resolve();});
+                    });
+
+                    // clear all previous content displayed on the map
+                    await new Promise(function(resolve, reject){
+                        utopiasoftware[utopiasoftware_app_namespace].controller.
+                            projectEvaluationPageViewModel.projectEvaluationMap.clear(function(){resolve()});
+                    });
+
+                    let projectMarker = utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectEvaluationMap.addMarker({
+                        position: {
+                            "lat": utopiasoftware[utopiasoftware_app_namespace].controller.
+                                projectEvaluationPageViewModel.projectGeoPosition.coords.latitude,
+                            "lng": utopiasoftware[utopiasoftware_app_namespace].controller.
+                                projectEvaluationPageViewModel.projectGeoPosition.coords.longitude
+                        },
+                        icon: '#00D5C3',
+                        'title': $('#app-main-navigator').get(0).topPage.data.projectData.TITLE.toLocaleUpperCase(),
+                        animation: plugin.google.maps.Animation.BOUNCE
+                    });
+                    // display marker info window
+                    projectMarker.showInfoWindow();
+
 console.log("EXITED");
                     return; // exit method
                 }
