@@ -896,10 +896,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
 
                 try{
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                        index: {
+                            fields: ['BOQID'],
+                            name: 'FIND_BOQ_BY_ID_INDEX',
+                            ddoc: 'ptracker-index-designdoc'
+                        }
+                    });
                     // search the app database for milestones using the project id provided
                     let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
-                            "_id": {
+                            "BOQID": {
                                 "$gte": null
                             },
                             "TYPE": {
@@ -909,7 +916,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "$eq": projectData.PROJECTID
                             }
                         },
-                        sort: ['_id']
+                        sort: ['BOQID']
                     });//todo
 
                     // check if any milestones were returned

@@ -1136,9 +1136,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
                                     _context10.prev = 7;
                                     _context10.next = 10;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                                        index: {
+                                            fields: ['BOQID'],
+                                            name: 'FIND_BOQ_BY_ID_INDEX',
+                                            ddoc: 'ptracker-index-designdoc'
+                                        }
+                                    });
+
+                                case 10:
+                                    _context10.next = 12;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
-                                            "_id": {
+                                            "BOQID": {
                                                 "$gte": null
                                             },
                                             "TYPE": {
@@ -1148,20 +1158,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 "$eq": projectData.PROJECTID
                                             }
                                         },
-                                        sort: ['_id']
+                                        sort: ['BOQID']
                                     });
 
-                                case 10:
+                                case 12:
                                     dbQueryResult = _context10.sent;
 
                                     if (!(dbQueryResult.docs.length == 0)) {
-                                        _context10.next = 13;
+                                        _context10.next = 15;
                                         break;
                                     }
 
                                     throw "error";
 
-                                case 13:
+                                case 15:
 
                                     // if the code gets to this point, milestones were returned
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
@@ -1281,11 +1291,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context10.next = 36;
+                                    _context10.next = 38;
                                     break;
 
-                                case 29:
-                                    _context10.prev = 29;
+                                case 31:
+                                    _context10.prev = 31;
                                     _context10.t0 = _context10['catch'](7);
 
                                     console.log("ERROR 1 ", _context10.t0);
@@ -1297,19 +1307,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 36:
-                                    _context10.prev = 36;
+                                case 38:
+                                    _context10.prev = 38;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(36);
+                                    return _context10.finish(38);
 
-                                case 39:
+                                case 41:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 29, 36, 39]]);
+                    }, _callee10, this, [[7, 31, 38, 41]]);
                 }));
 
                 return function loadPageOnAppReady() {
