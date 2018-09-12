@@ -95,51 +95,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                         case 11:
-                            _context.next = 13;
-                            return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
-                                index: {
-                                    fields: ['TYPE'],
-                                    name: 'DOC_TYPE_INDEX',
-                                    ddoc: 'ptracker-index-designdoc'
-                                } }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
-                                index: {
-                                    fields: ['PROJECTID', 'TYPE'],
-                                    name: 'FIND_PROJECT_BY_ID_INDEX',
-                                    ddoc: 'ptracker-index-designdoc'
-                                }
-                            }), utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
-                                index: {
-                                    fields: ['BOQID'],
-                                    name: 'FIND_BOQ_BY_ID_INDEX',
-                                    ddoc: 'ptracker-index-designdoc'
-                                }
-                            })]);
-
-                        case 13:
-                            _context.next = 18;
+                            _context.next = 16;
                             break;
 
-                        case 15:
-                            _context.prev = 15;
+                        case 13:
+                            _context.prev = 13;
                             _context.t0 = _context['catch'](5);
 
                             console.log("ERROR");
 
-                        case 18:
-                            _context.prev = 18;
+                        case 16:
+                            _context.prev = 16;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(18);
+                            return _context.finish(16);
 
-                        case 23:
+                        case 21:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[5, 15, 18, 23]]);
+            }, _callee, this, [[5, 13, 16, 21]]);
         }))); // end of ons.ready()
     },
 
@@ -636,8 +615,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "projects"
                                             } },
-                                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
-                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
+                                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
                                 case 21:
@@ -704,8 +683,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             "TYPE": {
                                                 "$eq": "BOQ"
                                             } },
-                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
-                                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                        fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"]
+                                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                     });
 
                                 case 38:
@@ -961,8 +940,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         "TYPE": {
                                             "$eq": "projects"
                                         } },
-                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
-                                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
+                                    // use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 
                             case 9:

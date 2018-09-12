@@ -88,7 +88,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
 
                 // create the database indexes used by the app
-                await Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
+                /*await Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                     index: {
                         fields: ['TYPE'],
                         name: 'DOC_TYPE_INDEX',
@@ -107,7 +107,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             name: 'FIND_BOQ_BY_ID_INDEX',
                             ddoc: 'ptracker-index-designdoc'
                         }
-                    })]);
+                    })]);*/
 
             }
             catch(err){
@@ -506,8 +506,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "projects"
                                 }},
-                            fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
-                            use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                            fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
+                            //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
                         // get all the returned projects and delete them
@@ -557,8 +557,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "BOQ"
                                 }},
-                            fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"],
-                            use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                            fields: ["_id", "_rev", "CATEGORY", "AMOUNT", "RATE", "PROJECTID", "DDATE", "BOQID", "TYPE"]
+                            //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
                         // get all the returned milestones and delete them
@@ -726,8 +726,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         "TYPE": {
                           "$eq": "projects"
                         }},
-                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
-                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"]
+                   // use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                 });
 
                 // check that the requested project was found
@@ -910,7 +910,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             }
                         },
                         sort: ['_id']
-                    });
+                    });//todo
 
                     // check if any milestones were returned
                     if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
