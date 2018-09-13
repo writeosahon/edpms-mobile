@@ -2105,7 +2105,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if (carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the user is on the picture capture carousel index
                 {
                     // loop through the photos for the project and check if all project photos have been taken
-                    for (var index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls.length; index++) {
+                    for (var index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls.length && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls.length > 1; index++) {
+
                         // check if the photo in this index has been taken OR not
                         if (!utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[index]) {
 

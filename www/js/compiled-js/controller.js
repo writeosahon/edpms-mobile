@@ -1804,7 +1804,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             {
                 // loop through the photos for the project and check if all project photos have been taken
                 for(let index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectPicturesUrls.length; index++){
+                    projectEvaluationPageViewModel.projectPicturesUrls.length &&
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectPicturesUrls.length > 1; index++){
+
                     // check if the photo in this index has been taken OR not
                     if(!utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectPicturesUrls[index]){
