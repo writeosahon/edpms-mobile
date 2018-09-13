@@ -1955,7 +1955,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             console.log("REPORT", projectEvaluationReportData);
             // hide loader
-            $('#loader-modal').get(0).show();
+            $('#loader-modal').get(0).hide();
 
         }
 
