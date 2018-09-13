@@ -1055,6 +1055,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             style="position: relative; display: none; top: 65px; text-align: center">
                                 <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>
                             </div>
+                            <div id="project-evaluation-gps-location-tag" style="color: #ffffff; 
+                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; 
+                            background-color: rgba(0,213,195,0.90); padding: 0.6em; border-radius: 25%; 
+                            min-width: 50%; max-width: 90%; position: relative; bottom: 2px; text-align: center; 
+                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            Location:
+                            </div>
                         </div>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
@@ -1064,8 +1071,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     carouselContent = `
                     <ons-carousel-item style="overflow-y: auto">
                         <textarea id="project-evaluation-remarks" spellcheck="true" 
-                        style="width: 80%; height: 2em; margin-left: 10%;
-                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid"></textarea>
+                        style="width: 80%; height: 4em; margin-left: 10%;
+                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; 
+                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid"></textarea>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
@@ -1093,12 +1101,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             },
                             changed: function(changedEvent){
                                 // update the milestone current value based on changes in the slider
-                                $('.project-evaluation-milestone-current-value', $(element).parents('ons-card'))
+                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card'))
                                     .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
                                     ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2")}`);
                             }
                         });
                         aSlider.appendTo(element);
+                        element._ptracker_slider = aSlider;
                     });
 
                     // create the Viewer widget used to view the project evaluation photos
@@ -1255,6 +1264,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 projectEvaluationPageViewModel.projectEvaluationMap = null;
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectGeoPosition = null;
+
+            // destroy slider widgets created
+            $('#project-evaluation-page .project-evaluation-slider').
+            each(function(index, element){
+                // destroy the slider widget attached to this element
+                element._ptracker_slider.destroy();
+                element._ptracker_slider = null;
+            });
         },
 
 
@@ -1541,6 +1558,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // make the app background transparent, so the map can show
                 $('html, body').addClass('utopiasoftware-transparent');
 
+                // update the location tag info displayed at the bottom of screen
+                $('#project-evaluation-page #project-evaluation-gps-location-tag').
+                    html(`Location: ${geoPosition.coords.latitude},${geoPosition.coords.longitude}`);
+
                 // check if Map already exists and is ready to be used
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectEvaluationMap &&
@@ -1826,8 +1847,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }
 
                 // loop through the photos for the project and check if all project photos have been taken
-                for(let index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectPicturesUrls.length; index++){
+                for(let index = 1; index < 4; index++){
 
                     // check if the photo in this index has been taken OR not
                     if(!utopiasoftware[utopiasoftware_app_namespace].controller.
@@ -1885,6 +1905,58 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // ALL VALIDATION SUCCESSFUL. Move to the next carousel item
             carousel.next();
+        },
+
+        /**
+         * method is triggered when the "Save Report" Button is clicked
+         */
+        async saveReportButtonClicked(){
+
+            // inform the user that saving report is taking place
+            $('#loader-modal-message').html("Saving Report...");
+            $('#loader-modal').get(0).show(); // show loader
+
+            // collect all data to be saved
+            var projectEvaluationReportData = {milestonesEvaluations: []}; // variable holds the project evaluation report data
+            // get the jQuery collection of sliders
+            var jQuerySliderElements = $('#project-evaluation-page .project-evaluation-slider');
+
+            // get the score of all milestones evaluated
+            for(let index = 0; index < utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectMilestones.length; index++){
+                let milestoneEvaluation = {milestoneId: utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectMilestones[index].BOQID,
+                milestoneTitle: utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectMilestones[index].CATEGORY,
+                milestoneScore: jQuerySliderElements.eq(index).get(0)._ptracker_slider.value};
+
+                // add the milestoneEvaluation data to the collection
+                projectEvaluationReportData.milestonesEvaluations.push(milestoneEvaluation);
+            }
+
+            // attach the project data to the project evaluation report data
+            projectEvaluationReportData.projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
+            // attach the project evalution report's geo location
+            projectEvaluationReportData.projectGeoPosition = utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectGeoPosition;
+            // attach the projection evalution report's additional remarks
+            projectEvaluationReportData.reportRemarks = $('#project-evaluation-page #project-evaluation-remarks').val().trim();
+
+            // create a unique report title/id for the evaluation report
+            let dateStamp = new Date();
+            projectEvaluationReportData.title = `${projectEvaluationReportData.projectData.PROJECTID}-Report-${dateStamp.getTime()}`;
+            // add other metadata to the evaluation report
+            projectEvaluationReportData.dateStamp = dateStamp.getTime();
+            projectEvaluationReportData.sortingDate = [kendo.toString(dateStamp, "yyyy"), kendo.toString(dateStamp, "MM"),
+                kendo.toString(dateStamp, "dd"), kendo.toString(dateStamp, "HH"), kendo.toString(dateStamp, "mm")];
+            projectEvaluationReportData.evaluatedBy = utopiasoftware[utopiasoftware_app_namespace].model.userDetails.
+                                                        userDetails.username;
+            projectEvaluationReportData.TYPE = "saved report";
+
+            console.log("REPORT", projectEvaluationReportData);
+            // hide loader
+            $('#loader-modal').get(0).show();
+
         }
 
     }
