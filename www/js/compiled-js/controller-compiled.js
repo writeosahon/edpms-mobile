@@ -1,5 +1,7 @@
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /**
@@ -1215,12 +1217,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                            <div id="project-evaluation-gps-progress" \n                            style="position: relative; display: none; top: 65px; text-align: center">\n                                <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>\n                            </div>\n                            <div id="project-evaluation-gps-location-tag" style="color: #ffffff; \n                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; \n                            background-color: rgba(0,213,195,0.90); padding: 0.6em; border-radius: 25%; \n                            min-width: 50%; max-width: 90%; position: relative; bottom: 2px; text-align: center; \n                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">\n                            Location:\n                            </div>\n                        </div>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                            <div id="project-evaluation-gps-progress" \n                            style="position: relative; display: none; top: 65px; text-align: center">\n                                <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>\n                            </div>\n                            <div id="project-evaluation-gps-location-tag" style="color: #ffffff; \n                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; \n                            background-color: rgba(0,213,195,0.90); padding: 0.6em; border-radius: 5px; \n                            min-width: 50%; max-width: 90%; position: absolute; bottom: 2px; display: inline-block; \n                            margin-left: auto; margin-right: auto; \n                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Location:</div>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project remarks textarea
-                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 4em; margin-left: 10%;\n                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; \n                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid"></textarea>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 4em; margin-left: 10%;\n                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; \n                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid; \n                        background-color: transparent;"></textarea>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1930,16 +1932,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display marker info window
                                     projectMarker.showInfoWindow();
                                 });
-                                _context14.next = 44;
+                                _context14.next = 45;
                                 break;
 
                             case 41:
                                 _context14.prev = 41;
                                 _context14.t0 = _context14['catch'](1);
 
+                                console.log("L ERROR TYPE ", typeof _context14.t0 === 'undefined' ? 'undefined' : _typeof(_context14.t0));
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
-                                    message: "Location Capture Failed - " + (typeof _context14.t0 === "string" ? _context14.t0 : _context14.t0.message),
+                                    message: "Location Capture Failed - " + (_context14.t0.message || _context14.t0),
                                     duration: 4000,
                                     position: "top",
                                     styling: {
@@ -1955,7 +1958,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 44:
+                            case 45:
                             case 'end':
                                 return _context14.stop();
                         }
@@ -2252,7 +2255,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 console.log("REPORT", projectEvaluationReportData);
                                 // hide loader
-                                $('#loader-modal').get(0).show();
+                                $('#loader-modal').get(0).hide();
 
                             case 16:
                             case 'end':
