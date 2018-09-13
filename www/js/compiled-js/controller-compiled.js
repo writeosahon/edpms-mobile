@@ -1053,6 +1053,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked: function backButtonClicked() {
+
+            // check if the side menu is open
+            if ($('ons-splitter').get(0).right.isOpen) {
+                // side menu open, so close it
+                $('ons-splitter').get(0).right.close();
+                return; // exit the method
+            }
+
             ons.notification.confirm('Do you want to close the app?', { title: 'Exit App',
                 buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' }) // Ask for confirmation
             .then(function (index) {
@@ -1212,7 +1220,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project remarks textarea
-                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 3em; margin-left: 10%;\n                        margin-right: 10%; border: none; border: 2px #00D5C3 solid"></textarea>\n                    </ons-carousel-item>';
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 2em; margin-left: 10%;\n                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid"></textarea>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1308,14 +1316,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context10.next = 37;
+                                    _context10.next = 36;
                                     break;
 
                                 case 30:
                                     _context10.prev = 30;
                                     _context10.t0 = _context10['catch'](7);
 
-                                    console.log("ERROR 1 ", _context10.t0);
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
@@ -1324,19 +1331,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 37:
-                                    _context10.prev = 37;
+                                case 36:
+                                    _context10.prev = 36;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context10.finish(37);
+                                    return _context10.finish(36);
 
-                                case 40:
+                                case 39:
                                 case 'end':
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[7, 30, 37, 40]]);
+                    }, _callee10, this, [[7, 30, 36, 39]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -1412,8 +1419,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context11.prev = _context11.next) {
                             case 0:
-                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing === true)) {
+                                if (!$('ons-splitter').get(0).right.isOpen) {
                                     _context11.next = 3;
+                                    break;
+                                }
+
+                                // side menu open, so close it
+                                $('ons-splitter').get(0).right.close();
+                                return _context11.abrupt('return');
+
+                            case 3:
+                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing === true)) {
+                                    _context11.next = 6;
                                     break;
                                 }
 
@@ -1422,34 +1439,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.hide();
                                 return _context11.abrupt('return');
 
-                            case 3:
+                            case 6:
                                 if (!( // update the project evaluation started flag to indicate evaluation has started
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted === true)) {
-                                    _context11.next = 9;
+                                    _context11.next = 12;
                                     break;
                                 }
 
-                                _context11.next = 6;
+                                _context11.next = 9;
                                 return ons.notification.confirm('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
                                     messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 6:
+                            case 9:
                                 leaveProjectEvaluation = _context11.sent;
 
                                 if (!(leaveProjectEvaluation == 0)) {
-                                    _context11.next = 9;
+                                    _context11.next = 12;
                                     break;
                                 }
 
                                 return _context11.abrupt('return');
 
-                            case 9:
+                            case 12:
 
                                 // move to the project evaluation page
                                 $('#app-main-navigator').get(0).popPage();
 
-                            case 10:
+                            case 13:
                             case 'end':
                                 return _context11.stop();
                         }
@@ -1947,82 +1964,126 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "project evaluation carousel" is changed
          * @param event
          */
-        carouselChanged: function carouselChanged(event) {
-            // change the css display the prev fab button
-            $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
-            // REMOVE the app background transparency, map np longer showing
-            $('html, body').removeClass('utopiasoftware-transparent');
+        carouselChanged: function () {
+            var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(event) {
+                return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                    while (1) {
+                        switch (_context15.prev = _context15.next) {
+                            case 0:
+                                // change the css display the prev fab button
+                                $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
+                                // hide the bottom toolbar of the page
+                                $('#project-evaluation-page ons-bottom-toolbar').css("display", "none");
 
-            // update the stay of the the fab "prev" or "next" buttons
-            // check if the carousel is at the last item
-            if (event.originalEvent.activeIndex === event.originalEvent.carousel.itemCount - 1) {
-                // this is the last carousel item, so hide the next slide button
-                // hide the next fab button
-                $('#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(0)");
-            } else if (event.originalEvent.activeIndex === 0) {
-                // this is the first carousel item, so hide the prev slide button
-                // hide the prev fab button
-                $('#project-evaluation-page #project-evaluation-prev-button').css("transform", "scale(0)");
-            } else {
-                // this is not the first or last item
-                $('#project-evaluation-page #project-evaluation-prev-button,#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(1)");
+                                // REMOVE the app background transparency, map np longer showing
+                                $('html, body').removeClass('utopiasoftware-transparent');
+
+                                // update the stay of the the fab "prev" or "next" buttons
+                                // check if the carousel is at the last item
+                                if (event.originalEvent.activeIndex === event.originalEvent.carousel.itemCount - 1) {
+                                    // this is the last carousel item, so hide the next slide button
+                                    // hide the next fab button
+                                    $('#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(0)");
+                                } else if (event.originalEvent.activeIndex === 0) {
+                                    // this is the first carousel item, so hide the prev slide button
+                                    // hide the prev fab button
+                                    $('#project-evaluation-page #project-evaluation-prev-button').css("transform", "scale(0)");
+                                } else {
+                                    // this is not the first or last item
+                                    $('#project-evaluation-page #project-evaluation-prev-button,#project-evaluation-page #project-evaluation-next-button').css("transform", "scale(1)");
+                                }
+
+                                // update the primary instruction and the milestone badge
+
+                                if (!(event.originalEvent.activeIndex < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length)) {
+                                    _context15.next = 8;
+                                    break;
+                                }
+
+                                // change the primary instructions
+                                $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
+                                // change the milestone number
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+                                return _context15.abrupt('return');
+
+                            case 8:
+                                if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length)) {
+                                    _context15.next = 13;
+                                    break;
+                                }
+
+                                // change the primary instructions
+                                $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project progress in photos');
+                                // change the milestone number
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
+
+                                // check if Map already exists and is ready to be used
+                                if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
+                                    // make the map invisible
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                                }
+
+                                return _context15.abrupt('return');
+
+                            case 13:
+                                if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1)) {
+                                    _context15.next = 18;
+                                    break;
+                                }
+
+                                // change the primary instructions
+                                $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project geographical location');
+                                // change the milestone number
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
+
+                                // check if Map already exists and is ready to be used
+                                if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
+                                    // make the app background transparent, so the map can show
+                                    $('html, body').addClass('utopiasoftware-transparent');
+                                    // make the map visible
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
+                                }
+                                return _context15.abrupt('return');
+
+                            case 18:
+                                if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2)) {
+                                    _context15.next = 26;
+                                    break;
+                                }
+
+                                // change the primary instructions
+                                $('#project-evaluation-page #project-evaluation-primary-instruction').html('Provide any remarks on the project evaluation (optional)');
+                                // change the milestone number
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks');
+
+                                // display the page toolbar
+                                _context15.next = 23;
+                                return Promise.resolve(kendo.fx($('#project-evaluation-page ons-bottom-toolbar')).slideIn("up").duration(150).play());
+
+                            case 23:
+                                $('#project-evaluation-page ons-bottom-toolbar').css("display", "block");
+
+                                // check if Map already exists and is ready to be used
+                                if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
+                                    // make the map invisible
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
+                                }
+                                return _context15.abrupt('return');
+
+                            case 26:
+                            case 'end':
+                                return _context15.stop();
+                        }
+                    }
+                }, _callee15, this);
+            }));
+
+            function carouselChanged(_x5) {
+                return _ref15.apply(this, arguments);
             }
 
-            // update the primary instruction and the milestone badge
-            if (event.originalEvent.activeIndex < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is less than the number of project milestones
-                {
-                    // change the primary instructions
-                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
-                    // change the milestone number
-                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
-                    return;
-                }
-            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the carousel active index is at the picture capture point
-                {
-                    // change the primary instructions
-                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project progress in photos');
-                    // change the milestone number
-                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
-
-                    // check if Map already exists and is ready to be used
-                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
-                        // make the map invisible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
-                    }
-
-                    return;
-                }
-            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1) // the carousel active index is at the geolocation capture point
-                {
-                    // change the primary instructions
-                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project geographical location');
-                    // change the milestone number
-                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
-
-                    // check if Map already exists and is ready to be used
-                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
-                        // make the app background transparent, so the map can show
-                        $('html, body').addClass('utopiasoftware-transparent');
-                        // make the map visible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
-                    }
-                    return;
-                }
-            if (event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2) // the carousel active index is at the project remarks point
-                {
-                    // change the primary instructions
-                    $('#project-evaluation-page #project-evaluation-primary-instruction').html('Provide any remarks on the project evaluation (optional)');
-                    // change the milestone number
-                    $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks');
-
-                    // check if Map already exists and is ready to be used
-                    if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
-                        // make the map invisible
-                        utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
-                    }
-                    return;
-                }
-        },
+            return carouselChanged;
+        }(),
 
 
         /**
@@ -2037,7 +2098,69 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "next button" for the carousel is clicked
          */
         nextButtonClicked: function nextButtonClicked() {
-            $('#project-evaluation-page #project-evaluation-carousel').get(0).next();
+            // get the carousel used for the project evaluation
+            var carousel = $('#project-evaluation-page #project-evaluation-carousel').get(0);
+
+            // check which carousel index the user is on
+            if (carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length) // the user is on the picture capture carousel index
+                {
+                    // loop through the photos for the project and check if all project photos have been taken
+                    for (var index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls.length; index++) {
+                        // check if the photo in this index has been taken OR not
+                        if (!utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[index]) {
+
+                            // inform the user of the error
+                            window.plugins.toast.showWithOptions({
+                                message: 'Picture ' + index + ' not captured for project evaluation. Please take photo',
+                                duration: 4000,
+                                position: "center",
+                                styling: {
+                                    opacity: 1,
+                                    backgroundColor: '#ff0000', //red
+                                    textColor: '#FFFFFF',
+                                    textSize: 14
+                                }
+                            }, function (toastEvent) {
+                                if (toastEvent && toastEvent.event == "touch") {
+                                    // user tapped the toast, so hide toast immediately
+                                    window.plugins.toast.hide();
+                                }
+                            });
+
+                            return; // exit method
+                        } // end of if
+                    } // end of for loop
+                }
+
+            if (carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1) // the user is on the project location capture carousel index
+                {
+                    // check if the photo in this index has been taken OR not
+                    if (!utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition) {
+
+                        // inform the user of validation error
+                        window.plugins.toast.showWithOptions({
+                            message: 'Project Location not captured for project evaluation. Please capture location',
+                            duration: 4000,
+                            position: "center",
+                            styling: {
+                                opacity: 1,
+                                backgroundColor: '#ff0000', //red
+                                textColor: '#FFFFFF',
+                                textSize: 14
+                            }
+                        }, function (toastEvent) {
+                            if (toastEvent && toastEvent.event == "touch") {
+                                // user tapped the toast, so hide toast immediately
+                                window.plugins.toast.hide();
+                            }
+                        });
+
+                        return; // exit method
+                    }
+                }
+
+            // ALL VALIDATION SUCCESSFUL. Move to the next carousel item
+            carousel.next();
         }
     }
 };

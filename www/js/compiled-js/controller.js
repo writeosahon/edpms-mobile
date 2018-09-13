@@ -790,6 +790,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked(){
+
+            // check if the side menu is open
+            if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
+                $('ons-splitter').get(0).right.close();
+                return; // exit the method
+            }
+
             ons.notification.confirm('Do you want to close the app?', {title: 'Exit App',
                 buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'}) // Ask for confirmation
                 .then(function(index) {
@@ -1057,8 +1064,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     carouselContent = `
                     <ons-carousel-item style="overflow-y: auto">
                         <textarea id="project-evaluation-remarks" spellcheck="true" 
-                        style="width: 80%; height: 3em; margin-left: 10%;
-                        margin-right: 10%; border: none; border: 2px #00D5C3 solid"></textarea>
+                        style="width: 80%; height: 2em; margin-left: 10%;
+                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid"></textarea>
                     </ons-carousel-item>`;
                     // append the generated carousel content to the project evaluation carousel
                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
@@ -1166,7 +1173,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "inline-block");
                 }
                 catch (e) {
-                    console.log("ERROR 1 ", e);
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
                     // hide the items that are not to be displayed
@@ -1256,6 +1262,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         async backButtonClicked(){
+
+            // check if the side menu is open
+            if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
+                $('ons-splitter').get(0).right.close();
+                return; // exit the method
+            }
 
             // check if the Picture Viewer widget is showing
             if(utopiasoftware[utopiasoftware_app_namespace].controller.
@@ -1664,9 +1676,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "project evaluation carousel" is changed
          * @param event
          */
-        carouselChanged(event){
+        async carouselChanged(event){
             // change the css display the prev fab button
             $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
+            // hide the bottom toolbar of the page
+            $('#project-evaluation-page ons-bottom-toolbar').css("display", "none");
+
             // REMOVE the app background transparency, map np longer showing
             $('html, body').removeClass('utopiasoftware-transparent');
 
@@ -1749,6 +1764,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // change the milestone number
                 $('#project-evaluation-page #project-evaluation-milestone-badge').html(`Project Evaluation Remarks`);
 
+                // display the page toolbar
+                await Promise.
+                resolve(kendo.fx($('#project-evaluation-page ons-bottom-toolbar')).slideIn("up").duration(150).play());
+                $('#project-evaluation-page ons-bottom-toolbar').css("display", "block");
+
                 // check if Map already exists and is ready to be used
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectEvaluationMap &&
@@ -1775,7 +1795,72 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "next button" for the carousel is clicked
          */
         nextButtonClicked(){
-            $('#project-evaluation-page #project-evaluation-carousel').get(0).next();
+            // get the carousel used for the project evaluation
+            var carousel = $('#project-evaluation-page #project-evaluation-carousel').get(0);
+
+            // check which carousel index the user is on
+            if(carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectMilestones.length) // the user is on the picture capture carousel index
+            {
+                // loop through the photos for the project and check if all project photos have been taken
+                for(let index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectPicturesUrls.length; index++){
+                    // check if the photo in this index has been taken OR not
+                    if(!utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectPicturesUrls[index]){
+
+                        // inform the user of the error
+                        window.plugins.toast.showWithOptions({
+                            message: `Picture ${index} not captured for project evaluation. Please take photo`,
+                            duration: 4000,
+                            position: "center",
+                            styling: {
+                                opacity: 1,
+                                backgroundColor: '#ff0000', //red
+                                textColor: '#FFFFFF',
+                                textSize: 14
+                            }
+                        }, function(toastEvent){
+                            if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                                window.plugins.toast.hide();
+                            }
+                        });
+
+                        return; // exit method
+                    } // end of if
+                } // end of for loop
+            }
+
+            if(carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectMilestones.length + 1) // the user is on the project location capture carousel index
+            {
+                // check if the photo in this index has been taken OR not
+                if(!utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectGeoPosition){
+
+                    // inform the user of validation error
+                    window.plugins.toast.showWithOptions({
+                        message: `Project Location not captured for project evaluation. Please capture location`,
+                        duration: 4000,
+                        position: "center",
+                        styling: {
+                            opacity: 1,
+                            backgroundColor: '#ff0000', //red
+                            textColor: '#FFFFFF',
+                            textSize: 14
+                        }
+                    }, function(toastEvent){
+                        if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                            window.plugins.toast.hide();
+                        }
+                    });
+
+                    return; // exit method
+                }
+            }
+
+            // ALL VALIDATION SUCCESSFUL. Move to the next carousel item
+            carousel.next();
         }
 
     }
