@@ -1057,9 +1057,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             </div>
                             <div id="project-evaluation-gps-location-tag" style="color: #ffffff; 
                             font-weight: bold; font-size: 0.8em; text-transform: uppercase; 
-                            background-color: rgba(0,213,195,0.90); padding: 0.6em; border-radius: 5px; 
-                            min-width: 50%; max-width: 90%; position: absolute; bottom: 2px; display: inline-block; 
-                            margin-left: auto; margin-right: auto; 
+                            background-color: rgba(0,213,195,0.80); padding: 0.6em; border-radius: 10px; 
+                            width: 80%; position: absolute; bottom: 2px; display: inline-block; 
+                            margin-left: 10%; margin-right: 10%; 
                             overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Location:</div>
                         </div>
                     </ons-carousel-item>`;
@@ -1674,7 +1674,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
             }
             catch(err){
-                console.log("L ERROR TYPE ", (typeof err));
+                console.log("L ERROR TYPE ", err);
                 // inform the user of the error
                 window.plugins.toast.showWithOptions({
                     message: "Location Capture Failed - " + (err.message || err),
