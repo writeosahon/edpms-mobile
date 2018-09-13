@@ -1802,17 +1802,38 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if(carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones.length) // the user is on the picture capture carousel index
             {
+                // check if any photos have been taken at all
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectPicturesUrls.length === 1){ // if the length of array is 1, no photos have been taken at all
+                    // inform the user of the validation error
+                    window.plugins.toast.showWithOptions({
+                        message: `Pictures not captured for project evaluation. Please take photo`,
+                        duration: 4000,
+                        position: "center",
+                        styling: {
+                            opacity: 1,
+                            backgroundColor: '#ff0000', //red
+                            textColor: '#FFFFFF',
+                            textSize: 14
+                        }
+                    }, function(toastEvent){
+                        if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                            window.plugins.toast.hide();
+                        }
+                    });
+
+                    return; // exit method
+                }
+
                 // loop through the photos for the project and check if all project photos have been taken
                 for(let index = 1; index < utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectPicturesUrls.length &&
-                utopiasoftware[utopiasoftware_app_namespace].controller.
-                    projectEvaluationPageViewModel.projectPicturesUrls.length > 1; index++){
+                    projectEvaluationPageViewModel.projectPicturesUrls.length; index++){
 
                     // check if the photo in this index has been taken OR not
                     if(!utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectPicturesUrls[index]){
 
-                        // inform the user of the error
+                        // inform the user of the validation error
                         window.plugins.toast.showWithOptions({
                             message: `Picture ${index} not captured for project evaluation. Please take photo`,
                             duration: 4000,
@@ -1837,7 +1858,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if(carousel.getActiveIndex() === utopiasoftware[utopiasoftware_app_namespace].controller.
                 projectEvaluationPageViewModel.projectMilestones.length + 1) // the user is on the project location capture carousel index
             {
-                // check if the photo in this index has been taken OR not
+                // check if the geo location in this index has been taken OR not
                 if(!utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectGeoPosition){
 
