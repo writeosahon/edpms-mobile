@@ -1674,7 +1674,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 });
             }
             catch(err){
-                console.log("L ERROR TYPE ", err);
                 // inform the user of the error
                 window.plugins.toast.showWithOptions({
                     message: "Location Capture Failed - " + (err.message || err),
@@ -1954,7 +1953,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                         userDetails.username;
             projectEvaluationReportData.TYPE = "saved report";
 
-            console.log("REPORT", projectEvaluationReportData);
+            try {
+                // save
+                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase
+            }
+            catch(err){
+
+            }
+
             // hide loader
             $('#loader-modal').get(0).hide();
 

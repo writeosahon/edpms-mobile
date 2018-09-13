@@ -1930,14 +1930,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display marker info window
                                     projectMarker.showInfoWindow();
                                 });
-                                _context14.next = 45;
+                                _context14.next = 44;
                                 break;
 
                             case 41:
                                 _context14.prev = 41;
                                 _context14.t0 = _context14['catch'](1);
 
-                                console.log("L ERROR TYPE ", _context14.t0);
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
                                     message: "Location Capture Failed - " + (_context14.t0.message || _context14.t0),
@@ -1956,7 +1955,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                            case 45:
+                            case 44:
                             case 'end':
                                 return _context14.stop();
                         }
@@ -2251,7 +2250,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 projectEvaluationReportData.evaluatedBy = utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username;
                                 projectEvaluationReportData.TYPE = "saved report";
 
-                                console.log("REPORT", projectEvaluationReportData);
+                                try {
+                                    // save
+                                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase;
+                                } catch (err) {}
+
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
 
