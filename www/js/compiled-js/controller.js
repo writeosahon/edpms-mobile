@@ -1951,18 +1951,68 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 kendo.toString(dateStamp, "dd"), kendo.toString(dateStamp, "HH"), kendo.toString(dateStamp, "mm")];
             projectEvaluationReportData.evaluatedBy = utopiasoftware[utopiasoftware_app_namespace].model.userDetails.
                                                         userDetails.username;
+            projectEvaluationReportData._id = projectEvaluationReportData.title;
             projectEvaluationReportData.TYPE = "saved report";
 
             try {
-                // save
-                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase
+                // save the project evaluation report data
+                let savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                                                put(projectEvaluationReportData);
+
+                // attach all saved project photos to the saved evaluation report data
+                for(let index = 1; index < 4; index++){
+
+                    // convert the project photos to blobs
+                    let fileEntry = await new Promise(function(resolve, reject){
+                        window.resolveLocalFileSystemURL(utopiasoftware[utopiasoftware_app_namespace].controller.
+                            projectEvaluationPageViewModel.projectPicturesUrls[index], resolve, reject);
+                    }); // get a FileEntry object
+
+                    let file = await new Promise(function(resolve, reject){
+                        fileEntry.file(resolve, reject);
+                    }); // get a file object
+
+                    let fileBlob = await new Promise(function(resolve, reject){
+                        let fileReader = new FileReader();
+                        fileReader.onloadend = function(){
+                            if(this.error){ // an error occurred
+                                reject(this.error); // reject the promise
+                            }
+                            // resolve to the Blob object
+                            resolve(new Blob([new Uint8Array(this.result)], {type: 'image/jpeg'}));
+                        };
+
+                        fileReader.readAsArrayBuffer(file);
+                    }); // get the blob object for the picture file
+
+                    // attach the image to the database document
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                    putAttachment(savedDocResponse.id, `picture${index}.jpg`, savedDocResponse.rev, fileBlob, "image/jpeg");
+                }
+
+                // hide loader
+                await $('#loader-modal').get(0).hide();
+                // inform user the evaluation report was successfully saved
+                await ons.notification.confirm('This evaluation report has been saved successfully',
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="33px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                        buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+
+                // move back to the project search page
+                $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true,
+                    data: {projectData: utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.
+                            currentlySelectedProject}});
             }
             catch(err){
-
+                console.log("SAVE ERROR", err);
+                $('#loader-modal').get(0).hide();
+                ons.notification.alert(`saving evaluation report sheet failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Saving Report Failed</span>',
+                    buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+            }
+            finally{
+                // hide loader
+                $('#loader-modal').get(0).hide();
             }
 
-            // hide loader
-            $('#loader-modal').get(0).hide();
 
         }
 
