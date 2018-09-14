@@ -2301,6 +2301,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.putAttachment(savedDocResponse.id, 'picture' + _index + '.jpg', savedDocResponse.rev, fileBlob, "image/jpeg");
 
                                                 case 11:
+                                                    savedDocResponse = _context16.sent;
+
+                                                case 12:
                                                 case 'end':
                                                     return _context16.stop();
                                             }
