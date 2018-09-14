@@ -477,6 +477,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" &&
                         ($('#app-main-navigator').get(0).topPage.data
                             && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
+                        console.log("Page Refreshed", $('#app-main-navigator').get(0).topPage.data.pageRefreshed);
                         // beginning uploading app data
                         $('#determinate-progress-modal .modal-message').html('Downloading projects data for offline use...');
                         $('#determinate-progress-modal').get(0).show();
