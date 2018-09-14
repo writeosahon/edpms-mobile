@@ -1986,7 +1986,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }); // get the blob object for the picture file
 
                     // attach the image to the database document
-                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                    savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                     putAttachment(savedDocResponse.id, `picture${index}.jpg`, savedDocResponse.rev, fileBlob, "image/jpeg");
                 }
 
