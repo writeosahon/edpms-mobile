@@ -169,6 +169,70 @@ const utopiasoftware = {
                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
                 }
             }
+        },
+
+
+        /**
+         * object is responsible for handling operations on the project evaluation report sheet data
+         */
+        projectEvaluationReportData: {
+
+            /**
+             * method is used to upload all project evaluation report data/sheets to the server.
+             * during the process of upload, all successfully uploaded report data will be deleted
+             * from the user's device.
+             *
+             * @param showProgressModal
+             * @returns {Promise<Number>} resolves with a Promise containing
+             * the number of report sheets that were successfully uploaded OR rejects with an error object
+             */
+            async uploadProjectEvaluationReports(showProgressModal = true){
+
+                try{
+                    // keep device awake during the downloading process
+                    window.plugins.insomnia.keepAwake();
+
+                    if(showProgressModal === true){ // check if download progress modal should be displayed to user
+                        // show download progress
+                        $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
+                        $('#determinate-progress-modal').get(0).show();
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
+                    }
+
+                    // get all the save project report sheets evaluated by the current signed in user from the app database
+                    let reportSheets = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                        selector: {
+                            "TYPE": {
+                                "$eq": "saved report"
+                            },
+                            "evaluatedBy": {
+                                "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.
+                                    userDetails.username
+                            }
+                        },
+                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                    });
+
+                    if(reportSheets.docs.length === 0){ // there are no report sheets to upload
+                        if(showProgressModal === true){
+                            // hide the progress loader
+                            await $('#determinate-progress-modal').get(0).hide();
+                        }
+                        window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                        return 0;
+                    }
+
+                    reportSheets = reportSheets.docs;
+
+                }
+                finally {
+                    if(showProgressModal === true){
+                        // hide the progress loader
+                        await $('#determinate-progress-modal').get(0).hide();
+                    }
+                    window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                }
+            }
         }
     }
 };

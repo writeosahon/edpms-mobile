@@ -567,7 +567,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 case 3:
 
                                     // listen for the back button event
-                                    $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.backButtonClicked;
+                                    /*$('#app-main-navigator').get(0).topPage.onDeviceBackButton =
+                                        utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.backButtonClicked;*/
+                                    event.target.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.backButtonClicked;
 
                                     // initialise the login form validation
                                     utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator = $('#search-project-form').parsley();

@@ -237,6 +237,110 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
 
             return loadProjectData;
         }()
+    },
+
+    /**
+     * object is responsible for handling operations on the project evaluation report sheet data
+     */
+    projectEvaluationReportData: {
+
+        /**
+         * method is used to upload all project evaluation report data/sheets to the server.
+         * during the process of upload, all successfully uploaded report data will be deleted
+         * from the user's device.
+         *
+         * @param showProgressModal
+         * @returns {Promise<Number>} resolves with a Promise containing
+         * the number of report sheets that were successfully uploaded OR rejects with an error object
+         */
+        uploadProjectEvaluationReports: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                var showProgressModal = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+                var reportSheets;
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.prev = 0;
+
+                                // keep device awake during the downloading process
+                                window.plugins.insomnia.keepAwake();
+
+                                if (showProgressModal === true) {
+                                    // check if download progress modal should be displayed to user
+                                    // show download progress
+                                    $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
+                                    $('#determinate-progress-modal').get(0).show();
+                                    $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
+                                }
+
+                                // get all the save project report sheets evaluated by the current signed in user from the app database
+                                _context2.next = 5;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                    selector: {
+                                        "TYPE": {
+                                            "$eq": "saved report"
+                                        },
+                                        "evaluatedBy": {
+                                            "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username
+                                        }
+                                    },
+                                    use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                });
+
+                            case 5:
+                                reportSheets = _context2.sent;
+
+                                if (!(reportSheets.docs.length === 0)) {
+                                    _context2.next = 12;
+                                    break;
+                                }
+
+                                if (!(showProgressModal === true)) {
+                                    _context2.next = 10;
+                                    break;
+                                }
+
+                                _context2.next = 10;
+                                return $('#determinate-progress-modal').get(0).hide();
+
+                            case 10:
+                                window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                                return _context2.abrupt("return", 0);
+
+                            case 12:
+
+                                reportSheets = reportSheets.docs;
+
+                            case 13:
+                                _context2.prev = 13;
+
+                                if (!(showProgressModal === true)) {
+                                    _context2.next = 17;
+                                    break;
+                                }
+
+                                _context2.next = 17;
+                                return $('#determinate-progress-modal').get(0).hide();
+
+                            case 17:
+                                window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                                return _context2.finish(13);
+
+                            case 19:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[0,, 13, 19]]);
+            }));
+
+            function uploadProjectEvaluationReports() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return uploadProjectEvaluationReports;
+        }()
     }
 });
 
