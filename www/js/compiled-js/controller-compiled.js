@@ -596,7 +596,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     window.plugins.insomnia.keepAwake();
                                     // check if the user just completed a signin or log-in
 
-                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes")) {
+                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && $('#app-main-navigator').get(0).topPage.data && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
                                         _context6.next = 46;
                                         break;
                                     }
@@ -737,7 +737,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 46:
-                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes")) {
+                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" && $('#app-main-navigator').get(0).topPage.data && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
                                         _context6.next = 50;
                                         break;
                                     }
@@ -753,8 +753,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return Promise.all([$('#determinate-progress-modal').get(0).hide(), $('#loader-modal').get(0).hide()]);
 
                                 case 52:
-                                    // display a toast to the user
-                                    ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + '</span>', { timeout: 3000 });
+
+                                    // this only displays when page is NOT marked as being loaded from a user refresh request
+                                    if ($('#app-main-navigator').get(0).topPage.data && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true) {
+                                        // display a toast to the user
+                                        ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + '</span>', { timeout: 3000 });
+                                    }
                                     _context6.next = 60;
                                     break;
 
@@ -2331,15 +2335,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 28:
                                 _context17.next = 30;
-                                return ons.notification.confirm('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="33px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                                return ons.notification.confirm('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 30:
 
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true,
-                                    data: { projectData: utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.currentlySelectedProject } });
-                                _context17.next = 38;
+                                    data: { pageRefreshed: true } });
+                                _context17.next = 39;
                                 break;
 
                             case 33:
@@ -2347,23 +2351,27 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context17.t1 = _context17['catch'](15);
 
                                 console.log("SAVE ERROR", _context17.t1);
+                                try {
+                                    // remove the project evaluation report sheet document which failed to save properly from the app database
+                                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(savedDocResponse.id, savedDocResponse.rev);
+                                } catch (err2) {}
                                 $('#loader-modal').get(0).hide();
                                 ons.notification.alert('saving evaluation report sheet failed. Please try again. ' + (_context17.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 38:
-                                _context17.prev = 38;
+                            case 39:
+                                _context17.prev = 39;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context17.finish(38);
+                                return _context17.finish(39);
 
-                            case 41:
+                            case 42:
                             case 'end':
                                 return _context17.stop();
                         }
                     }
-                }, _callee16, this, [[15, 33, 38, 41]]);
+                }, _callee16, this, [[15, 33, 39, 42]]);
             }));
 
             function saveReportButtonClicked() {

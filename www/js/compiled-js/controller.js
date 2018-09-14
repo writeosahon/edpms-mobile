@@ -474,7 +474,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // keep device awake during the downloading process
                     window.plugins.insomnia.keepAwake();
                     // check if the user just completed a signin or log-in
-                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes") {
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" &&
+                        ($('#app-main-navigator').get(0).topPage.data
+                            && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
                         // beginning uploading app data
                         $('#determinate-progress-modal .modal-message').html('Downloading projects data for offline use...');
                         $('#determinate-progress-modal').get(0).show();
@@ -580,7 +582,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }
 
                     // check if the user just completed a signin or log-in
-                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes") { // user did NOT just log in / sign in
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" &&
+                        ($('#app-main-navigator').get(0).topPage.data
+                            && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) { // user did NOT just log in / sign in
                         // get the userDetails data from the app database
                         utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
                             (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails"));
@@ -589,8 +593,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // hide the progress loader
                     await Promise.all([$('#determinate-progress-modal').get(0).hide(),
                         $('#loader-modal').get(0).hide()]);
-                    // display a toast to the user
-                    ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}</span>`, {timeout:3000});
+
+                    // this only displays when page is NOT marked as being loaded from a user refresh request
+                    if(($('#app-main-navigator').get(0).topPage.data
+                        && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
+                        // display a toast to the user
+                        ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}</span>`, {timeout: 3000});
+                    }
                 }
                 catch(err){
                     // display error message indicating that projects data could not be loaded
@@ -1956,7 +1965,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             try {
                 // save the project evaluation report data
-                let savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                                                 put(projectEvaluationReportData);
 
                 // attach all saved project photos to the saved evaluation report data
@@ -1994,16 +2003,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved
                 await ons.notification.confirm('This evaluation report has been saved successfully',
-                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="33px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
 
                 // move back to the project search page
                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true,
-                    data: {projectData: utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.
-                            currentlySelectedProject}});
+                    data: {pageRefreshed: true}});
             }
             catch(err){
                 console.log("SAVE ERROR", err);
+                try{
+                    // remove the project evaluation report sheet document which failed to save properly from the app database
+                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                    remove(savedDocResponse.id, savedDocResponse.rev);
+                }
+                catch(err2){}
                 $('#loader-modal').get(0).hide();
                 ons.notification.alert(`saving evaluation report sheet failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Saving Report Failed</span>',
                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
