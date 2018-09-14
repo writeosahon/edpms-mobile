@@ -475,9 +475,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.plugins.insomnia.keepAwake();
                     // check if the user just completed a signin or log-in
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" &&
-                        ($('#app-main-navigator').get(0).topPage.data
-                            && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
-                        console.log("Page Refreshed", $('#app-main-navigator').get(0).topPage.data.pageRefreshed);
+                        window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                         // beginning uploading app data
                         $('#determinate-progress-modal .modal-message').html('Downloading projects data for offline use...');
                         $('#determinate-progress-modal').get(0).show();
@@ -584,8 +582,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     // check if the user just completed a signin or log-in
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" &&
-                        ($('#app-main-navigator').get(0).topPage.data
-                            && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) { // user did NOT just log in / sign in
+                        window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") { // user did NOT just log in / sign in
                         // get the userDetails data from the app database
                         utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
                             (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails"));
@@ -596,8 +593,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         $('#loader-modal').get(0).hide()]);
 
                     // this only displays when page is NOT marked as being loaded from a user refresh request
-                    if(($('#app-main-navigator').get(0).topPage.data
-                        && $('#app-main-navigator').get(0).topPage.data.pageRefreshed !== true)) {
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                         // display a toast to the user
                         ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname}</span>`, {timeout: 3000});
                     }
@@ -609,6 +605,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#loader-modal').get(0).hide();
                 }
                 finally {
+                    // clear the page refresh marker from device session storage
+                    window.sessionStorage.removeItem("utopiasoftware-edpms-refresh-page");
                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
                 }
             }
@@ -2007,9 +2005,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
 
+                // flag to the app that you are going back to a page that needs to be refreshed
+                window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                 // move back to the project search page
-                $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true,
-                    data: {pageRefreshed: true}});
+                $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+
             }
             catch(err){
                 console.log("SAVE ERROR", err);
