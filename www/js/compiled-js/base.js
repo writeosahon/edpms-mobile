@@ -222,7 +222,7 @@ const utopiasoftware = {
                         return 0;
                     }
 
-                    reportSheets = reportSheets.docs;
+                    reportSheets = reportSheets.docs; // reassign the report sheets array
 
                 }
                 finally {

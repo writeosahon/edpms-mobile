@@ -310,7 +310,7 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
 
                             case 12:
 
-                                reportSheets = reportSheets.docs;
+                                reportSheets = reportSheets.docs; // reassign the report sheets array
 
                             case 13:
                                 _context2.prev = 13;
