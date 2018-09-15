@@ -188,6 +188,8 @@ const utopiasoftware = {
              */
             async uploadProjectEvaluationReports(showProgressModal = true){
 
+                var totalReportSheets = 0; // holds the total number of report sheets to be uploaded
+
                 try{
                     // keep device awake during the downloading process
                     window.plugins.insomnia.keepAwake();
@@ -223,6 +225,59 @@ const utopiasoftware = {
                     }
 
                     reportSheets = reportSheets.docs; // reassign the report sheets array
+                    totalReportSheets = reportSheets.length; // update the number of report sheets to be sent
+
+                    // upload each of the report sheets one at a time
+                    for(let index = 0; index === reportSheets.length; index = 0){
+
+                        if(showProgressModal === true){ // check if download progress modal should be displayed to user
+                            // show download progress
+                            $('#determinate-progress-modal .modal-message').
+                            html(`Uploading Evaluation Report ${totalReportSheets - (reportSheets.length - 1)} Of ${totalReportSheets}`);
+                            $('#determinate-progress-modal #determinate-progress').get(0).value =
+                                Math.round(((totalReportSheets - (reportSheets.length - 1)) / totalReportSheets) * 100);
+                        }
+                        // create the FormData object to be used in sending the report sheet
+                        let formData = new FormData();
+                        // attach the evaluation report data to the FormData
+                        formData.set("reportData", JSON.stringify(reportSheets[index]));
+                        // attach the blob for the evaluation pictures 1 - 3 to the FormData
+                        formData.set("evaluation-pic-1", await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                            getAttachment(reportSheets[index]._id, "picture1.jpg"));
+                        formData.set("evaluation-pic-2", await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        getAttachment(reportSheets[index]._id, "picture2.jpg"));
+                        formData.set("evaluation-pic-3", await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        getAttachment(reportSheets[index]._id, "picture3.jpg"));
+
+                        // send the FormData to the server
+                        let serverResponse = await Promise.resolve($.ajax(
+                            {
+                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/login.php",
+                                type: "post",
+                                contentType: false,
+                                beforeSend: function(jqxhr) {
+                                    jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                },
+                                dataType: "text",
+                                timeout: 240000, // wait for 4 minutes before timeout of request
+                                processData: false,
+                                data: formData
+                            }
+                        ));
+
+                        serverResponse = JSON.parse(serverResponse.trim());
+
+                        if(serverResponse.status !== "success"){ // the evaluation report could not be saved by the server
+                            throw serverResponse; // throw error and END upload process
+                        }
+
+                        // since server upload of the evaluation report was successful, remove the evaluation report from app database
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        remove(reportSheets[index]._id, reportSheets[index]._rev);
+                        // also remove the evaluation report from the reportSheets array
+                        reportSheets.shift();
+                    }
+
 
                 }
                 finally {
