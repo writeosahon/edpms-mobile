@@ -23,6 +23,7 @@
 }
 /** STYLE FOR THE APP ALERT DIALOG ENDS **/
 
+/** STYLE FOR CUSTOM PROGRESS BAR BEGINS **/
 .progress-bar--determinate-loader {
     height: 10px;
     background-color: transparent;
@@ -38,7 +39,7 @@
     z-index: 0;
     border-radius: 4px;
 }
-
+/** STYLE FOR CUSTOM PROGRESS BAR ENDS **/
 
 /** STYLE FOR THE LOGIN PAGE BEGINS **/
 #login-carousel ons-carousel-item.first { /* style for login slides/carousel item 1 */
@@ -161,7 +162,7 @@
     background-size: cover, cover;
     background-position: center;
 }
-/** STYLE FOR SLIDERS ON PAGE **/
+/** STYLE FOR SLIDERS ON PROJECT EVALUATION PAGE **/
 #project-evaluation-page .project-evaluation-slider .e-slider-track {
     height: 2rem;
 }
@@ -178,7 +179,7 @@
     padding-top: 0.7rem;
     border: 3px #36366C ridge;
 }
-/** STYLE FOR THE SPEED DIALS ON PAGE **/
+/** STYLE FOR THE SPEED DIALS ON PROJECT EVALUATION PAGE **/
 .utopiasoftware-pic-capture-speed-dial { /** specify the color for the speed dials and all its items **/
     color: #FFFFFF;
     background-color: #3F51B5;
@@ -207,7 +208,7 @@
     line-height: 30px;
     left: 15px !important;
 }
-/** STYLE FOR THE MAP ELEMENTS ON PAGE **/
+/** STYLE FOR THE MAP ELEMENTS ON PROJECT EVALUATION PAGE **/
 html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:not(#side-menu-page) .page--material__background,
 html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:not(#side-menu-page) .page--material__content { /** make entire app page background transparent **/
     background-color: transparent !important;
@@ -215,4 +216,14 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
 }
 .progress-circular--project-gps-location-progress__primary { /** style for circular progress bar on map **/
     stroke: #00D5C3;
+}
+/** STYLE FOR THE PROJECT EVALUATION PAGE ENDS **/
+
+/** STYLE FOR THE SIDE MENU PAGE BEGINS **/
+#side-menu-page .page--material__background {
+    background-image: linear-gradient(45deg, rgba(0, 213, 195, 0.61) 0%, rgba(0, 213, 195, 0.61) 100%),
+    linear-gradient(45deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    background-repeat: no-repeat;
+    background-size: cover, cover;
+    background-position: center;
 }
