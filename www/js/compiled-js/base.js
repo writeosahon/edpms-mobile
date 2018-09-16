@@ -278,7 +278,7 @@ const utopiasoftware = {
                         reportSheets.shift();
                     }
 
-
+                    return totalReportSheets; // return the total number of report sheet uploaded
                 }
                 finally {
                     if(showProgressModal === true){

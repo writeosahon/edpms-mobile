@@ -124,6 +124,23 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
     },
 
+    /**
+     * this is the view-model/controller for the SIDE MENU page
+     */
+    sideMenuPageViewModel: {
+
+        /**
+         * method is triggered when the "Sign Out" button is clicked
+         * @returns {Promise<void>}
+         */
+        async signOutButtonClicked(){
+            // remove the user details rev id from storage
+            window.localStorage.removeItem("utopiasoftware-edpms-app-status");
+            // load the login page
+            $('ons-splitter').get(0).content.load("login-template");
+        }
+    },
+
 
     /**
      * this is the view-model/controller for the LOGIN page
@@ -379,6 +396,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // check if the user wants to remain signed in
                 if($('#login-page #login-remember-me').get(0).checked){ // the user wants to remian signed in
                     // save the user's details to persistent database
+                    let userDetailsDoc = null; // holds the previous stored user details from the database
+                    try{
+                        // check if a user details object has been previously saved in app database
+                        userDetailsDoc = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get('userDetails');
+                    }catch(error){}
+
+                    if(!userDetailsDoc){ // no userDetails object has been previous saved
+                        delete utopiasoftware[utopiasoftware_app_namespace].model.userDetails._rev; // delete the _rev property
+                    }
+                    else{ // user details object has been previously saved
+                        // update the _rev property of the userDetails object being used by the app
+                        utopiasoftware[utopiasoftware_app_namespace].model.userDetails._rev = userDetailsDoc._rev;
+                    }
+
+                    // saved the user details object in the app database
                     let databaseResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(
                         utopiasoftware[utopiasoftware_app_namespace].model.userDetails);
                     // save the returned user details rev id

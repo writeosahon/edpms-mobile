@@ -404,26 +404,29 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 break;
 
                             case 47:
-                                _context2.prev = 47;
+                                return _context2.abrupt("return", totalReportSheets);
+
+                            case 48:
+                                _context2.prev = 48;
 
                                 if (!(showProgressModal === true)) {
-                                    _context2.next = 51;
+                                    _context2.next = 52;
                                     break;
                                 }
 
-                                _context2.next = 51;
+                                _context2.next = 52;
                                 return $('#determinate-progress-modal').get(0).hide();
 
-                            case 51:
+                            case 52:
                                 window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                return _context2.finish(47);
+                                return _context2.finish(48);
 
-                            case 53:
+                            case 54:
                             case "end":
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1,, 47, 53]]);
+                }, _callee2, this, [[1,, 48, 54]]);
             }));
 
             function uploadProjectEvaluationReports() {
