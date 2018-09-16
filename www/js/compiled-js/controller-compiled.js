@@ -205,7 +205,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 totalUploads = _context3.sent;
 
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 8;
+                                    _context3.next = 10;
                                     break;
                                 }
 
@@ -214,27 +214,31 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 8:
-                                _context3.next = 10;
+                                _context3.next = 12;
+                                break;
+
+                            case 10:
+                                _context3.next = 12;
                                 return ons.notification.alert('All evaluation reports successfully uploaded. <br>' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Evaluation Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 10:
-                                _context3.next = 15;
+                            case 12:
+                                _context3.next = 17;
                                 break;
 
-                            case 12:
-                                _context3.prev = 12;
+                            case 14:
+                                _context3.prev = 14;
                                 _context3.t0 = _context3['catch'](1);
 
                                 ons.notification.alert('uploading evaluation reports failed. Please try again. ' + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 15:
+                            case 17:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 12]]);
+                }, _callee3, this, [[1, 14]]);
             }));
 
             function uploadReportsButtonClicked() {
