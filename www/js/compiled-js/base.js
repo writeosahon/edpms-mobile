@@ -273,8 +273,10 @@ const utopiasoftware = {
                         }
 
                         // since server upload of the evaluation report was successful, remove the evaluation report from app database
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                        remove(reportSheets[index]._id, reportSheets[index]._rev);
+                        /*await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        remove(reportSheets[index]._id, reportSheets[index]._rev);*/
+                        reportSheets[index]._deleted = true;
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index]);
                         // also remove the evaluation report from the reportSheets array
                         reportSheets.shift();
                     }
