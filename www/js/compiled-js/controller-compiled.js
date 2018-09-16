@@ -219,7 +219,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 10:
                                 _context3.next = 12;
-                                return ons.notification.alert('All evaluation reports successfully uploaded. <br>' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                                return ons.notification.alert('All evaluation reports successfully uploaded. ' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 12:
