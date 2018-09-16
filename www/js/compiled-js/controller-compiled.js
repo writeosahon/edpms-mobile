@@ -158,12 +158,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
+                                console.log("INSIDE SIGN OUT 1");
                                 // remove the user details rev id from storage
                                 window.localStorage.removeItem("utopiasoftware-edpms-app-status");
+                                console.log("INSIDE SIGN OUT 2");
                                 // load the login page
                                 $('ons-splitter').get(0).content.load("login-template");
 
-                            case 2:
+                            case 4:
                             case 'end':
                                 return _context2.stop();
                         }
