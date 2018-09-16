@@ -2323,15 +2323,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // add other metadata to the evaluation report
                                 projectEvaluationReportData.dateStamp = dateStamp.getTime();
                                 projectEvaluationReportData.sortingDate = [kendo.toString(dateStamp, "yyyy"), kendo.toString(dateStamp, "MM"), kendo.toString(dateStamp, "dd"), kendo.toString(dateStamp, "HH"), kendo.toString(dateStamp, "mm")];
+                                projectEvaluationReportData.formattedDate = kendo.toString(dateStamp, "yyyy-MM-dd HH:mm:ss");
                                 projectEvaluationReportData.evaluatedBy = utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username;
                                 projectEvaluationReportData._id = projectEvaluationReportData.title;
                                 projectEvaluationReportData.TYPE = "saved report";
 
-                                _context18.prev = 15;
-                                _context18.next = 18;
+                                _context18.prev = 16;
+                                _context18.next = 19;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(projectEvaluationReportData);
 
-                            case 18:
+                            case 19:
                                 savedDocResponse = _context18.sent;
                                 _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(_index) {
                                     var fileEntry, file, fileBlob;
@@ -2385,41 +2386,41 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
                                 _index = 1;
 
-                            case 21:
+                            case 22:
                                 if (!(_index < 4)) {
-                                    _context18.next = 26;
+                                    _context18.next = 27;
                                     break;
                                 }
 
-                                return _context18.delegateYield(_loop(_index), 't0', 23);
+                                return _context18.delegateYield(_loop(_index), 't0', 24);
 
-                            case 23:
+                            case 24:
                                 _index++;
-                                _context18.next = 21;
+                                _context18.next = 22;
                                 break;
 
-                            case 26:
-                                _context18.next = 28;
+                            case 27:
+                                _context18.next = 29;
                                 return $('#loader-modal').get(0).hide();
 
-                            case 28:
-                                _context18.next = 30;
+                            case 29:
+                                _context18.next = 31;
                                 return ons.notification.confirm('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 30:
+                            case 31:
 
                                 // flag to the app that you are going back to a page that needs to be refreshed
                                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context18.next = 40;
+                                _context18.next = 41;
                                 break;
 
-                            case 34:
-                                _context18.prev = 34;
-                                _context18.t1 = _context18['catch'](15);
+                            case 35:
+                                _context18.prev = 35;
+                                _context18.t1 = _context18['catch'](16);
 
                                 console.log("SAVE ERROR", _context18.t1);
                                 try {
@@ -2430,19 +2431,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 ons.notification.alert('saving evaluation report sheet failed. Please try again. ' + (_context18.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 40:
-                                _context18.prev = 40;
+                            case 41:
+                                _context18.prev = 41;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context18.finish(40);
+                                return _context18.finish(41);
 
-                            case 43:
+                            case 44:
                             case 'end':
                                 return _context18.stop();
                         }
                     }
-                }, _callee17, this, [[15, 34, 40, 43]]);
+                }, _callee17, this, [[16, 35, 41, 44]]);
             }));
 
             function saveReportButtonClicked() {

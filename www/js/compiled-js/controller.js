@@ -1991,6 +1991,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             projectEvaluationReportData.dateStamp = dateStamp.getTime();
             projectEvaluationReportData.sortingDate = [kendo.toString(dateStamp, "yyyy"), kendo.toString(dateStamp, "MM"),
                 kendo.toString(dateStamp, "dd"), kendo.toString(dateStamp, "HH"), kendo.toString(dateStamp, "mm")];
+            projectEvaluationReportData.formattedDate = kendo.toString(dateStamp, "yyyy-MM-dd HH:mm:ss");
             projectEvaluationReportData.evaluatedBy = utopiasoftware[utopiasoftware_app_namespace].model.userDetails.
                                                         userDetails.username;
             projectEvaluationReportData._id = projectEvaluationReportData.title;
