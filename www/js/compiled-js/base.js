@@ -228,7 +228,7 @@ const utopiasoftware = {
                     totalReportSheets = reportSheets.length; // update the number of report sheets to be sent
 
                     // upload each of the report sheets one at a time
-                    for(let index = 0; index === reportSheets.length; index = 0){
+                    for(let index = 0; index < reportSheets.length; index = 0){
 
                         if(showProgressModal === true){ // check if download progress modal should be displayed to user
                             // show download progress
@@ -273,10 +273,8 @@ const utopiasoftware = {
                         }
 
                         // since server upload of the evaluation report was successful, remove the evaluation report from app database
-                        /*await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                        remove(reportSheets[index]._id, reportSheets[index]._rev);*/
-                        reportSheets[index]._deleted = true;
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index]);
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        remove(reportSheets[index]._id, reportSheets[index]._rev);
                         // also remove the evaluation report from the reportSheets array
                         reportSheets.shift();
                     }

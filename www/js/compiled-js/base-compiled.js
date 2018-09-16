@@ -319,8 +319,8 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 index = 0;
 
                             case 16:
-                                if (!(index === reportSheets.length)) {
-                                    _context2.next = 48;
+                                if (!(index < reportSheets.length)) {
+                                    _context2.next = 47;
                                     break;
                                 }
 
@@ -392,51 +392,46 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 throw serverResponse;
 
                             case 41:
+                                _context2.next = 43;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(reportSheets[index]._id, reportSheets[index]._rev);
 
-                                // since server upload of the evaluation report was successful, remove the evaluation report from app database
-                                /*await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                                remove(reportSheets[index]._id, reportSheets[index]._rev);*/
-                                reportSheets[index]._deleted = true;
-                                _context2.next = 44;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index]);
-
-                            case 44:
+                            case 43:
                                 // also remove the evaluation report from the reportSheets array
                                 reportSheets.shift();
 
-                            case 45:
+                            case 44:
                                 index = 0;
                                 _context2.next = 16;
                                 break;
 
-                            case 48:
-                                _context2.next = 50;
+                            case 47:
+                                _context2.next = 49;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
 
-                            case 50:
+                            case 49:
                                 return _context2.abrupt("return", totalReportSheets);
 
-                            case 51:
-                                _context2.prev = 51;
+                            case 50:
+                                _context2.prev = 50;
 
                                 if (!(showProgressModal === true)) {
-                                    _context2.next = 55;
+                                    _context2.next = 54;
                                     break;
                                 }
 
-                                _context2.next = 55;
+                                _context2.next = 54;
                                 return $('#determinate-progress-modal').get(0).hide();
 
-                            case 55:
+                            case 54:
                                 window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                return _context2.finish(51);
+                                return _context2.finish(50);
 
-                            case 57:
+                            case 56:
                             case "end":
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1,, 51, 57]]);
+                }, _callee2, this, [[1,, 50, 56]]);
             }));
 
             function uploadProjectEvaluationReports() {
