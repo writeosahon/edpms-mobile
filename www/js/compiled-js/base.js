@@ -281,6 +281,7 @@ const utopiasoftware = {
                         reportSheets.shift();
                     }
 
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
                     return totalReportSheets; // return the total number of report sheet uploaded
                 }
                 finally {
