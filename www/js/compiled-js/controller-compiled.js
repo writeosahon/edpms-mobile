@@ -195,33 +195,46 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
-                                _context3.next = 2;
+                                // upload all the report evaluation sheets
+                                totalUploads = 0;
+                                _context3.prev = 1;
+                                _context3.next = 4;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
 
-                            case 2:
+                            case 4:
                                 totalUploads = _context3.sent;
-                                _context3.prev = 3;
-                                _context3.next = 6;
+
+                                if (!(totalUploads === 0)) {
+                                    _context3.next = 8;
+                                    break;
+                                }
+
+                                _context3.next = 8;
+                                return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports</span>',
+                                    buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 8:
+                                _context3.next = 10;
                                 return ons.notification.alert('All evaluation reports successfully uploaded. <br>' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Evaluation Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 6:
-                                _context3.next = 11;
+                            case 10:
+                                _context3.next = 15;
                                 break;
 
-                            case 8:
-                                _context3.prev = 8;
-                                _context3.t0 = _context3['catch'](3);
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
 
                                 ons.notification.alert('uploading evaluation reports failed. Please try again. ' + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 11:
+                            case 15:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[3, 8]]);
+                }, _callee3, this, [[1, 12]]);
             }));
 
             function uploadReportsButtonClicked() {

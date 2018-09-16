@@ -148,10 +148,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async uploadReportsButtonClicked(){
             // upload all the report evaluation sheets
-            var totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
-                                uploadProjectEvaluationReports(true);
+            var totalUploads = 0;
 
             try{
+                totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
+                uploadProjectEvaluationReports(true);
+                if(totalUploads === 0) // no reports were uploaded.
+                {
+                    await ons.notification.alert('No evaluation reports to upload',
+                        {title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports</span>',
+                            buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+                }
                 // inform user that all evaluation reports have been uploaded
                 await ons.notification.alert(`All evaluation reports successfully uploaded. <br>${totalUploads} in total`,
                     {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Evaluation Reports</span>',
