@@ -134,12 +134,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         async signOutButtonClicked(){
-            console.log("INSIDE SIGN OUT 1");
             // remove the user details rev id from storage
             window.localStorage.removeItem("utopiasoftware-edpms-app-status");
-            console.log("INSIDE SIGN OUT 2");
             // load the login page
-            $('ons-splitter').get(0).content.load("login-template");
+            await $('ons-splitter').get(0).content.load("login-template");
+            // hide the side menu
+            $('ons-splitter').get(0).right.close();
+        },
+
+        /**
+         * method is triggered when the "Upload Reports" button is clicked
+         * @returns {Promise<void>}
+         */
+        async uploadReportsButtonClicked(){
+            // upload all the report evaluation sheets
+            var totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
+                                uploadProjectEvaluationReports(true);
+
+            try{
+                // inform user that all evaluation reports have been uploaded
+                await ons.notification.alert(`All evaluation reports successfully uploaded. <br>${totalUploads} in total`,
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Evaluation Reports</span>',
+                        buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+            }
+            catch(err){
+                ons.notification.alert(`uploading evaluation reports failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Uploading Reports Failed</span>',
+                    buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+            }
         }
     },
 
@@ -251,7 +272,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // remove the listeners registered to listen for when the device keyboard is hidden and shown
                 window.removeEventListener("keyboardDidHide", utopiasoftware[utopiasoftware_app_namespace].
                     controller.loginPageViewModel.keyboardHidden);
-                window.addEventListener("keyboardDidShow", utopiasoftware[utopiasoftware_app_namespace].
+                window.removeEventListener("keyboardDidShow", utopiasoftware[utopiasoftware_app_namespace].
                     controller.loginPageViewModel.keyboardShown);
                 // remove any tooltip being displayed on all forms on the page
                 $('#login-page [data-hint]').removeClass("hint--always hint--success hint--medium hint--rounded hint--no-animate");
@@ -2038,7 +2059,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // hide loader
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved
-                await ons.notification.confirm('This evaluation report has been saved successfully',
+                await ons.notification.alert('This evaluation report has been saved successfully',
                     {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
 

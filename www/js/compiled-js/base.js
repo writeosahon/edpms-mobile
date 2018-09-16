@@ -252,7 +252,8 @@ const utopiasoftware = {
                         // send the FormData to the server
                         let serverResponse = await Promise.resolve($.ajax(
                             {
-                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/login.php",
+                                //url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/login.php",
+                                url: "reports-upload.json",
                                 type: "post",
                                 contentType: false,
                                 beforeSend: function(jqxhr) {
