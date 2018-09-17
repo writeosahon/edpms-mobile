@@ -169,18 +169,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "Upload Reports" button is clicked
          * @returns {Promise<void>}
          */
-        async uploadReportsButtonClicked(){
+        async uploadReportsButtonClicked(reloadApp = false){
             // upload all the report evaluation sheets
             var totalUploads = 0;
 
             try{
 
-                // set the flag to reload the app
-                window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
-                window.localStorage.setItem("utopiasoftware-edpms-user-details",
-                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
+                if(reloadApp === true){
+                    // set the flag to reload the app
+                    window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
+                    window.localStorage.setItem("utopiasoftware-edpms-user-details",
+                        JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                cordova.plugins.diagnostic.restart(function(){}, false);
+                    cordova.plugins.diagnostic.restart(function(){}, false);
+                    return;
+                }
 
                 totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
                 uploadProjectEvaluationReports(true);

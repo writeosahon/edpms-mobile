@@ -226,6 +226,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         uploadReportsButtonClicked: function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                var reloadApp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
                 var totalUploads;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -235,56 +236,62 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 totalUploads = 0;
                                 _context3.prev = 1;
 
+                                if (!(reloadApp === true)) {
+                                    _context3.next = 7;
+                                    break;
+                                }
 
                                 // set the flag to reload the app
                                 window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
                                 window.localStorage.setItem("utopiasoftware-edpms-user-details", JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
                                 cordova.plugins.diagnostic.restart(function () {}, false);
-
-                                _context3.next = 7;
-                                return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
+                                return _context3.abrupt("return");
 
                             case 7:
+                                _context3.next = 9;
+                                return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
+
+                            case 9:
                                 totalUploads = _context3.sent;
 
                                 console.log("TOTAL UPLOADS", totalUploads);
 
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 14;
+                                    _context3.next = 16;
                                     break;
                                 }
 
-                                _context3.next = 12;
+                                _context3.next = 14;
                                 return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Uploaded</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 12:
-                                _context3.next = 16;
+                            case 14:
+                                _context3.next = 18;
                                 break;
 
-                            case 14:
-                                _context3.next = 16;
+                            case 16:
+                                _context3.next = 18;
                                 return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 16:
-                                _context3.next = 21;
+                            case 18:
+                                _context3.next = 23;
                                 break;
 
-                            case 18:
-                                _context3.prev = 18;
+                            case 20:
+                                _context3.prev = 20;
                                 _context3.t0 = _context3["catch"](1);
 
                                 ons.notification.alert("uploading evaluation reports failed. Please try again. " + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 21:
+                            case 23:
                             case "end":
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 18]]);
+                }, _callee3, this, [[1, 20]]);
             }));
 
             function uploadReportsButtonClicked() {
@@ -520,7 +527,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee6, this);
             }));
 
-            function enterButtonClicked(_x) {
+            function enterButtonClicked(_x2) {
                 return _ref6.apply(this, arguments);
             }
 
@@ -1052,7 +1059,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee9, this);
             }));
 
-            function searchButtonClicked(_x2) {
+            function searchButtonClicked(_x3) {
                 return _ref9.apply(this, arguments);
             }
 
@@ -1846,7 +1853,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee14, this, [[1, 27, 30, 33]]);
             }));
 
-            function pictureCaptureButtonClicked(_x3) {
+            function pictureCaptureButtonClicked(_x4) {
                 return _ref14.apply(this, arguments);
             }
 
@@ -1907,7 +1914,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee15, this);
             }));
 
-            function deletePictureButtonClicked(_x4) {
+            function deletePictureButtonClicked(_x5) {
                 return _ref15.apply(this, arguments);
             }
 
@@ -2278,7 +2285,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee17, this);
             }));
 
-            function carouselChanged(_x5) {
+            function carouselChanged(_x6) {
                 return _ref17.apply(this, arguments);
             }
 
