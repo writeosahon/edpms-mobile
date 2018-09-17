@@ -2066,6 +2066,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     putAttachment(savedDocResponse.id, `picture${index}.jpg`, savedDocResponse.rev, fileBlob, "image/jpeg");
                 }
 
+                console.log("SAVED REPORT ", projectEvaluationReportData);
                 // hide loader
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved

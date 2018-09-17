@@ -2472,26 +2472,29 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 break;
 
                             case 27:
-                                _context19.next = 29;
+
+                                console.log("SAVED REPORT ", projectEvaluationReportData);
+                                // hide loader
+                                _context19.next = 30;
                                 return $('#loader-modal').get(0).hide();
 
-                            case 29:
-                                _context19.next = 31;
+                            case 30:
+                                _context19.next = 32;
                                 return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 31:
+                            case 32:
 
                                 // flag to the app that you are going back to a page that needs to be refreshed
                                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context19.next = 41;
+                                _context19.next = 42;
                                 break;
 
-                            case 35:
-                                _context19.prev = 35;
+                            case 36:
+                                _context19.prev = 36;
                                 _context19.t1 = _context19['catch'](16);
 
                                 console.log("SAVE ERROR", _context19.t1);
@@ -2503,19 +2506,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 ons.notification.alert('saving evaluation report sheet failed. Please try again. ' + (_context19.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 41:
-                                _context19.prev = 41;
+                            case 42:
+                                _context19.prev = 42;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context19.finish(41);
+                                return _context19.finish(42);
 
-                            case 44:
+                            case 45:
                             case 'end':
                                 return _context19.stop();
                         }
                     }
-                }, _callee18, this, [[16, 35, 41, 44]]);
+                }, _callee18, this, [[16, 36, 42, 45]]);
             }));
 
             function saveReportButtonClicked() {
