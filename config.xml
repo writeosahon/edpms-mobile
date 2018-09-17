@@ -79,7 +79,8 @@
     <preference  name="SplashShowOnlyFirstTime" value="false"/>
     <preference name="FadeSplashScreen" value="false"/>
     <preference name="ShowSplashScreenSpinner" value="true"/>
-    <preference  name="SplashScreenDelay" value="30000"/>
+    <!--<preference  name="SplashScreenDelay" value="30000"/>-->
+    <preference  name="SplashScreenDelay" value="0"/>
 
     <platform  name="android">
         <!-- below requires the splash screen plugin -->
