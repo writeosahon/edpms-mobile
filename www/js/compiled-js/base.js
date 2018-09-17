@@ -209,6 +209,7 @@ const utopiasoftware = {
                                 "$eq": "saved report"
                             }
                         },
+                        fields: ["_id", "_rev", "milestonesEvaluations", "projectData", "projectGeoPosition"],
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 

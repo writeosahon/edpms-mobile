@@ -2012,8 +2012,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // attach the project data to the project evaluation report data
             projectEvaluationReportData.projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
             // attach the project evalution report's geo location
-            projectEvaluationReportData.projectGeoPosition = utopiasoftware[utopiasoftware_app_namespace].controller.
-                projectEvaluationPageViewModel.projectGeoPosition;
+            projectEvaluationReportData.projectGeoPosition = {
+                latitude: utopiasoftware[utopiasoftware_app_namespace].controller.
+                    projectEvaluationPageViewModel.projectGeoPosition.coords.latitude,
+            longitude: utopiasoftware[utopiasoftware_app_namespace].controller.
+                projectEvaluationPageViewModel.projectGeoPosition.coords.longitude};
             // attach the projection evalution report's additional remarks
             projectEvaluationReportData.reportRemarks = $('#project-evaluation-page #project-evaluation-remarks').val().trim();
 
