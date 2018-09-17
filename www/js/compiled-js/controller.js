@@ -649,7 +649,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     // check if the user just completed a signin or log-in
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" &&
-                        window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") { // user did NOT just log in / sign in
+                        ! utopiasoftware[utopiasoftware_app_namespace].model.userDetails) { // user did NOT just log in / sign in
                         // get the userDetails data from the app database
                         utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
                             (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails"));
