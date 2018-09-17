@@ -151,6 +151,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             var totalUploads = 0;
 
             try{
+                if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes"){
+                    cordova.plugins.diagnostic.restart(function(){}, false);
+                }
+
                 totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
                 uploadProjectEvaluationReports(true);
                 console.log("TOTAL UPLOADS", totalUploads);
