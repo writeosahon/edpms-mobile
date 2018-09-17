@@ -277,10 +277,33 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 }
 
                                 _context2.next = 6;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.close();
 
                             case 6:
-                                _context2.next = 8;
+
+                                // create the pouchdb app database
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
+                                    adapter: 'cordova-sqlite',
+                                    location: 'default',
+                                    androidDatabaseImplementation: 2
+                                });
+
+                                _context2.next = 9;
+                                return new Promise(function (resolve, reject) {
+                                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
+                                        cb: function cb(err, key) {
+                                            if (err) {
+                                                // there is an error
+                                                reject(err); // reject Promise
+                                            } else {
+                                                // no error
+                                                resolve(key); // resolve Promise
+                                            }
+                                        } });
+                                });
+
+                            case 9:
+                                _context2.next = 11;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "TYPE": {
@@ -291,30 +314,30 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                     use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                                 });
 
-                            case 8:
+                            case 11:
                                 reportSheets = _context2.sent;
 
 
-                                console.log("LENGTH ", reportSheets.docs.toJSON());
+                                console.log("LENGTH ", JSON.stringify(reportSheets.docs));
 
                                 if (!(reportSheets.docs.length === 0)) {
-                                    _context2.next = 16;
+                                    _context2.next = 19;
                                     break;
                                 }
 
                                 if (!(showProgressModal === true)) {
-                                    _context2.next = 14;
+                                    _context2.next = 17;
                                     break;
                                 }
 
-                                _context2.next = 14;
+                                _context2.next = 17;
                                 return $('#determinate-progress-modal').get(0).hide();
 
-                            case 14:
+                            case 17:
                                 window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
                                 return _context2.abrupt("return", 0);
 
-                            case 16:
+                            case 19:
 
                                 reportSheets = reportSheets.docs; // reassign the report sheets array
                                 totalReportSheets = reportSheets.length; // update the number of report sheets to be sent
@@ -322,9 +345,9 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 // upload each of the report sheets one at a time
                                 index = 0;
 
-                            case 19:
+                            case 22:
                                 if (!(index < reportSheets.length)) {
-                                    _context2.next = 51;
+                                    _context2.next = 54;
                                     break;
                                 }
 
@@ -341,33 +364,33 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 formData.set("reportData", JSON.stringify(reportSheets[index]));
                                 // attach the blob for the evaluation pictures 1 - 3 to the FormData
                                 _context2.t0 = formData;
-                                _context2.next = 26;
+                                _context2.next = 29;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.getAttachment(reportSheets[index]._id, "picture1.jpg");
 
-                            case 26:
+                            case 29:
                                 _context2.t1 = _context2.sent;
 
                                 _context2.t0.set.call(_context2.t0, "evaluation-pic-1", _context2.t1);
 
                                 _context2.t2 = formData;
-                                _context2.next = 31;
+                                _context2.next = 34;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.getAttachment(reportSheets[index]._id, "picture2.jpg");
 
-                            case 31:
+                            case 34:
                                 _context2.t3 = _context2.sent;
 
                                 _context2.t2.set.call(_context2.t2, "evaluation-pic-2", _context2.t3);
 
                                 _context2.t4 = formData;
-                                _context2.next = 36;
+                                _context2.next = 39;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.getAttachment(reportSheets[index]._id, "picture3.jpg");
 
-                            case 36:
+                            case 39:
                                 _context2.t5 = _context2.sent;
 
                                 _context2.t4.set.call(_context2.t4, "evaluation-pic-3", _context2.t5);
 
-                                _context2.next = 40;
+                                _context2.next = 43;
                                 return Promise.resolve($.ajax({
                                     url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/reports-upload.php",
                                     //url: "reports-upload.json",
@@ -382,65 +405,65 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                     data: formData
                                 }));
 
-                            case 40:
+                            case 43:
                                 serverResponse = _context2.sent;
 
 
                                 serverResponse = JSON.parse(serverResponse.trim());
 
                                 if (!(serverResponse.status !== "success")) {
-                                    _context2.next = 44;
+                                    _context2.next = 47;
                                     break;
                                 }
 
                                 throw serverResponse;
 
-                            case 44:
+                            case 47:
 
                                 // since server upload of the evaluation report was successful, remove the evaluation report from app database
                                 reportSheets[index]._deleted = true;
-                                _context2.next = 47;
+                                _context2.next = 50;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index]);
 
-                            case 47:
+                            case 50:
                                 /*await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                                 remove(reportSheets[index]._id, reportSheets[index]._rev);*/
                                 // also remove the evaluation report from the reportSheets array
                                 reportSheets.shift();
 
-                            case 48:
+                            case 51:
                                 index = 0;
-                                _context2.next = 19;
+                                _context2.next = 22;
                                 break;
 
-                            case 51:
-                                _context2.next = 53;
+                            case 54:
+                                _context2.next = 56;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
 
-                            case 53:
+                            case 56:
                                 return _context2.abrupt("return", totalReportSheets);
 
-                            case 54:
-                                _context2.prev = 54;
+                            case 57:
+                                _context2.prev = 57;
 
                                 if (!(showProgressModal === true)) {
-                                    _context2.next = 58;
+                                    _context2.next = 61;
                                     break;
                                 }
 
-                                _context2.next = 58;
+                                _context2.next = 61;
                                 return $('#determinate-progress-modal').get(0).hide();
 
-                            case 58:
+                            case 61:
                                 window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                return _context2.finish(54);
+                                return _context2.finish(57);
 
-                            case 60:
+                            case 63:
                             case "end":
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1,, 54, 60]]);
+                }, _callee2, this, [[1,, 57, 63]]);
             }));
 
             function uploadProjectEvaluationReports() {

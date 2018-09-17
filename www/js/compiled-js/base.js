@@ -201,7 +201,28 @@ const utopiasoftware = {
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
                     }
 
-                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.close();
+
+                    // create the pouchdb app database
+                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
+                        adapter: 'cordova-sqlite',
+                        location: 'default',
+                        androidDatabaseImplementation: 2
+                    });
+
+                    await new Promise(function(resolve, reject){
+                        utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments',
+                            cb: function(err, key){
+                                if(err){ // there is an error
+                                    reject(err); // reject Promise
+                                }
+                                else{ // no error
+                                    resolve(key); // resolve Promise
+                                }
+                            }});
+                    });
+
                     // get all the save project report sheets evaluated by the current signed in user from the app database
                     let reportSheets = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
@@ -213,7 +234,7 @@ const utopiasoftware = {
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 
-                    console.log("LENGTH ", reportSheets.docs.toJSON());
+                    console.log("LENGTH ", JSON.stringify(reportSheets.docs));
                     if(reportSheets.docs.length === 0){ // there are no report sheets to upload
                         if(showProgressModal === true){
                             // hide the progress loader
