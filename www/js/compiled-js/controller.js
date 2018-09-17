@@ -574,7 +574,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "projects"
                                 }},
-                            fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                            fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "CONTRACTORID", "MDAID", "TYPE"],
                             use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                         });
 
