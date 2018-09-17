@@ -213,7 +213,7 @@ const utopiasoftware = {
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 
-                    console.log("LENGTH ", reportSheets.docs);
+                    console.log("LENGTH ", reportSheets.docs.toJSON());
                     if(reportSheets.docs.length === 0){ // there are no report sheets to upload
                         if(showProgressModal === true){
                             // hide the progress loader

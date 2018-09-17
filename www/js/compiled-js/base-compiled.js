@@ -295,7 +295,7 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                 reportSheets = _context2.sent;
 
 
-                                console.log("LENGTH ", reportSheets.docs);
+                                console.log("LENGTH ", reportSheets.docs.toJSON());
 
                                 if (!(reportSheets.docs.length === 0)) {
                                     _context2.next = 16;
