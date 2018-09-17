@@ -151,9 +151,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             var totalUploads = 0;
 
             try{
-                console.log("TOTAL UPLOADS", totalUploads);
                 totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
                 uploadProjectEvaluationReports(true);
+                console.log("TOTAL UPLOADS", totalUploads);
                 if(totalUploads === 0) // no reports were uploaded.
                 {
                     await ons.notification.alert('No evaluation reports to upload',

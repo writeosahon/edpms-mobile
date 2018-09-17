@@ -198,13 +198,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // upload all the report evaluation sheets
                                 totalUploads = 0;
                                 _context3.prev = 1;
-
-                                console.log("TOTAL UPLOADS", totalUploads);
-                                _context3.next = 5;
+                                _context3.next = 4;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
 
-                            case 5:
+                            case 4:
                                 totalUploads = _context3.sent;
+
+                                console.log("TOTAL UPLOADS", totalUploads);
 
                                 if (!(totalUploads === 0)) {
                                     _context3.next = 11;
