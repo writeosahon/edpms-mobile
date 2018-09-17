@@ -201,6 +201,7 @@ const utopiasoftware = {
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
                     }
 
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
                     // get all the save project report sheets evaluated by the current signed in user from the app database
                     let reportSheets = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                         selector: {
@@ -211,6 +212,7 @@ const utopiasoftware = {
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 
+                    console.log("LENGTH ", reportSheets.docs.length);
                     if(reportSheets.docs.length === 0){ // there are no report sheets to upload
                         if(showProgressModal === true){
                             // hide the progress loader
@@ -269,8 +271,10 @@ const utopiasoftware = {
                         }
 
                         // since server upload of the evaluation report was successful, remove the evaluation report from app database
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                        remove(reportSheets[index]._id, reportSheets[index]._rev);
+                        reportSheets[index]._deleted = true;
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index])
+                        /*await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                        remove(reportSheets[index]._id, reportSheets[index]._rev);*/
                         // also remove the evaluation report from the reportSheets array
                         reportSheets.shift();
                     }
