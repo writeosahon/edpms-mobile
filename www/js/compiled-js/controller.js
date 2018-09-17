@@ -132,6 +132,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         }
                     })]);
 
+                if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
+                    window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
+                    $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+
+                    // call the side menu click button
+                    utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
+                }
+
             }
             catch(err){
                 console.log("APP LOADING ERROR", err);
