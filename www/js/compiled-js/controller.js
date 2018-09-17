@@ -49,8 +49,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // move back to the project search page
                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
 
-                // call the side menu click button
-                utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
             }
             else{
                 navigator.splashscreen.show(); // show the splashscreen
