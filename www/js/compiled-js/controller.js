@@ -39,15 +39,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
                 await $('#determinate-progress-modal').get(0).show();
                 $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
-                // load the app main page
-                await $('ons-splitter').get(0).content.load("app-main-template");
-
                 // flag to the app that you are going back to a page that needs to be refreshed
                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                 utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
                     JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
+                // load the app main page
+                await $('ons-splitter').get(0).content.load("app-main-template");
+
                 // move back to the project search page
-                $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+                await $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
 
             }
             else{
@@ -132,8 +132,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                     window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
-                    $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
-
+                    //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                     // call the side menu click button
                     utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                 }

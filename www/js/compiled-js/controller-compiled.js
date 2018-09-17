@@ -41,7 +41,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             if (!(window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "")) {
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
                             }
 
@@ -55,22 +55,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         case 7:
                             $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
-                            // load the app main page
-                            _context.next = 10;
-                            return $('ons-splitter').get(0).content.load("app-main-template");
-
-                        case 10:
-
                             // flag to the app that you are going back to a page that needs to be refreshed
                             window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                             utopiasoftware[utopiasoftware_app_namespace].model.userDetails = JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
-                            // move back to the project search page
-                            $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
+                            // load the app main page
+                            _context.next = 12;
+                            return $('ons-splitter').get(0).content.load("app-main-template");
 
-                            _context.next = 19;
+                        case 12:
+                            _context.next = 14;
+                            return $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
+
+                        case 14:
+                            _context.next = 20;
                             break;
 
-                        case 15:
+                        case 16:
                             navigator.splashscreen.show(); // show the splashscreen
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
@@ -87,7 +87,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).content.load("login-template");
                             }
 
-                        case 19:
+                        case 20:
 
                             // START ALL CORDOVA PLUGINS CONFIGURATIONS
                             try {
@@ -95,7 +95,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 20;
+                            _context.prev = 21;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -114,7 +114,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
-                            _context.next = 26;
+                            _context.next = 27;
                             return new Promise(function (resolve, reject) {
                                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
                                     cb: function cb(err, key) {
@@ -128,8 +128,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     } });
                             });
 
-                        case 26:
-                            _context.next = 28;
+                        case 27:
+                            _context.next = 29;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -149,39 +149,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 28:
+                        case 29:
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
-                                $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
-
+                                //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+                                window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                                 // call the side menu click button
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
 
-                            _context.next = 34;
+                            _context.next = 35;
                             break;
 
-                        case 31:
-                            _context.prev = 31;
-                            _context.t0 = _context["catch"](20);
+                        case 32:
+                            _context.prev = 32;
+                            _context.t0 = _context["catch"](21);
 
                             console.log("APP LOADING ERROR", _context.t0);
 
-                        case 34:
-                            _context.prev = 34;
+                        case 35:
+                            _context.prev = 35;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(34);
+                            return _context.finish(35);
 
-                        case 39:
+                        case 40:
                         case "end":
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[20, 31, 34, 39]]);
+            }, _callee, this, [[21, 32, 35, 40]]);
         }))); // end of ons.ready()
     },
 
