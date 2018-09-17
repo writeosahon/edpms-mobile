@@ -282,9 +282,6 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
                                     selector: {
                                         "TYPE": {
                                             "$eq": "saved report"
-                                        },
-                                        "evaluatedBy": {
-                                            "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username
                                         }
                                     },
                                     use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
