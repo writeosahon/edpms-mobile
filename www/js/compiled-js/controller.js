@@ -191,7 +191,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // start the app
                     startApp.set({
                         action: "ACTION_VIEW",
-                        package: "utopiasoftware.ptracker.edpms"
+                        uri: "edpms://"
                     }).start();
                     return;
                 }
