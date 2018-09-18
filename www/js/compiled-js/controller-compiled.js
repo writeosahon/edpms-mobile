@@ -31,7 +31,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         // initialise the app libraries and plugins
         ons.ready(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var appReloaded;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -41,72 +40,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // does nothing for now!!
                             });
 
-                            _context.next = 3;
-                            return new Promise(function (resolve, reject) {
-                                startApp.hasExtra("UTOPIASOFTWARE_EDPMS_RELOAD_APP", function () {
-                                    /* success */
-                                    startApp.getExtra("UTOPIASOFTWARE_EDPMS_RELOAD_APP", function (value) {
-                                        /* success */
-                                        resolve(value);
-                                    }, function () {
-                                        /* fail */
-                                        resolve(null);
-                                    });
-                                }, function () {
-                                    /* fail */
-                                    resolve(null);
-                                });
-                            });
-
-                        case 3:
-                            appReloaded = _context.sent;
-
-                            if (!(appReloaded && appReloaded !== "")) {
-                                _context.next = 21;
+                            if (!(window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "")) {
+                                _context.next = 14;
                                 break;
                             }
 
-                            _context.next = 7;
+                            _context.next = 4;
                             return $('ons-splitter').get(0).right.open();
 
-                        case 7:
+                        case 4:
                             $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
-                            _context.next = 10;
+                            _context.next = 7;
                             return $('#determinate-progress-modal').get(0).show();
 
-                        case 10:
+                        case 7:
                             $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
                             // flag to the app that you are going back to a page that needs to be refreshed
                             window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
-                            _context.t0 = JSON;
-                            _context.next = 15;
-                            return new Promise(function (resolve, reject) {
-                                startApp.hasExtra("UTOPIASOFTWARE_EDPMS_USER_DETAILS", function () {
-                                    /* success */
-                                    startApp.getExtra("UTOPIASOFTWARE_EDPMS_USER_DETAILS", function (value) {
-                                        /* success */
-                                        resolve(value);
-                                    }, function () {
-                                        /* fail */
-                                        resolve(null);
-                                    });
-                                }, function () {
-                                    /* fail */
-                                    resolve(null);
-                                });
-                            });
+                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails = JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
 
-                        case 15:
-                            _context.t1 = _context.sent;
-                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context.t0.parse.call(_context.t0, _context.t1);
-                            _context.next = 19;
+                            // load the app main page
+                            _context.next = 12;
                             return $('ons-splitter').get(0).content.load("app-main-template");
 
-                        case 19:
-                            _context.next = 25;
+                        case 12:
+                            _context.next = 18;
                             break;
 
-                        case 21:
+                        case 14:
                             navigator.splashscreen.show(); // show the splashscreen
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
@@ -123,7 +84,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).content.load("login-template");
                             }
 
-                        case 25:
+                        case 18:
 
                             // START ALL CORDOVA PLUGINS CONFIGURATIONS
                             try {
@@ -131,7 +92,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 26;
+                            _context.prev = 19;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -150,7 +111,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
-                            _context.next = 32;
+                            _context.next = 25;
                             return new Promise(function (resolve, reject) {
                                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
                                     cb: function cb(err, key) {
@@ -164,8 +125,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     } });
                             });
 
-                        case 32:
-                            _context.next = 34;
+                        case 25:
+                            _context.next = 27;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -185,38 +146,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 34:
+                        case 27:
 
-                            if (appReloaded && appReloaded !== "") {
+                            if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
+                                window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                                 //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
                                 // call the side menu click button
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
 
-                            _context.next = 40;
+                            _context.next = 33;
                             break;
 
-                        case 37:
-                            _context.prev = 37;
-                            _context.t2 = _context["catch"](26);
+                        case 30:
+                            _context.prev = 30;
+                            _context.t0 = _context["catch"](19);
 
-                            console.log("APP LOADING ERROR", _context.t2);
+                            console.log("APP LOADING ERROR", _context.t0);
 
-                        case 40:
-                            _context.prev = 40;
+                        case 33:
+                            _context.prev = 33;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(40);
+                            return _context.finish(33);
 
-                        case 45:
+                        case 38:
                         case "end":
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[26, 37, 40, 45]]);
+            }, _callee, this, [[19, 30, 33, 38]]);
         }))); // end of ons.ready()
     },
 
@@ -278,14 +240,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context3.prev = 1;
 
                                 if (!(reloadApp === true)) {
-                                    _context3.next = 6;
+                                    _context3.next = 8;
                                     break;
                                 }
 
                                 // set the flag to reload the app
-                                /*window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
-                                window.localStorage.setItem("utopiasoftware-edpms-user-details",
-                                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));*/
+                                window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
+                                window.localStorage.setItem("utopiasoftware-edpms-user-details", JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
                                 navigator.app.exitApp(); // Close the app
                                 // start the app
@@ -296,50 +257,50 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     "UTOPIASOFTWARE_EDPMS_USER_DETAILS": JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails) }).start();
                                 return _context3.abrupt("return");
 
-                            case 6:
-                                _context3.next = 8;
+                            case 8:
+                                _context3.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
 
-                            case 8:
+                            case 10:
                                 totalUploads = _context3.sent;
 
                                 console.log("TOTAL UPLOADS", totalUploads);
 
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 15;
+                                    _context3.next = 17;
                                     break;
                                 }
 
-                                _context3.next = 13;
+                                _context3.next = 15;
                                 return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Uploaded</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 13:
-                                _context3.next = 17;
+                            case 15:
+                                _context3.next = 19;
                                 break;
 
-                            case 15:
-                                _context3.next = 17;
+                            case 17:
+                                _context3.next = 19;
                                 return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 17:
-                                _context3.next = 22;
+                            case 19:
+                                _context3.next = 24;
                                 break;
 
-                            case 19:
-                                _context3.prev = 19;
+                            case 21:
+                                _context3.prev = 21;
                                 _context3.t0 = _context3["catch"](1);
 
                                 ons.notification.alert("uploading evaluation reports failed. Please try again. " + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 22:
+                            case 24:
                             case "end":
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 19]]);
+                }, _callee3, this, [[1, 21]]);
             }));
 
             function uploadReportsButtonClicked() {
