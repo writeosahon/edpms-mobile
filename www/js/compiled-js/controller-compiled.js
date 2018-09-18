@@ -41,36 +41,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             if (!(window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "")) {
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
                             }
 
-                            // disable all animation for the side menu opening
-                            $('#side-menu').attr("animation-options", "{\"duration\": 0, \"delay\": 0, \"timing\": 'ease-in'}");
-                            // open the side menu
-                            _context.next = 5;
+                            _context.next = 4;
+                            return new Promise(function (resolve, reject) {
+                                setTimeout(resolve, 200);
+                            });
+
+                        case 4:
+                            _context.next = 6;
                             return $('ons-splitter').get(0).right.open();
 
-                        case 5:
+                        case 6:
                             $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
-                            _context.next = 8;
+                            _context.next = 9;
                             return $('#determinate-progress-modal').get(0).show();
 
-                        case 8:
+                        case 9:
                             $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
                             // flag to the app that you are going back to a page that needs to be refreshed
                             window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                             utopiasoftware[utopiasoftware_app_namespace].model.userDetails = JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
 
                             // load the app main page
-                            _context.next = 13;
+                            _context.next = 14;
                             return $('ons-splitter').get(0).content.load("app-main-template");
 
-                        case 13:
-                            _context.next = 19;
+                        case 14:
+                            _context.next = 20;
                             break;
 
-                        case 15:
+                        case 16:
                             navigator.splashscreen.show(); // show the splashscreen
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
@@ -87,7 +90,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).content.load("login-template");
                             }
 
-                        case 19:
+                        case 20:
 
                             // START ALL CORDOVA PLUGINS CONFIGURATIONS
                             try {
@@ -95,7 +98,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 20;
+                            _context.prev = 21;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -114,7 +117,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
-                            _context.next = 26;
+                            _context.next = 27;
                             return new Promise(function (resolve, reject) {
                                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
                                     cb: function cb(err, key) {
@@ -128,8 +131,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     } });
                             });
 
-                        case 26:
-                            _context.next = 28;
+                        case 27:
+                            _context.next = 29;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -149,39 +152,41 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 28:
+                        case 29:
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
+
                                 window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
+                                window.localStorage.removeItem("utopiasoftware-edpms-user-details");
                                 //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
                                 // call the side menu click button
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
 
-                            _context.next = 34;
+                            _context.next = 35;
                             break;
 
-                        case 31:
-                            _context.prev = 31;
-                            _context.t0 = _context["catch"](20);
+                        case 32:
+                            _context.prev = 32;
+                            _context.t0 = _context["catch"](21);
 
                             console.log("APP LOADING ERROR", _context.t0);
 
-                        case 34:
-                            _context.prev = 34;
+                        case 35:
+                            _context.prev = 35;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(34);
+                            return _context.finish(35);
 
-                        case 39:
+                        case 40:
                         case "end":
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[20, 31, 34, 39]]);
+            }, _callee, this, [[21, 32, 35, 40]]);
         }))); // end of ons.ready()
     },
 
@@ -200,17 +205,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
+                                console.log("STACKS", $('#app-main-navigator').get(0).pages);
                                 // remove the user details rev id from storage
                                 window.localStorage.removeItem("utopiasoftware-edpms-app-status");
                                 // load the login page
-                                _context2.next = 3;
+                                _context2.next = 4;
                                 return $('ons-splitter').get(0).content.load("login-template");
 
-                            case 3:
+                            case 4:
                                 // hide the side menu
                                 $('ons-splitter').get(0).right.close();
 
-                            case 4:
+                            case 5:
                             case "end":
                                 return _context2.stop();
                         }

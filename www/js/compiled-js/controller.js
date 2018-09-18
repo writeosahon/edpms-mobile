@@ -35,8 +35,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                 window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
-                // disable all animation for the side menu opening
-                $('#side-menu').attr("animation-options", `{"duration": 0, "delay": 0, "timing": 'ease-in'}`);
+
+                await new Promise(function(resolve, reject){setTimeout(resolve, 200);});
                 // open the side menu
                 await $('ons-splitter').get(0).right.open();
                 $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
@@ -136,7 +136,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                     window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
+
                     window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
+                    window.localStorage.removeItem("utopiasoftware-edpms-user-details");
                     //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
                     // call the side menu click button
                     utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
@@ -167,6 +169,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         async signOutButtonClicked(){
+            console.log("STACKS", $('#app-main-navigator').get(0).pages);
             // remove the user details rev id from storage
             window.localStorage.removeItem("utopiasoftware-edpms-app-status");
             // load the login page
