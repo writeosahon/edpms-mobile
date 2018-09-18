@@ -251,7 +251,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
                                 window.localStorage.setItem("utopiasoftware-edpms-user-details", JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                                cordova.plugins.diagnostic.restart(function () {}, false);
+                                cordova.plugins.diagnostic.restart(function () {}, true);
                                 return _context3.abrupt("return");
 
                             case 7:
