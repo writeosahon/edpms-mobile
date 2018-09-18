@@ -41,7 +41,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             if (!(window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "")) {
-                                _context.next = 16;
+                                _context.next = 14;
                                 break;
                             }
 
@@ -63,14 +63,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             return $('ons-splitter').get(0).content.load("app-main-template");
 
                         case 12:
-                            _context.next = 14;
-                            return $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
-
-                        case 14:
-                            _context.next = 20;
+                            _context.next = 18;
                             break;
 
-                        case 16:
+                        case 14:
                             navigator.splashscreen.show(); // show the splashscreen
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
@@ -87,7 +83,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).content.load("login-template");
                             }
 
-                        case 20:
+                        case 18:
 
                             // START ALL CORDOVA PLUGINS CONFIGURATIONS
                             try {
@@ -95,7 +91,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 21;
+                            _context.prev = 19;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -114,7 +110,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
-                            _context.next = 27;
+                            _context.next = 25;
                             return new Promise(function (resolve, reject) {
                                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
                                     cb: function cb(err, key) {
@@ -128,8 +124,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     } });
                             });
 
-                        case 27:
-                            _context.next = 29;
+                        case 25:
+                            _context.next = 27;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -149,7 +145,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 29:
+                        case 27:
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
                                 //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
@@ -158,30 +154,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
 
-                            _context.next = 35;
+                            _context.next = 33;
                             break;
 
-                        case 32:
-                            _context.prev = 32;
-                            _context.t0 = _context["catch"](21);
+                        case 30:
+                            _context.prev = 30;
+                            _context.t0 = _context["catch"](19);
 
                             console.log("APP LOADING ERROR", _context.t0);
 
-                        case 35:
-                            _context.prev = 35;
+                        case 33:
+                            _context.prev = 33;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(35);
+                            return _context.finish(33);
 
-                        case 40:
+                        case 38:
                         case "end":
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[21, 32, 35, 40]]);
+            }, _callee, this, [[19, 30, 33, 38]]);
         }))); // end of ons.ready()
     },
 

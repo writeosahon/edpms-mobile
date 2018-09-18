@@ -47,7 +47,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 await $('ons-splitter').get(0).content.load("app-main-template");
 
                 // move back to the project search page
-                await $('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
+                //await $('#app-main-navigator').get(0).resetToPage("search-project-page.html");
 
             }
             else{
