@@ -239,7 +239,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context3.prev = 1;
 
                                 if (!(reloadApp === true)) {
-                                    _context3.next = 7;
+                                    _context3.next = 8;
                                     break;
                                 }
 
@@ -247,53 +247,58 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
                                 window.localStorage.setItem("utopiasoftware-edpms-user-details", JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                                cordova.plugins.diagnostic.restart(function () {}, false);
+                                navigator.app.exitApp(); // Close the app
+                                // start the app
+                                startApp.set({
+                                    action: "ACTION_VIEW",
+                                    package: "utopiasoftware.ptracker.edpms"
+                                }).start();
                                 return _context3.abrupt("return");
 
-                            case 7:
-                                _context3.next = 9;
+                            case 8:
+                                _context3.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
 
-                            case 9:
+                            case 10:
                                 totalUploads = _context3.sent;
 
                                 console.log("TOTAL UPLOADS", totalUploads);
 
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 16;
+                                    _context3.next = 17;
                                     break;
                                 }
 
-                                _context3.next = 14;
+                                _context3.next = 15;
                                 return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Uploaded</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 14:
-                                _context3.next = 18;
+                            case 15:
+                                _context3.next = 19;
                                 break;
 
-                            case 16:
-                                _context3.next = 18;
+                            case 17:
+                                _context3.next = 19;
                                 return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 18:
-                                _context3.next = 23;
+                            case 19:
+                                _context3.next = 24;
                                 break;
 
-                            case 20:
-                                _context3.prev = 20;
+                            case 21:
+                                _context3.prev = 21;
                                 _context3.t0 = _context3["catch"](1);
 
                                 ons.notification.alert("uploading evaluation reports failed. Please try again. " + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 23:
+                            case 24:
                             case "end":
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 20]]);
+                }, _callee3, this, [[1, 21]]);
             }));
 
             function uploadReportsButtonClicked() {

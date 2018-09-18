@@ -187,7 +187,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.localStorage.setItem("utopiasoftware-edpms-user-details",
                         JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                    cordova.plugins.diagnostic.restart(function(){}, false);
+                    navigator.app.exitApp(); // Close the app
+                    // start the app
+                    startApp.set({
+                        action: "ACTION_VIEW",
+                        package: "utopiasoftware.ptracker.edpms"
+                    }).start();
                     return;
                 }
 
