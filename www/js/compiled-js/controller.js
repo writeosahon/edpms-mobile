@@ -35,6 +35,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                 window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
+                // disable all animation for the side menu opening
+                $('#side-menu').attr("animation-options", `{"duration": 0, "delay": 0, "timing": 'ease-in'}`);
                 // open the side menu
                 await $('ons-splitter').get(0).right.open();
                 $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
@@ -717,9 +719,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" &&
                         window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                         // hide the progress loader
-                        await Promise.all([$('#determinate-progress-modal').get(0).hide(),
-                            $('#loader-modal').get(0).hide()]);
+                        await Promise.all([$('#determinate-progress-modal').get(0).hide()]);
                     }
+
+                    // hide the loader modal
+                    await Promise.all([$('#loader-modal').get(0).hide()]);
 
                     // this only displays when page is NOT marked as being loaded from a user refresh request
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
