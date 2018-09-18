@@ -225,6 +225,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         /**
          * method is triggered when the "Upload Reports" button is clicked
+         *
+         * @param reloadApp {Boolean} flag whether triggering this method should also lead to an app reload
+         *
          * @returns {Promise<void>}
          */
         uploadReportsButtonClicked: function () {
@@ -240,7 +243,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context3.prev = 1;
 
                                 if (!(reloadApp === true)) {
-                                    _context3.next = 8;
+                                    _context3.next = 9;
                                     break;
                                 }
 
@@ -248,59 +251,70 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
                                 window.localStorage.setItem("utopiasoftware-edpms-user-details", JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                                navigator.app.exitApp(); // Close the app
-                                // start the app
+                                /*navigator.app.exitApp(); // Close the app
+                                // restart the app
                                 startApp.set({
                                     action: "ACTION_VIEW",
                                     uri: "edpms://"
-                                }, { "UTOPIASOFTWARE_EDPMS_RELOAD-APP": "search-project-page.html",
-                                    "UTOPIASOFTWARE_EDPMS_USER_DETAILS": JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails) }).start();
+                                }, {"UTOPIASOFTWARE_EDPMS_RELOAD-APP": "search-project-page.html",
+                                        "UTOPIASOFTWARE_EDPMS_USER_DETAILS":
+                                JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails)}).start();*/
+
+                                _context3.next = 7;
+                                return new Promise(function (resolve, reject) {
+                                    window.setTimeout(resolve, 0);
+                                });
+
+                            case 7:
+
+                                cordova.plugins.diagnostic.restart(function () {}, false);
+
                                 return _context3.abrupt("return");
 
-                            case 8:
-                                _context3.next = 10;
+                            case 9:
+                                _context3.next = 11;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.uploadProjectEvaluationReports(true);
 
-                            case 10:
+                            case 11:
                                 totalUploads = _context3.sent;
 
                                 console.log("TOTAL UPLOADS", totalUploads);
 
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 17;
+                                    _context3.next = 18;
                                     break;
                                 }
 
-                                _context3.next = 15;
+                                _context3.next = 16;
                                 return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Uploaded</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 15:
-                                _context3.next = 19;
+                            case 16:
+                                _context3.next = 20;
                                 break;
 
-                            case 17:
-                                _context3.next = 19;
+                            case 18:
+                                _context3.next = 20;
                                 return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 19:
-                                _context3.next = 24;
+                            case 20:
+                                _context3.next = 25;
                                 break;
 
-                            case 21:
-                                _context3.prev = 21;
+                            case 22:
+                                _context3.prev = 22;
                                 _context3.t0 = _context3["catch"](1);
 
                                 ons.notification.alert("uploading evaluation reports failed. Please try again. " + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 24:
+                            case 25:
                             case "end":
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 21]]);
+                }, _callee3, this, [[1, 22]]);
             }));
 
             function uploadReportsButtonClicked() {
@@ -382,8 +396,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-
-                                    //$('#determinate-progress-modal').get(0).show();
 
                                 case 10:
                                 case "end":
@@ -948,21 +960,26 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context8.sent;
 
                                 case 50:
-                                    _context8.next = 52;
+                                    if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes")) {
+                                        _context8.next = 53;
+                                        break;
+                                    }
+
+                                    _context8.next = 53;
                                     return Promise.all([$('#determinate-progress-modal').get(0).hide(), $('#loader-modal').get(0).hide()]);
 
-                                case 52:
+                                case 53:
 
                                     // this only displays when page is NOT marked as being loaded from a user refresh request
                                     if (window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                                         // display a toast to the user
                                         ons.notification.toast("<ons-icon icon=\"md-check\" size=\"20px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Welcome " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + "</span>", { timeout: 3000 });
                                     }
-                                    _context8.next = 60;
+                                    _context8.next = 61;
                                     break;
 
-                                case 55:
-                                    _context8.prev = 55;
+                                case 56:
+                                    _context8.prev = 56;
                                     _context8.t0 = _context8["catch"](8);
 
                                     // display error message indicating that projects data could not be loaded
@@ -970,20 +987,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal').get(0).hide();
                                     $('#loader-modal').get(0).hide();
 
-                                case 60:
-                                    _context8.prev = 60;
+                                case 61:
+                                    _context8.prev = 61;
 
                                     // clear the page refresh marker from device session storage
                                     window.sessionStorage.removeItem("utopiasoftware-edpms-refresh-page");
                                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                    return _context8.finish(60);
+                                    return _context8.finish(61);
 
-                                case 64:
+                                case 65:
                                 case "end":
                                     return _context8.stop();
                             }
                         }
-                    }, _callee8, this, [[8, 55, 60, 64]]);
+                    }, _callee8, this, [[8, 56, 61, 65]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -1166,7 +1183,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         "TYPE": {
                                             "$eq": "projects"
                                         } },
-                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "CONTRACTORID", "MDAID", "TYPE"],
                                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                                 });
 

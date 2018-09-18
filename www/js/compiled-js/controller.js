@@ -134,7 +134,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                     window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
-                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app")
+                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                     //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
                     // call the side menu click button
                     utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
@@ -175,6 +175,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         /**
          * method is triggered when the "Upload Reports" button is clicked
+         *
+         * @param reloadApp {Boolean} flag whether triggering this method should also lead to an app reload
+         *
          * @returns {Promise<void>}
          */
         async uploadReportsButtonClicked(reloadApp = false){
@@ -189,14 +192,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.localStorage.setItem("utopiasoftware-edpms-user-details",
                         JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                    navigator.app.exitApp(); // Close the app
-                    // start the app
+                    /*navigator.app.exitApp(); // Close the app
+                    // restart the app
                     startApp.set({
                         action: "ACTION_VIEW",
                         uri: "edpms://"
                     }, {"UTOPIASOFTWARE_EDPMS_RELOAD-APP": "search-project-page.html",
                             "UTOPIASOFTWARE_EDPMS_USER_DETAILS":
-                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails)}).start();
+                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails)}).start();*/
+
+                    await new Promise(function(resolve, reject){
+                       window.setTimeout(resolve, 0);
+                    });
+
+                    cordova.plugins.diagnostic.restart(function(){}, false);
+
                     return;
                 }
 
@@ -295,7 +305,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // hide the loader
                 $('#loader-modal').get(0).hide();
 
-                //$('#determinate-progress-modal').get(0).show();
             }
 
         },
@@ -704,9 +713,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             (await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails"));
                     }
 
-                    // hide the progress loader
-                    await Promise.all([$('#determinate-progress-modal').get(0).hide(),
-                        $('#loader-modal').get(0).hide()]);
+                    // check if the user just completed a signin or log-in
+                    if(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" &&
+                        window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
+                        // hide the progress loader
+                        await Promise.all([$('#determinate-progress-modal').get(0).hide(),
+                            $('#loader-modal').get(0).hide()]);
+                    }
 
                     // this only displays when page is NOT marked as being loaded from a user refresh request
                     if(window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
@@ -850,7 +863,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         "TYPE": {
                           "$eq": "projects"
                         }},
-                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                    fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "CONTRACTORID", "MDAID", "TYPE"],
                     use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
                 });
 
