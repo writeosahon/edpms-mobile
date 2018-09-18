@@ -133,7 +133,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
                     window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
                     //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
-                    //window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
+                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                     // call the side menu click button
                     utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                 }
@@ -187,7 +187,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     window.localStorage.setItem("utopiasoftware-edpms-user-details",
                         JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
 
-                    cordova.plugins.diagnostic.restart(function(){}, true);
+                    cordova.plugins.diagnostic.restart(function(){}, false);
                     return;
                 }
 
