@@ -32,8 +32,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
-            if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
-                window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
+            var appReloaded = await new Promise(function(resolve, reject){
+                startApp.hasExtra("UTOPIASOFTWARE_EDPMS_RELOAD_APP", function() { /* success */
+                    startApp.getExtra("UTOPIASOFTWARE_EDPMS_RELOAD_APP", function(value) { /* success */
+                       resolve(value);
+                    }, function() { /* fail */
+                        resolve(null);
+                    });
+                }, function() { /* fail */
+                    resolve(null);
+                });
+            });
+
+            if(appReloaded && appReloaded !== ""){
                 // open the side menu
                 await $('ons-splitter').get(0).right.open();
                 $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
@@ -42,7 +53,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // flag to the app that you are going back to a page that needs to be refreshed
                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                 utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
-                    JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
+                    JSON.parse(
+                        await new Promise(function(resolve, reject){
+                            startApp.hasExtra("UTOPIASOFTWARE_EDPMS_USER_DETAILS", function() { /* success */
+                                startApp.getExtra("UTOPIASOFTWARE_EDPMS_USER_DETAILS", function(value) { /* success */
+                                    resolve(value);
+                                }, function() { /* fail */
+                                    resolve(null);
+                                });
+                            }, function() { /* fail */
+                                resolve(null);
+                            });
+                        })
+                    );
+
                 // load the app main page
                 await $('ons-splitter').get(0).content.load("app-main-template");
 
@@ -130,10 +154,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         }
                     })]);
 
-                if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
-                    window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
+                if(appReloaded && appReloaded !== ""){
                     //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
-                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                     // call the side menu click button
                     utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                 }
@@ -183,16 +205,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 if(reloadApp === true){
                     // set the flag to reload the app
-                    window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
+                    /*window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
                     window.localStorage.setItem("utopiasoftware-edpms-user-details",
-                        JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
+                        JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));*/
 
                     navigator.app.exitApp(); // Close the app
                     // start the app
                     startApp.set({
                         action: "ACTION_VIEW",
                         uri: "edpms://"
-                    }).start();
+                    }, {"UTOPIASOFTWARE_EDPMS_RELOAD-APP": "search-project-page.html",
+                            "UTOPIASOFTWARE_EDPMS_USER_DETAILS":
+                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails)}).start();
                     return;
                 }
 
