@@ -228,9 +228,11 @@ const utopiasoftware = {
                         selector: {
                             "TYPE": {
                                 "$eq": "saved report"
+                            },
+                            "evaluatedBy": {
+                                "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.username
                             }
                         },
-                        fields: ["_id", "_rev", "milestonesEvaluations", "projectData", "projectGeoPosition"],
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 

@@ -153,7 +153,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
                                 //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
-                                window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
+                                //window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
                                 // call the side menu click button
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
