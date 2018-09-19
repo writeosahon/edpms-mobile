@@ -2262,7 +2262,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         descending: true,
                         startkey: ["saved report",
                             utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()],
-                        startkey: ["saved report",
+                        endkey: ["saved report",
                             utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username,
                         new Date(2018, 0, 1)]
                     });
