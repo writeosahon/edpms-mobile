@@ -304,7 +304,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 18:
                                 _context3.next = 20;
-                                return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                                return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="28px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 20:
@@ -1840,7 +1840,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 _context15.next = 10;
                                 return new Promise(function (resolve, reject) {
                                     navigator.camera.getPicture(resolve, reject, {
-                                        quality: 60,
+                                        quality: 70,
                                         destinationType: Camera.DestinationType.FILE_URI,
                                         sourceType: Camera.PictureSourceType.CAMERA,
                                         allowEdit: false,
@@ -2606,7 +2606,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 30:
                                 _context20.next = 32;
-                                return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                                return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="28px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 32:
