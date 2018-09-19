@@ -252,7 +252,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 else{
                     // inform user that all evaluation reports have been uploaded
                     await ons.notification.alert(`All evaluation reports successfully uploaded. ${totalUploads} in total`,
-                        {title: '<ons-icon icon="fa-check" style="color: #00B2A0; transform: scale(0.6)" size="28px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                        {title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                             buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
                 }
             }
@@ -2182,7 +2182,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved
                 await ons.notification.alert('This evaluation report has been saved successfully',
-                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0; transform: scale(0.6)" size="28px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
 
                 // flag to the app that you are going back to a page that needs to be refreshed
