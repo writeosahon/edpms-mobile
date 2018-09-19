@@ -344,11 +344,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context4.prev = _context4.next) {
                             case 0:
+                                _context4.next = 2;
+                                return $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", { animation: "slide" });
 
-                                // push the "View Reports" page to view
-                                $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", { animation: "slide" });
+                            case 2:
+                                // hide the side menu
+                                $('ons-splitter').get(0).right.close();
 
-                            case 1:
+                            case 3:
                             case "end":
                                 return _context4.stop();
                         }
@@ -2494,6 +2497,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 for (index = 0; index < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length; index++) {
                                     milestoneEvaluation = { milestoneId: utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones[index].BOQID,
                                         milestoneTitle: utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones[index].CATEGORY,
+                                        milestoneRate: utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones[index].RATE,
                                         milestoneScore: jQuerySliderElements.eq(index).get(0)._ptracker_slider.value };
 
                                     // add the milestoneEvaluation data to the collection

@@ -17,11 +17,11 @@
 
     <div class="content container-fluid">
         <!-- page preloader -->
-        <ons-progress-bar class="page-preloader" indeterminate style="display: block;"></ons-progress-bar>
+        <ons-progress-bar class="page-preloader" indeterminate style="display: none;"></ons-progress-bar>
 
-        <p class="no-report-found" style="text-align: center; margin-top: 2em; display: block;">
+        <p class="no-report-found" style="text-align: center; margin-top: 2em; display: none;">
             <ons-icon icon="md-utopiasoftware-icon-document" size="70px" style="color: grey;"></ons-icon>
-            <div class="no-report-found" style="font-size: 1.5em; color: grey; text-align: center; display: block">No Report Found</div>
+            <div class="no-report-found" style="font-size: 1.5em; color: grey; text-align: center; display: none">No Report Found</div>
         </p>
 
         <p class="view-reports-load-error" style="text-align: center; margin-top: 2em; display: none;">
@@ -34,17 +34,78 @@
         </div>
         </p>
 
-        <div id="search-project-details" class="row" style="width: 90%; margin-top: 2em; margin-left: 5%;
-        margin-right: 5%;font-size: 1em; display: none">
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: uppercase; padding: 1rem;">GHP-0001</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Title</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">Renovation of Udakpa Primary School</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contractor</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">A & B Constructor Limited</div>
-            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contract Sum</div>
-            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">34,567,000</div>
-        </div>
+        <ons-list id="view-reports-list" style="display: block">
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="">
+                <div class="left">
+                    <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                </div>
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5">GHP-0002-REPORT-12345896908903</span>
+                    <span class="list-item__subtitle">Project: GHP-0002</span>
+                    <span class="list-item__subtitle">Evaluated By: writeosahon@gmail.com</span>
+                    <span class="list-item__subtitle">March 6, 2018</span>
+                </div>
+                <div class="right">
+                    <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">
+                        <ons-icon icon="md-delete">
+                        </ons-icon>
+                    </ons-fab>
+                </div>
+            </ons-list-item>
+
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="">
+                <div class="left">
+                    <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                </div>
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5">GHP-0002-REPORT-12345896908903</span>
+                    <span class="list-item__subtitle">Project: GHP-0002</span>
+                    <span class="list-item__subtitle">Evaluated By: writeosahon@gmail.com</span>
+                    <span class="list-item__subtitle">March 6, 2018</span>
+                </div>
+                <div class="right">
+                    <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">
+                        <ons-icon icon="md-delete">
+                        </ons-icon>
+                    </ons-fab>
+                </div>
+            </ons-list-item>
+
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="">
+                <div class="left">
+                    <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                </div>
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5">GHP-0002-REPORT-12345896908903</span>
+                    <span class="list-item__subtitle">Project: GHP-0002</span>
+                    <span class="list-item__subtitle">Evaluated By: writeosahon@gmail.com</span>
+                    <span class="list-item__subtitle">March 6, 2018</span>
+                </div>
+                <div class="right">
+                    <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">
+                        <ons-icon icon="md-delete">
+                        </ons-icon>
+                    </ons-fab>
+                </div>
+            </ons-list-item>
+
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="">
+                <div class="left" modifier="heritage-side-menu-list">
+                    <ons-icon icon="md-home" size="56px" class="list-item__icon" fixed-width></ons-icon>
+                </div>
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5">GHP-0002-REPORT-12345896908903</span>
+                    <span class="list-item__subtitle">Project: GHP-0002</span>
+                    <span class="list-item__subtitle">Evaluated By: writeosahon@gmail.com</span>
+                    <span class="list-item__subtitle" style="font-size: 0.6em">March 6, 2018</span>
+                </div>
+            </ons-list-item>
+
+        </ons-list>
     </div>
 
     <ons-bottom-toolbar modifier="aligned" style="display: none">

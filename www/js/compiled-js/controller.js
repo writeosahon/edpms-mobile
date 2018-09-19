@@ -244,7 +244,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async viewReportsButtonClicked(){
 
             // push the "View Reports" page to view
-            $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", {animation: "slide"});
+            await $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", {animation: "slide"});
+            // hide the side menu
+            $('ons-splitter').get(0).right.close();
         }
     },
 
@@ -2082,6 +2084,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         projectEvaluationPageViewModel.projectMilestones[index].BOQID,
                 milestoneTitle: utopiasoftware[utopiasoftware_app_namespace].controller.
                     projectEvaluationPageViewModel.projectMilestones[index].CATEGORY,
+                    milestoneRate: utopiasoftware[utopiasoftware_app_namespace].controller.
+                        projectEvaluationPageViewModel.projectMilestones[index].RATE,
                 milestoneScore: jQuerySliderElements.eq(index).get(0)._ptracker_slider.value};
 
                 // add the milestoneEvaluation data to the collection
