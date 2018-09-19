@@ -2737,11 +2737,266 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 9:
                                     dbQueryResult = _context21.sent;
-                                    _context21.next = 15;
+
+
+                                    console.log("VIEW REPORTS", dbQueryResult);
+
+                                    // check if any milestones were returned
+                                    /*if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
+                                        throw "error"; // throw an error
+                                    }
+                                      // if the code gets to this point, milestones were returned
+                                    // sort the returned milestones array
+                                    dbQueryResult.docs.sort(function(firstElem, secondElement){
+                                        return (window.parseInt(firstElem.BOQID) - window.parseInt(secondElement.BOQID));
+                                    });
+                                      utopiasoftware[utopiasoftware_app_namespace].controller.
+                                        projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
+                                      // create the evaluation carousel item based on the milestones retrieved
+                                    let carouselContent = "";
+                                    for(let index = 0; index < dbQueryResult.docs.length; index++)
+                                    {
+                                        carouselContent = `
+                                        <ons-carousel-item style="overflow-y: auto">
+                                            <ons-card>
+                                                <div style="font-size: 1.2em">
+                                                    ${dbQueryResult.docs[index].CATEGORY}
+                                                </div>
+                                                <div class="project-evaluation-slider"></div>
+                                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">
+                                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> 
+                                                    ${kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2")}
+                                                </div>
+                                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">
+                                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
+                                                    ${kendo.toString(kendo.parseFloat(0), "n2")}
+                                                </div>
+                                            </ons-card>
+                                        </ons-carousel-item>`;
+                                        $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+                                    } // end of for loop
+                                      // append the carousel content used for displaying evaluation pictures
+                                    carouselContent = `
+                                    <ons-carousel-item style="overflow-y: scroll">
+                                        <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">
+                                            <div class="col-xs-6" style="padding: 0.5em; position: relative">
+                                                <div style="position: absolute; top: 5px;">
+                                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-1" direction="down">
+                                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
+                                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)">
+                                                            <ons-icon icon="md-image-o"></ons-icon>
+                                                        </ons-fab>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)">
+                                                            <ons-icon icon="md-camera"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)">
+                                                            <ons-icon icon="md-delete"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                    </ons-speed-dial>
+                                                </div>
+                                                <img id="project-evaluation-picture-1" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">
+                                            </div>
+                                            <div class="col-xs-6" style="padding: 0.5em; position: relative">
+                                                <div style="position: absolute; top: 5px;">
+                                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-2" direction="down">
+                                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
+                                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)">
+                                                            <ons-icon icon="md-image-o"></ons-icon>
+                                                        </ons-fab>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)">
+                                                            <ons-icon icon="md-camera"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(2)">
+                                                            <ons-icon icon="md-delete"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                    </ons-speed-dial>
+                                                </div>
+                                                <img id="project-evaluation-picture-2" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">
+                                            </div>
+                                            <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">
+                                                <div style="position: absolute; top: 5px;">
+                                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-3" direction="down">
+                                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"
+                                                                 class="utopiasoftware-pic-capture-speed-dial" 
+                                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)">
+                                                            <ons-icon icon="md-image-o"></ons-icon>
+                                                        </ons-fab>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)">
+                                                            <ons-icon icon="md-camera"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"
+                                                                             class="utopiasoftware-pic-capture-speed-dial" 
+                                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(3)">
+                                                            <ons-icon icon="md-delete"></ons-icon>
+                                                        </ons-speed-dial-item>
+                                                    </ons-speed-dial>
+                                                </div>
+                                                <img id="project-evaluation-picture-3" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">
+                                            </div>
+                                        </div>
+                                    </ons-carousel-item>`;
+                                    // append the generated carousel content to the project evaluation carousel
+                                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+                                      // append the carousel content used for displaying project location on a map
+                                    carouselContent = `
+                                    <ons-carousel-item style="position: relative;">
+                                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; 
+                                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">
+                                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;
+                                            display: inline-block;"
+                                            onclick="utopiasoftware[utopiasoftware_app_namespace].
+                                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>
+                                            <div id="project-evaluation-gps-progress" 
+                                            style="position: relative; display: none; top: 65px; text-align: center">
+                                                <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>
+                                            </div>
+                                            <div id="project-evaluation-gps-location-tag" style="color: #ffffff; 
+                                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; 
+                                            background-color: rgba(0,213,195,0.80); padding: 0.6em; border-radius: 10px; 
+                                            width: 80%; position: absolute; bottom: 2px; display: inline-block; 
+                                            left: 10%; 
+                                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Location:</div>
+                                        </div>
+                                    </ons-carousel-item>`;
+                                    // append the generated carousel content to the project evaluation carousel
+                                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+                                      // append the carousel content used for displaying project remarks textarea
+                                    carouselContent = `
+                                    <ons-carousel-item style="overflow-y: auto">
+                                        <textarea id="project-evaluation-remarks" spellcheck="true" 
+                                        style="width: 80%; height: 4em; margin-left: 10%;
+                                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; 
+                                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid; 
+                                        background-color: transparent;"></textarea>
+                                    </ons-carousel-item>`;
+                                    // append the generated carousel content to the project evaluation carousel
+                                    $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+                                      // create the project evaluation slider elements
+                                    $('#project-evaluation-page .project-evaluation-slider').
+                                    each(function(index, element){
+                                        element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
+                                        // create each milestone evaluation slider
+                                        let aSlider = new ej.inputs.Slider({
+                                            min: 0,
+                                            max: 100,
+                                            value: 0,
+                                            step: 1,
+                                            orientation: 'Horizontal',
+                                            type: 'MinRange',
+                                            created: function(){
+                                                $('.e-handle', element).text(this.value);
+                                            },
+                                            change: function(changeEvent){
+                                                $('.e-handle', element).text(changeEvent.value);
+                                                // update the project evaluation started flag to indicate evaluation has started
+                                                utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                    projectEvaluationPageViewModel.hasProjectEvaluationStarted = true;
+                                            },
+                                            changed: function(changedEvent){
+                                                // update the milestone current value based on changes in the slider
+                                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card'))
+                                                    .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
+                                                    ${kendo.toString(kendo.parseFloat((changedEvent.value / 100) * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2")}`);
+                                            }
+                                        });
+                                        aSlider.appendTo(element);
+                                        element._ptracker_slider = aSlider;
+                                    });
+                                      // create the Viewer widget used to view the project evaluation photos
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                                        projectEvaluationPageViewModel.pictureViewer =
+                                        new Viewer($('#project-evaluation-page .project-evaluation-images-container').get(0),
+                                            {inline: false,
+                                                toolbar: {
+                                                    prev: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    next: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    zoomIn: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    zoomOut: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    oneToOne: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    reset: {
+                                                        show: true,
+                                                        size: 'large',
+                                                    },
+                                                    play: {
+                                                        show: false,
+                                                        size: 'large',
+                                                    },
+                                                    rotateLeft: {
+                                                        show: false,
+                                                        size: 'large',
+                                                    },
+                                                    rotateRight: {
+                                                        show: false,
+                                                        size: 'large',
+                                                    },
+                                                    flipHorizontal: {
+                                                        show: false,
+                                                        size: 'large',
+                                                    },
+                                                    flipVertical: {
+                                                        show: false,
+                                                        size: 'large',
+                                                    }
+                                                },
+                                                backdrop: 'static',
+                                                shown: function(){ // event is triggered when Picture Viewer is shown
+                                                    // indicate that the picture viewer widget is showing
+                                                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                        projectEvaluationPageViewModel.isPictureViewerShowing = true;
+                                                },
+                                                hidden: function(){ // event is triggered when Picture Viewer is hidden
+                                                    // indicate that the picture viewer widget is hidden
+                                                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                                                        projectEvaluationPageViewModel.isPictureViewerShowing = false;
+                                                }});
+                                      // hide the page preloader
+                                    $('#project-evaluation-page .page-preloader').css("display", "none");
+                                    // show the items that are to be displayed
+                                    $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
+                                    css("display", "block");
+                                    $('#project-evaluation-page #project-evaluation-next-button').
+                                    css("display", "inline-block");*/
+                                    _context21.next = 16;
                                     break;
 
-                                case 12:
-                                    _context21.prev = 12;
+                                case 13:
+                                    _context21.prev = 13;
                                     _context21.t0 = _context21["catch"](6);
 
                                     console.log("REPORT VOEW ERROR", _context21.t0);
@@ -2756,19 +3011,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                      // display the message to inform user that there are no milestones available for the project
                                      $('#project-evaluation-page .no-milestone-found').css("display", "block");*/
 
-                                case 15:
-                                    _context21.prev = 15;
+                                case 16:
+                                    _context21.prev = 16;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(15);
+                                    return _context21.finish(16);
 
-                                case 18:
+                                case 19:
                                 case "end":
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[6, 12, 15, 18]]);
+                    }, _callee20, this, [[6, 13, 16, 19]]);
                 }));
 
                 return function loadPageOnAppReady() {

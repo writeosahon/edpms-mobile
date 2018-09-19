@@ -2267,6 +2267,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         new Date(2018, 0, 1)]
                     });
 
+                    console.log("VIEW REPORTS", dbQueryResult);
+
                     // check if any milestones were returned
                     /*if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
                         throw "error"; // throw an error
