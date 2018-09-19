@@ -206,9 +206,13 @@ const utopiasoftware = {
                         selector: {
                             "TYPE": {
                                 "$eq": "saved report"
+                            },
+                            "evaluatedBy": {
+                                "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username
                             }
                         },
-                        use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                        use_index: ["ptracker-index-designdoc", "FIND_SAVED_REPORT_BY_EVALUATED_BY"]
                     });
 
                     console.log("LENGTH ", JSON.stringify(reportSheets.docs));

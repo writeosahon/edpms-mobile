@@ -75,15 +75,15 @@ $(document).on("destroy", "#project-evaluation-page", utopiasoftware[utopiasoftw
 $(document).on("postchange", '#project-evaluation-page #project-evaluation-carousel', utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.carouselChanged);
 
 // listen for the initialisation of the VIEW REPORTS page
-$(document).on("init", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageInit);
+$(document).on("init", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInit);
 
 // listen for when the VIEW REPORTS page is shown
-$(document).on("show", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageShow);
+$(document).on("show", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageShow);
 
 // listen for when the VIEW REPORTS page is hidden
-$(document).on("hide", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageHide);
+$(document).on("hide", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageHide);
 
 // listen for when the VIEW REPORTS page is destroyed
-$(document).on("destroy", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pageDestroy);
+$(document).on("destroy", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageDestroy);
 
 //# sourceMappingURL=model-compiled.js.map
