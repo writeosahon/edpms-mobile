@@ -304,7 +304,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 18:
                                 _context3.next = 20;
-                                return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                                return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 20:
@@ -331,6 +331,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return uploadReportsButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the "View Reports" button is clicked
+         * @returns {Promise<void>}
+         */
+        viewReportsButtonClicked: function () {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+
+                                // push the "View Reports" page to view
+                                $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", { animation: "slide" });
+
+                            case 1:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function viewReportsButtonClicked() {
+                return _ref4.apply(this, arguments);
+            }
+
+            return viewReportsButtonClicked;
         }()
     },
 
@@ -351,18 +381,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                    return regeneratorRuntime.wrap(function _callee5$(_context5) {
                         while (1) {
-                            switch (_context4.prev = _context4.next) {
+                            switch (_context5.prev = _context5.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
-                                        _context4.next = 3;
+                                        _context5.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context4.abrupt("return");
+                                    return _context5.abrupt("return");
 
                                 case 3:
 
@@ -408,14 +438,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 10:
                                 case "end":
-                                    return _context4.stop();
+                                    return _context5.stop();
                             }
                         }
-                    }, _callee4, this);
+                    }, _callee5, this);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref4.apply(this, arguments);
+                    return _ref5.apply(this, arguments);
                 };
             }();
 
@@ -501,10 +531,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         loginButtonClicked: function () {
-            var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
-                        switch (_context5.prev = _context5.next) {
+                        switch (_context6.prev = _context6.next) {
                             case 0:
 
                                 // run the validation method for the sign-in form
@@ -512,14 +542,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 1:
                             case "end":
-                                return _context5.stop();
+                                return _context6.stop();
                         }
                     }
-                }, _callee5, this);
+                }, _callee6, this);
             }));
 
             function loginButtonClicked() {
-                return _ref5.apply(this, arguments);
+                return _ref6.apply(this, arguments);
             }
 
             return loginButtonClicked;
@@ -533,10 +563,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         enterButtonClicked: function () {
-            var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(keyEvent) {
-                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(keyEvent) {
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
                     while (1) {
-                        switch (_context6.prev = _context6.next) {
+                        switch (_context7.prev = _context7.next) {
                             case 0:
                                 // check which key was pressed
                                 if (keyEvent.which === kendo.keys.ENTER) // if the enter key was pressed
@@ -551,14 +581,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 1:
                             case "end":
-                                return _context6.stop();
+                                return _context7.stop();
                         }
                     }
-                }, _callee6, this);
+                }, _callee7, this);
             }));
 
             function enterButtonClicked(_x2) {
-                return _ref6.apply(this, arguments);
+                return _ref7.apply(this, arguments);
             }
 
             return enterButtonClicked;
@@ -571,14 +601,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         formValidated: function () {
-            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+            var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
                 var formData, serverResponse, userDetailsDoc, databaseResponse;
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                return regeneratorRuntime.wrap(function _callee8$(_context8) {
                     while (1) {
-                        switch (_context7.prev = _context7.next) {
+                        switch (_context8.prev = _context8.next) {
                             case 0:
                                 if (!(navigator.connection.type === Connection.NONE)) {
-                                    _context7.next = 3;
+                                    _context8.next = 3;
                                     break;
                                 }
 
@@ -601,24 +631,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                                return _context7.abrupt("return");
+                                return _context8.abrupt("return");
 
                             case 3:
 
                                 // inform user that login validation is taking place
                                 $('#loader-modal #loader-modal-message').html("Signing You In...");
-                                _context7.next = 6;
+                                _context8.next = 6;
                                 return $('#loader-modal').get(0).show();
 
                             case 6:
-                                _context7.prev = 6;
+                                _context8.prev = 6;
 
                                 // create the form data to be submitted
                                 formData = {
                                     username: $('#login-page #login-email').val().trim(),
                                     password: $('#login-page #login-password').val().trim()
                                 };
-                                _context7.next = 10;
+                                _context8.next = 10;
                                 return Promise.resolve($.ajax({
                                     url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/login.php",
                                     type: "post",
@@ -633,7 +663,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }));
 
                             case 10:
-                                serverResponse = _context7.sent;
+                                serverResponse = _context8.sent;
 
                                 // convert the response to an object
                                 serverResponse = JSON.parse(serverResponse.trim());
@@ -641,7 +671,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if the user login was successful
 
                                 if (!(serverResponse.status !== "success")) {
-                                    _context7.next = 14;
+                                    _context8.next = 14;
                                     break;
                                 }
 
@@ -660,7 +690,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if the user wants to remain signed in
 
                                 if (!$('#login-page #login-remember-me').get(0).checked) {
-                                    _context7.next = 32;
+                                    _context8.next = 32;
                                     break;
                                 }
 
@@ -668,18 +698,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // save the user's details to persistent database
                                 userDetailsDoc = null; // holds the previous stored user details from the database
 
-                                _context7.prev = 17;
-                                _context7.next = 20;
+                                _context8.prev = 17;
+                                _context8.next = 20;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get('userDetails');
 
                             case 20:
-                                userDetailsDoc = _context7.sent;
-                                _context7.next = 25;
+                                userDetailsDoc = _context8.sent;
+                                _context8.next = 25;
                                 break;
 
                             case 23:
-                                _context7.prev = 23;
-                                _context7.t0 = _context7["catch"](17);
+                                _context8.prev = 23;
+                                _context8.t0 = _context8["catch"](17);
 
                             case 25:
 
@@ -693,15 +723,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
 
                                 // saved the user details object in the app database
-                                _context7.next = 28;
+                                _context8.next = 28;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(utopiasoftware[utopiasoftware_app_namespace].model.userDetails);
 
                             case 28:
-                                databaseResponse = _context7.sent;
+                                databaseResponse = _context8.sent;
 
                                 // save the returned user details rev id
                                 window.localStorage.setItem("utopiasoftware-edpms-app-status", databaseResponse.rev);
-                                _context7.next = 33;
+                                _context8.next = 33;
                                 break;
 
                             case 32:
@@ -715,31 +745,31 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 window.sessionStorage.setItem("utopiasoftware-edpms-user-logged-in", "yes");
 
                                 // move user to the main menu page
-                                _context7.next = 36;
+                                _context8.next = 36;
                                 return Promise.all([$('ons-splitter').get(0).content.load("app-main-template"), $('#loader-modal').get(0).hide()]);
 
                             case 36:
-                                _context7.next = 42;
+                                _context8.next = 42;
                                 break;
 
                             case 38:
-                                _context7.prev = 38;
-                                _context7.t1 = _context7["catch"](6);
+                                _context8.prev = 38;
+                                _context8.t1 = _context8["catch"](6);
 
                                 $('#loader-modal').get(0).hide();
-                                ons.notification.alert(_context7.t1.message, { title: '<span style="color: red">Sign In Failed</span>',
+                                ons.notification.alert(_context8.t1.message, { title: '<span style="color: red">Sign In Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 42:
                             case "end":
-                                return _context7.stop();
+                                return _context8.stop();
                         }
                     }
-                }, _callee7, this, [[6, 38], [17, 23]]);
+                }, _callee8, this, [[6, 38], [17, 23]]);
             }));
 
             function formValidated() {
-                return _ref7.apply(this, arguments);
+                return _ref8.apply(this, arguments);
             }
 
             return formValidated;
@@ -768,19 +798,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
                     var serverResponse, allProjects;
-                    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                    return regeneratorRuntime.wrap(function _callee9$(_context9) {
                         while (1) {
-                            switch (_context8.prev = _context8.next) {
+                            switch (_context9.prev = _context9.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
-                                        _context8.next = 3;
+                                        _context9.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context8.abrupt("return");
+                                    return _context9.abrupt("return");
 
                                 case 3:
 
@@ -810,14 +840,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // listen for log in form validation success
                                     utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidator.on('form:success', utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.formValidated);
 
-                                    _context8.prev = 8;
+                                    _context9.prev = 8;
 
                                     // keep device awake during the downloading process
                                     window.plugins.insomnia.keepAwake();
                                     // check if the user just completed a signin or log-in
 
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes")) {
-                                        _context8.next = 46;
+                                        _context9.next = 46;
                                         break;
                                     }
 
@@ -827,7 +857,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 30;
 
                                     // get the projects data to be cached
-                                    _context8.next = 16;
+                                    _context9.next = 16;
                                     return Promise.resolve($.ajax({
                                         url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadprojects.php",
                                         type: "post",
@@ -842,7 +872,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }));
 
                                 case 16:
-                                    serverResponse = _context8.sent;
+                                    serverResponse = _context9.sent;
 
 
                                     serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
@@ -850,7 +880,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 35;
 
                                     // delete all previous project data/docs
-                                    _context8.next = 21;
+                                    _context9.next = 21;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "TYPE": {
@@ -861,7 +891,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                 case 21:
-                                    allProjects = _context8.sent;
+                                    allProjects = _context9.sent;
 
 
                                     // get all the returned projects and delete them
@@ -873,11 +903,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if there are any project data to delete
 
                                     if (!(allProjects.length > 0)) {
-                                        _context8.next = 26;
+                                        _context9.next = 26;
                                         break;
                                     }
 
-                                    _context8.next = 26;
+                                    _context9.next = 26;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
 
                                 case 26:
@@ -885,7 +915,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 45;
 
                                     // store the all the project data received
-                                    _context8.next = 29;
+                                    _context9.next = 29;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 29:
@@ -895,7 +925,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 50;
 
                                     // get the milestones data to be cached
-                                    _context8.next = 33;
+                                    _context9.next = 33;
                                     return Promise.resolve($.ajax({
                                         url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/loadboq.php",
                                         type: "post",
@@ -910,7 +940,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }));
 
                                 case 33:
-                                    serverResponse = _context8.sent;
+                                    serverResponse = _context9.sent;
 
 
                                     serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
@@ -918,7 +948,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
 
                                     // delete all previous milestones /docs
-                                    _context8.next = 38;
+                                    _context9.next = 38;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "TYPE": {
@@ -929,7 +959,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                 case 38:
-                                    allProjects = _context8.sent;
+                                    allProjects = _context9.sent;
 
 
                                     // get all the returned milestones and delete them
@@ -941,11 +971,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if there are any milestone data to delete
 
                                     if (!(allProjects.length > 0)) {
-                                        _context8.next = 43;
+                                        _context9.next = 43;
                                         break;
                                     }
 
-                                    _context8.next = 43;
+                                    _context9.next = 43;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
 
                                 case 43:
@@ -953,32 +983,32 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                                     // store the all the milestone data received
-                                    _context8.next = 46;
+                                    _context9.next = 46;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                                 case 46:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" && !utopiasoftware[utopiasoftware_app_namespace].model.userDetails)) {
-                                        _context8.next = 50;
+                                        _context9.next = 50;
                                         break;
                                     }
 
-                                    _context8.next = 49;
+                                    _context9.next = 49;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails");
 
                                 case 49:
-                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context8.sent;
+                                    utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context9.sent;
 
                                 case 50:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes")) {
-                                        _context8.next = 53;
+                                        _context9.next = 53;
                                         break;
                                     }
 
-                                    _context8.next = 53;
+                                    _context9.next = 53;
                                     return Promise.all([$('#determinate-progress-modal').get(0).hide()]);
 
                                 case 53:
-                                    _context8.next = 55;
+                                    _context9.next = 55;
                                     return Promise.all([$('#loader-modal').get(0).hide()]);
 
                                 case 55:
@@ -988,12 +1018,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         // display a toast to the user
                                         ons.notification.toast("<ons-icon icon=\"md-check\" size=\"20px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Welcome " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + "</span>", { timeout: 3000 });
                                     }
-                                    _context8.next = 63;
+                                    _context9.next = 63;
                                     break;
 
                                 case 58:
-                                    _context8.prev = 58;
-                                    _context8.t0 = _context8["catch"](8);
+                                    _context9.prev = 58;
+                                    _context9.t0 = _context9["catch"](8);
 
                                     // display error message indicating that projects data could not be loaded
                                     $('#search-project-page .project-data-download-error').css("display", "block");
@@ -1001,23 +1031,23 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#loader-modal').get(0).hide();
 
                                 case 63:
-                                    _context8.prev = 63;
+                                    _context9.prev = 63;
 
                                     // clear the page refresh marker from device session storage
                                     window.sessionStorage.removeItem("utopiasoftware-edpms-refresh-page");
                                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                    return _context8.finish(63);
+                                    return _context9.finish(63);
 
                                 case 67:
                                 case "end":
-                                    return _context8.stop();
+                                    return _context9.stop();
                             }
                         }
-                    }, _callee8, this, [[8, 58, 63, 67]]);
+                    }, _callee9, this, [[8, 58, 63, 67]]);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref8.apply(this, arguments);
+                    return _ref9.apply(this, arguments);
                 };
             }();
 
@@ -1074,10 +1104,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         searchButtonClicked: function () {
-            var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(keyEvent) {
-                return regeneratorRuntime.wrap(function _callee9$(_context9) {
+            var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(keyEvent) {
+                return regeneratorRuntime.wrap(function _callee10$(_context10) {
                     while (1) {
-                        switch (_context9.prev = _context9.next) {
+                        switch (_context10.prev = _context10.next) {
                             case 0:
 
                                 // check which key was pressed
@@ -1092,14 +1122,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 1:
                             case "end":
-                                return _context9.stop();
+                                return _context10.stop();
                         }
                     }
-                }, _callee9, this);
+                }, _callee10, this);
             }));
 
             function searchButtonClicked(_x3) {
-                return _ref9.apply(this, arguments);
+                return _ref10.apply(this, arguments);
             }
 
             return searchButtonClicked;
@@ -1113,10 +1143,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         retryProjectDataDownloadButtonClicked: function () {
-            var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-                return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+                return regeneratorRuntime.wrap(function _callee11$(_context11) {
                     while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context11.prev = _context11.next) {
                             case 0:
 
                                 // hide the page preloader
@@ -1129,33 +1159,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context10.prev = 5;
-                                _context10.next = 8;
+                                _context11.prev = 5;
+                                _context11.next = 8;
                                 return utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
 
                             case 8:
                                 // error the project data download error message
                                 $('#search-project-page .project-data-download-error').css("display", "none");
-                                _context10.next = 14;
+                                _context11.next = 14;
                                 break;
 
                             case 11:
-                                _context10.prev = 11;
-                                _context10.t0 = _context10["catch"](5);
+                                _context11.prev = 11;
+                                _context11.t0 = _context11["catch"](5);
 
                                 // display the project data download error message
                                 $('#search-project-page .project-data-download-error').css("display", "block");
 
                             case 14:
                             case "end":
-                                return _context10.stop();
+                                return _context11.stop();
                         }
                     }
-                }, _callee10, this, [[5, 11]]);
+                }, _callee11, this, [[5, 11]]);
             }));
 
             function retryProjectDataDownloadButtonClicked() {
-                return _ref10.apply(this, arguments);
+                return _ref11.apply(this, arguments);
             }
 
             return retryProjectDataDownloadButtonClicked;
@@ -1167,11 +1197,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         formValidated: function () {
-            var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+            var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
                 var dbQueryResult, searchedProjectDetails;
-                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+                return regeneratorRuntime.wrap(function _callee12$(_context12) {
                     while (1) {
-                        switch (_context11.prev = _context11.next) {
+                        switch (_context12.prev = _context12.next) {
                             case 0:
                                 // show the page preloader
                                 $('#search-project-page .page-preloader').css("display", "block");
@@ -1186,8 +1216,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // hide the device keyboard
                                 Keyboard.hide();
 
-                                _context11.prev = 6;
-                                _context11.next = 9;
+                                _context12.prev = 6;
+                                _context12.next = 9;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                     selector: {
                                         "PROJECTID": {
@@ -1201,10 +1231,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 9:
-                                dbQueryResult = _context11.sent;
+                                dbQueryResult = _context12.sent;
 
                                 if (!(dbQueryResult.docs.length == 0)) {
-                                    _context11.next = 17;
+                                    _context12.next = 17;
                                     break;
                                 }
 
@@ -1219,7 +1249,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page .project-data-download-error').css("display", "none");
                                 // hide the bottom toolbar of the page
                                 $('#search-project-page ons-bottom-toolbar').css("display", "none");
-                                return _context11.abrupt("return");
+                                return _context12.abrupt("return");
 
                             case 17:
 
@@ -1245,17 +1275,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // perform actions to reveal result
                                 kendo.fx($('#search-project-page #search-project-details')).fade("in").duration(550).play();
-                                _context11.next = 31;
+                                _context12.next = 31;
                                 return Promise.resolve(kendo.fx($('#search-project-page ons-bottom-toolbar')).slideIn("up").duration(600).play());
 
                             case 31:
                                 $('#search-project-page ons-bottom-toolbar').css("display", "block");
-                                _context11.next = 41;
+                                _context12.next = 41;
                                 break;
 
                             case 34:
-                                _context11.prev = 34;
-                                _context11.t0 = _context11["catch"](6);
+                                _context12.prev = 34;
+                                _context12.t0 = _context12["catch"](6);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
@@ -1270,14 +1300,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 41:
                             case "end":
-                                return _context11.stop();
+                                return _context12.stop();
                         }
                     }
-                }, _callee11, this, [[6, 34]]);
+                }, _callee12, this, [[6, 34]]);
             }));
 
             function formValidated() {
-                return _ref11.apply(this, arguments);
+                return _ref12.apply(this, arguments);
             }
 
             return formValidated;
@@ -1372,19 +1402,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+                var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
                     var projectData, dbQueryResult, carouselContent, index;
-                    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+                    return regeneratorRuntime.wrap(function _callee13$(_context13) {
                         while (1) {
-                            switch (_context12.prev = _context12.next) {
+                            switch (_context13.prev = _context13.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false || !ej || !Viewer)) {
-                                        _context12.next = 3;
+                                        _context13.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context12.abrupt("return");
+                                    return _context13.abrupt("return");
 
                                 case 3:
 
@@ -1398,8 +1428,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // pick the project data object for which milestones are to be evaluated
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
-                                    _context12.prev = 7;
-                                    _context12.next = 10;
+                                    _context13.prev = 7;
+                                    _context13.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
@@ -1417,10 +1447,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     });
 
                                 case 10:
-                                    dbQueryResult = _context12.sent;
+                                    dbQueryResult = _context13.sent;
 
                                     if (!(dbQueryResult.docs.length == 0)) {
-                                        _context12.next = 13;
+                                        _context13.next = 13;
                                         break;
                                     }
 
@@ -1552,12 +1582,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context12.next = 36;
+                                    _context13.next = 36;
                                     break;
 
                                 case 30:
-                                    _context12.prev = 30;
-                                    _context12.t0 = _context12["catch"](7);
+                                    _context13.prev = 30;
+                                    _context13.t0 = _context13["catch"](7);
 
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
@@ -1568,22 +1598,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
                                 case 36:
-                                    _context12.prev = 36;
+                                    _context13.prev = 36;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context12.finish(36);
+                                    return _context13.finish(36);
 
                                 case 39:
                                 case "end":
-                                    return _context12.stop();
+                                    return _context13.stop();
                             }
                         }
-                    }, _callee12, this, [[7, 30, 36, 39]]);
+                    }, _callee13, this, [[7, 30, 36, 39]]);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref12.apply(this, arguments);
+                    return _ref13.apply(this, arguments);
                 };
             }();
 
@@ -1656,53 +1686,53 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked: function () {
-            var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+            var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
                 var leaveProjectEvaluation;
-                return regeneratorRuntime.wrap(function _callee13$(_context13) {
+                return regeneratorRuntime.wrap(function _callee14$(_context14) {
                     while (1) {
-                        switch (_context13.prev = _context13.next) {
+                        switch (_context14.prev = _context14.next) {
                             case 0:
                                 if (!$('ons-splitter').get(0).right.isOpen) {
-                                    _context13.next = 3;
+                                    _context14.next = 3;
                                     break;
                                 }
 
                                 // side menu open, so close it
                                 $('ons-splitter').get(0).right.close();
-                                return _context13.abrupt("return");
+                                return _context14.abrupt("return");
 
                             case 3:
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing === true)) {
-                                    _context13.next = 6;
+                                    _context14.next = 6;
                                     break;
                                 }
 
                                 // Picture Viewer is showing
                                 // hide it
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.hide();
-                                return _context13.abrupt("return");
+                                return _context14.abrupt("return");
 
                             case 6:
                                 if (!( // update the project evaluation started flag to indicate evaluation has started
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.hasProjectEvaluationStarted === true)) {
-                                    _context13.next = 12;
+                                    _context14.next = 12;
                                     break;
                                 }
 
-                                _context13.next = 9;
+                                _context14.next = 9;
                                 return ons.notification.confirm('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
                                     messageHTML: "You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?",
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 9:
-                                leaveProjectEvaluation = _context13.sent;
+                                leaveProjectEvaluation = _context14.sent;
 
                                 if (!(leaveProjectEvaluation == 0)) {
-                                    _context13.next = 12;
+                                    _context14.next = 12;
                                     break;
                                 }
 
-                                return _context13.abrupt("return");
+                                return _context14.abrupt("return");
 
                             case 12:
 
@@ -1711,14 +1741,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 13:
                             case "end":
-                                return _context13.stop();
+                                return _context14.stop();
                         }
                     }
-                }, _callee13, this);
+                }, _callee14, this);
             }));
 
             function backButtonClicked() {
-                return _ref13.apply(this, arguments);
+                return _ref14.apply(this, arguments);
             }
 
             return backButtonClicked;
@@ -1774,25 +1804,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * The position of pictures starts from 1 (i.e. 1-based counting)
          */
         pictureCaptureButtonClicked: function () {
-            var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(pictureNumber) {
+            var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(pictureNumber) {
                 var permissionStatuses, imageUrl;
-                return regeneratorRuntime.wrap(function _callee14$(_context14) {
+                return regeneratorRuntime.wrap(function _callee15$(_context15) {
                     while (1) {
-                        switch (_context14.prev = _context14.next) {
+                        switch (_context15.prev = _context15.next) {
                             case 0:
                                 permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
-                                _context14.prev = 1;
-                                _context14.next = 4;
+                                _context15.prev = 1;
+                                _context15.next = 4;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.CAMERA]);
                                 });
 
                             case 4:
-                                permissionStatuses = _context14.sent;
+                                permissionStatuses = _context15.sent;
 
                                 if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.CAMERA] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
-                                    _context14.next = 7;
+                                    _context15.next = 7;
                                     break;
                                 }
 
@@ -1804,10 +1834,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.unlock();
 
                                 // open the device camera app and capture a photo
-                                _context14.next = 10;
+                                _context15.next = 10;
                                 return new Promise(function (resolve, reject) {
                                     navigator.camera.getPicture(resolve, reject, {
-                                        quality: 70,
+                                        quality: 60,
                                         destinationType: Camera.DestinationType.FILE_URI,
                                         sourceType: Camera.PictureSourceType.CAMERA,
                                         allowEdit: false,
@@ -1819,9 +1849,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 10:
-                                imageUrl = _context14.sent;
-                                _context14.t0 = pictureNumber;
-                                _context14.next = _context14.t0 === 1 ? 14 : _context14.t0 === 2 ? 17 : _context14.t0 === 3 ? 20 : 23;
+                                imageUrl = _context15.sent;
+                                _context15.t0 = pictureNumber;
+                                _context15.next = _context15.t0 === 1 ? 14 : _context15.t0 === 2 ? 17 : _context15.t0 === 3 ? 20 : 23;
                                 break;
 
                             case 14:
@@ -1829,21 +1859,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-1').attr("src", imageUrl);
-                                return _context14.abrupt("break", 23);
+                                return _context15.abrupt("break", 23);
 
                             case 17:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-2').attr("src", imageUrl);
-                                return _context14.abrupt("break", 23);
+                                return _context15.abrupt("break", 23);
 
                             case 20:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-3').attr("src", imageUrl);
-                                return _context14.abrupt("break", 23);
+                                return _context15.abrupt("break", 23);
 
                             case 23:
 
@@ -1852,16 +1882,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // update the picture viewer widget
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.update();
-                                _context14.next = 30;
+                                _context15.next = 30;
                                 break;
 
                             case 27:
-                                _context14.prev = 27;
-                                _context14.t1 = _context14["catch"](1);
+                                _context15.prev = 27;
+                                _context15.t1 = _context15["catch"](1);
 
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
-                                    message: "Photo Capture Failed - " + _context14.t1,
+                                    message: "Photo Capture Failed - " + _context15.t1,
                                     duration: 4000,
                                     position: "top",
                                     styling: {
@@ -1878,22 +1908,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 30:
-                                _context14.prev = 30;
+                                _context15.prev = 30;
 
                                 // lock the device orientation back to 'portrait'
                                 screen.orientation.lock('portrait');
-                                return _context14.finish(30);
+                                return _context15.finish(30);
 
                             case 33:
                             case "end":
-                                return _context14.stop();
+                                return _context15.stop();
                         }
                     }
-                }, _callee14, this, [[1, 27, 30, 33]]);
+                }, _callee15, this, [[1, 27, 30, 33]]);
             }));
 
             function pictureCaptureButtonClicked(_x4) {
-                return _ref14.apply(this, arguments);
+                return _ref15.apply(this, arguments);
             }
 
             return pictureCaptureButtonClicked;
@@ -1907,33 +1937,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * The position of pictures starts from 1 (i.e. 1-based counting)
          */
         deletePictureButtonClicked: function () {
-            var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(pictureNumber) {
+            var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(pictureNumber) {
                 var deletePhoto;
-                return regeneratorRuntime.wrap(function _callee15$(_context15) {
+                return regeneratorRuntime.wrap(function _callee16$(_context16) {
                     while (1) {
-                        switch (_context15.prev = _context15.next) {
+                        switch (_context16.prev = _context16.next) {
                             case 0:
                                 if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber]) {
-                                    _context15.next = 2;
+                                    _context16.next = 2;
                                     break;
                                 }
 
-                                return _context15.abrupt("return");
+                                return _context16.abrupt("return");
 
                             case 2:
-                                _context15.next = 4;
+                                _context16.next = 4;
                                 return ons.notification.confirm('Do you want to delete the photo?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Photo</span>',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 4:
-                                deletePhoto = _context15.sent;
+                                deletePhoto = _context16.sent;
 
                                 if (!(deletePhoto == 0)) {
-                                    _context15.next = 7;
+                                    _context16.next = 7;
                                     break;
                                 }
 
-                                return _context15.abrupt("return");
+                                return _context16.abrupt("return");
 
                             case 7:
 
@@ -1947,14 +1977,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 10:
                             case "end":
-                                return _context15.stop();
+                                return _context16.stop();
                         }
                     }
-                }, _callee15, this);
+                }, _callee16, this);
             }));
 
             function deletePictureButtonClicked(_x5) {
-                return _ref15.apply(this, arguments);
+                return _ref16.apply(this, arguments);
             }
 
             return deletePictureButtonClicked;
@@ -1967,51 +1997,51 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         getProjectGeoLocationButtonClicked: function () {
-            var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+            var _ref17 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
                 var permissionStatuses, isGPSEnabled, geoPosition, projectMarker;
-                return regeneratorRuntime.wrap(function _callee16$(_context16) {
+                return regeneratorRuntime.wrap(function _callee17$(_context17) {
                     while (1) {
-                        switch (_context16.prev = _context16.next) {
+                        switch (_context17.prev = _context17.next) {
                             case 0:
                                 permissionStatuses = null; // holds the statuses of the runtime permissions requested
 
-                                _context16.prev = 1;
-                                _context16.next = 4;
+                                _context17.prev = 1;
+                                _context17.next = 4;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.requestRuntimePermissions(resolve, reject, [cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION]);
                                 });
 
                             case 4:
-                                permissionStatuses = _context16.sent;
+                                permissionStatuses = _context17.sent;
 
                                 if (!(!permissionStatuses || permissionStatuses[cordova.plugins.diagnostic.permission.ACCESS_FINE_LOCATION] !== cordova.plugins.diagnostic.permissionStatus.GRANTED)) {
-                                    _context16.next = 7;
+                                    _context17.next = 7;
                                     break;
                                 }
 
                                 throw "error - no location permission";
 
                             case 7:
-                                _context16.next = 9;
+                                _context17.next = 9;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.diagnostic.isGpsLocationEnabled(resolve, reject);
                                 });
 
                             case 9:
-                                isGPSEnabled = _context16.sent;
+                                isGPSEnabled = _context17.sent;
 
                                 if (!(isGPSEnabled === false)) {
-                                    _context16.next = 19;
+                                    _context17.next = 19;
                                     break;
                                 }
 
-                                _context16.next = 13;
+                                _context17.next = 13;
                                 return ons.notification.alert('', { title: '<ons-icon icon="md-pin" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
                                     messageHTML: "You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?",
                                     buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 13:
-                                _context16.next = 15;
+                                _context17.next = 15;
                                 return new Promise(function (resolve, reject) {
                                     cordova.plugins.locationAccuracy.request(function () {
                                         resolve(true);
@@ -2021,10 +2051,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 15:
-                                isGPSEnabled = _context16.sent;
+                                isGPSEnabled = _context17.sent;
 
                                 if (!(isGPSEnabled === false)) {
-                                    _context16.next = 19;
+                                    _context17.next = 19;
                                     break;
                                 }
 
@@ -2032,7 +2062,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // switch to the Location Settings screen, so user can manually enable Location Services
                                 cordova.plugins.diagnostic.switchToLocationSettings();
 
-                                return _context16.abrupt("return");
+                                return _context17.abrupt("return");
 
                             case 19:
 
@@ -2040,13 +2070,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // show the circular progress to indicate app has started working on getting user gps
                                 $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "block");
                                 // get project's current location using device's gps geolocation
-                                _context16.next = 22;
+                                _context17.next = 22;
                                 return new Promise(function (resolve, reject) {
                                     navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 300000, maximumAge: 5000 });
                                 });
 
                             case 22:
-                                geoPosition = _context16.sent;
+                                geoPosition = _context17.sent;
 
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectGeoPosition = geoPosition; // assign the retrieved geo position object to its appropriate object property
 
@@ -2062,7 +2092,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if Map already exists and is ready to be used
 
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true)) {
-                                    _context16.next = 37;
+                                    _context17.next = 37;
                                     break;
                                 }
 
@@ -2073,7 +2103,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#project-evaluation-page #project-evaluation-gps-progress').css("display", "none");
 
                                 // animate the map camera
-                                _context16.next = 32;
+                                _context17.next = 32;
                                 return new Promise(function (resolve, reject) {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.animateCamera({
                                         target: { lat: geoPosition.coords.latitude,
@@ -2084,7 +2114,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 32:
-                                _context16.next = 34;
+                                _context17.next = 34;
                                 return new Promise(function (resolve, reject) {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.clear(function () {
                                         resolve();
@@ -2105,7 +2135,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 projectMarker.showInfoWindow();
 
-                                return _context16.abrupt("return");
+                                return _context17.abrupt("return");
 
                             case 37:
 
@@ -2165,16 +2195,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display marker info window
                                     projectMarker.showInfoWindow();
                                 });
-                                _context16.next = 44;
+                                _context17.next = 44;
                                 break;
 
                             case 41:
-                                _context16.prev = 41;
-                                _context16.t0 = _context16["catch"](1);
+                                _context17.prev = 41;
+                                _context17.t0 = _context17["catch"](1);
 
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
-                                    message: "Location Capture Failed - " + (_context16.t0.message || _context16.t0),
+                                    message: "Location Capture Failed - " + (_context17.t0.message || _context17.t0),
                                     duration: 4000,
                                     position: "top",
                                     styling: {
@@ -2192,14 +2222,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 44:
                             case "end":
-                                return _context16.stop();
+                                return _context17.stop();
                         }
                     }
-                }, _callee16, this, [[1, 41]]);
+                }, _callee17, this, [[1, 41]]);
             }));
 
             function getProjectGeoLocationButtonClicked() {
-                return _ref16.apply(this, arguments);
+                return _ref17.apply(this, arguments);
             }
 
             return getProjectGeoLocationButtonClicked;
@@ -2211,10 +2241,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @param event
          */
         carouselChanged: function () {
-            var _ref17 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(event) {
-                return regeneratorRuntime.wrap(function _callee17$(_context17) {
+            var _ref18 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(event) {
+                return regeneratorRuntime.wrap(function _callee18$(_context18) {
                     while (1) {
-                        switch (_context17.prev = _context17.next) {
+                        switch (_context18.prev = _context18.next) {
                             case 0:
                                 // change the css display the prev fab button
                                 $('#project-evaluation-page #project-evaluation-prev-button').css("display", "inline-block");
@@ -2242,7 +2272,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // update the primary instruction and the milestone badge
 
                                 if (!(event.originalEvent.activeIndex < utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length)) {
-                                    _context17.next = 8;
+                                    _context18.next = 8;
                                     break;
                                 }
 
@@ -2250,11 +2280,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
                                 // change the milestone number
                                 $('#project-evaluation-page #project-evaluation-milestone-badge').html("Milestone " + (event.originalEvent.activeIndex + 1));
-                                return _context17.abrupt("return");
+                                return _context18.abrupt("return");
 
                             case 8:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length)) {
-                                    _context17.next = 13;
+                                    _context18.next = 13;
                                     break;
                                 }
 
@@ -2269,11 +2299,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
                                 }
 
-                                return _context17.abrupt("return");
+                                return _context18.abrupt("return");
 
                             case 13:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1)) {
-                                    _context17.next = 18;
+                                    _context18.next = 18;
                                     break;
                                 }
 
@@ -2289,11 +2319,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // make the map visible
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
                                 }
-                                return _context17.abrupt("return");
+                                return _context18.abrupt("return");
 
                             case 18:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2)) {
-                                    _context17.next = 26;
+                                    _context18.next = 26;
                                     break;
                                 }
 
@@ -2303,7 +2333,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#project-evaluation-page #project-evaluation-milestone-badge').html("Project Evaluation Remarks");
 
                                 // display the page toolbar
-                                _context17.next = 23;
+                                _context18.next = 23;
                                 return Promise.resolve(kendo.fx($('#project-evaluation-page ons-bottom-toolbar')).slideIn("up").duration(150).play());
 
                             case 23:
@@ -2314,18 +2344,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // make the map invisible
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
                                 }
-                                return _context17.abrupt("return");
+                                return _context18.abrupt("return");
 
                             case 26:
                             case "end":
-                                return _context17.stop();
+                                return _context18.stop();
                         }
                     }
-                }, _callee17, this);
+                }, _callee18, this);
             }));
 
             function carouselChanged(_x6) {
-                return _ref17.apply(this, arguments);
+                return _ref18.apply(this, arguments);
             }
 
             return carouselChanged;
@@ -2439,14 +2469,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the "Save Report" Button is clicked
          */
         saveReportButtonClicked: function () {
-            var _ref18 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+            var _ref19 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
                 var _this = this;
 
                 var projectEvaluationReportData, jQuerySliderElements, index, milestoneEvaluation, dateStamp, savedDocResponse, _loop, _index;
 
-                return regeneratorRuntime.wrap(function _callee18$(_context19) {
+                return regeneratorRuntime.wrap(function _callee19$(_context20) {
                     while (1) {
-                        switch (_context19.prev = _context19.next) {
+                        switch (_context20.prev = _context20.next) {
                             case 0:
 
                                 // inform the user that saving report is taking place
@@ -2492,33 +2522,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 projectEvaluationReportData._id = projectEvaluationReportData.title;
                                 projectEvaluationReportData.TYPE = "saved report";
 
-                                _context19.prev = 16;
-                                _context19.next = 19;
+                                _context20.prev = 16;
+                                _context20.next = 19;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(projectEvaluationReportData);
 
                             case 19:
-                                savedDocResponse = _context19.sent;
+                                savedDocResponse = _context20.sent;
                                 _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(_index) {
                                     var fileEntry, file, fileBlob;
-                                    return regeneratorRuntime.wrap(function _loop$(_context18) {
+                                    return regeneratorRuntime.wrap(function _loop$(_context19) {
                                         while (1) {
-                                            switch (_context18.prev = _context18.next) {
+                                            switch (_context19.prev = _context19.next) {
                                                 case 0:
-                                                    _context18.next = 2;
+                                                    _context19.next = 2;
                                                     return new Promise(function (resolve, reject) {
                                                         window.resolveLocalFileSystemURL(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[_index], resolve, reject);
                                                     });
 
                                                 case 2:
-                                                    fileEntry = _context18.sent;
-                                                    _context18.next = 5;
+                                                    fileEntry = _context19.sent;
+                                                    _context19.next = 5;
                                                     return new Promise(function (resolve, reject) {
                                                         fileEntry.file(resolve, reject);
                                                     });
 
                                                 case 5:
-                                                    file = _context18.sent;
-                                                    _context18.next = 8;
+                                                    file = _context19.sent;
+                                                    _context19.next = 8;
                                                     return new Promise(function (resolve, reject) {
                                                         var fileReader = new FileReader();
                                                         fileReader.onloadend = function () {
@@ -2534,16 +2564,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                     });
 
                                                 case 8:
-                                                    fileBlob = _context18.sent;
-                                                    _context18.next = 11;
+                                                    fileBlob = _context19.sent;
+                                                    _context19.next = 11;
                                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.putAttachment(savedDocResponse.id, "picture" + _index + ".jpg", savedDocResponse.rev, fileBlob, "image/jpeg");
 
                                                 case 11:
-                                                    savedDocResponse = _context18.sent;
+                                                    savedDocResponse = _context19.sent;
 
                                                 case 12:
                                                 case "end":
-                                                    return _context18.stop();
+                                                    return _context19.stop();
                                             }
                                         }
                                     }, _loop, _this);
@@ -2552,27 +2582,27 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 22:
                                 if (!(_index < 4)) {
-                                    _context19.next = 27;
+                                    _context20.next = 27;
                                     break;
                                 }
 
-                                return _context19.delegateYield(_loop(_index), "t0", 24);
+                                return _context20.delegateYield(_loop(_index), "t0", 24);
 
                             case 24:
                                 _index++;
-                                _context19.next = 22;
+                                _context20.next = 22;
                                 break;
 
                             case 27:
 
                                 console.log("SAVED REPORT ", projectEvaluationReportData);
                                 // hide loader
-                                _context19.next = 30;
+                                _context20.next = 30;
                                 return $('#loader-modal').get(0).hide();
 
                             case 30:
-                                _context19.next = 32;
-                                return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                                _context20.next = 32;
+                                return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 32:
@@ -2582,39 +2612,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context19.next = 42;
+                                _context20.next = 42;
                                 break;
 
                             case 36:
-                                _context19.prev = 36;
-                                _context19.t1 = _context19["catch"](16);
+                                _context20.prev = 36;
+                                _context20.t1 = _context20["catch"](16);
 
-                                console.log("SAVE ERROR", _context19.t1);
+                                console.log("SAVE ERROR", _context20.t1);
                                 try {
                                     // remove the project evaluation report sheet document which failed to save properly from the app database
                                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(savedDocResponse.id, savedDocResponse.rev);
                                 } catch (err2) {}
                                 $('#loader-modal').get(0).hide();
-                                ons.notification.alert("saving evaluation report sheet failed. Please try again. " + (_context19.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
+                                ons.notification.alert("saving evaluation report sheet failed. Please try again. " + (_context20.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 42:
-                                _context19.prev = 42;
+                                _context20.prev = 42;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context19.finish(42);
+                                return _context20.finish(42);
 
                             case 45:
                             case "end":
-                                return _context19.stop();
+                                return _context20.stop();
                         }
                     }
-                }, _callee18, this, [[16, 36, 42, 45]]);
+                }, _callee19, this, [[16, 36, 42, 45]]);
             }));
 
             function saveReportButtonClicked() {
-                return _ref18.apply(this, arguments);
+                return _ref19.apply(this, arguments);
             }
 
             return saveReportButtonClicked;

@@ -234,3 +234,36 @@
 
   content: '\e905';
 }
+
+.zmdi-utopiasoftware-icon-document:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'utopiasoftware-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e906';
+}
+
+.zmdi-utopiasoftware-icon-document-error:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'utopiasoftware-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e907';
+}
+
+.zmdi-utopiasoftware-icon-document-text:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 'utopiasoftware-font-icons';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  content: '\e908';
+}

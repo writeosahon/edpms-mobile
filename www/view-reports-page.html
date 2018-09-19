@@ -1,0 +1,64 @@
+<!-- view reports page -->
+<ons-page id="view-reports-page">
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.searchProjectPageViewModel.backButtonClicked()">
+                <ons-icon icon="md-long-arrow-left"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">View Reports</div>
+        <div class="right">
+            <ons-toolbar-button onclick="$('#side-menu').get(0).toggle()">
+                <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <div class="content container-fluid">
+        <!-- page preloader -->
+        <ons-progress-bar class="page-preloader" indeterminate style="display: block;"></ons-progress-bar>
+
+        <p class="no-report-found" style="text-align: center; margin-top: 2em; display: block;">
+            <ons-icon icon="md-utopiasoftware-icon-document" size="70px" style="color: grey;"></ons-icon>
+            <div class="no-report-found" style="font-size: 1.5em; color: grey; text-align: center; display: block">No Report Found</div>
+        </p>
+
+        <p class="view-reports-load-error" style="text-align: center; margin-top: 2em; display: none;">
+            <ons-icon icon="md-utopiasoftware-icon-folder-error" size="70px" style="color: #f30000;"></ons-icon>
+        <div class="view-reports-load-error" style="font-size: 1.5em; color: #f30000; text-align: center; display: none">Error Viewing Reports</div>
+        <div class="view-reports-load-error" style="text-align: center; margin-top: 1em; display: none">
+            <ons-button style="background-color: #3f51b5;"
+            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+            searchProjectPageViewModel.retryProjectDataDownloadButtonClicked()">Please Try Again</ons-button>
+        </div>
+        </p>
+
+        <div id="search-project-details" class="row" style="width: 90%; margin-top: 2em; margin-left: 5%;
+        margin-right: 5%;font-size: 1em; display: none">
+            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>
+            <div class="col-xs-6" style="color: #000000; text-transform: uppercase; padding: 1rem;">GHP-0001</div>
+            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Title</div>
+            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">Renovation of Udakpa Primary School</div>
+            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contractor</div>
+            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">A & B Constructor Limited</div>
+            <div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contract Sum</div>
+            <div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">34,567,000</div>
+        </div>
+    </div>
+
+    <ons-bottom-toolbar modifier="aligned" style="display: none">
+
+        <div style="text-align: center; width: 100%">
+            <ons-button disable-auto-styling style="background-color: #00d5c3; border-radius: 0;
+            transform: scale(0.8); text-align: center;"
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].
+            controller.searchProjectPageViewModel.proceedButtonClicked();">
+                Proceed <ons-icon icon="md-chevron-right" size="2x" class="animated infinite shake"
+                                  style="margin-left: 0.5em; -webkit-animation-duration:1.5s;animation-duration:1.5s;"></ons-icon>
+            </ons-button>
+        </div>
+
+    </ons-bottom-toolbar>
+
+</ons-page>

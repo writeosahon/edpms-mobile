@@ -227,7 +227,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 else{
                     // inform user that all evaluation reports have been uploaded
                     await ons.notification.alert(`All evaluation reports successfully uploaded. ${totalUploads} in total`,
-                        {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                        {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                             buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
                 }
             }
@@ -235,6 +235,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 ons.notification.alert(`uploading evaluation reports failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Uploading Reports Failed</span>',
                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
             }
+        },
+
+        /**
+         * method is triggered when the "View Reports" button is clicked
+         * @returns {Promise<void>}
+         */
+        async viewReportsButtonClicked(){
+
+            // push the "View Reports" page to view
+            $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", {animation: "slide"});
         }
     },
 
@@ -1528,7 +1538,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // open the device camera app and capture a photo
                 let imageUrl = await new Promise(function(resolve, reject){
                     navigator.camera.getPicture(resolve, reject, {
-                        quality: 70,
+                        quality: 60,
                         destinationType: Camera.DestinationType.FILE_URI,
                         sourceType: Camera.PictureSourceType.CAMERA,
                         allowEdit: false,
@@ -2143,7 +2153,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved
                 await ons.notification.alert('This evaluation report has been saved successfully',
-                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0" size="19px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
 
                 // flag to the app that you are going back to a page that needs to be refreshed
