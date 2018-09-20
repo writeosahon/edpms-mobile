@@ -2211,7 +2211,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     for(let index = 0; index < dbQueryResult.rows.length; index++)
                     {
                         viewReportListContent += `
-                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
+                        data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
+                        data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
                            onclick="">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
@@ -2221,11 +2223,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
                                 <span class="list-item__subtitle" style="font-size: 0.6em">
-                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy")}
+                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:m tt")}
                                 </span>
                             </div>
                             <div class="right">
-                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">
+                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportDeleteButtonClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')">
                                     <ons-icon icon="md-delete">
                                     </ons-icon>
                                 </ons-fab>
@@ -2307,6 +2312,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // move to the project evaluation page
             $('#app-main-navigator').get(0).popPage();
+        },
+
+        /**
+         * method is triggered when the delete fab button is clicked
+         *
+         * @returns {Promise<void>}
+         */
+        async reportDeleteButtonClicked(docId, docRevision){
+
+            var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
+
+            //remove the list item from view with an animation
+            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("left").duration(600).play());
+            // remove the element from the list item altogether
+            jQueryListItem.remove();
+            // remove the evaluation report from database
+            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+//todo
         }
 
     }

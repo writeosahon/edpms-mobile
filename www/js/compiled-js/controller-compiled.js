@@ -2672,7 +2672,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     viewReportListContent = "";
 
                                     for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
+                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:m tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                     } // end of for loop
 
                                     // append generated list content to the view-reports
@@ -2789,6 +2789,48 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return backButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the delete fab button is clicked
+         *
+         * @returns {Promise<void>}
+         */
+        reportDeleteButtonClicked: function () {
+            var _ref22 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(docId, docRevision) {
+                var jQueryListItem;
+                return regeneratorRuntime.wrap(function _callee22$(_context23) {
+                    while (1) {
+                        switch (_context23.prev = _context23.next) {
+                            case 0:
+                                jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
+
+                                //remove the list item from view with an animation
+
+                                _context23.next = 3;
+                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("left").duration(600).play());
+
+                            case 3:
+                                // remove the element from the list item altogether
+                                jQueryListItem.remove();
+                                // remove the evaluation report from database
+                                _context23.next = 6;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+                            case 6:
+                            case 'end':
+                                return _context23.stop();
+                        }
+                    }
+                }, _callee22, this);
+            }));
+
+            function reportDeleteButtonClicked(_x6, _x7) {
+                return _ref22.apply(this, arguments);
+            }
+
+            return reportDeleteButtonClicked;
         }()
     }
 };
