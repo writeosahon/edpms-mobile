@@ -2263,8 +2263,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         startkey: ["saved report",
                             utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()],
                         endkey: ["saved report",
-                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username,
-                        new Date(2018, 0, 1).getTime()]
+                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username]
                     });
 
                     console.log("VIEW REPORTS", dbQueryResult);

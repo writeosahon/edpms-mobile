@@ -2731,7 +2731,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         skip: 0,
                                         descending: true,
                                         startkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()],
-                                        endkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, new Date(2018, 0, 1).getTime()]
+                                        endkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username]
                                     });
 
                                 case 9:
