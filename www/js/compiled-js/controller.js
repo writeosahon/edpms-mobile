@@ -32,44 +32,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
+            // displaying prepping message
+            $('#loader-modal-message').html("Loading App...");
+            $('#loader-modal').get(0).show(); // show loader
 
-            if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
-                window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
 
-                await new Promise(function(resolve, reject){setTimeout(resolve, 200);});
-                // open the side menu
-                await $('ons-splitter').get(0).right.open();
-                $('#determinate-progress-modal .modal-message').html('Prepping Evaluation Report for Upload...');
-                await $('#determinate-progress-modal').get(0).show();
-                $('#determinate-progress-modal #determinate-progress').get(0).value = 1;
-                // flag to the app that you are going back to a page that needs to be refreshed
-                window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
-                utopiasoftware[utopiasoftware_app_namespace].model.userDetails =
-                    JSON.parse(window.localStorage.getItem("utopiasoftware-edpms-user-details"));
-
+            if(window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
+                window.localStorage.getItem("utopiasoftware-edpms-app-status") !== ""){ // there is a previous logged in user
                 // load the app main page
-                await $('ons-splitter').get(0).content.load("app-main-template");
-
-                // move back to the project search page
-                //await $('#app-main-navigator').get(0).resetToPage("search-project-page.html");
-
+                $('ons-splitter').get(0).content.load("app-main-template");
             }
-            else{
-                navigator.splashscreen.show(); // show the splashscreen
-                // displaying prepping message
-                $('#loader-modal-message').html("Loading App...");
-                $('#loader-modal').get(0).show(); // show loader
-
-
-                if(window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
-                    window.localStorage.getItem("utopiasoftware-edpms-app-status") !== ""){ // there is a previous logged in user
-                    // load the app main page
-                    $('ons-splitter').get(0).content.load("app-main-template");
-                }
-                else{ // there is no previously logged in user
-                    // load the login page
-                    $('ons-splitter').get(0).content.load("login-template");
-                }
+            else{ // there is no previously logged in user
+                // load the login page
+                $('ons-splitter').get(0).content.load("login-template");
             }
 
             // START ALL CORDOVA PLUGINS CONFIGURATIONS
@@ -92,25 +67,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     location: 'default',
                     androidDatabaseImplementation: 2
                 });
-
-                // generate a password for encrypting the app database (if it does NOT already exist)
-                if(!window.localStorage.getItem("utopiasoftware-edpms-rid") ||
-                    window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
-                    window.localStorage.setItem("utopiasoftware-edpms-rid",
-                        Random.uuid4(Random.engines.browserCrypto));
-                }
-                /*await new Promise(function(resolve, reject){
-                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                    crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments',
-                        cb: function(err, key){
-                        if(err){ // there is an error
-                            reject(err); // reject Promise
-                        }
-                        else{ // no error
-                            resolve(key); // resolve Promise
-                        }
-                    }});
-                });*/
 
                 // create the database indexes used by the app
                 await Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
@@ -158,17 +114,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }
                 catch(error){}
 
-
-                if(window.localStorage.getItem("utopiasoftware-edpms-reload-app") &&
-                    window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== ""){
-
-                    window.localStorage.removeItem("utopiasoftware-edpms-reload-app");
-                    window.localStorage.removeItem("utopiasoftware-edpms-user-details");
-                    //$('#app-main-navigator').get(0).resetToPage("search-project-page.html", {pop: true});
-                    // call the side menu click button
-                    utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
-                }
-
             }
             catch(err){
                 console.log("APP LOADING ERROR", err);
@@ -206,39 +151,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when the "Upload Reports" button is clicked
          *
-         * @param reloadApp {Boolean} flag whether triggering this method should also lead to an app reload
-         *
          * @returns {Promise<void>}
          */
-        async uploadReportsButtonClicked(reloadApp = false){
+        async uploadReportsButtonClicked(){
             // upload all the report evaluation sheets
             var totalUploads = 0;
 
             try{
-
-                if(reloadApp === true){
-                    // set the flag to reload the app
-                    window.localStorage.setItem("utopiasoftware-edpms-reload-app", "search-project-page.html");
-                    window.localStorage.setItem("utopiasoftware-edpms-user-details",
-                        JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails));
-
-                    /*navigator.app.exitApp(); // Close the app
-                    // restart the app
-                    startApp.set({
-                        action: "ACTION_VIEW",
-                        uri: "edpms://"
-                    }, {"UTOPIASOFTWARE_EDPMS_RELOAD-APP": "search-project-page.html",
-                            "UTOPIASOFTWARE_EDPMS_USER_DETAILS":
-                    JSON.stringify(utopiasoftware[utopiasoftware_app_namespace].model.userDetails)}).start();*/
-
-                    await new Promise(function(resolve, reject){
-                       window.setTimeout(resolve, 0);
-                    });
-
-                    cordova.plugins.diagnostic.restart(function(){}, false);
-
-                    return;
-                }
 
                 totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
                 uploadProjectEvaluationReports(true);
