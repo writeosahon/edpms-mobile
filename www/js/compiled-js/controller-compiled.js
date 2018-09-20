@@ -117,22 +117,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             if (!window.localStorage.getItem("utopiasoftware-edpms-rid") || window.localStorage.getItem("utopiasoftware-edpms-rid") === "") {
                                 window.localStorage.setItem("utopiasoftware-edpms-rid", Random.uuid4(Random.engines.browserCrypto));
                             }
-                            _context.next = 27;
-                            return new Promise(function (resolve, reject) {
-                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), { ignore: '_attachments',
-                                    cb: function cb(err, key) {
-                                        if (err) {
-                                            // there is an error
-                                            reject(err); // reject Promise
-                                        } else {
-                                            // no error
-                                            resolve(key); // resolve Promise
-                                        }
-                                    } });
-                            });
+                            /*await new Promise(function(resolve, reject){
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                                crypto(window.localStorage.getItem("utopiasoftware-edpms-rid"), {ignore: '_attachments',
+                                    cb: function(err, key){
+                                    if(err){ // there is an error
+                                        reject(err); // reject Promise
+                                    }
+                                    else{ // no error
+                                        resolve(key); // resolve Promise
+                                    }
+                                }});
+                            });*/
 
-                        case 27:
-                            _context.next = 29;
+                            // create the database indexes used by the app
+                            _context.next = 27;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -158,9 +157,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 29:
-                            _context.prev = 29;
-                            _context.next = 32;
+                        case 27:
+                            _context.prev = 27;
+                            _context.next = 30;
                             return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                                 _id: '_design/saved_reports_view',
                                 views: {
@@ -174,15 +173,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             });
 
-                        case 32:
-                            _context.next = 36;
+                        case 30:
+                            _context.next = 34;
                             break;
 
-                        case 34:
-                            _context.prev = 34;
-                            _context.t0 = _context["catch"](29);
+                        case 32:
+                            _context.prev = 32;
+                            _context.t0 = _context["catch"](27);
 
-                        case 36:
+                        case 34:
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-reload-app") && window.localStorage.getItem("utopiasoftware-edpms-reload-app") !== "") {
 
@@ -193,30 +192,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.uploadReportsButtonClicked();
                             }
 
-                            _context.next = 42;
+                            _context.next = 40;
                             break;
 
-                        case 39:
-                            _context.prev = 39;
+                        case 37:
+                            _context.prev = 37;
                             _context.t1 = _context["catch"](21);
 
                             console.log("APP LOADING ERROR", _context.t1);
 
-                        case 42:
-                            _context.prev = 42;
+                        case 40:
+                            _context.prev = 40;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(42);
+                            return _context.finish(40);
 
-                        case 47:
+                        case 45:
                         case "end":
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[21, 39, 42, 47], [29, 34]]);
+            }, _callee, this, [[21, 37, 40, 45], [27, 32]]);
         }))); // end of ons.ready()
     },
 
