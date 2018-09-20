@@ -2142,9 +2142,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             projectEvaluationReportData.TYPE = "saved report";
 
             try {
+                var attachments = {};
                 // save the project evaluation report data
-                var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                                                put(projectEvaluationReportData);
+                /*var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                                                put(projectEvaluationReportData);*/
 
                 // attach all saved project photos to the saved evaluation report data
                 for(let index = 1; index < 4; index++){
@@ -2173,9 +2174,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }); // get the blob object for the picture file
 
                     // attach the image to the database document
-                    savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                    putAttachment(savedDocResponse.id, `picture${index}.jpg`, savedDocResponse.rev, fileBlob, "image/jpeg");
+                    attachments[`picture${index}.jpg`] = {
+                        "content_type": "image/jpeg",
+                        data: fileBlob
+                    };
                 }
+
+                // join all the attachments to the project evaluation report data
+                projectEvaluationReportData._attachments = attachments;
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
 
                 console.log("SAVED REPORT ", projectEvaluationReportData);
                 // hide loader

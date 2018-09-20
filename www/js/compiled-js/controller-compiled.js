@@ -2505,7 +2505,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             var _ref19 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
                 var _this = this;
 
-                var projectEvaluationReportData, jQuerySliderElements, index, milestoneEvaluation, dateStamp, savedDocResponse, _loop, _index;
+                var projectEvaluationReportData, jQuerySliderElements, index, milestoneEvaluation, dateStamp, attachments, _loop, _index;
 
                 return regeneratorRuntime.wrap(function _callee19$(_context20) {
                     while (1) {
@@ -2557,11 +2557,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 projectEvaluationReportData.TYPE = "saved report";
 
                                 _context20.prev = 16;
-                                _context20.next = 19;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(projectEvaluationReportData);
+                                attachments = {};
+                                // save the project evaluation report data
+                                /*var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                                                                put(projectEvaluationReportData);*/
 
-                            case 19:
-                                savedDocResponse = _context20.sent;
+                                // attach all saved project photos to the saved evaluation report data
+
                                 _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(_index) {
                                     var fileEntry, file, fileBlob;
                                     return regeneratorRuntime.wrap(function _loop$(_context19) {
@@ -2599,13 +2601,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                                 case 8:
                                                     fileBlob = _context19.sent;
-                                                    _context19.next = 11;
-                                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.putAttachment(savedDocResponse.id, "picture" + _index + ".jpg", savedDocResponse.rev, fileBlob, "image/jpeg");
+                                                    // get the blob object for the picture file
 
-                                                case 11:
-                                                    savedDocResponse = _context19.sent;
+                                                    // attach the image to the database document
+                                                    attachments["picture" + _index + ".jpg"] = {
+                                                        "content_type": "image/jpeg",
+                                                        data: fileBlob
+                                                    };
 
-                                                case 12:
+                                                case 10:
                                                 case "end":
                                                     return _context19.stop();
                                             }
@@ -2614,43 +2618,50 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
                                 _index = 1;
 
-                            case 22:
+                            case 20:
                                 if (!(_index < 4)) {
-                                    _context20.next = 27;
+                                    _context20.next = 25;
                                     break;
                                 }
 
-                                return _context20.delegateYield(_loop(_index), "t0", 24);
+                                return _context20.delegateYield(_loop(_index), "t0", 22);
 
-                            case 24:
+                            case 22:
                                 _index++;
-                                _context20.next = 22;
+                                _context20.next = 20;
                                 break;
 
-                            case 27:
+                            case 25:
+
+                                // join all the attachments to the project evaluation report data
+                                projectEvaluationReportData._attachments = attachments;
+                                _context20.next = 28;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
+
+                            case 28:
 
                                 console.log("SAVED REPORT ", projectEvaluationReportData);
                                 // hide loader
-                                _context20.next = 30;
+                                _context20.next = 31;
                                 return $('#loader-modal').get(0).hide();
 
-                            case 30:
-                                _context20.next = 32;
+                            case 31:
+                                _context20.next = 33;
                                 return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 32:
+                            case 33:
 
                                 // flag to the app that you are going back to a page that needs to be refreshed
                                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context20.next = 42;
+                                _context20.next = 43;
                                 break;
 
-                            case 36:
-                                _context20.prev = 36;
+                            case 37:
+                                _context20.prev = 37;
                                 _context20.t1 = _context20["catch"](16);
 
                                 console.log("SAVE ERROR", _context20.t1);
@@ -2662,19 +2673,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 ons.notification.alert("saving evaluation report sheet failed. Please try again. " + (_context20.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 42:
-                                _context20.prev = 42;
+                            case 43:
+                                _context20.prev = 43;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context20.finish(42);
+                                return _context20.finish(43);
 
-                            case 45:
+                            case 46:
                             case "end":
                                 return _context20.stop();
                         }
                     }
-                }, _callee19, this, [[16, 36, 42, 45]]);
+                }, _callee19, this, [[16, 37, 43, 46]]);
             }));
 
             function saveReportButtonClicked() {
