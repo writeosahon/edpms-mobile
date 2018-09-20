@@ -1,7 +1,5 @@
 "use strict";
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /**
@@ -2727,13 +2725,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     _context21.prev = 6;
                                     _context21.next = 9;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.query("saved_reports_view/get_report_evaluated_by", _defineProperty({
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.query("saved_reports_view/get_report_evaluated_by", {
                                         include_docs: true,
                                         limit: 2,
                                         skip: 0,
                                         descending: true,
-                                        startkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()]
-                                    }, "startkey", ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, new Date(2018, 0, 1)]));
+                                        startkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()],
+                                        endkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, new Date(2018, 0, 1).getTime()]
+                                    });
 
                                 case 9:
                                     dbQueryResult = _context21.sent;
