@@ -443,6 +443,63 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
             }
 
             return uploadProjectEvaluationReports;
+        }(),
+
+
+        /**
+         * method is used to return a collection of saved evaluation reports from the app database
+         *
+         * @param include_docs
+         * @param limit
+         * @param skip
+         * @param descending
+         * @param startDateStamp
+         * @param endDateStamp
+         * @returns {Promise<*>}
+         */
+        loadProjectEvaluationReports: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                var include_docs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+                var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+                var skip = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var descending = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+                var startDateStamp = arguments[4];
+                var endDateStamp = arguments[5];
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.prev = 0;
+                                _context3.next = 3;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.query("saved_reports_view/get_report_evaluated_by", {
+                                    include_docs: include_docs,
+                                    limit: limit,
+                                    skip: skip,
+                                    descending: descending,
+                                    startkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, startDateStamp],
+                                    endkey: ["saved report", utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, endDateStamp]
+                                });
+
+                            case 3:
+                                return _context3.abrupt("return", _context3.sent);
+
+                            case 4:
+                                _context3.prev = 4;
+                                return _context3.finish(4);
+
+                            case 6:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[0,, 4, 6]]);
+            }));
+
+            function loadProjectEvaluationReports() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return loadProjectEvaluationReports;
         }()
     }
 });

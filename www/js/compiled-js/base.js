@@ -292,6 +292,40 @@ const utopiasoftware = {
                     }
                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
                 }
+            },
+
+            /**
+             * method is used to return a collection of saved evaluation reports from the app database
+             *
+             * @param include_docs
+             * @param limit
+             * @param skip
+             * @param descending
+             * @param startDateStamp
+             * @param endDateStamp
+             * @returns {Promise<*>}
+             */
+            async loadProjectEvaluationReports(include_docs = false, limit = 10, skip = 0,
+                                               descending = false, startDateStamp, endDateStamp){
+
+                try{
+
+                    // search the app database for saved reports evaluated by currently logged in user
+                    return await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
+                    query("saved_reports_view/get_report_evaluated_by", {
+                        include_docs: include_docs,
+                        limit: limit,
+                        skip: skip,
+                        descending: descending,
+                        startkey: ["saved report",
+                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, startDateStamp],
+                        endkey: ["saved report",
+                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, endDateStamp]
+                    });
+                }
+                finally {
+
+                }
             }
         }
     }

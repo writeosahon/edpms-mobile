@@ -105,7 +105,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             get_report_evaluated_by: {
                                 map: function (doc) {
                                     if(doc.TYPE === "saved report"){
-                                        emit([doc.TYPE, doc.evaluatedBy, doc.dateStamp], doc._id);
+                                        emit([doc.TYPE, doc.evaluatedBy, doc.dateStamp],
+                                            {_id: doc._id, _rev: doc._rev, dateStamp: doc.dateStamp, projectId: doc.projectData.PROJECTID});
                                     }
                                 }.toString()
                             }
@@ -113,7 +114,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     });
                 }
                 catch(error){}
-
             }
             catch(err){
                 console.log("APP LOADING ERROR", err);
@@ -2145,6 +2145,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     viewReportsPageViewModel: {
 
 
+        reportPageSize: 1,
+
+        skip: 0,
+
+        totalReports: 0,
+
         /**
          * event is triggered when page is initialised
          */
@@ -2176,61 +2182,57 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     '#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').
                 css("display", "none");
 
-                // pick the reports that have been saved by user to-date
-
+                // pick the reports that have been saved by user to-date in descending order
                 try{
-                    // search the app database for milestones using the project id provided
-                    let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                    query("saved_reports_view/get_report_evaluated_by", {
-                        include_docs: true,
-                        limit: 2,
-                        skip: 0,
-                        descending: true,
-                        startkey: ["saved report",
-                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username, Date.now()],
-                        endkey: ["saved report",
-                            utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username]
-                    });
 
-                    console.log("VIEW REPORTS", dbQueryResult);
+                    let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
+                    loadProjectEvaluationReports(false,
+                        utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize,
+                        utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true,
+                        Date.now(), new Date(2018, 0, 1).getTime());
 
-                    // check if any milestones were returned
-                    /*if(dbQueryResult.docs.length == 0) { // no milestones were found for the project
-                        throw "error"; // throw an error
+                    // check if any saved reports were returned
+                    if(dbQueryResult.rows.length == 0) { // no saved report found
+                        // inform the user that no saved reports are available
+                        $('#view-reports-page .page-preloader').css("display", "none");
+                        // hide the items that are not to be displayed
+                        $('#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').
+                        css("display", "none");
+                        // show the no reports messages
+                        $('#view-reports-page .no-report-found').css("display", "block");
+                        return;
                     }
 
-                    // if the code gets to this point, milestones were returned
-                    // sort the returned milestones array
-                    dbQueryResult.docs.sort(function(firstElem, secondElement){
-                        return (window.parseInt(firstElem.BOQID) - window.parseInt(secondElement.BOQID));
-                    });
 
-                    utopiasoftware[utopiasoftware_app_namespace].controller.
-                        projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
-
-                    // create the evaluation carousel item based on the milestones retrieved
-                    let carouselContent = "";
-                    for(let index = 0; index < dbQueryResult.docs.length; index++)
+                    // create the report list content
+                    let viewReportListContent = "";
+                    for(let index = 0; index < dbQueryResult.rows.length; index++)
                     {
-                        carouselContent = `
-                        <ons-carousel-item style="overflow-y: auto">
-                            <ons-card>
-                                <div style="font-size: 1.2em">
-                                    ${dbQueryResult.docs[index].CATEGORY}
-                                </div>
-                                <div class="project-evaluation-slider"></div>
-                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">
-                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> 
-                                    ${kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2")}
-                                </div>
-                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">
-                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
-                                    ${kendo.toString(kendo.parseFloat(0), "n2")}
-                                </div>
-                            </ons-card>
-                        </ons-carousel-item>`;
-                        $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
+                        viewReportListContent += `
+                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="">
+                            <div class="left">
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                            </div>
+                            <div class="center" style="margin-left: 2em">
+                                <span class="list-item__title" style="color: #3F51B5">${dbQueryResult[index].value._id}</span>
+                                <span class="list-item__subtitle">${dbQueryResult[index].value.projectId}</span>
+                                <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
+                                <span class="list-item__subtitle" style="font-size: 0.6em">
+                                ${kendo.toString(new Date(dbQueryResult[index].value.dateStamp), "MMMM d, yyyy")}
+                                </span>
+                            </div>
+                            <div class="right">
+                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">
+                                    <ons-icon icon="md-delete">
+                                    </ons-icon>
+                                </ons-fab>
+                            </div>
+                        </ons-list-item>`;
                     } // end of for loop
+
+                    // append generated
+                    $('#view-reports-page #view-reports-list').append(viewReportListContent);
 
                     // append the carousel content used for displaying evaluation pictures
                     carouselContent = `
@@ -2453,7 +2455,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').
                     css("display", "block");
                     $('#project-evaluation-page #project-evaluation-next-button').
-                    css("display", "inline-block");*/
+                    css("display", "inline-block");
                 }
                 catch (e) {
                     console.log("REPORT VOEW ERROR", e);
