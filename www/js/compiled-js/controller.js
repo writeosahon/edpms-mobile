@@ -2191,6 +2191,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true,
                         Date.now(), new Date(2018, 0, 1).getTime());
 
+                    console.log("VIEW REPORTS", dbQueryResult.rows);
+
                     // check if any saved reports were returned
                     if(dbQueryResult.rows.length == 0) { // no saved report found
                         // inform the user that no saved reports are available
@@ -2215,11 +2217,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
                             <div class="center" style="margin-left: 2em">
-                                <span class="list-item__title" style="color: #3F51B5">${dbQueryResult[index].value._id}</span>
-                                <span class="list-item__subtitle">${dbQueryResult[index].value.projectId}</span>
+                                <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
+                                <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
                                 <span class="list-item__subtitle" style="font-size: 0.6em">
-                                ${kendo.toString(new Date(dbQueryResult[index].value.dateStamp), "MMMM d, yyyy")}
+                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy")}
                                 </span>
                             </div>
                             <div class="right">

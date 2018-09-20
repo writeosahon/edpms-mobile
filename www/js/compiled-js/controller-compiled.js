@@ -2647,8 +2647,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 case 9:
                                     dbQueryResult = _context21.sent;
 
+
+                                    console.log("VIEW REPORTS", dbQueryResult.rows);
+
+                                    // check if any saved reports were returned
+
                                     if (!(dbQueryResult.rows.length == 0)) {
-                                        _context21.next = 15;
+                                        _context21.next = 16;
                                         break;
                                     }
 
@@ -2661,13 +2666,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found').css("display", "block");
                                     return _context21.abrupt('return');
 
-                                case 15:
+                                case 16:
 
                                     // create the report list content
                                     viewReportListContent = "";
 
                                     for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult[index].value._id + '</span>\n                                <span class="list-item__subtitle">' + dbQueryResult[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult[index].value.dateStamp), "MMMM d, yyyy") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
+                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                     } // end of for loop
 
                                     // append generated list content to the view-reports
@@ -2679,11 +2684,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context21.next = 29;
+                                    _context21.next = 30;
                                     break;
 
-                                case 23:
-                                    _context21.prev = 23;
+                                case 24:
+                                    _context21.prev = 24;
                                     _context21.t0 = _context21['catch'](6);
 
                                     console.log("REPORT VOEW ERROR", _context21.t0);
@@ -2695,19 +2700,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 29:
-                                    _context21.prev = 29;
+                                case 30:
+                                    _context21.prev = 30;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(29);
+                                    return _context21.finish(30);
 
-                                case 32:
+                                case 33:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[6, 23, 29, 32]]);
+                    }, _callee20, this, [[6, 24, 30, 33]]);
                 }));
 
                 return function loadPageOnAppReady() {

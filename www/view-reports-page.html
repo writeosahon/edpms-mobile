@@ -25,12 +25,10 @@
         </p>
 
         <p class="view-reports-load-error" style="text-align: center; margin-top: 2em; display: none;">
-            <ons-icon icon="md-utopiasoftware-icon-folder-error" size="70px" style="color: #f30000;"></ons-icon>
+            <ons-icon icon="md-utopiasoftware-icon-document-error" size="70px" style="color: #f30000;"></ons-icon>
         <div class="view-reports-load-error" style="font-size: 1.5em; color: #f30000; text-align: center; display: none">Error Viewing Reports</div>
-        <div class="view-reports-load-error" style="text-align: center; margin-top: 1em; display: none">
-            <ons-button style="background-color: #3f51b5;"
-            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-            searchProjectPageViewModel.retryProjectDataDownloadButtonClicked()">Please Try Again</ons-button>
+        <div class="view-reports-load-error" style="color: grey; text-align: center; margin-top: 1em; display: none">
+            Pull Down To Refresh
         </div>
         </p>
 
@@ -117,13 +115,6 @@
     <ons-bottom-toolbar modifier="aligned" style="display: block">
 
         <div style="text-align: center; width: 100%">
-            <ons-button disable-auto-styling style="background-color: #00d5c3; border-radius: 0;
-            transform: scale(0.8); text-align: center;"
-                                onclick="utopiasoftware[utopiasoftware_app_namespace].
-            controller.searchProjectPageViewModel.proceedButtonClicked();">
-                Proceed <ons-icon icon="md-chevron-right" size="2x" class="animated infinite shake"
-                                  style="margin-left: 0.5em; -webkit-animation-duration:1.5s;animation-duration:1.5s;"></ons-icon>
-            </ons-button>
         </div>
 
     </ons-bottom-toolbar>
