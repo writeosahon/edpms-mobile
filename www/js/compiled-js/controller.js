@@ -479,8 +479,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // move user to the main menu page
                 await Promise.all([$('ons-splitter').get(0).content.load("app-main-template"),
                     $('#loader-modal').get(0).hide()]);
-                // display a toast to the user
-                //ons.notification.toast(`<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> Welcome ${serverResponse.firstname}`, {timeout:3000});
             }
             catch(err){
                 $('#loader-modal').get(0).hide();
@@ -2145,7 +2143,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     viewReportsPageViewModel: {
 
 
-        reportPageSize: 1,
+        reportPageSize: 3,
 
         skip: 0,
 
@@ -2324,13 +2322,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
 
             //remove the list item from view with an animation
-            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("left").duration(600).play());
+            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(600).reverse());
             // remove the element from the list item altogether
             jQueryListItem.remove();
             // remove the evaluation report from database
             await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-//todo
+            // inform the user that evaluation report has been delete
+            // display a toast to the user
+            ons.notification.toast(`<ons-icon icon="md-delete" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
         }
 
     }

@@ -2602,7 +2602,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     viewReportsPageViewModel: {
 
-        reportPageSize: 1,
+        reportPageSize: 3,
 
         skip: 0,
 
@@ -2809,7 +2809,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 //remove the list item from view with an animation
 
                                 _context23.next = 3;
-                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("left").duration(600).play());
+                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(600).reverse());
 
                             case 3:
                                 // remove the element from the list item altogether
@@ -2819,6 +2819,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
                             case 6:
+
+                                // inform the user that evaluation report has been delete
+                                // display a toast to the user
+                                ons.notification.toast('<ons-icon icon="md-delete" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
+
+                            case 7:
                             case 'end':
                                 return _context23.stop();
                         }
