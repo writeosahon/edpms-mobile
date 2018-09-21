@@ -1529,7 +1529,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         } else {
                                             // there are saved/cached approved project evaluations
                                             // get the saved and approved milestone score from the approved project evaluations
-                                            projectEvaluationsQueryResult.docs[0].EVALUATIONS.find();
+                                            projectEvaluationsQueryResult.docs[0].EVALUATIONS.find(function () {});
                                         }
                                         // create each milestone evaluation slider
                                         var aSlider = new ej.inputs.Slider({
