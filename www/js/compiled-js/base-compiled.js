@@ -158,7 +158,7 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
 
                                 serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
 
-                                $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
+                                $('#determinate-progress-modal #determinate-progress').get(0).value = 65;
 
                                 // delete all previous milestones /docs
                                 _context.next = 27;
@@ -193,42 +193,117 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
 
                             case 32:
 
-                                $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+                                $('#determinate-progress-modal #determinate-progress').get(0).value = 80;
 
                                 // store the all the milestone data received
                                 _context.next = 35;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
                             case 35:
-                                if (!(showProgressModal === true)) {
-                                    _context.next = 38;
-                                    break;
-                                }
 
-                                _context.next = 38;
-                                return $('#determinate-progress-modal').get(0).hide();
+                                // inform the user that approved evaluation data is being downloaded for offline use
+                                $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
+                                $('#determinate-progress-modal #determinate-progress').get(0).value = 85;
 
-                            case 38:
-                                _context.prev = 38;
+                                // get previously uploaded and approved project evaluation reports
+                                _context.next = 39;
+                                return Promise.resolve($.ajax({
+                                    url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/load-current-evaluations.php",
+                                    type: "post",
+                                    contentType: "application/x-www-form-urlencoded",
+                                    beforeSend: function beforeSend(jqxhr) {
+                                        jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                    },
+                                    dataType: "text",
+                                    timeout: 240000, // wait for 4 minutes before timeout of request
+                                    processData: true,
+                                    data: {}
+                                }));
 
-                                if (!(showProgressModal === true)) {
-                                    _context.next = 42;
-                                    break;
-                                }
+                            case 39:
+                                serverResponse = _context.sent;
 
-                                _context.next = 42;
-                                return $('#determinate-progress-modal').get(0).hide();
 
-                            case 42:
-                                window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                return _context.finish(38);
+                                serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                                $('#determinate-progress-modal #determinate-progress').get(0).value = 90;
+
+                                // delete all previously stored/cached approved project evaluation reports
+                                _context.next = 44;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                    selector: {
+                                        "TYPE": {
+                                            "$eq": "project evaluations"
+                                        } },
+                                    use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                                });
 
                             case 44:
+                                allProjects = _context.sent;
+
+
+                                // get all the returned approved evaluation report and delete them
+                                allProjects = allProjects.docs.map(function (currentValue, index, array) {
+                                    currentValue._deleted = true; // mark the document as deleted
+                                    return currentValue;
+                                });
+
+                                // check if there are any approved evaluation report to delete
+
+                                if (!(allProjects.length > 0)) {
+                                    _context.next = 49;
+                                    break;
+                                }
+
+                                _context.next = 49;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+
+                            case 49:
+
+                                // format the retrieved evaluation report before storing in the app database
+                                serverResponse = serverResponse.map(function (currentValue, index, array) {
+                                    // format/convert the EVALUATIONS field to proper json
+                                    currentValue.EVALUATIONS = JSON.parse(currentValue.EVALUATIONS);
+                                    return currentValue;
+                                });
+
+                                console.log("DOWNLOADED REPORT", serverResponse);
+                                $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
+
+                                // store the all the milestone data received
+                                _context.next = 54;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                            case 54:
+                                if (!(showProgressModal === true)) {
+                                    _context.next = 57;
+                                    break;
+                                }
+
+                                _context.next = 57;
+                                return $('#determinate-progress-modal').get(0).hide();
+
+                            case 57:
+                                _context.prev = 57;
+
+                                if (!(showProgressModal === true)) {
+                                    _context.next = 61;
+                                    break;
+                                }
+
+                                _context.next = 61;
+                                return $('#determinate-progress-modal').get(0).hide();
+
+                            case 61:
+                                window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
+                                return _context.finish(57);
+
+                            case 63:
                             case "end":
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[0,, 38, 44]]);
+                }, _callee, this, [[0,, 57, 63]]);
             }));
 
             function loadProjectData() {

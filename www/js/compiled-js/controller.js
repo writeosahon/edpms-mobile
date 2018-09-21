@@ -665,7 +665,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         // todo =========================================================
 
-                        // inform the user that a
+                        // inform the user that approved evaluation data is being downloaded for offline use
                         $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 85;
 
