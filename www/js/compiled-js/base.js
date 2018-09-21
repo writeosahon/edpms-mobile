@@ -84,7 +84,7 @@ const utopiasoftware = {
                             "TYPE": {
                                 "$eq": "projects"
                             }},
-                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "MDAID", "TYPE"],
+                        fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "CONTRACTORID", "MDAID", "TYPE"],
                         use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
                     });
 
@@ -211,7 +211,7 @@ const utopiasoftware = {
                                 "$eq": utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username
                             }
                         },
-                        //use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                        fields: ["TYPE", "evaluatedBy", "_id", "_rev"],
                         use_index: ["ptracker-index-designdoc", "FIND_SAVED_REPORT_BY_EVALUATED_BY"]
                     });
 
@@ -234,14 +234,15 @@ const utopiasoftware = {
                         if(showProgressModal === true){ // check if download progress modal should be displayed to user
                             // show download progress
                             $('#determinate-progress-modal .modal-message').
-                            html(`Uploading Evaluation Report ${totalReportSheets - (reportSheets.length - 1)} Of ${totalReportSheets}`);
+                            html(`Uploading Evaluation Report ${totalReportSheets - (reportSheets.length - 1)} Of ${totalReportSheets}. Please Wait...`);
                             $('#determinate-progress-modal #determinate-progress').get(0).value =
                                 Math.round(((totalReportSheets - (reportSheets.length - 1)) / totalReportSheets) * 100);
                         }
                         // create the FormData object to be used in sending the report sheet
                         let formData = new FormData();
                         // attach the evaluation report data to the FormData
-                        formData.set("reportData", JSON.stringify(reportSheets[index]));
+                        formData.set("reportData", JSON.stringify(await utopiasoftware[utopiasoftware_app_namespace].model.
+                            appDatabase.get(reportSheets[index]._id)));
                         // attach the blob for the evaluation pictures 1 - 3 to the FormData
                         formData.set("evaluation-pic-1", await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                             getAttachment(reportSheets[index]._id, "picture1.jpg"));
@@ -274,8 +275,6 @@ const utopiasoftware = {
                         }
 
                         // since server upload of the evaluation report was successful, remove the evaluation report from app database
-                        /*reportSheets[index]._deleted = true;
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put(reportSheets[index])*/
                         await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
                         remove(reportSheets[index]._id, reportSheets[index]._rev);
                         // also remove the evaluation report from the reportSheets array
