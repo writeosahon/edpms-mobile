@@ -2669,11 +2669,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 17:
 
+                                    // update the properties of the View-Model
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports = dbQueryResult.total_rows;
+
                                     // create the report list content
                                     viewReportListContent = "";
 
                                     for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:m tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
+                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                     } // end of for loop
 
                                     // append generated list content to the view-reports
@@ -2685,11 +2689,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context21.next = 31;
+                                    _context21.next = 33;
                                     break;
 
-                                case 25:
-                                    _context21.prev = 25;
+                                case 27:
+                                    _context21.prev = 27;
                                     _context21.t0 = _context21['catch'](7);
 
                                     console.log("REPORT VOEW ERROR", _context21.t0);
@@ -2701,19 +2705,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 31:
-                                    _context21.prev = 31;
+                                case 33:
+                                    _context21.prev = 33;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(31);
+                                    return _context21.finish(33);
 
-                                case 34:
+                                case 36:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[7, 25, 31, 34]]);
+                    }, _callee20, this, [[7, 27, 33, 36]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -2752,7 +2756,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when page is destroyed
          */
-        pageDestroy: function pageDestroy() {},
+        pageDestroy: function pageDestroy() {
+
+            // reset the object properties to their default values
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip = 0;
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports = 0;
+        },
 
         /**
          * method is triggered when the device back button is clicked OR a similar action is triggered
@@ -2843,11 +2852,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         /**
          * method is triggered on page infinite scroll
+         * @param doneCallBack {function}
          *
          * @returns {Promise<void>}
          */
         pageInfiniteScroll: function () {
-            var _ref23 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
+            var _ref23 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23(doneCallBack) {
+                var dbQueryResult, viewReportListContent, index;
                 return regeneratorRuntime.wrap(function _callee23$(_context24) {
                     while (1) {
                         switch (_context24.prev = _context24.next) {
@@ -2855,15 +2866,85 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // append the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center">\n                    <div style="width: 100%; text-align: center">\n                        <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                    </div>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
 
-                            case 1:
+                                // load additional reports to the page
+                                _context24.prev = 1;
+
+                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >= utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports)) {
+                                    _context24.next = 5;
+                                    break;
+                                }
+
+                                // remove the loader icon/indicator to the view-reports lists
+                                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                // this is the last set/page of reports. so no need to load any more
+                                return _context24.abrupt('return');
+
+                            case 5:
+                                _context24.next = 7;
+                                return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
+
+                            case 7:
+                                dbQueryResult = _context24.sent;
+
+                                if (!(dbQueryResult.rows.length == 0)) {
+                                    _context24.next = 11;
+                                    break;
+                                }
+
+                                // no saved report found
+                                // remove the loader icon/indicator to the view-reports lists
+                                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                // no report data was returned, so exit method
+                                return _context24.abrupt('return');
+
+                            case 11:
+
+                                // update the properties of the View-Model
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports = dbQueryResult.total_rows;
+
+                                // create the report list content
+                                viewReportListContent = "";
+
+                                for (index = 0; index < dbQueryResult.rows.length; index++) {
+                                    viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
+                                } // end of for loop
+
+                                // remove the loader icon/indicator to the view-reports lists
+                                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                // append generated list content to the view-reports
+                                $('#view-reports-page #view-reports-list').append(viewReportListContent);
+
+                                _context24.next = 24;
+                                break;
+
+                            case 19:
+                                _context24.prev = 19;
+                                _context24.t0 = _context24['catch'](1);
+
+                                console.log("REPORT VOEW ERROR", _context24.t0);
+
+                                // remove the loader icon/indicator to the view-reports lists
+                                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                // display message to inform user of load error
+                                ons.notification.toast('<ons-icon icon="md-alert" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>', { timeout: 3000 });
+
+                            case 24:
+                                _context24.prev = 24;
+
+                                // inform ONSEN that infinite scroll action has completed
+                                doneCallBack();
+                                return _context24.finish(24);
+
+                            case 27:
                             case 'end':
                                 return _context24.stop();
                         }
                     }
-                }, _callee23, this);
+                }, _callee23, this, [[1, 19, 24, 27]]);
             }));
 
-            function pageInfiniteScroll() {
+            function pageInfiniteScroll(_x8) {
                 return _ref23.apply(this, arguments);
             }
 

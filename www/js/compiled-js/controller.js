@@ -2205,6 +2205,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         return;
                     }
 
+                    // update the properties of the View-Model
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                        skip += dbQueryResult.rows.length;
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                        totalReports = dbQueryResult.total_rows;
 
                     // create the report list content
                     let viewReportListContent = "";
@@ -2223,7 +2228,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
                                 <span class="list-item__subtitle" style="font-size: 0.6em">
-                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:m tt")}
+                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt")}
                                 </span>
                             </div>
                             <div class="right">
@@ -2296,6 +2301,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         pageDestroy: function(){
 
+            // reset the object properties to their default values
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                skip = 0;
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                totalReports = 0;
         },
 
 
@@ -2337,10 +2347,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
         /**
          * method is triggered on page infinite scroll
+         * @param doneCallBack {function}
          *
          * @returns {Promise<void>}
          */
-        async pageInfiniteScroll(){
+        async pageInfiniteScroll(doneCallBack){
             // append the loader icon/indicator to the view-reports lists
             $('#view-reports-page #view-reports-list').
             append(`<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">
@@ -2354,6 +2365,89 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 <div class="right">
                 </div>
             </ons-list-item>`);
+
+            // load additional reports to the page
+            try{
+                // check if there if this is the last set/page of reports or not
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
+                    // remove the loader icon/indicator to the view-reports lists
+                    $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                    // this is the last set/page of reports. so no need to load any more
+                    return;
+                }
+
+                // pick the reports that have been saved by user to-date in descending order (Note the skip value)
+                let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
+                loadProjectEvaluationReports(false,
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize,
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true,
+                    Date.now(), new Date(2018, 0, 1).getTime());
+
+                // check if any saved reports were returned
+                if(dbQueryResult.rows.length == 0) { // no saved report found
+                    // remove the loader icon/indicator to the view-reports lists
+                    $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                    // no report data was returned, so exit method
+                    return;
+                }
+
+                // update the properties of the View-Model
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    skip += dbQueryResult.rows.length;
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    totalReports = dbQueryResult.total_rows;
+
+                // create the report list content
+                let viewReportListContent = "";
+                for(let index = 0; index < dbQueryResult.rows.length; index++)
+                {
+                    viewReportListContent += `
+                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
+                        data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
+                        data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
+                           onclick="">
+                            <div class="left">
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                            </div>
+                            <div class="center" style="margin-left: 2em">
+                                <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
+                                <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
+                                <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
+                                <span class="list-item__subtitle" style="font-size: 0.6em">
+                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt")}
+                                </span>
+                            </div>
+                            <div class="right">
+                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportDeleteButtonClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')">
+                                    <ons-icon icon="md-delete">
+                                    </ons-icon>
+                                </ons-fab>
+                            </div>
+                        </ons-list-item>`;
+                } // end of for loop
+
+                // remove the loader icon/indicator to the view-reports lists
+                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                // append generated list content to the view-reports
+                $('#view-reports-page #view-reports-list').append(viewReportListContent);
+
+            }
+            catch (e) {
+                console.log("REPORT VOEW ERROR", e);
+
+                // remove the loader icon/indicator to the view-reports lists
+                $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                // display message to inform user of load error
+                ons.notification.toast(`<ons-icon icon="md-alert" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>`, {timeout: 3000});
+            }
+            finally{
+                // inform ONSEN that infinite scroll action has completed
+                doneCallBack();
+            }
         }
     }
 };
