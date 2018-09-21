@@ -1525,7 +1525,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
                                         var previousSliderValue = null; // holds the slider value gotten from previously saved evaluations
                                         if (!projectEvaluationsQueryResult.docs[0]) {
-                                            previousSliderValue = null;
+                                            previousSliderValue = null; // if there are no saved approved project evaluations, then set value to null
+                                        } else {
+                                            // there are saved/cached approved project evaluations
+                                            // get the saved and approved milestone score from the approved project evaluations
+                                            projectEvaluationsQueryResult.docs[0].EVALUATIONS.find();
                                         }
                                         // create each milestone evaluation slider
                                         var aSlider = new ej.inputs.Slider({
