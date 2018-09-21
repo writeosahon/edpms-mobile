@@ -1092,6 +1092,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
+                    // get all the previously approved and cached project evaluations belonging to the provided project id
+                    let projectEvaluationsQueryResult = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                        selector: {
+                            "PROJECTID": {
+                                "$eq": projectData.PROJECTID
+                            },
+                            "TYPE": {
+                                "$eq": "project evaluations"
+                            }
+                        },
+                        use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+
+                    });
+
                     // create the evaluation carousel item based on the milestones retrieved
                     let carouselContent = "";
                     for(let index = 0; index < dbQueryResult.docs.length; index++)
@@ -1239,7 +1253,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // create the project evaluation slider elements
                     $('#project-evaluation-page .project-evaluation-slider').
                     each(function(index, element){
+
                         element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
+                        let previousSliderValue = null; // holds the slider value gotten from previously saved evaluations
+                        if(! projectEvaluationsQueryResult.docs[0]){
+                            previousSliderValue = null;
+                        }
                         // create each milestone evaluation slider
                         let aSlider = new ej.inputs.Slider({
                             min: 0,

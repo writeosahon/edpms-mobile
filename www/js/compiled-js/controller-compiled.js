@@ -1414,7 +1414,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
                 var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
-                    var projectData, dbQueryResult, carouselContent, index;
+                    var projectData, dbQueryResult, projectEvaluationsQueryResult, carouselContent, index;
                     return regeneratorRuntime.wrap(function _callee13$(_context13) {
                         while (1) {
                             switch (_context13.prev = _context13.next) {
@@ -1477,6 +1477,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
+                                    // get all the previously approved and cached project evaluations belonging to the provided project id
+                                    _context13.next = 17;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                                        selector: {
+                                            "PROJECTID": {
+                                                "$eq": projectData.PROJECTID
+                                            },
+                                            "TYPE": {
+                                                "$eq": "project evaluations"
+                                            }
+                                        },
+                                        use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+
+                                    });
+
+                                case 17:
+                                    projectEvaluationsQueryResult = _context13.sent;
+
+
                                     // create the evaluation carousel item based on the milestones retrieved
                                     carouselContent = "";
 
@@ -1502,7 +1521,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // create the project evaluation slider elements
                                     $('#project-evaluation-page .project-evaluation-slider').each(function (index, element) {
+
                                         element._ptracker_index = index; //  store the index position of the element within the collection on the element itself
+                                        var previousSliderValue = null; // holds the slider value gotten from previously saved evaluations
+                                        if (!projectEvaluationsQueryResult.docs[0]) {
+                                            previousSliderValue = null;
+                                        }
                                         // create each milestone evaluation slider
                                         var aSlider = new ej.inputs.Slider({
                                             min: 0,
@@ -1593,11 +1617,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context13.next = 36;
+                                    _context13.next = 39;
                                     break;
 
-                                case 30:
-                                    _context13.prev = 30;
+                                case 33:
+                                    _context13.prev = 33;
                                     _context13.t0 = _context13['catch'](7);
 
                                     // hide the page preloader
@@ -1608,19 +1632,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 36:
-                                    _context13.prev = 36;
+                                case 39:
+                                    _context13.prev = 39;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context13.finish(36);
+                                    return _context13.finish(39);
 
-                                case 39:
+                                case 42:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[7, 30, 36, 39]]);
+                    }, _callee13, this, [[7, 33, 39, 42]]);
                 }));
 
                 return function loadPageOnAppReady() {
