@@ -2823,7 +2823,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                ons.notification.toast('<ons-icon icon="md-delete" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
+                                ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
 
                             case 7:
                             case 'end':
@@ -2853,7 +2853,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         switch (_context24.prev = _context24.next) {
                             case 0:
                                 // append the loader icon/indicator to the view-reports lists
-                                $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center" style="text-align: center">\n                    <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
+                                $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center">\n                    <div style="width: 100%; text-align: center">\n                        <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                    </div>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
 
                             case 1:
                             case 'end':

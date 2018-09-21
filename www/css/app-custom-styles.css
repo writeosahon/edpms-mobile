@@ -219,6 +219,7 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
 }
 /** STYLE FOR THE PROJECT EVALUATION PAGE ENDS **/
 
+
 /** STYLE FOR THE SIDE MENU PAGE BEGINS **/
 #side-menu-page .page--material__background {
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255,0.9) 100%),
@@ -227,3 +228,13 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
     background-size: cover, cover;
     background-position: center;
 }
+/** STYLE FOR THE SIDE MENU PAGE ENDS **/
+
+
+/** STYLE FOR THE VIEW REPORTS PAGE BEGINS **/
+#view-reports-page #view-reports-list .list-view-infinite-loader ons-icon[spin] { /* increase the speed of the list-view-infinite-loader spinner **/
+    -webkit-animation: ons-icon-spin 0.7s infinite linear;
+    -moz-animation: ons-icon-spin 0.7s infinite linear;
+    animation: ons-icon-spin 0.7s infinite linear;
+}
+/** STYLE FOR THE VIEW REPORTS PAGE ENDS **/
