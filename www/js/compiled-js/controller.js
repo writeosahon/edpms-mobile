@@ -2141,7 +2141,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     viewReportsPageViewModel: {
 
 
-        reportPageSize: 15,
+        reportPageSize: 6,
 
         skip: 0,
 
