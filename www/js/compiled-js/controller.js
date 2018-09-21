@@ -2059,10 +2059,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             projectEvaluationReportData.TYPE = "saved report";
 
             try {
-                var attachments = {};
-                // save the project evaluation report data
-                /*var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                                                put(projectEvaluationReportData);*/
+                var attachments = {}; // object to hold all the project evaluation picture attachments to be saved
 
                 // attach all saved project photos to the saved evaluation report data
                 for(let index = 1; index < 4; index++){
@@ -2099,6 +2096,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 // join all the attachments to the project evaluation report data
                 projectEvaluationReportData._attachments = attachments;
+                // save the project evaluation report data
                 await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
 
                 console.log("SAVED REPORT ", projectEvaluationReportData);
@@ -2172,6 +2170,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // listen for the back button event
                 $('#app-main-navigator').get(0).topPage.onDeviceBackButton =
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.backButtonClicked;
+
+                // listen for the infinite scroll event on the page
+                $('#app-main-navigator').get(0).topPage.onInfiniteScroll =
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInfiniteScroll;
 
                 // show the page preloader
                 $('#view-reports-page .page-preloader').css("display", "block");
@@ -2322,7 +2324,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
 
             //remove the list item from view with an animation
-            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(600).reverse());
+            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
             // remove the element from the list item altogether
             jQueryListItem.remove();
             // remove the evaluation report from database
@@ -2331,8 +2333,26 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // inform the user that evaluation report has been delete
             // display a toast to the user
             ons.notification.toast(`<ons-icon icon="md-delete" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
-        }
+        },
 
+        /**
+         * method is triggered on page infinite scroll
+         *
+         * @returns {Promise<void>}
+         */
+        async pageInfiniteScroll(){
+            // append the loader icon/indicator to the view-reports lists
+            $('#view-reports-page #view-reports-list').
+            append(`<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">
+                <div class="left">
+                </div>
+                <div class="center" style="text-align: center">
+                    <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>
+                </div>
+                <div class="right">
+                </div>
+            </ons-list-item>`);
+        }
     }
 };
 

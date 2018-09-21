@@ -2458,10 +2458,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 projectEvaluationReportData.TYPE = "saved report";
 
                                 _context20.prev = 16;
-                                attachments = {};
-                                // save the project evaluation report data
-                                /*var savedDocResponse = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                                                                put(projectEvaluationReportData);*/
+                                attachments = {}; // object to hold all the project evaluation picture attachments to be saved
 
                                 // attach all saved project photos to the saved evaluation report data
 
@@ -2536,6 +2533,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // join all the attachments to the project evaluation report data
                                 projectEvaluationReportData._attachments = attachments;
+                                // save the project evaluation report data
                                 _context20.next = 28;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
 
@@ -2634,17 +2632,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // listen for the back button event
                                     $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.backButtonClicked;
 
+                                    // listen for the infinite scroll event on the page
+                                    $('#app-main-navigator').get(0).topPage.onInfiniteScroll = utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInfiniteScroll;
+
                                     // show the page preloader
                                     $('#view-reports-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
                                     $('#view-reports-page .no-report-found, ' + '#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').css("display", "none");
 
                                     // pick the reports that have been saved by user to-date in descending order
-                                    _context21.prev = 6;
-                                    _context21.next = 9;
+                                    _context21.prev = 7;
+                                    _context21.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                                case 9:
+                                case 10:
                                     dbQueryResult = _context21.sent;
 
 
@@ -2653,7 +2654,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if any saved reports were returned
 
                                     if (!(dbQueryResult.rows.length == 0)) {
-                                        _context21.next = 16;
+                                        _context21.next = 17;
                                         break;
                                     }
 
@@ -2666,7 +2667,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found').css("display", "block");
                                     return _context21.abrupt('return');
 
-                                case 16:
+                                case 17:
 
                                     // create the report list content
                                     viewReportListContent = "";
@@ -2684,12 +2685,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context21.next = 30;
+                                    _context21.next = 31;
                                     break;
 
-                                case 24:
-                                    _context21.prev = 24;
-                                    _context21.t0 = _context21['catch'](6);
+                                case 25:
+                                    _context21.prev = 25;
+                                    _context21.t0 = _context21['catch'](7);
 
                                     console.log("REPORT VOEW ERROR", _context21.t0);
 
@@ -2700,19 +2701,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 30:
-                                    _context21.prev = 30;
+                                case 31:
+                                    _context21.prev = 31;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(30);
+                                    return _context21.finish(31);
 
-                                case 33:
+                                case 34:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[6, 24, 30, 33]]);
+                    }, _callee20, this, [[7, 25, 31, 34]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -2809,7 +2810,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 //remove the list item from view with an animation
 
                                 _context23.next = 3;
-                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(600).reverse());
+                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
 
                             case 3:
                                 // remove the element from the list item altogether
@@ -2837,6 +2838,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return reportDeleteButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered on page infinite scroll
+         *
+         * @returns {Promise<void>}
+         */
+        pageInfiniteScroll: function () {
+            var _ref23 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
+                return regeneratorRuntime.wrap(function _callee23$(_context24) {
+                    while (1) {
+                        switch (_context24.prev = _context24.next) {
+                            case 0:
+                                // append the loader icon/indicator to the view-reports lists
+                                $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center" style="text-align: center">\n                    <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
+
+                            case 1:
+                            case 'end':
+                                return _context24.stop();
+                        }
+                    }
+                }, _callee23, this);
+            }));
+
+            function pageInfiniteScroll() {
+                return _ref23.apply(this, arguments);
+            }
+
+            return pageInfiniteScroll;
         }()
     }
 };
