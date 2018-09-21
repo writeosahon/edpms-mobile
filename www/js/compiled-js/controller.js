@@ -634,7 +634,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
 
-                        $('#determinate-progress-modal #determinate-progress').get(0).value = 75;
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 65;
 
                         // delete all previous milestones /docs
                         allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
@@ -658,6 +658,66 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
                         }
 
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 80;
+
+                        // store the all the milestone data received
+                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+
+                        // todo =========================================================
+
+                        // inform the user that a
+                        $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 85;
+
+                        // get previously uploaded and approved project evaluation reports
+                        serverResponse = await Promise.resolve($.ajax(
+                            {
+                                url: utopiasoftware[utopiasoftware_app_namespace].model.appBaseUrl + "/mobile/load-current-evaluations.php",
+                                type: "post",
+                                contentType: "application/x-www-form-urlencoded",
+                                beforeSend: function(jqxhr) {
+                                    jqxhr.setRequestHeader("X-PTRACKER-APP", "mobile");
+                                },
+                                dataType: "text",
+                                timeout: 240000, // wait for 4 minutes before timeout of request
+                                processData: true,
+                                data: {}
+                            }
+                        ));
+
+                        serverResponse = JSON.parse(serverResponse); // convert the response to JSON object
+
+                        $('#determinate-progress-modal #determinate-progress').get(0).value = 90;
+
+                        // delete all previously stored/cached approved project evaluation reports
+                        allProjects = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
+                            selector: {
+                                "TYPE": {
+                                    "$eq": "project evaluations"
+                                }},
+                            use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                        });
+
+                        // get all the returned approved evaluation report and delete them
+                        allProjects = allProjects.docs.map((currentValue, index, array) => {
+                            currentValue._deleted = true; // mark the document as deleted
+                            return currentValue;
+                        });
+
+                        // check if there are any approved evaluation report to delete
+                        if(allProjects.length > 0){
+                            // delete the previously saved/cached approved evaluation report
+                            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                        }
+
+                        // format the retrieved evaluation report before storing in the app database
+                        serverResponse = serverResponse.map((currentValue, index, array) => {
+                            // format/convert the EVALUATIONS field to proper json
+                            currentValue.EVALUATIONS = JSON.parse(currentValue.EVALUATIONS);
+                            return currentValue;
+                        });
+
+                        console.log("DOWNLOADED REPORT", serverResponse);
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                         // store the all the milestone data received
@@ -2365,6 +2425,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 <div class="right">
                 </div>
             </ons-list-item>`);
+
+            // todo REMOVE
+            await new Promise(function(resolve, reject){window.setTimeout(resolve, 3000)});
 
             // load additional reports to the page
             try{
