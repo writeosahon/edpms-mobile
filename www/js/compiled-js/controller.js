@@ -1290,8 +1290,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             created: function(){
                                 // write the value on the slider handle element
                                 $('.e-handle', element).text(this.value);
-                                this.value = previousSliderValue || 0;
-                                this.dataBind();
                                 // update the milestone current value
                                 $('.project-evaluation-milestone-current-value', $(element).closest('ons-card'))
                                     .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
