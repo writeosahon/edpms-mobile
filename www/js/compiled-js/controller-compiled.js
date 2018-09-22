@@ -1430,12 +1430,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
-                                    $('#project-evaluation-page .project-evaluation-instructions, ' + '#project-evaluation-page .content, #project-evaluation-page .no-milestone-found').css("display", "none");
+                                    /*$('#project-evaluation-page .project-evaluation-instructions, ' +
+                                        '#project-evaluation-page .content, #project-evaluation-page .no-milestone-found').
+                                    css("display", "none");*/
 
                                     // pick the project data object for which milestones are to be evaluated
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
-                                    _context13.prev = 7;
-                                    _context13.next = 10;
+                                    _context13.prev = 6;
+                                    _context13.next = 9;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
@@ -1452,17 +1454,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     });
 
-                                case 10:
+                                case 9:
                                     dbQueryResult = _context13.sent;
 
                                     if (!(dbQueryResult.docs.length == 0)) {
-                                        _context13.next = 13;
+                                        _context13.next = 12;
                                         break;
                                     }
 
                                     throw "error";
 
-                                case 13:
+                                case 12:
 
                                     // if the code gets to this point, milestones were returned
                                     // sort the returned milestones array
@@ -1473,7 +1475,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
                                     // get all the previously approved and cached project evaluations belonging to the provided project id
-                                    _context13.next = 17;
+                                    _context13.next = 16;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "PROJECTID": {
@@ -1487,7 +1489,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     });
 
-                                case 17:
+                                case 16:
                                     projectEvaluationsQueryResult = _context13.sent;
 
 
@@ -1553,8 +1555,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             created: function created() {
                                                 // write the value on the slider handle element
                                                 $('.e-handle', element).text(this.value);
-                                                /*this.value = previousSliderValue || 0;
-                                                this.dataBind();*/
+                                                this.value = previousSliderValue || 0;
+                                                this.dataBind();
                                                 // update the milestone current value
                                                 $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(this.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
                                             },
@@ -1637,12 +1639,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context13.next = 39;
+                                    _context13.next = 38;
                                     break;
 
-                                case 33:
-                                    _context13.prev = 33;
-                                    _context13.t0 = _context13['catch'](7);
+                                case 32:
+                                    _context13.prev = 32;
+                                    _context13.t0 = _context13['catch'](6);
 
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
@@ -1652,19 +1654,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 39:
-                                    _context13.prev = 39;
+                                case 38:
+                                    _context13.prev = 38;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context13.finish(39);
+                                    return _context13.finish(38);
 
-                                case 42:
+                                case 41:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[7, 33, 39, 42]]);
+                    }, _callee13, this, [[6, 32, 38, 41]]);
                 }));
 
                 return function loadPageOnAppReady() {

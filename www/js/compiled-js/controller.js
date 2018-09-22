@@ -1050,9 +1050,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // show the page preloader
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
-                $('#project-evaluation-page .project-evaluation-instructions, ' +
+                /*$('#project-evaluation-page .project-evaluation-instructions, ' +
                     '#project-evaluation-page .content, #project-evaluation-page .no-milestone-found').
-                css("display", "none");
+                css("display", "none");*/
 
                 // pick the project data object for which milestones are to be evaluated
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
@@ -1290,8 +1290,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             created: function(){
                                 // write the value on the slider handle element
                                 $('.e-handle', element).text(this.value);
-                                /*this.value = previousSliderValue || 0;
-                                this.dataBind();*/
+                                this.value = previousSliderValue || 0;
+                                this.dataBind();
                                 // update the milestone current value
                                 $('.project-evaluation-milestone-current-value', $(element).closest('ons-card'))
                                     .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
