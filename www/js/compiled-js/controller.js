@@ -1050,9 +1050,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // show the page preloader
                 $('#project-evaluation-page .page-preloader').css("display", "block");
                 // hide the items that are not to be displayed
-                /*$('#project-evaluation-page .project-evaluation-instructions, ' +
-                    '#project-evaluation-page .content, #project-evaluation-page .no-milestone-found').
-                css("display", "none");*/
+                $('#project-evaluation-page .project-evaluation-instructions, ' +
+                    '#project-evaluation-page .no-milestone-found').css("display", "none");
 
                 // pick the project data object for which milestones are to be evaluated
                 let projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
@@ -1271,8 +1270,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
                         }
 
-                        if(previousSliderValue){
-                            previousSliderValue = window.parseInt(previousSliderValue.milestoneScore);
+                        if(previousSliderValue){ // if previously slider value is an object, get the previous evaluation score
+                            previousSliderValue = window.parseInt(previousSliderValue.milestoneScore); // update to the previous score
                         }
                         // create each milestone evaluation slider
                         let aSlider = new ej.inputs.Slider({
@@ -2243,7 +2242,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     viewReportsPageViewModel: {
 
 
-        reportPageSize: 6,
+        reportPageSize: 20,
 
         skip: 0,
 
@@ -2276,6 +2275,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // listen for the infinite scroll event on the page
                 $('#app-main-navigator').get(0).topPage.onInfiniteScroll =
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInfiniteScroll;
+
+                // register listener for the pull-to-refresh widget
+                $('#view-reports-pull-hook', $thisPage).on("changestate", function(event){
+
+                    // check the state of the pull-to-refresh widget
+                    switch (event.originalEvent.state){
+                        case 'initial':
+                            // update the displayed icon
+                            $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).
+                            html('<ons-icon icon="fa-long-arrow-down" size="24px"></ons-icon>');
+                            break;
+
+                        case 'preaction':
+
+                            $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).
+                            html('<ons-icon icon="fa-long-arrow-up" size="24px"></ons-icon>');
+                            break;
+
+                        case 'action':
+                            $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).
+                            html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin></ons-icon>');
+                            break;
+                    }
+                });
 
                 // show the page preloader
                 $('#view-reports-page .page-preloader').css("display", "block");
