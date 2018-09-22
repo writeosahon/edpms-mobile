@@ -1553,6 +1553,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             created: function created() {
                                                 // write the value on the slider handle element
                                                 $('.e-handle', element).text(this.value);
+                                                /*this.value = previousSliderValue || 0;
+                                                this.dataBind();*/
                                                 // update the milestone current value
                                                 $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(this.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
                                             },
