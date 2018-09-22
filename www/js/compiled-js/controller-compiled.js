@@ -2751,6 +2751,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // listen for the infinite scroll event on the page
                                     $('#app-main-navigator').get(0).topPage.onInfiniteScroll = utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInfiniteScroll;
 
+                                    // add method to handle the loading action of the pull-to-refresh widget
+                                    $('#view-reports-pull-hook', $thisPage).get(0).onAction = utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction;
+
                                     // register listener for the pull-to-refresh widget
                                     $('#view-reports-pull-hook', $thisPage).on("changestate", function (event) {
 
@@ -2763,11 +2766,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                             case 'preaction':
 
-                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-up" size="24px"></ons-icon>');
+                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-up" size="24px" style="color: #F4C724"></ons-icon>');
                                                 break;
 
                                             case 'action':
-                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin></ons-icon>');
+                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin style="color: #F4C724"></ons-icon>');
                                                 break;
                                         }
                                     });
@@ -2778,15 +2781,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, ' + '#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').css("display", "none");
 
                                     // pick the reports that have been saved by user to-date in descending order
-                                    _context21.prev = 8;
-                                    _context21.next = 11;
+                                    _context21.prev = 9;
+                                    _context21.next = 12;
                                     return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                                case 11:
+                                case 12:
                                     dbQueryResult = _context21.sent;
 
                                     if (!(dbQueryResult.rows.length == 0)) {
-                                        _context21.next = 17;
+                                        _context21.next = 18;
                                         break;
                                     }
 
@@ -2799,7 +2802,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found').css("display", "block");
                                     return _context21.abrupt('return');
 
-                                case 17:
+                                case 18:
 
                                     // update the properties of the View-Model
                                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
@@ -2821,12 +2824,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context21.next = 32;
+                                    _context21.next = 33;
                                     break;
 
-                                case 27:
-                                    _context21.prev = 27;
-                                    _context21.t0 = _context21['catch'](8);
+                                case 28:
+                                    _context21.prev = 28;
+                                    _context21.t0 = _context21['catch'](9);
 
 
                                     // hide the page preloader
@@ -2836,19 +2839,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 32:
-                                    _context21.prev = 32;
+                                case 33:
+                                    _context21.prev = 33;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(32);
+                                    return _context21.finish(33);
 
-                                case 35:
+                                case 36:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[8, 27, 32, 35]]);
+                    }, _callee20, this, [[9, 28, 33, 36]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -3080,6 +3083,37 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return pageInfiniteScroll;
+        }(),
+
+
+        /**
+         * method is triggered when the pull-hook on the page is active
+         *
+         * @param doneCallBack
+         * @returns {Promise<void>}
+         */
+        pagePullHookAction: function () {
+            var _ref24 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(doneCallBack) {
+                return regeneratorRuntime.wrap(function _callee24$(_context25) {
+                    while (1) {
+                        switch (_context25.prev = _context25.next) {
+                            case 0:
+                                // disable pull-to-refresh widget till loading is done
+                                $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
+
+                            case 1:
+                            case 'end':
+                                return _context25.stop();
+                        }
+                    }
+                }, _callee24, this);
+            }));
+
+            function pagePullHookAction(_x9) {
+                return _ref24.apply(this, arguments);
+            }
+
+            return pagePullHookAction;
         }()
     }
 };

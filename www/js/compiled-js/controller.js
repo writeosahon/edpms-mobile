@@ -2276,6 +2276,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#app-main-navigator').get(0).topPage.onInfiniteScroll =
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageInfiniteScroll;
 
+                // add method to handle the loading action of the pull-to-refresh widget
+                $('#view-reports-pull-hook', $thisPage).get(0).onAction =
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction;
+
                 // register listener for the pull-to-refresh widget
                 $('#view-reports-pull-hook', $thisPage).on("changestate", function(event){
 
@@ -2290,12 +2294,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         case 'preaction':
 
                             $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).
-                            html('<ons-icon icon="fa-long-arrow-up" size="24px"></ons-icon>');
+                            html('<ons-icon icon="fa-long-arrow-up" size="24px" style="color: #F4C724"></ons-icon>');
                             break;
 
                         case 'action':
                             $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).
-                            html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin></ons-icon>');
+                            html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin style="color: #F4C724"></ons-icon>');
                             break;
                     }
                 });
@@ -2572,6 +2576,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }
                 catch(err2){}
             }
+        },
+
+        /**
+         * method is triggered when the pull-hook on the page is active
+         *
+         * @param doneCallBack
+         * @returns {Promise<void>}
+         */
+        async pagePullHookAction(doneCallBack){
+            // disable pull-to-refresh widget till loading is done
+            $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
         }
     }
 };
