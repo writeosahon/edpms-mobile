@@ -218,43 +218,41 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 4:
                                 totalUploads = _context3.sent;
 
-                                console.log("TOTAL UPLOADS", totalUploads);
-
                                 if (!(totalUploads === 0)) {
-                                    _context3.next = 11;
+                                    _context3.next = 10;
                                     break;
                                 }
 
-                                _context3.next = 9;
+                                _context3.next = 8;
                                 return ons.notification.alert('No evaluation reports to upload', { title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Uploaded</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 9:
-                                _context3.next = 13;
+                            case 8:
+                                _context3.next = 12;
                                 break;
 
-                            case 11:
-                                _context3.next = 13;
+                            case 10:
+                                _context3.next = 12;
                                 return ons.notification.alert('All evaluation reports successfully uploaded. ' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 13:
-                                _context3.next = 18;
+                            case 12:
+                                _context3.next = 17;
                                 break;
 
-                            case 15:
-                                _context3.prev = 15;
+                            case 14:
+                                _context3.prev = 14;
                                 _context3.t0 = _context3['catch'](1);
 
                                 ons.notification.alert('uploading evaluation reports failed. Please try again. ' + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 18:
+                            case 17:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 15]]);
+                }, _callee3, this, [[1, 14]]);
             }));
 
             function uploadReportsButtonClicked() {
@@ -781,7 +779,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // check if the user just completed a signin or log-in
 
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes")) {
-                                        _context9.next = 65;
+                                        _context9.next = 64;
                                         break;
                                     }
 
@@ -922,8 +920,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 46:
 
-                                    // todo =========================================================
-
                                     // inform the user that approved evaluation data is being downloaded for offline use
                                     $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 85;
@@ -990,50 +986,49 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         return currentValue;
                                     });
 
-                                    console.log("DOWNLOADED REPORT", serverResponse);
                                     $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                                     // store the all the milestone data received
-                                    _context9.next = 65;
+                                    _context9.next = 64;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
-                                case 65:
+                                case 64:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" && !utopiasoftware[utopiasoftware_app_namespace].model.userDetails)) {
-                                        _context9.next = 69;
+                                        _context9.next = 68;
                                         break;
                                     }
 
-                                    _context9.next = 68;
+                                    _context9.next = 67;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get("userDetails");
 
-                                case 68:
+                                case 67:
                                     utopiasoftware[utopiasoftware_app_namespace].model.userDetails = _context9.sent;
 
-                                case 69:
+                                case 68:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") === "yes" && window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes")) {
-                                        _context9.next = 72;
+                                        _context9.next = 71;
                                         break;
                                     }
 
-                                    _context9.next = 72;
+                                    _context9.next = 71;
                                     return Promise.all([$('#determinate-progress-modal').get(0).hide()]);
 
-                                case 72:
-                                    _context9.next = 74;
+                                case 71:
+                                    _context9.next = 73;
                                     return Promise.all([$('#loader-modal').get(0).hide()]);
 
-                                case 74:
+                                case 73:
 
                                     // this only displays when page is NOT marked as being loaded from a user refresh request
                                     if (window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                                         // display a toast to the user
                                         ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + '</span>', { timeout: 3000 });
                                     }
-                                    _context9.next = 82;
+                                    _context9.next = 81;
                                     break;
 
-                                case 77:
-                                    _context9.prev = 77;
+                                case 76:
+                                    _context9.prev = 76;
                                     _context9.t0 = _context9['catch'](8);
 
                                     // display error message indicating that projects data could not be loaded
@@ -1041,20 +1036,20 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#determinate-progress-modal').get(0).hide();
                                     $('#loader-modal').get(0).hide();
 
-                                case 82:
-                                    _context9.prev = 82;
+                                case 81:
+                                    _context9.prev = 81;
 
                                     // clear the page refresh marker from device session storage
                                     window.sessionStorage.removeItem("utopiasoftware-edpms-refresh-page");
                                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                    return _context9.finish(82);
+                                    return _context9.finish(81);
 
-                                case 86:
+                                case 85:
                                 case 'end':
                                     return _context9.stop();
                             }
                         }
-                    }, _callee9, this, [[8, 77, 82, 86]]);
+                    }, _callee9, this, [[8, 76, 81, 85]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -1496,8 +1491,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectEvaluationsQueryResult = _context13.sent;
 
 
-                                    console.log("APPROVED EVALUATIONS", projectEvaluationsQueryResult.docs);
-
                                     // create the evaluation carousel item based on the milestones retrieved
                                     carouselContent = "";
 
@@ -1529,7 +1522,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                         if (!projectEvaluationsQueryResult.docs[0]) {
                                             previousSliderValue = null; // if there are no saved approved project evaluations, then set value to null
-                                            console.log("NO PROJECT EVALUATION RECORD");
                                         } else {
                                             // there are saved/cached approved project evaluations
                                             // get the saved and approved milestone score from the approved project evaluations
@@ -1537,7 +1529,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId, dbQueryResult.docs[element._ptracker_index].BOQID);
                                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                                 if (window.parseInt(currentValue.milestoneId) === window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)) {
-                                                    console.log("PROJECT EVALUATIONS - 1 FOUND");
                                                     return true; // this approved evaluation reports are for the currently viewed milestone
                                                 }
                                             });
@@ -1644,11 +1635,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context13.next = 40;
+                                    _context13.next = 39;
                                     break;
 
-                                case 34:
-                                    _context13.prev = 34;
+                                case 33:
+                                    _context13.prev = 33;
                                     _context13.t0 = _context13['catch'](7);
 
                                     // hide the page preloader
@@ -1659,19 +1650,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 40:
-                                    _context13.prev = 40;
+                                case 39:
+                                    _context13.prev = 39;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context13.finish(40);
+                                    return _context13.finish(39);
 
-                                case 43:
+                                case 42:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[7, 34, 40, 43]]);
+                    }, _callee13, this, [[7, 33, 39, 42]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -2666,32 +2657,28 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
 
                             case 28:
-
-                                console.log("SAVED REPORT ", projectEvaluationReportData);
-                                // hide loader
-                                _context20.next = 31;
+                                _context20.next = 30;
                                 return $('#loader-modal').get(0).hide();
 
-                            case 31:
-                                _context20.next = 33;
+                            case 30:
+                                _context20.next = 32;
                                 return ons.notification.alert('This evaluation report has been saved successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Evaluation Report Saved</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 33:
+                            case 32:
 
                                 // flag to the app that you are going back to a page that needs to be refreshed
                                 window.sessionStorage.setItem("utopiasoftware-edpms-refresh-page", "yes");
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context20.next = 43;
+                                _context20.next = 41;
                                 break;
 
-                            case 37:
-                                _context20.prev = 37;
+                            case 36:
+                                _context20.prev = 36;
                                 _context20.t1 = _context20['catch'](16);
 
-                                console.log("SAVE ERROR", _context20.t1);
                                 try {
                                     // remove the project evaluation report sheet document which failed to save properly from the app database
                                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(savedDocResponse.id, savedDocResponse.rev);
@@ -2700,19 +2687,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 ons.notification.alert('saving evaluation report sheet failed. Please try again. ' + (_context20.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 43:
-                                _context20.prev = 43;
+                            case 41:
+                                _context20.prev = 41;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context20.finish(43);
+                                return _context20.finish(41);
 
-                            case 46:
+                            case 44:
                             case 'end':
                                 return _context20.stop();
                         }
                     }
-                }, _callee19, this, [[16, 37, 43, 46]]);
+                }, _callee19, this, [[16, 36, 41, 44]]);
             }));
 
             function saveReportButtonClicked() {
@@ -2776,13 +2763,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 case 10:
                                     dbQueryResult = _context21.sent;
 
-
-                                    console.log("VIEW REPORTS", dbQueryResult.rows);
-
-                                    // check if any saved reports were returned
-
                                     if (!(dbQueryResult.rows.length == 0)) {
-                                        _context21.next = 17;
+                                        _context21.next = 16;
                                         break;
                                     }
 
@@ -2795,7 +2777,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found').css("display", "block");
                                     return _context21.abrupt('return');
 
-                                case 17:
+                                case 16:
 
                                     // update the properties of the View-Model
                                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
@@ -2817,14 +2799,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context21.next = 33;
+                                    _context21.next = 31;
                                     break;
 
-                                case 27:
-                                    _context21.prev = 27;
+                                case 26:
+                                    _context21.prev = 26;
                                     _context21.t0 = _context21['catch'](7);
 
-                                    console.log("REPORT VOEW ERROR", _context21.t0);
 
                                     // hide the page preloader
                                     $('#view-reports-page .page-preloader').css("display", "none");
@@ -2833,19 +2814,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 33:
-                                    _context21.prev = 33;
+                                case 31:
+                                    _context21.prev = 31;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context21.finish(33);
+                                    return _context21.finish(31);
 
-                                case 36:
+                                case 34:
                                 case 'end':
                                     return _context21.stop();
                             }
                         }
-                    }, _callee20, this, [[7, 27, 33, 36]]);
+                    }, _callee20, this, [[7, 26, 31, 34]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -2994,17 +2975,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // append the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center">\n                    <div style="width: 100%; text-align: center">\n                        <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                    </div>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
 
-                                // todo REMOVE
-                                _context24.next = 3;
-                                return new Promise(function (resolve, reject) {
-                                    window.setTimeout(resolve, 3000);
-                                });
-
-                            case 3:
-                                _context24.prev = 3;
+                                // load additional reports to the page
+                                _context24.prev = 1;
 
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >= utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports)) {
-                                    _context24.next = 7;
+                                    _context24.next = 5;
                                     break;
                                 }
 
@@ -3013,15 +2988,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // this is the last set/page of reports. so no need to load any more
                                 return _context24.abrupt('return');
 
-                            case 7:
-                                _context24.next = 9;
+                            case 5:
+                                _context24.next = 7;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                            case 9:
+                            case 7:
                                 dbQueryResult = _context24.sent;
 
                                 if (!(dbQueryResult.rows.length == 0)) {
-                                    _context24.next = 13;
+                                    _context24.next = 11;
                                     break;
                                 }
 
@@ -3031,7 +3006,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // no report data was returned, so exit method
                                 return _context24.abrupt('return');
 
-                            case 13:
+                            case 11:
 
                                 // update the properties of the View-Model
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
@@ -3049,33 +3024,31 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // append generated list content to the view-reports
                                 $('#view-reports-page #view-reports-list').append(viewReportListContent);
 
-                                _context24.next = 26;
+                                _context24.next = 23;
                                 break;
 
-                            case 21:
-                                _context24.prev = 21;
-                                _context24.t0 = _context24['catch'](3);
-
-                                console.log("REPORT VOEW ERROR", _context24.t0);
+                            case 19:
+                                _context24.prev = 19;
+                                _context24.t0 = _context24['catch'](1);
 
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 // display message to inform user of load error
                                 ons.notification.toast('<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>', { timeout: 3000 });
 
-                            case 26:
-                                _context24.prev = 26;
+                            case 23:
+                                _context24.prev = 23;
 
                                 // inform ONSEN that infinite scroll action has completed
                                 doneCallBack();
-                                return _context24.finish(26);
+                                return _context24.finish(23);
 
-                            case 29:
+                            case 26:
                             case 'end':
                                 return _context24.stop();
                         }
                     }
-                }, _callee23, this, [[3, 21, 26, 29]]);
+                }, _callee23, this, [[1, 19, 23, 26]]);
             }));
 
             function pageInfiniteScroll(_x8) {

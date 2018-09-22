@@ -208,7 +208,6 @@ const utopiasoftware = {
                         return currentValue;
                     });
 
-                    console.log("DOWNLOADED REPORT", serverResponse);
                     $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                     // store the all the milestone data received
@@ -273,7 +272,6 @@ const utopiasoftware = {
                         use_index: ["ptracker-index-designdoc", "FIND_SAVED_REPORT_BY_EVALUATED_BY"]
                     });
 
-                    console.log("LENGTH ", JSON.stringify(reportSheets.docs));
                     if(reportSheets.docs.length === 0){ // there are no report sheets to upload
                         if(showProgressModal === true){
                             // hide the progress loader

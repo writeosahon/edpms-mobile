@@ -233,8 +233,8 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
 
 /** STYLE FOR THE VIEW REPORTS PAGE BEGINS **/
 #view-reports-page #view-reports-list .list-view-infinite-loader ons-icon[spin] { /* increase the speed of the list-view-infinite-loader spinner **/
-    -webkit-animation: ons-icon-spin 0.7s infinite linear;
-    -moz-animation: ons-icon-spin 0.7s infinite linear;
-    animation: ons-icon-spin 0.7s infinite linear;
+    -webkit-animation: ons-icon-spin 0.6s infinite linear;
+    -moz-animation: ons-icon-spin 0.6s infinite linear;
+    animation: ons-icon-spin 0.6s infinite linear;
 }
 /** STYLE FOR THE VIEW REPORTS PAGE ENDS **/

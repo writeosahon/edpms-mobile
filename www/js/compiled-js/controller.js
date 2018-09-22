@@ -161,7 +161,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                 totalUploads = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
                 uploadProjectEvaluationReports(true);
-                console.log("TOTAL UPLOADS", totalUploads);
+
                 if(totalUploads === 0) // no reports were uploaded.
                 {
                     await ons.notification.alert('No evaluation reports to upload',
@@ -663,8 +663,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // store the all the milestone data received
                         await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
 
-                        // todo =========================================================
-
                         // inform the user that approved evaluation data is being downloaded for offline use
                         $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 85;
@@ -717,7 +715,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             return currentValue;
                         });
 
-                        console.log("DOWNLOADED REPORT", serverResponse);
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                         // store the all the milestone data received
@@ -1106,8 +1103,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     });
 
-                    console.log("APPROVED EVALUATIONS", projectEvaluationsQueryResult.docs);
-
                     // create the evaluation carousel item based on the milestones retrieved
                     let carouselContent = "";
                     for(let index = 0; index < dbQueryResult.docs.length; index++)
@@ -1261,7 +1256,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         if(! projectEvaluationsQueryResult.docs[0]){
                             previousSliderValue = null; // if there are no saved approved project evaluations, then set value to null
-                            console.log("NO PROJECT EVALUATION RECORD");
                         }
                         else{ // there are saved/cached approved project evaluations
                             // get the saved and approved milestone score from the approved project evaluations
@@ -1272,7 +1266,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                 if(window.parseInt(currentValue.milestoneId) ===
                                     window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)){
-                                    console.log("PROJECT EVALUATIONS - 1 FOUND");
                                     return true; // this approved evaluation reports are for the currently viewed milestone
                                 }
                             });
@@ -2210,7 +2203,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // save the project evaluation report data
                 await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs([projectEvaluationReportData]);
 
-                console.log("SAVED REPORT ", projectEvaluationReportData);
                 // hide loader
                 await $('#loader-modal').get(0).hide();
                 // inform user the evaluation report was successfully saved
@@ -2225,7 +2217,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             }
             catch(err){
-                console.log("SAVE ERROR", err);
                 try{
                     // remove the project evaluation report sheet document which failed to save properly from the app database
                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
@@ -2302,8 +2293,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true,
                         Date.now(), new Date(2018, 0, 1).getTime());
 
-                    console.log("VIEW REPORTS", dbQueryResult.rows);
-
                     // check if any saved reports were returned
                     if(dbQueryResult.rows.length == 0) { // no saved report found
                         // inform the user that no saved reports are available
@@ -2367,7 +2356,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#view-reports-page #view-reports-list').css("display", "block");
                 }
                 catch (e) {
-                    console.log("REPORT VOEW ERROR", e);
 
                     // hide the page preloader
                     $('#view-reports-page .page-preloader').css("display", "none");
@@ -2477,9 +2465,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 </div>
             </ons-list-item>`);
 
-            // todo REMOVE
-            await new Promise(function(resolve, reject){window.setTimeout(resolve, 3000)});
-
             // load additional reports to the page
             try{
                 // check if there if this is the last set/page of reports or not
@@ -2551,8 +2536,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             }
             catch (e) {
-                console.log("REPORT VOEW ERROR", e);
-
                 // remove the loader icon/indicator to the view-reports lists
                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                 // display message to inform user of load error
