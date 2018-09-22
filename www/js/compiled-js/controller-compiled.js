@@ -3094,6 +3094,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         pagePullHookAction: function () {
             var _ref24 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(doneCallBack) {
+                var dbQueryResult, viewReportListContent, index;
                 return regeneratorRuntime.wrap(function _callee24$(_context25) {
                     while (1) {
                         switch (_context25.prev = _context25.next) {
@@ -3101,12 +3102,86 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // disable pull-to-refresh widget till loading is done
                                 $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
 
-                            case 1:
+                                // reload reports to the page. start from the 1st
+                                _context25.prev = 1;
+
+                                if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >= utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports)) {
+                                    _context25.next = 6;
+                                    break;
+                                }
+
+                                // enable pull-to-refresh widget
+                                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                                // inform ONSEN that the refresh action is completed
+                                doneCallBack();
+                                return _context25.abrupt('return');
+
+                            case 6:
+                                _context25.next = 8;
+                                return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, 0, true, Date.now(), new Date(2018, 0, 1).getTime());
+
+                            case 8:
+                                dbQueryResult = _context25.sent;
+
+                                if (!(dbQueryResult.rows.length == 0)) {
+                                    _context25.next = 13;
+                                    break;
+                                }
+
+                                // no saved report found
+                                // enable pull-to-refresh widget
+                                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                                // inform ONSEN that the refresh action is completed
+                                doneCallBack();
+                                return _context25.abrupt('return');
+
+                            case 13:
+
+                                // update the properties of the View-Model
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip = dbQueryResult.rows.length;
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports = dbQueryResult.total_rows;
+
+                                // create the report list content
+                                viewReportListContent = "";
+
+                                for (index = 0; index < dbQueryResult.rows.length; index++) {
+                                    viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
+                                } // end of for loop
+
+                                // enable pull-to-refresh widget
+                                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                                // append generated list content to the view-reports
+                                $('#view-reports-page #view-reports-list').html(viewReportListContent);
+                                // inform ONSEN that the refresh action is completed
+                                doneCallBack();
+                                _context25.next = 26;
+                                break;
+
+                            case 22:
+                                _context25.prev = 22;
+                                _context25.t0 = _context25['catch'](1);
+
+                                console.log('1ST ERROR', _context25.t0);
+                                // enable pull-to-refresh widget
+                                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+
+                            case 26:
+                                _context25.prev = 26;
+
+                                try {
+                                    // inform ONSEN that the refresh action is completed
+                                    doneCallBack();
+                                } catch (err2) {
+                                    console.log('2nd ERROR', err2);
+                                }
+                                return _context25.finish(26);
+
+                            case 29:
                             case 'end':
                                 return _context25.stop();
                         }
                     }
-                }, _callee24, this);
+                }, _callee24, this, [[1, 22, 26, 29]]);
             }));
 
             function pagePullHookAction(_x9) {

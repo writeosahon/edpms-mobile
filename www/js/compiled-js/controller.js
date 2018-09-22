@@ -2595,6 +2595,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
                     // enable pull-to-refresh widget
                     $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                    // inform ONSEN that the refresh action is completed
+                    doneCallBack();
                     return; // exit method
                 }
 
@@ -2608,6 +2610,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(dbQueryResult.rows.length == 0) { // no saved report found
                     // enable pull-to-refresh widget
                     $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                    // inform ONSEN that the refresh action is completed
+                    doneCallBack();
                     return;
                 }
 
@@ -2653,9 +2657,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                 // append generated list content to the view-reports
                 $('#view-reports-page #view-reports-list').html(viewReportListContent);
-
+                // inform ONSEN that the refresh action is completed
+                doneCallBack();
             }
             catch (e) {
+                console.log('1ST ERROR', e);
                 // enable pull-to-refresh widget
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
             }
@@ -2665,7 +2671,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // inform ONSEN that the refresh action is completed
                     doneCallBack();
                 }
-                catch(err2){}
+                catch(err2){
+                    console.log('2nd ERROR', err2);
+                }
             }
         }
     }
