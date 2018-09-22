@@ -1106,6 +1106,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                     });
 
+                    console.log("APPROVED EVALUATIONS", projectEvaluationsQueryResult.docs);
+
                     // create the evaluation carousel item based on the milestones retrieved
                     let carouselContent = "";
                     for(let index = 0; index < dbQueryResult.docs.length; index++)
@@ -1259,6 +1261,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         if(! projectEvaluationsQueryResult.docs[0]){
                             previousSliderValue = null; // if there are no saved approved project evaluations, then set value to null
+                            console.log("NO PROJECT EVALUATION RECORD");
                         }
                         else{ // there are saved/cached approved project evaluations
                             // get the saved and approved milestone score from the approved project evaluations
@@ -1267,6 +1270,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                 if(window.parseInt(currentValue.milestoneId) ===
                                     window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)){
+                                    console.log("PROJECT EVALUATIONS - 1 FOUND")
                                     return true; // this approved evaluation reports are for the currently viewed milestone
                                 }
                             });

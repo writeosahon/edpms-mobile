@@ -1496,6 +1496,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     projectEvaluationsQueryResult = _context13.sent;
 
 
+                                    console.log("APPROVED EVALUATIONS", projectEvaluationsQueryResult.docs);
+
                                     // create the evaluation carousel item based on the milestones retrieved
                                     carouselContent = "";
 
@@ -1527,12 +1529,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                         if (!projectEvaluationsQueryResult.docs[0]) {
                                             previousSliderValue = null; // if there are no saved approved project evaluations, then set value to null
+                                            console.log("NO PROJECT EVALUATION RECORD");
                                         } else {
                                             // there are saved/cached approved project evaluations
                                             // get the saved and approved milestone score from the approved project evaluations
                                             previousSliderValue = projectEvaluationsQueryResult.docs[0].EVALUATIONS.find(function (currentValue, index2) {
                                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                                 if (window.parseInt(currentValue.milestoneId) === window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)) {
+                                                    console.log("PROJECT EVALUATIONS - 1 FOUND");
                                                     return true; // this approved evaluation reports are for the currently viewed milestone
                                                 }
                                             });
@@ -1635,11 +1639,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context13.next = 39;
+                                    _context13.next = 40;
                                     break;
 
-                                case 33:
-                                    _context13.prev = 33;
+                                case 34:
+                                    _context13.prev = 34;
                                     _context13.t0 = _context13['catch'](7);
 
                                     // hide the page preloader
@@ -1650,19 +1654,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 39:
-                                    _context13.prev = 39;
+                                case 40:
+                                    _context13.prev = 40;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context13.finish(39);
+                                    return _context13.finish(40);
 
-                                case 42:
+                                case 43:
                                 case 'end':
                                     return _context13.stop();
                             }
                         }
-                    }, _callee13, this, [[7, 33, 39, 42]]);
+                    }, _callee13, this, [[7, 34, 40, 43]]);
                 }));
 
                 return function loadPageOnAppReady() {
