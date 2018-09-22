@@ -2761,16 +2761,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         switch (event.originalEvent.state) {
                                             case 'initial':
                                                 // update the displayed icon
-                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-down" size="24px"></ons-icon>');
+                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-down" size="24px" style="color: #FFFFFF"></ons-icon>');
                                                 break;
 
                                             case 'preaction':
 
-                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-up" size="24px" style="color: #F4C724"></ons-icon>');
+                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="fa-long-arrow-up" size="24px" style="color: #FFFFFF"></ons-icon>');
                                                 break;
 
                                             case 'action':
-                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin style="color: #F4C724"></ons-icon>');
+                                                $('#view-reports-pull-hook-fab', event.originalEvent.pullHook).html('<ons-icon icon="md-utopiasoftware-icon-spinner" size="24px" spin style="color: #FFFFFF"></ons-icon>');
                                                 break;
                                         }
                                     });

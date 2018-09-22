@@ -237,4 +237,9 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
     -moz-animation: ons-icon-spin 0.6s infinite linear;
     animation: ons-icon-spin 0.6s infinite linear;
 }
+#view-reports-page #view-reports-pull-hook #view-reports-pull-hook-fab ons-icon[spin] { /* increase the speed of the pull-to-refresh spinner **/
+    -webkit-animation: ons-icon-spin 0.5s infinite linear;
+    -moz-animation: ons-icon-spin 0.5s infinite linear;
+    animation: ons-icon-spin 0.5s infinite linear;
+}
 /** STYLE FOR THE VIEW REPORTS PAGE ENDS **/
