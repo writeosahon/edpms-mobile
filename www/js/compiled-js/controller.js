@@ -1267,7 +1267,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             // get the saved and approved milestone score from the approved project evaluations
                             previousSliderValue = projectEvaluationsQueryResult.docs[0].EVALUATIONS.
                             find(function(currentValue, index2){
-                                console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId);
+                                console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId,
+                                    dbQueryResult.docs[element._ptracker_index].BOQID);
                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                 if(window.parseInt(currentValue.milestoneId) ===
                                     window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)){
@@ -1284,16 +1285,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         let aSlider = new ej.inputs.Slider({
                             min: 0,
                             max: 100,
+                            value: previousSliderValue || 0,
                             limits: {
                                 enabled: true,
-                                minStart: previousSliderValue || 0
+                                minStart: previousSliderValue || 0,
+                                minEnd: 100
                             },
-                            value: previousSliderValue || 0,
                             step: 1,
                             orientation: 'Horizontal',
                             type: 'MinRange',
                             created: function(){
+                                // write the value on the slider handle element
                                 $('.e-handle', element).text(this.value);
+                                // update the milestone current value
+                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card'))
+                                    .html(`<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> 
+                                    ${kendo.toString(kendo.parseFloat((this.value / 100) * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2")}`);
                             },
                             change: function(changeEvent){
                                 $('.e-handle', element).text(changeEvent.value);
