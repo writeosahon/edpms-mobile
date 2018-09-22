@@ -2565,8 +2565,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 ons.notification.toast(`<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>`, {timeout: 3000});
             }
             finally{
-                // inform ONSEN that infinite scroll action has completed
-                doneCallBack();
+                try
+                {
+                    // inform ONSEN that infinite scroll action has completed
+                    doneCallBack();
+                }
+                catch(err2){}
             }
         }
     }

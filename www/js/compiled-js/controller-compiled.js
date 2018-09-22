@@ -3061,8 +3061,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 23:
                                 _context24.prev = 23;
 
-                                // inform ONSEN that infinite scroll action has completed
-                                doneCallBack();
+                                try {
+                                    // inform ONSEN that infinite scroll action has completed
+                                    doneCallBack();
+                                } catch (err2) {}
                                 return _context24.finish(23);
 
                             case 26:
