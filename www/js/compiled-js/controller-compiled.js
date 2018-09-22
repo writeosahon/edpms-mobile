@@ -1534,6 +1534,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             // there are saved/cached approved project evaluations
                                             // get the saved and approved milestone score from the approved project evaluations
                                             previousSliderValue = projectEvaluationsQueryResult.docs[0].EVALUATIONS.find(function (currentValue, index2) {
+                                                console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId);
                                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                                 if (window.parseInt(currentValue.milestoneId) === window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)) {
                                                     console.log("PROJECT EVALUATIONS - 1 FOUND");
