@@ -2587,6 +2587,86 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async pagePullHookAction(doneCallBack){
             // disable pull-to-refresh widget till loading is done
             $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
+
+            // reload reports to the page. start from the 1st
+            try{
+                // check if there if this is the last set/page of reports or not
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
+                    // enable pull-to-refresh widget
+                    $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                    return; // exit method
+                }
+
+                // pick the reports that have been saved by user to-date in descending order (Note the skip value)
+                let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
+                loadProjectEvaluationReports(false,
+                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, 0, true,
+                    Date.now(), new Date(2018, 0, 1).getTime());
+
+                // check if any saved reports were returned
+                if(dbQueryResult.rows.length == 0) { // no saved report found
+                    // enable pull-to-refresh widget
+                    $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                    return;
+                }
+
+                // update the properties of the View-Model
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    skip = dbQueryResult.rows.length;
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    totalReports = dbQueryResult.total_rows;
+
+                // create the report list content
+                let viewReportListContent = "";
+                for(let index = 0; index < dbQueryResult.rows.length; index++)
+                {
+                    viewReportListContent += `
+                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
+                        data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
+                        data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
+                           onclick="">
+                            <div class="left">
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                            </div>
+                            <div class="center" style="margin-left: 2em">
+                                <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
+                                <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
+                                <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
+                                <span class="list-item__subtitle" style="font-size: 0.6em">
+                                ${kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt")}
+                                </span>
+                            </div>
+                            <div class="right">
+                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportDeleteButtonClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')">
+                                    <ons-icon icon="md-delete">
+                                    </ons-icon>
+                                </ons-fab>
+                            </div>
+                        </ons-list-item>`;
+                } // end of for loop
+
+                // enable pull-to-refresh widget
+                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                // append generated list content to the view-reports
+                $('#view-reports-page #view-reports-list').html(viewReportListContent);
+
+            }
+            catch (e) {
+                // enable pull-to-refresh widget
+                $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+            }
+            finally{
+                try
+                {
+                    // inform ONSEN that the refresh action is completed
+                    doneCallBack();
+                }
+                catch(err2){}
+            }
         }
     }
 };
