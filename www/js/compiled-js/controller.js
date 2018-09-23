@@ -191,6 +191,28 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             await $("#app-main-navigator").get(0).bringPageTop("view-reports-page.html", {animation: "slide"});
             // hide the side menu
             $('ons-splitter').get(0).right.close();
+        },
+
+        /**
+         * method is triggered when the Refresh Offline Data button is clicked
+         * @returns {Promise<void>}
+         */
+        async refreshOfflineDataButtonClicked(){
+
+            try{
+                // reload the offline app data
+                await utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
+
+                // inform user that app offline data has been refreshed
+                await ons.notification.alert(`App offline has been refreshed successfully`,
+                    {title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Offline Data Refreshed</span>',
+                        buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+
+            }
+            catch(err){
+                ons.notification.alert(`refreshing app offline data failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Offline Data Refresh Failed</span>',
+                    buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+            }
         }
     },
 
@@ -2492,8 +2514,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 </div>
             </ons-list-item>`);
 
-            console.log("INFINITE SCROLL");
-
             // load additional reports to the page
             try{
                 // check if there if this is the last set/page of reports or not
@@ -2567,7 +2587,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 doneCallBack();
             }
             catch (e) {
-                console.log('2ND ERROR', e);
                 // remove the loader icon/indicator to the view-reports lists
                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                 doneCallBack();
@@ -2582,13 +2601,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @param doneCallBack
          * @returns {Promise<void>}
          */
-        async pagePullHookAction(doneCallBack){
+        async pagePullHookAction(doneCallBack = function(){}){
             // disable pull-to-refresh widget till loading is done
             $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
 
             // reload reports to the page. start from the 1st
             try{
-                await new Promise(function(resolve, reject){setTimeout(resolve, 3000)});
 
                 // pick the reports that have been saved by user to-date in descending order (Note the skip value)
                 let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
@@ -2652,6 +2670,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                 // append generated list content to the view-reports
                 $('#view-reports-page #view-reports-list').html(viewReportListContent);
+                // hide the items that are not to be displayed
+                $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').
+                css("display", "none");
+                // display the view reports list
+                $('#view-reports-page #view-reports-list').css("display", "block");
                 // inform ONSEN that the refresh action is completed
                 doneCallBack();
             }

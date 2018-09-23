@@ -38,7 +38,21 @@
             <div class="col-xs-1" style=""></div>
             <div class="col-xs-3" style="border: 2px darkgray groove;
             background-color: #00B2A0; color: #ffffff; height: 7em; padding: 1em; text-align: center"
-            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.signOutButtonClicked()">
+            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.refreshOfflineDataButtonClicked()">
+                <ons-ripple></ons-ripple>
+                <ons-icon icon="md-utopiasoftware-icon-signout" size="28px"></ons-icon>
+                <span style="display: block; text-align: center; font-size: 0.8em;">
+                    Refresh Offline Data
+                </span>
+            </div>
+        </div>
+
+        <!-- 2nd of of menu buttons -->
+        <div class="row" style="margin-top: 2em">
+            <div class="col-xs-1" style=""></div>
+            <div class="col-xs-3" style="border: 2px darkgray groove;
+            background-color: #00B2A0; color: #ffffff; height: 7em; padding: 1em; text-align: center"
+                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.sideMenuPageViewModel.signOutButtonClicked()">
                 <ons-ripple></ons-ripple>
                 <ons-icon icon="md-utopiasoftware-icon-signout" size="28px"></ons-icon>
                 <span style="display: block; text-align: center">
@@ -46,6 +60,7 @@
                 </span>
             </div>
         </div>
+
     </div>
 
     <!--<ons-bottom-toolbar modifier="aligned" style="display: none">
