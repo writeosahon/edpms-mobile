@@ -200,6 +200,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async refreshOfflineDataButtonClicked(){
 
             try{
+                // compact the app database
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
+                // cleanup unused database query views
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.viewCleanup();
                 // reload the offline app data
                 await utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
 
