@@ -3056,20 +3056,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // append generated list content to the view-reports
                                 $('#view-reports-page #view-reports-list').append(viewReportListContent);
                                 doneCallBack();
-                                _context24.next = 29;
+                                _context24.next = 30;
                                 break;
 
                             case 24:
                                 _context24.prev = 24;
                                 _context24.t0 = _context24['catch'](1);
 
+                                console.log('2ND ERROR', _context24.t0);
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 doneCallBack();
                                 // display message to inform user of load error
                                 ons.notification.toast('<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>', { timeout: 3000 });
 
-                            case 29:
+                            case 30:
                             case 'end':
                                 return _context24.stop();
                         }

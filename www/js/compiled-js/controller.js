@@ -2566,6 +2566,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 doneCallBack();
             }
             catch (e) {
+                console.log('2ND ERROR', e);
                 // remove the loader icon/indicator to the view-reports lists
                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                 doneCallBack();
