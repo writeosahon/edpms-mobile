@@ -2242,7 +2242,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
     viewReportsPageViewModel: {
 
 
-        reportPageSize: 20,
+        reportPageSize: 5,
 
         skip: 0,
 
@@ -2492,9 +2492,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 </div>
             </ons-list-item>`);
 
+            console.log("INFINITE SCROLL");
+
             // load additional reports to the page
             try{
-                await new Promise(function(resolve, reject){setTimeout(resolve, 3000)});
                 // check if there if this is the last set/page of reports or not
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
@@ -2588,15 +2589,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // reload reports to the page. start from the 1st
             try{
                 await new Promise(function(resolve, reject){setTimeout(resolve, 3000)});
-                // check if there if this is the last set/page of reports or not
-                if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
-                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
-                    // enable pull-to-refresh widget
-                    $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
-                    // inform ONSEN that the refresh action is completed
-                    doneCallBack();
-                    return; // exit method
-                }
 
                 // pick the reports that have been saved by user to-date in descending order (Note the skip value)
                 let dbQueryResult = await utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.
@@ -2608,6 +2600,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(dbQueryResult.rows.length == 0) { // no saved report found
                     // enable pull-to-refresh widget
                     $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
+                    // hide the items that are not to be displayed
+                    $('#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').
+                    css("display", "none");
+                    // show the no reports messages
+                    $('#view-reports-page .no-report-found').css("display", "block");
                     // inform ONSEN that the refresh action is completed
                     doneCallBack();
                     return;
