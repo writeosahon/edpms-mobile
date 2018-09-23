@@ -308,38 +308,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 0:
                                 _context5.prev = 0;
                                 _context5.next = 3;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
+                                return utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
 
                             case 3:
                                 _context5.next = 5;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.viewCleanup();
-
-                            case 5:
-                                _context5.next = 7;
-                                return utopiasoftware[utopiasoftware_app_namespace].appCachedData.loadProjectData(true);
-
-                            case 7:
-                                _context5.next = 9;
                                 return ons.notification.alert('App offline has been refreshed successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Offline Data Refreshed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 9:
-                                _context5.next = 14;
+                            case 5:
+                                _context5.next = 10;
                                 break;
 
-                            case 11:
-                                _context5.prev = 11;
+                            case 7:
+                                _context5.prev = 7;
                                 _context5.t0 = _context5['catch'](0);
 
                                 ons.notification.alert('refreshing app offline data failed. Please try again. ' + (_context5.t0.message || ""), { title: '<span style="color: red">Offline Data Refresh Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 14:
+                            case 10:
                             case 'end':
                                 return _context5.stop();
                         }
                     }
-                }, _callee5, this, [[0, 11]]);
+                }, _callee5, this, [[0, 7]]);
             }));
 
             function refreshOfflineDataButtonClicked() {

@@ -337,7 +337,10 @@ const utopiasoftware = {
                         reportSheets.shift();
                     }
 
+                    // compact the database
                     await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.compact();
+                    // cleanup unused/stale database views/queries
+                    await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.viewCleanup();
                     return totalReportSheets; // return the total number of report sheet uploaded
                 }
                 finally {
