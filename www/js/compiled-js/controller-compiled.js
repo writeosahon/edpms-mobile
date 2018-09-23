@@ -3002,36 +3002,43 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // load additional reports to the page
                                 _context24.prev = 1;
+                                _context24.next = 4;
+                                return new Promise(function (resolve, reject) {
+                                    setTimeout(resolve, 3000);
+                                });
 
+                            case 4:
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >= utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports)) {
-                                    _context24.next = 5;
+                                    _context24.next = 8;
                                     break;
                                 }
 
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                doneCallBack();
                                 // this is the last set/page of reports. so no need to load any more
                                 return _context24.abrupt('return');
 
-                            case 5:
-                                _context24.next = 7;
+                            case 8:
+                                _context24.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                            case 7:
+                            case 10:
                                 dbQueryResult = _context24.sent;
 
                                 if (!(dbQueryResult.rows.length == 0)) {
-                                    _context24.next = 11;
+                                    _context24.next = 15;
                                     break;
                                 }
 
                                 // no saved report found
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                doneCallBack();
                                 // no report data was returned, so exit method
                                 return _context24.abrupt('return');
 
-                            case 11:
+                            case 15:
 
                                 // update the properties of the View-Model
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
@@ -3048,34 +3055,26 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 // append generated list content to the view-reports
                                 $('#view-reports-page #view-reports-list').append(viewReportListContent);
-
-                                _context24.next = 23;
+                                doneCallBack();
+                                _context24.next = 29;
                                 break;
 
-                            case 19:
-                                _context24.prev = 19;
+                            case 24:
+                                _context24.prev = 24;
                                 _context24.t0 = _context24['catch'](1);
 
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                                doneCallBack();
                                 // display message to inform user of load error
                                 ons.notification.toast('<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>', { timeout: 3000 });
 
-                            case 23:
-                                _context24.prev = 23;
-
-                                try {
-                                    // inform ONSEN that infinite scroll action has completed
-                                    doneCallBack();
-                                } catch (err2) {}
-                                return _context24.finish(23);
-
-                            case 26:
+                            case 29:
                             case 'end':
                                 return _context24.stop();
                         }
                     }
-                }, _callee23, this, [[1, 19, 23, 26]]);
+                }, _callee23, this, [[1, 24]]);
             }));
 
             function pageInfiniteScroll(_x8) {
@@ -3104,9 +3103,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // reload reports to the page. start from the 1st
                                 _context25.prev = 1;
+                                _context25.next = 4;
+                                return new Promise(function (resolve, reject) {
+                                    setTimeout(resolve, 3000);
+                                });
 
+                            case 4:
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >= utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports)) {
-                                    _context25.next = 6;
+                                    _context25.next = 8;
                                     break;
                                 }
 
@@ -3116,15 +3120,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 doneCallBack();
                                 return _context25.abrupt('return');
 
-                            case 6:
-                                _context25.next = 8;
+                            case 8:
+                                _context25.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, 0, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                            case 8:
+                            case 10:
                                 dbQueryResult = _context25.sent;
 
                                 if (!(dbQueryResult.rows.length == 0)) {
-                                    _context25.next = 13;
+                                    _context25.next = 15;
                                     break;
                                 }
 
@@ -3135,7 +3139,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 doneCallBack();
                                 return _context25.abrupt('return');
 
-                            case 13:
+                            case 15:
 
                                 // update the properties of the View-Model
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip = dbQueryResult.rows.length;
@@ -3154,34 +3158,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list').html(viewReportListContent);
                                 // inform ONSEN that the refresh action is completed
                                 doneCallBack();
-                                _context25.next = 26;
+                                _context25.next = 29;
                                 break;
 
-                            case 22:
-                                _context25.prev = 22;
+                            case 24:
+                                _context25.prev = 24;
                                 _context25.t0 = _context25['catch'](1);
 
                                 console.log('1ST ERROR', _context25.t0);
                                 // enable pull-to-refresh widget
                                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
-
-                            case 26:
-                                _context25.prev = 26;
-
-                                try {
-                                    // inform ONSEN that the refresh action is completed
-                                    doneCallBack();
-                                } catch (err2) {
-                                    console.log('2nd ERROR', err2);
-                                }
-                                return _context25.finish(26);
+                                doneCallBack();
 
                             case 29:
                             case 'end':
                                 return _context25.stop();
                         }
                     }
-                }, _callee24, this, [[1, 22, 26, 29]]);
+                }, _callee24, this, [[1, 24]]);
             }));
 
             function pagePullHookAction(_x9) {

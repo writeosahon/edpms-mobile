@@ -2494,11 +2494,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // load additional reports to the page
             try{
+                await new Promise(function(resolve, reject){setTimeout(resolve, 3000)});
                 // check if there if this is the last set/page of reports or not
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
                     // remove the loader icon/indicator to the view-reports lists
                     $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                    doneCallBack();
                     // this is the last set/page of reports. so no need to load any more
                     return;
                 }
@@ -2514,6 +2516,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 if(dbQueryResult.rows.length == 0) { // no saved report found
                     // remove the loader icon/indicator to the view-reports lists
                     $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                    doneCallBack();
                     // no report data was returned, so exit method
                     return;
                 }
@@ -2560,21 +2563,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                 // append generated list content to the view-reports
                 $('#view-reports-page #view-reports-list').append(viewReportListContent);
-
+                doneCallBack();
             }
             catch (e) {
                 // remove the loader icon/indicator to the view-reports lists
                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
+                doneCallBack();
                 // display message to inform user of load error
                 ons.notification.toast(`<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>`, {timeout: 3000});
-            }
-            finally{
-                try
-                {
-                    // inform ONSEN that infinite scroll action has completed
-                    doneCallBack();
-                }
-                catch(err2){}
             }
         },
 
@@ -2590,6 +2586,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             // reload reports to the page. start from the 1st
             try{
+                await new Promise(function(resolve, reject){setTimeout(resolve, 3000)});
                 // check if there if this is the last set/page of reports or not
                 if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip >=
                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports){
@@ -2664,16 +2661,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 console.log('1ST ERROR', e);
                 // enable pull-to-refresh widget
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
-            }
-            finally{
-                try
-                {
-                    // inform ONSEN that the refresh action is completed
-                    doneCallBack();
-                }
-                catch(err2){
-                    console.log('2nd ERROR', err2);
-                }
+                doneCallBack();
             }
         }
     }
