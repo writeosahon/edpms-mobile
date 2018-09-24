@@ -123,5 +123,21 @@
     </div>
     <div class="modal-message" style="text-align: center; margin-top: 0.5em; font-size: 1.2em;"></div>
 </ons-modal>
+
+<!-- view reports additional popover -->
+<ons-popover cancelable id="view-reports-additional-menu-popover">
+        <ons-list-item modifier="divider" tappable lock-on-drag="true"
+                       onclick="$('#view-reports-additional-menu-popover').get(0).hide();
+                       utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction();">
+            <div class="center" style="color: #3F51B5;">
+                Refresh
+            </div>
+            <div class="right">
+            </div>
+        </ons-list-item>
+
+    </ons-list>
+</ons-popover>
+
 </body>
 </html>
