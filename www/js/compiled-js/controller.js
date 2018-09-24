@@ -1416,6 +1416,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "inline-block");
                 }
                 catch (e) {
+                    console.log("SLIDER ERROR", e);
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
                     // hide the items that are not to be displayed
@@ -1500,12 +1501,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 projectEvaluationPageViewModel.projectGeoPosition = null;
 
             // destroy slider widgets created
-            /*$('#project-evaluation-page .project-evaluation-slider').
+            $('#project-evaluation-page .project-evaluation-slider').
             each(function(index, element){
                 // destroy the slider widget attached to this element
                 element._ptracker_slider.destroy();
                 element._ptracker_slider = null;
-            });*/
+            });
         },
 
 

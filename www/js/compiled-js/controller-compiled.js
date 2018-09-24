@@ -1692,13 +1692,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context14.next = 40;
+                                    _context14.next = 41;
                                     break;
 
                                 case 34:
                                     _context14.prev = 34;
                                     _context14.t0 = _context14['catch'](8);
 
+                                    console.log("SLIDER ERROR", _context14.t0);
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
@@ -1707,19 +1708,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 40:
-                                    _context14.prev = 40;
+                                case 41:
+                                    _context14.prev = 41;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context14.finish(40);
+                                    return _context14.finish(41);
 
-                                case 43:
+                                case 44:
                                 case 'end':
                                     return _context14.stop();
                             }
                         }
-                    }, _callee14, this, [[8, 34, 40, 43]]);
+                    }, _callee14, this, [[8, 34, 41, 44]]);
                 }));
 
                 return function loadPageOnAppReady() {
