@@ -32,6 +32,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
+            // set the device back button listener for view-reports-additional-menu-popover'
+            $('#view-reports-additional-menu-popover').get(0).onDeviceBackButton = function(){
+                // hide the menu popover
+                $('#view-reports-additional-menu-popover').get(0).hide();
+            };
+
+
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
