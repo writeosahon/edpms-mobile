@@ -1500,12 +1500,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 projectEvaluationPageViewModel.projectGeoPosition = null;
 
             // destroy slider widgets created
-            $('#project-evaluation-page .project-evaluation-slider').
+            /*$('#project-evaluation-page .project-evaluation-slider').
             each(function(index, element){
                 // destroy the slider widget attached to this element
                 element._ptracker_slider.destroy();
                 element._ptracker_slider = null;
-            });
+            });*/
         },
 
 
