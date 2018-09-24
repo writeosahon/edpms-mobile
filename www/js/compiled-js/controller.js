@@ -2380,7 +2380,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                           viewReportsPageViewModel.viewReportListItemClicked(this)">
+                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
@@ -2569,7 +2569,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                           viewReportsPageViewModel.viewReportListItemClicked(this)">
+                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
@@ -2656,7 +2656,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                           viewReportsPageViewModel.viewReportListItemClicked(this)">
+                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
