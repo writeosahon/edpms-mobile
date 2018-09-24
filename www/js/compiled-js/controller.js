@@ -2467,11 +2467,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async backButtonClicked(){
 
-            if($('#view-reports-additional-menu-popover').get(0).visible){
-                $('#view-reports-additional-menu-popover').get(0).hide();
-                return;
-            }
-
             // check if the side menu is open
             if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
                 $('ons-splitter').get(0).right.close();

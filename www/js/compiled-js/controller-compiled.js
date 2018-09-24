@@ -2956,17 +2956,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context23.prev = _context23.next) {
                             case 0:
-                                if (!$('#view-reports-additional-menu-popover').get(0).visible) {
-                                    _context23.next = 3;
-                                    break;
-                                }
-
-                                $('#view-reports-additional-menu-popover').get(0).hide();
-                                return _context23.abrupt('return');
-
-                            case 3:
                                 if (!$('ons-splitter').get(0).right.isOpen) {
-                                    _context23.next = 6;
+                                    _context23.next = 3;
                                     break;
                                 }
 
@@ -2974,12 +2965,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).right.close();
                                 return _context23.abrupt('return');
 
-                            case 6:
+                            case 3:
 
                                 // move to the project evaluation page
                                 $('#app-main-navigator').get(0).popPage();
 
-                            case 7:
+                            case 4:
                             case 'end':
                                 return _context23.stop();
                         }
