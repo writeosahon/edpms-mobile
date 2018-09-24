@@ -40,6 +40,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // does nothing for now!!
                             });
 
+                            $('#view-reports-additional-menu-popover').get(0).onDeviceBackButton = function () {
+                                console.log("POPOVER HIDDEN");
+                                $('#view-reports-additional-menu-popover').get(0).hide();
+                            };
+
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
                             $('#loader-modal').get(0).show(); // show loader
@@ -60,7 +65,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 5;
+                            _context.prev = 6;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -76,7 +81,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             // create the database indexes used by the app
-                            _context.next = 10;
+                            _context.next = 11;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -102,9 +107,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 10:
-                            _context.prev = 10;
-                            _context.next = 13;
+                        case 11:
+                            _context.prev = 11;
+                            _context.next = 14;
                             return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                                 _id: '_design/saved_reports_view',
                                 views: {
@@ -118,39 +123,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             });
 
-                        case 13:
-                            _context.next = 17;
+                        case 14:
+                            _context.next = 18;
                             break;
 
-                        case 15:
-                            _context.prev = 15;
-                            _context.t0 = _context['catch'](10);
+                        case 16:
+                            _context.prev = 16;
+                            _context.t0 = _context['catch'](11);
 
-                        case 17:
-                            _context.next = 22;
+                        case 18:
+                            _context.next = 23;
                             break;
 
-                        case 19:
-                            _context.prev = 19;
-                            _context.t1 = _context['catch'](5);
+                        case 20:
+                            _context.prev = 20;
+                            _context.t1 = _context['catch'](6);
 
                             console.log("APP LOADING ERROR", _context.t1);
 
-                        case 22:
-                            _context.prev = 22;
+                        case 23:
+                            _context.prev = 23;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(22);
+                            return _context.finish(23);
 
-                        case 27:
+                        case 28:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[5, 19, 22, 27], [10, 15]]);
+            }, _callee, this, [[6, 20, 23, 28], [11, 16]]);
         }))); // end of ons.ready()
     },
 
