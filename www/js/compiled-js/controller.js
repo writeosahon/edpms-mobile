@@ -32,17 +32,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
-            // set the device back button listener for view-reports-additional-menu-popover'
-            $('#view-reports-additional-menu-popover').get(0).onDeviceBackButton = function(){
-                // hide the menu popover
-                $('#view-reports-additional-menu-popover').get(0).hide();
-            };
-
-
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
-
 
             if(window.localStorage.getItem("utopiasoftware-edpms-app-status") &&
                 window.localStorage.getItem("utopiasoftware-edpms-app-status") !== ""){ // there is a previous logged in user
@@ -2708,8 +2700,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         async viewReportListItemClicked(listItemElement, event){
-            if(listItemElement !== event.target){
-                return; // exit
+
+            if($(event.target).closest('ons-fab', listItemElement).is('ons-fab')){ // check if it is the delete fab that has been clicked
+                return; // exit d// the fab was clicked, so take no further action
             }
 
             var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes

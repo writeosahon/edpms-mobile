@@ -40,16 +40,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // does nothing for now!!
                             });
 
-                            // set the device back button listener for view-reports-additional-menu-popover'
-                            $('#view-reports-additional-menu-popover').get(0).onDeviceBackButton = function () {
-                                // hide the menu popover
-                                $('#view-reports-additional-menu-popover').get(0).hide();
-                            };
-
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
                             $('#loader-modal').get(0).show(); // show loader
-
 
                             if (window.localStorage.getItem("utopiasoftware-edpms-app-status") && window.localStorage.getItem("utopiasoftware-edpms-app-status") !== "") {
                                 // there is a previous logged in user
@@ -67,7 +60,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 6;
+                            _context.prev = 5;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
@@ -83,7 +76,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             // create the database indexes used by the app
-                            _context.next = 11;
+                            _context.next = 10;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -109,9 +102,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 11:
-                            _context.prev = 11;
-                            _context.next = 14;
+                        case 10:
+                            _context.prev = 10;
+                            _context.next = 13;
                             return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                                 _id: '_design/saved_reports_view',
                                 views: {
@@ -125,39 +118,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             });
 
-                        case 14:
-                            _context.next = 18;
+                        case 13:
+                            _context.next = 17;
                             break;
 
-                        case 16:
-                            _context.prev = 16;
-                            _context.t0 = _context['catch'](11);
+                        case 15:
+                            _context.prev = 15;
+                            _context.t0 = _context['catch'](10);
 
-                        case 18:
-                            _context.next = 23;
+                        case 17:
+                            _context.next = 22;
                             break;
 
-                        case 20:
-                            _context.prev = 20;
-                            _context.t1 = _context['catch'](6);
+                        case 19:
+                            _context.prev = 19;
+                            _context.t1 = _context['catch'](5);
 
                             console.log("APP LOADING ERROR", _context.t1);
 
-                        case 23:
-                            _context.prev = 23;
+                        case 22:
+                            _context.prev = 22;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(23);
+                            return _context.finish(22);
 
-                        case 28:
+                        case 27:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[6, 20, 23, 28], [11, 16]]);
+            }, _callee, this, [[5, 19, 22, 27], [10, 15]]);
         }))); // end of ons.ready()
     },
 
@@ -3242,7 +3235,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context27.prev = _context27.next) {
                             case 0:
-                                if (!(listItemElement !== event.target)) {
+                                if (!$(event.target).closest('ons-fab', listItemElement).is('ons-fab')) {
                                     _context27.next = 2;
                                     break;
                                 }
