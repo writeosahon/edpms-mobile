@@ -2377,7 +2377,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
-                           onclick="">
+                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                           viewReportsPageViewModel.viewReportListItemClicked(this)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
@@ -2565,7 +2566,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
-                           onclick="">
+                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                           viewReportsPageViewModel.viewReportListItemClicked(this)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
@@ -2651,7 +2653,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         <ons-list-item modifier="longdivider" tappable lock-on-drag="true" 
                         data-utopiasoftware-ptracker-report-id="${dbQueryResult.rows[index].value._id}" 
                         data-utopiasoftware-ptracker-report-rev="${dbQueryResult.rows[index].value._rev}"
-                           onclick="">
+                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                           viewReportsPageViewModel.viewReportListItemClicked(this)">
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
@@ -2692,6 +2695,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                 doneCallBack();
             }
+        },
+
+        /**
+         * method is triggered when any of the list items on the view report lisat is clicked
+         * @param listItemElement {HTMLElement} the list item that was clicked
+         *
+         * @returns {Promise<void>}
+         */
+        async viewReportListItemClicked(listItemElement){
+            var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
+
+            // push the evaluation report page into view
+            $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", {animation: "slide-md",
+                data: {reportDetails: {id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
+                                        rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev')}}});
         }
     }
 };
