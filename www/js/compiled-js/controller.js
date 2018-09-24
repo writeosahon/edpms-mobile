@@ -2706,6 +2706,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async viewReportListItemClicked(listItemElement){
             var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
+            console.log("LIST ITEM CLICKED");
+
             // push the evaluation report page into view
             $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", {animation: "slide-md",
                 data: {reportDetails: {id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),

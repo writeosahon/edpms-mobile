@@ -3240,13 +3240,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 0:
                                 jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
-                                // push the evaluation report page into view
+                                console.log("LIST ITEM CLICKED");
 
+                                // push the evaluation report page into view
                                 $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", { animation: "slide-md",
                                     data: { reportDetails: { id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
                                             rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev') } } });
 
-                            case 2:
+                            case 3:
                             case 'end':
                                 return _context27.stop();
                         }
