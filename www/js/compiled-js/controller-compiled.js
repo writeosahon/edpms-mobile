@@ -237,22 +237,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 12:
-                                _context3.next = 17;
+
+                                // call the method to refresh the contents of the View Reports page
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction();
+                                _context3.next = 18;
                                 break;
 
-                            case 14:
-                                _context3.prev = 14;
+                            case 15:
+                                _context3.prev = 15;
                                 _context3.t0 = _context3['catch'](1);
 
                                 ons.notification.alert('uploading evaluation reports failed. Please try again. ' + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 17:
+                            case 18:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 14]]);
+                }, _callee3, this, [[1, 15]]);
             }));
 
             function uploadReportsButtonClicked() {
@@ -1572,7 +1575,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             // there are saved/cached approved project evaluations
                                             // get the saved and approved milestone score from the approved project evaluations
                                             previousSliderValue = projectEvaluationsQueryResult.docs[0].EVALUATIONS.find(function (currentValue, index2) {
-                                                console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId, dbQueryResult.docs[element._ptracker_index].BOQID);
                                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                                 if (window.parseInt(currentValue.milestoneId) === window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)) {
                                                     return true; // this approved evaluation reports are for the currently viewed milestone
@@ -3190,19 +3192,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list').css("display", "block");
                                 // inform ONSEN that the refresh action is completed
                                 doneCallBack();
-                                _context26.next = 27;
+                                _context26.next = 26;
                                 break;
 
                             case 22:
                                 _context26.prev = 22;
                                 _context26.t0 = _context26['catch'](1);
 
-                                console.log('1ST ERROR', _context26.t0);
                                 // enable pull-to-refresh widget
                                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                                 doneCallBack();
 
-                            case 27:
+                            case 26:
                             case 'end':
                                 return _context26.stop();
                         }

@@ -174,6 +174,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         {title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                             buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
                 }
+
+                // call the method to refresh the contents of the View Reports page
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction();
             }
             catch(err){
                 ons.notification.alert(`uploading evaluation reports failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Uploading Reports Failed</span>',
@@ -1283,8 +1286,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             // get the saved and approved milestone score from the approved project evaluations
                             previousSliderValue = projectEvaluationsQueryResult.docs[0].EVALUATIONS.
                             find(function(currentValue, index2){
-                                console.log("EVALUATION MILESTONE", currentValue, currentValue.milestoneId,
-                                    dbQueryResult.docs[element._ptracker_index].BOQID);
                                 // check if any of the approved evaluation reports are for any of the milestones to be currently viewed
                                 if(window.parseInt(currentValue.milestoneId) ===
                                     window.parseInt(dbQueryResult.docs[element._ptracker_index].BOQID)){
@@ -2680,7 +2681,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 doneCallBack();
             }
             catch (e) {
-                console.log('1ST ERROR', e);
                 // enable pull-to-refresh widget
                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                 doneCallBack();
