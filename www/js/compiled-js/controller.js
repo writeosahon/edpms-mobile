@@ -1076,6 +1076,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     return;
                 }
 
+                ej.base.enableRipple(true);
+
                 // listen for the back button event
                 $('#app-main-navigator').get(0).topPage.onDeviceBackButton =
                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
@@ -2700,10 +2702,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when any of the list items on the view report lisat is clicked
          * @param listItemElement {HTMLElement} the list item that was clicked
+         * @param event {Event}
          *
          * @returns {Promise<void>}
          */
-        async viewReportListItemClicked(listItemElement){
+        async viewReportListItemClicked(listItemElement, event){
+            if(listItemElement !== event.target){
+                return; // exit
+            }
+
             var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
             console.log("LIST ITEM CLICKED");

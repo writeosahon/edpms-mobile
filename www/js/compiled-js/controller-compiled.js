@@ -1479,6 +1479,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 3:
 
+                                    ej.base.enableRipple(true);
+
                                     // listen for the back button event
                                     $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.backButtonClicked;
 
@@ -1489,8 +1491,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // pick the project data object for which milestones are to be evaluated
                                     projectData = $('#app-main-navigator').get(0).topPage.data.projectData;
-                                    _context14.prev = 7;
-                                    _context14.next = 10;
+                                    _context14.prev = 8;
+                                    _context14.next = 11;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "BOQID": {
@@ -1507,17 +1509,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     });
 
-                                case 10:
+                                case 11:
                                     dbQueryResult = _context14.sent;
 
                                     if (!(dbQueryResult.docs.length == 0)) {
-                                        _context14.next = 13;
+                                        _context14.next = 14;
                                         break;
                                     }
 
                                     throw "error";
 
-                                case 13:
+                                case 14:
 
                                     // if the code gets to this point, milestones were returned
                                     // sort the returned milestones array
@@ -1528,7 +1530,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones = dbQueryResult.docs; // update the current project milestones
 
                                     // get all the previously approved and cached project evaluations belonging to the provided project id
-                                    _context14.next = 17;
+                                    _context14.next = 18;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.find({
                                         selector: {
                                             "PROJECTID": {
@@ -1542,7 +1544,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     });
 
-                                case 17:
+                                case 18:
                                     projectEvaluationsQueryResult = _context14.sent;
 
 
@@ -1690,12 +1692,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context14.next = 39;
+                                    _context14.next = 40;
                                     break;
 
-                                case 33:
-                                    _context14.prev = 33;
-                                    _context14.t0 = _context14['catch'](7);
+                                case 34:
+                                    _context14.prev = 34;
+                                    _context14.t0 = _context14['catch'](8);
 
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
@@ -1705,19 +1707,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 39:
-                                    _context14.prev = 39;
+                                case 40:
+                                    _context14.prev = 40;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context14.finish(39);
+                                    return _context14.finish(40);
 
-                                case 42:
+                                case 43:
                                 case 'end':
                                     return _context14.stop();
                             }
                         }
-                    }, _callee14, this, [[7, 33, 39, 42]]);
+                    }, _callee14, this, [[8, 34, 40, 43]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -3228,16 +3230,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when any of the list items on the view report lisat is clicked
          * @param listItemElement {HTMLElement} the list item that was clicked
+         * @param event {Event}
          *
          * @returns {Promise<void>}
          */
         viewReportListItemClicked: function () {
-            var _ref26 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee26(listItemElement) {
+            var _ref26 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee26(listItemElement, event) {
                 var jQueryListItem;
                 return regeneratorRuntime.wrap(function _callee26$(_context27) {
                     while (1) {
                         switch (_context27.prev = _context27.next) {
                             case 0:
+                                if (!(listItemElement !== event.target)) {
+                                    _context27.next = 2;
+                                    break;
+                                }
+
+                                return _context27.abrupt('return');
+
+                            case 2:
                                 jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
                                 console.log("LIST ITEM CLICKED");
@@ -3247,7 +3258,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     data: { reportDetails: { id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
                                             rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev') } } });
 
-                            case 3:
+                            case 5:
                             case 'end':
                                 return _context27.stop();
                         }
@@ -3255,7 +3266,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee26, this);
             }));
 
-            function viewReportListItemClicked(_x10) {
+            function viewReportListItemClicked(_x10, _x11) {
                 return _ref26.apply(this, arguments);
             }
 
