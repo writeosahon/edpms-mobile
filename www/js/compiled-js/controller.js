@@ -32,11 +32,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
-            $('#view-reports-additional-menu-popover').get(0).onDeviceBackButton = function(){
-                console.log("POPOVER HIDDEN");
-                $('#view-reports-additional-menu-popover').get(0).hide();
-            };
-
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
@@ -2471,6 +2466,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         async backButtonClicked(){
+
+            if($('#view-reports-additional-menu-popover').get(0).visible){
+                $('#view-reports-additional-menu-popover').get(0).hide();
+                return;
+            }
 
             // check if the side menu is open
             if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
