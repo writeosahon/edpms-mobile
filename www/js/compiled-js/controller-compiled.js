@@ -3343,6 +3343,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // get the object urls for the 3 project evaluation photos
                                     utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture3Url = window.URL.createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
 
+                                    console.log("URLS", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture1Url);
+
                                     // create the evaluation report list content
                                     evaluationReportListContent = '\n                    <ons-list-header>Report Title</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.title + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Title</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.projectData.TITLE + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project ID</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.projectData.PROJECTID + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Milestones</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true" expandable\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">Milestone Progress Evaluation</span>\n                        </div>\n                        <div class="expandable-content">\n                            <div class="row">';
 
@@ -3360,12 +3362,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // hide the items that are not to be displayed
                                     $('#evaluation-report-page .no-report-found, #evaluation-report-page .evaluation-report-load-error').css("display", "none");
                                     // display the view reports list
-                                    $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context28.next = 27;
+                                    $('#evaluation-report-page #evaluation-report-list').css("display", "block");
+                                    _context28.next = 28;
                                     break;
 
-                                case 22:
-                                    _context28.prev = 22;
+                                case 23:
+                                    _context28.prev = 23;
                                     _context28.t0 = _context28['catch'](6);
 
 
@@ -3376,19 +3378,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 
-                                case 27:
-                                    _context28.prev = 27;
+                                case 28:
+                                    _context28.prev = 28;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context28.finish(27);
+                                    return _context28.finish(28);
 
-                                case 30:
+                                case 31:
                                 case 'end':
                                     return _context28.stop();
                             }
                         }
-                    }, _callee27, this, [[6, 22, 27, 30]]);
+                    }, _callee27, this, [[6, 23, 28, 31]]);
                 }));
 
                 return function loadPageOnAppReady() {

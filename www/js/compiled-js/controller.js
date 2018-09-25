@@ -2790,6 +2790,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         evaluationReportPageViewModel.projectPicture3Url = window.URL.
                     createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
 
+                    console.log("URLS", utopiasoftware[utopiasoftware_app_namespace].controller.
+                        evaluationReportPageViewModel.projectPicture1Url);
+
                     // create the evaluation report list content
                     let evaluationReportListContent = `
                     <ons-list-header>Report Title</ons-list-header>
@@ -2903,7 +2906,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     $('#evaluation-report-page .no-report-found, #evaluation-report-page .evaluation-report-load-error').
                     css("display", "none");
                     // display the view reports list
-                    $('#view-reports-page #view-reports-list').css("display", "block");
+                    $('#evaluation-report-page #evaluation-report-list').css("display", "block");
                 }
                 catch (e) {
 
@@ -2949,7 +2952,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when page is destroyed
          */
         pageDestroy: function(){
-
         },
 
 
