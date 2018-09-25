@@ -32,6 +32,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
+            await ons.createPopover("view-reports-additional-menu-popover-template");
+
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader

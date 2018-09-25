@@ -108,20 +108,23 @@
     <ons-navigator id="app-main-navigator" page="search-project-page.html"></ons-navigator>
 </ons-template>
 
-<!-- view reports additional popover -->
-<ons-popover id="view-reports-additional-menu-popover" direction="down" cover-target cancelable>
-    <ons-list>
-        <ons-list-item modifier="divider" tappable lock-on-drag="true"
-                       onclick="$('#view-reports-additional-menu-popover').get(0).hide();
+<!-- view reports additional popover template -->
+<ons-template id="view-reports-additional-menu-popover-template">
+    <!-- view reports additional popover -->
+    <ons-popover id="view-reports-additional-menu-popover" direction="down" cover-target cancelable>
+        <ons-list>
+            <ons-list-item modifier="divider" tappable lock-on-drag="true"
+                           onclick="$('#view-reports-additional-menu-popover').get(0).hide();
                        utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction();">
-            <div class="center">
-                <span class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">Refresh</span>
-            </div>
-            <div class="right">
-            </div>
-        </ons-list-item>
-    </ons-list>
-</ons-popover>
+                <div class="center">
+                    <span class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">Refresh</span>
+                </div>
+                <div class="right">
+                </div>
+            </ons-list-item>
+        </ons-list>
+    </ons-popover>
+</ons-template>
 
 <!-- loader modal -->
 <ons-modal id="loader-modal" direction="up" style="background-color: rgba(0,0,0,0.8);">
