@@ -2955,6 +2955,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when page is destroyed
          */
         pageDestroy: function(){
+            // destroy all object urls created for this page
+            window.URL.revokeObjectURL(
+            utopiasoftware[utopiasoftware_app_namespace].controller.
+                evaluationReportPageViewModel.projectPicture1Url);
+            window.URL.revokeObjectURL(
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    evaluationReportPageViewModel.projectPicture2Url);
+            window.URL.revokeObjectURL(
+                utopiasoftware[utopiasoftware_app_namespace].controller.
+                    evaluationReportPageViewModel.projectPicture3Url);
         },
 
 
@@ -2978,8 +2988,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          *
          * @returns {Promise<void>}
          */
-        async reportDeleteButtonClicked(docId = $('#app-main-navigator').get(0).topPage.data.reportDetails.id,
+        async reportDeleteButtonClicked(fabElement = {},
+                                        docId = $('#app-main-navigator').get(0).topPage.data.reportDetails.id,
                                         docRevision = $('#app-main-navigator').get(0).topPage.data.reportDetails.rev){
+
+            if(fabElement.disabled === true){
+                return;
+            }
+
+            // display the page preloader
+            $('#evaluation-report-page .page-preloader').css("display", "block");
 
             // remove the evaluation report from database
             await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);

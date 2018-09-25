@@ -3432,7 +3432,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         /**
          * method is triggered when page is destroyed
          */
-        pageDestroy: function pageDestroy() {},
+        pageDestroy: function pageDestroy() {
+            // destroy all object urls created for this page
+            window.URL.revokeObjectURL(utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture1Url);
+            window.URL.revokeObjectURL(utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture2Url);
+            window.URL.revokeObjectURL(utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture3Url);
+        },
 
         /**
          * method is triggered when the device back button is clicked OR a similar action is triggered
@@ -3480,21 +3485,35 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         reportDeleteButtonClicked: function () {
             var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
-                var docId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
-                var docRevision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
+                var fabElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                var docId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
+                var docRevision = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
                 var jQueryListItem;
                 return regeneratorRuntime.wrap(function _callee29$(_context30) {
                     while (1) {
                         switch (_context30.prev = _context30.next) {
                             case 0:
-                                _context30.next = 2;
-                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+                                if (!(fabElement.disabled === true)) {
+                                    _context30.next = 2;
+                                    break;
+                                }
+
+                                return _context30.abrupt('return');
 
                             case 2:
-                                _context30.next = 4;
+
+                                // display the page preloader
+                                $('#evaluation-report-page .page-preloader').css("display", "block");
+
+                                // remove the evaluation report from database
+                                _context30.next = 5;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+                            case 5:
+                                _context30.next = 7;
                                 return $('#app-main-navigator').get(0).popPage();
 
-                            case 4:
+                            case 7:
 
                                 // get the list item corresponding to the evaluation report being deleted
                                 jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
@@ -3505,10 +3524,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                _context30.next = 8;
+                                _context30.next = 11;
                                 return ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
 
-                            case 8:
+                            case 11:
                             case 'end':
                                 return _context30.stop();
                         }
