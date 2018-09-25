@@ -2969,7 +2969,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 return; // exit the method
             }
 
-            // move to the project evaluation page
+            // move to the view report page
             $('#app-main-navigator').get(0).popPage();
         },
 
@@ -2978,20 +2978,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          *
          * @returns {Promise<void>}
          */
-        async reportDeleteButtonClicked(docId, docRevision){
+        async reportDeleteButtonClicked(docId = $('#app-main-navigator').get(0).topPage.data.reportDetails.id,
+                                        docRevision = $('#app-main-navigator').get(0).topPage.data.reportDetails.rev){
 
-            var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
-
-            //remove the list item from view with an animation
-            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
-            // remove the element from the list item altogether
-            jQueryListItem.remove();
             // remove the evaluation report from database
             await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
+            // move to the view report page
+            await $('#app-main-navigator').get(0).popPage();
+
+            // get the list item corresponding to the evaluation report being deleted
+            var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
+
+            // remove the element from the list item altogether
+            jQueryListItem.remove();
+
             // inform the user that evaluation report has been delete
             // display a toast to the user
-            ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
+            await ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
         }
     }
 

@@ -3454,7 +3454,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 3:
 
-                                // move to the project evaluation page
+                                // move to the view report page
                                 $('#app-main-navigator').get(0).popPage();
 
                             case 4:
@@ -3479,33 +3479,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         reportDeleteButtonClicked: function () {
-            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29(docId, docRevision) {
+            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+                var docId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
+                var docRevision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
                 var jQueryListItem;
                 return regeneratorRuntime.wrap(function _callee29$(_context30) {
                     while (1) {
                         switch (_context30.prev = _context30.next) {
                             case 0:
-                                jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
-
-                                //remove the list item from view with an animation
-
-                                _context30.next = 3;
-                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
-
-                            case 3:
-                                // remove the element from the list item altogether
-                                jQueryListItem.remove();
-                                // remove the evaluation report from database
-                                _context30.next = 6;
+                                _context30.next = 2;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-                            case 6:
+                            case 2:
+                                _context30.next = 4;
+                                return $('#app-main-navigator').get(0).popPage();
+
+                            case 4:
+
+                                // get the list item corresponding to the evaluation report being deleted
+                                jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
+
+                                // remove the element from the list item altogether
+
+                                jQueryListItem.remove();
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
+                                _context30.next = 8;
+                                return ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
 
-                            case 7:
+                            case 8:
                             case 'end':
                                 return _context30.stop();
                         }
@@ -3513,7 +3516,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee29, this);
             }));
 
-            function reportDeleteButtonClicked(_x12, _x13) {
+            function reportDeleteButtonClicked() {
                 return _ref29.apply(this, arguments);
             }
 
