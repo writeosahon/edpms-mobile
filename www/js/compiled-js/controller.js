@@ -2955,7 +2955,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when page is destroyed
          */
         pageDestroy: function(){
-            // destroy all object urls created for this page
+            // destroy all picture object urls created for this page
             window.URL.revokeObjectURL(
             utopiasoftware[utopiasoftware_app_namespace].controller.
                 evaluationReportPageViewModel.projectPicture1Url);
