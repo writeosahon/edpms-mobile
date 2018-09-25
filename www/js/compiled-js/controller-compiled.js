@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -40,11 +40,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // does nothing for now!!
                             });
 
-                            _context.next = 3;
-                            return ons.createPopover("view-reports-additional-menu-popover-template");
-
-                        case 3:
-
                             // displaying prepping message
                             $('#loader-modal-message').html("Loading App...");
                             $('#loader-modal').get(0).show(); // show loader
@@ -65,13 +60,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 screen.orientation.lock('portrait');
                             } catch (err) {}
 
-                            _context.prev = 7;
+                            _context.prev = 5;
                             // START ALL THE CORDOVA PLUGINS CONFIGURATION WHICH REQUIRE PROMISE SYNTAX
 
                             // prepare the inapp browser plugin by removing the default window.open() functionality
                             delete window.open;
 
-                            // note: for most promises, we will use async-wait syntax
+                            // prepare the window.URL static object for use
+                            window.URL = window.URL || window.webkitURL;
+
+                            // note: for most promises, we will use async-wait syntax\
 
                             // create the pouchdb app database
                             utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
@@ -81,7 +79,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             });
 
                             // create the database indexes used by the app
-                            _context.next = 12;
+                            _context.next = 11;
                             return Promise.all([utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.createIndex({
                                 index: {
                                     fields: ['TYPE'],
@@ -107,9 +105,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             })]);
 
-                        case 12:
-                            _context.prev = 12;
-                            _context.next = 15;
+                        case 11:
+                            _context.prev = 11;
+                            _context.next = 14;
                             return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.put({
                                 _id: '_design/saved_reports_view',
                                 views: {
@@ -123,39 +121,39 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 }
                             });
 
-                        case 15:
-                            _context.next = 19;
+                        case 14:
+                            _context.next = 18;
                             break;
 
-                        case 17:
-                            _context.prev = 17;
-                            _context.t0 = _context["catch"](12);
+                        case 16:
+                            _context.prev = 16;
+                            _context.t0 = _context['catch'](11);
 
-                        case 19:
-                            _context.next = 24;
+                        case 18:
+                            _context.next = 23;
                             break;
 
-                        case 21:
-                            _context.prev = 21;
-                            _context.t1 = _context["catch"](7);
+                        case 20:
+                            _context.prev = 20;
+                            _context.t1 = _context['catch'](5);
 
                             console.log("APP LOADING ERROR", _context.t1);
 
-                        case 24:
-                            _context.prev = 24;
+                        case 23:
+                            _context.prev = 23;
 
                             // set status bar color
                             StatusBar.backgroundColorByHexString("#00B2A0");
                             navigator.splashscreen.hide(); // hide the splashscreen
                             utopiasoftware[utopiasoftware_app_namespace].model.isAppReady = true; // flag that app is fullyt loaded and ready
-                            return _context.finish(24);
+                            return _context.finish(23);
 
-                        case 29:
-                        case "end":
+                        case 28:
+                        case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, this, [[7, 21, 24, 29], [12, 17]]);
+            }, _callee, this, [[5, 20, 23, 28], [11, 16]]);
         }))); // end of ons.ready()
     },
 
@@ -186,7 +184,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).right.close();
 
                             case 5:
-                            case "end":
+                            case 'end':
                                 return _context2.stop();
                         }
                     }
@@ -237,7 +235,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 10:
                                 _context3.next = 12;
-                                return ons.notification.alert("All evaluation reports successfully uploaded. " + totalUploads + " in total", { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
+                                return ons.notification.alert('All evaluation reports successfully uploaded. ' + totalUploads + ' in total', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Uploaded Reports</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 12:
@@ -249,13 +247,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 15:
                                 _context3.prev = 15;
-                                _context3.t0 = _context3["catch"](1);
+                                _context3.t0 = _context3['catch'](1);
 
-                                ons.notification.alert("uploading evaluation reports failed. Please try again. " + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
+                                ons.notification.alert('uploading evaluation reports failed. Please try again. ' + (_context3.t0.message || ""), { title: '<span style="color: red">Uploading Reports Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 18:
-                            case "end":
+                            case 'end':
                                 return _context3.stop();
                         }
                     }
@@ -288,7 +286,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('ons-splitter').get(0).right.close();
 
                             case 3:
-                            case "end":
+                            case 'end':
                                 return _context4.stop();
                         }
                     }
@@ -319,7 +317,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 3:
                                 _context5.next = 5;
-                                return ons.notification.alert("App offline has been refreshed successfully", { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Offline Data Refreshed</span>',
+                                return ons.notification.alert('App offline has been refreshed successfully', { title: '<ons-icon icon="fa-check" style="color: #00B2A0;" size="25px"></ons-icon> <span style="color: #00B2A0; display: inline-block; margin-left: 1em;">Offline Data Refreshed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 5:
@@ -328,13 +326,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 7:
                                 _context5.prev = 7;
-                                _context5.t0 = _context5["catch"](0);
+                                _context5.t0 = _context5['catch'](0);
 
-                                ons.notification.alert("refreshing app offline data failed. Please try again. " + (_context5.t0.message || ""), { title: '<span style="color: red">Offline Data Refresh Failed</span>',
+                                ons.notification.alert('refreshing app offline data failed. Please try again. ' + (_context5.t0.message || ""), { title: '<span style="color: red">Offline Data Refresh Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 10:
-                            case "end":
+                            case 'end':
                                 return _context5.stop();
                         }
                     }
@@ -377,7 +375,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context6.abrupt("return");
+                                    return _context6.abrupt('return');
 
                                 case 3:
 
@@ -422,7 +420,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#loader-modal').get(0).hide();
 
                                 case 10:
-                                case "end":
+                                case 'end':
                                     return _context6.stop();
                             }
                         }
@@ -526,7 +524,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.loginPageViewModel.formValidator.whenValidate();
 
                             case 1:
-                            case "end":
+                            case 'end':
                                 return _context7.stop();
                         }
                     }
@@ -565,7 +563,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                             case 1:
-                            case "end":
+                            case 'end':
                                 return _context8.stop();
                         }
                     }
@@ -616,7 +614,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
                                 });
 
-                                return _context9.abrupt("return");
+                                return _context9.abrupt('return');
 
                             case 3:
 
@@ -694,7 +692,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 23:
                                 _context9.prev = 23;
-                                _context9.t0 = _context9["catch"](17);
+                                _context9.t0 = _context9['catch'](17);
 
                             case 25:
 
@@ -739,14 +737,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 38:
                                 _context9.prev = 38;
-                                _context9.t1 = _context9["catch"](6);
+                                _context9.t1 = _context9['catch'](6);
 
                                 $('#loader-modal').get(0).hide();
                                 ons.notification.alert(_context9.t1.message, { title: '<span style="color: red">Sign In Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 42:
-                            case "end":
+                            case 'end':
                                 return _context9.stop();
                         }
                     }
@@ -795,7 +793,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context10.abrupt("return");
+                                    return _context10.abrupt('return');
 
                                 case 3:
 
@@ -1075,14 +1073,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // this only displays when page is NOT marked as being loaded from a user refresh request
                                     if (window.sessionStorage.getItem("utopiasoftware-edpms-refresh-page") !== "yes") {
                                         // display a toast to the user
-                                        ons.notification.toast("<ons-icon icon=\"md-check\" size=\"20px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Welcome " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + "</span>", { timeout: 3000 });
+                                        ons.notification.toast('<ons-icon icon="md-check" size="20px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Welcome ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + '</span>', { timeout: 3000 });
                                     }
                                     _context10.next = 81;
                                     break;
 
                                 case 76:
                                     _context10.prev = 76;
-                                    _context10.t0 = _context10["catch"](8);
+                                    _context10.t0 = _context10['catch'](8);
 
                                     // display error message indicating that projects data could not be loaded
                                     $('#search-project-page .project-data-download-error').css("display", "block");
@@ -1098,7 +1096,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return _context10.finish(81);
 
                                 case 85:
-                                case "end":
+                                case 'end':
                                     return _context10.stop();
                             }
                         }
@@ -1180,7 +1178,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                             case 1:
-                            case "end":
+                            case 'end':
                                 return _context11.stop();
                         }
                     }
@@ -1230,13 +1228,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 11:
                                 _context12.prev = 11;
-                                _context12.t0 = _context12["catch"](5);
+                                _context12.t0 = _context12['catch'](5);
 
                                 // display the project data download error message
                                 $('#search-project-page .project-data-download-error').css("display", "block");
 
                             case 14:
-                            case "end":
+                            case 'end':
                                 return _context12.stop();
                         }
                     }
@@ -1308,7 +1306,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page .project-data-download-error').css("display", "none");
                                 // hide the bottom toolbar of the page
                                 $('#search-project-page ons-bottom-toolbar').css("display", "none");
-                                return _context13.abrupt("return");
+                                return _context13.abrupt('return');
 
                             case 17:
 
@@ -1316,15 +1314,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // assign the searched project object as the currently searched and chosen project object
                                 utopiasoftware[utopiasoftware_app_namespace].controller.searchProjectPageViewModel.currentlySelectedProject = dbQueryResult.docs[0];
                                 // create the searched project details to be displayed
-                                searchedProjectDetails = "<div class=\"col-xs-6\" style=\"font-weight: bold; color: #000000; padding: 1rem;\">Project ID</div>";
+                                searchedProjectDetails = '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Project ID</div>';
 
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"color: #000000; text-transform: uppercase; padding: 1rem;\">" + dbQueryResult.docs[0].PROJECTID + "</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"font-weight: bold; color: #000000; padding: 1rem;\">Title</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"color: #000000; text-transform: capitalize; padding: 1rem;\">" + dbQueryResult.docs[0].TITLE + "</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"font-weight: bold; color: #000000; padding: 1rem;\">Contractor</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"color: #000000; text-transform: capitalize; padding: 1rem;\">" + dbQueryResult.docs[0].CONTRACTOR + "</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"font-weight: bold; color: #000000; padding: 1rem;\">Contract Sum</div>";
-                                searchedProjectDetails += "<div class=\"col-xs-6\" style=\"color: #000000; text-transform: capitalize; padding: 1rem;\">" + kendo.toString(kendo.parseFloat(dbQueryResult.docs[0].CONTRACTSUM), "n2") + "</div>";
+                                searchedProjectDetails += '<div class="col-xs-6" style="color: #000000; text-transform: uppercase; padding: 1rem;">' + dbQueryResult.docs[0].PROJECTID + '</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Title</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">' + dbQueryResult.docs[0].TITLE + '</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contractor</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">' + dbQueryResult.docs[0].CONTRACTOR + '</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="font-weight: bold; color: #000000; padding: 1rem;">Contract Sum</div>';
+                                searchedProjectDetails += '<div class="col-xs-6" style="color: #000000; text-transform: capitalize; padding: 1rem;">' + kendo.toString(kendo.parseFloat(dbQueryResult.docs[0].CONTRACTSUM), "n2") + '</div>';
 
                                 // attach the generated project details to the page
                                 $('#search-project-page #search-project-details').html(searchedProjectDetails);
@@ -1344,7 +1342,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 34:
                                 _context13.prev = 34;
-                                _context13.t0 = _context13["catch"](6);
+                                _context13.t0 = _context13['catch'](6);
 
                                 // hide the page preloader
                                 $('#search-project-page .page-preloader').css("display", "none");
@@ -1358,7 +1356,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#search-project-page ons-bottom-toolbar').css("display", "none");
 
                             case 41:
-                            case "end":
+                            case 'end':
                                 return _context13.stop();
                         }
                     }
@@ -1473,7 +1471,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context14.abrupt("return");
+                                    return _context14.abrupt('return');
 
                                 case 3:
 
@@ -1550,22 +1548,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     carouselContent = "";
 
                                     for (index = 0; index < dbQueryResult.docs.length; index++) {
-                                        carouselContent = "\n                        <ons-carousel-item style=\"overflow-y: auto\">\n                            <ons-card>\n                                <div style=\"font-size: 1.2em\">\n                                    " + dbQueryResult.docs[index].CATEGORY + "\n                                </div>\n                                <div class=\"project-evaluation-slider\"></div>\n                                <div class=\"project-evaluation-milestone-amount\" style=\"margin-top: 1em; font-size: 1em;\">\n                                    <span style=\"display: inline-block; font-style: italic; margin-right: 1em;\">Milestone Value </span> \n                                    " + kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2") + "\n                                </div>\n                                <div class=\"project-evaluation-milestone-current-value\" style=\"font-size: 1em;\">\n                                    <span style=\"display: inline-block; font-style: italic; margin-right: 1em;\">Value Completed </span> \n                                    " + kendo.toString(kendo.parseFloat(0), "n2") + "\n                                </div>\n                            </ons-card>\n                        </ons-carousel-item>";
+                                        carouselContent = '\n                        <ons-carousel-item style="overflow-y: auto">\n                            <ons-card>\n                                <div style="font-size: 1.2em">\n                                    ' + dbQueryResult.docs[index].CATEGORY + '\n                                </div>\n                                <div class="project-evaluation-slider"></div>\n                                <div class="project-evaluation-milestone-amount" style="margin-top: 1em; font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Milestone Value </span> \n                                    ' + kendo.toString(kendo.parseFloat(dbQueryResult.docs[index].AMOUNT), "n2") + '\n                                </div>\n                                <div class="project-evaluation-milestone-current-value" style="font-size: 1em;">\n                                    <span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(0), "n2") + '\n                                </div>\n                            </ons-card>\n                        </ons-carousel-item>';
                                         $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
                                     } // end of for loop
 
                                     // append the carousel content used for displaying evaluation pictures
-                                    carouselContent = "\n                    <ons-carousel-item style=\"overflow-y: scroll\">\n                        <div class=\"row project-evaluation-images-container\" style=\"margin-top: 1.5em;\">\n                            <div class=\"col-xs-6\" style=\"padding: 0.5em; position: relative\">\n                                <div style=\"position: absolute; top: 5px;\">\n                                    <ons-speed-dial id=\"project-evaluation-picture-speed-dial-1\" direction=\"down\">\n                                        <ons-fab modifier=\"utopiasoftware-pic-capture-speed-dial\"\n                                                 class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                 onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)\">\n                                            <ons-icon icon=\"md-image-o\"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)\">\n                                            <ons-icon icon=\"md-camera\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)\">\n                                            <ons-icon icon=\"md-delete\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id=\"project-evaluation-picture-1\" src=\"css/app-images/project-evaluation-photo-placeholder.png\" style=\"width: 100%; border: 2px darkgray groove\" alt=\"Picture 1\">\n                            </div>\n                            <div class=\"col-xs-6\" style=\"padding: 0.5em; position: relative\">\n                                <div style=\"position: absolute; top: 5px;\">\n                                    <ons-speed-dial id=\"project-evaluation-picture-speed-dial-2\" direction=\"down\">\n                                        <ons-fab modifier=\"utopiasoftware-pic-capture-speed-dial\"\n                                                 class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                 onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)\">\n                                            <ons-icon icon=\"md-image-o\"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)\">\n                                            <ons-icon icon=\"md-camera\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(2)\">\n                                            <ons-icon icon=\"md-delete\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id=\"project-evaluation-picture-2\" src=\"css/app-images/project-evaluation-photo-placeholder.png\" style=\"width: 100%; border: 2px darkgray groove\" alt=\"Picture 2\">\n                            </div>\n                            <div class=\"col-xs-offset-3 col-xs-6\" style=\"padding: 0.5em; position: relative\">\n                                <div style=\"position: absolute; top: 5px;\">\n                                    <ons-speed-dial id=\"project-evaluation-picture-speed-dial-3\" direction=\"down\">\n                                        <ons-fab modifier=\"utopiasoftware-pic-capture-speed-dial\"\n                                                 class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                 onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)\">\n                                            <ons-icon icon=\"md-image-o\"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)\">\n                                            <ons-icon icon=\"md-camera\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier=\"utopiasoftware-pic-capture-speed-dial-item\"\n                                                             class=\"utopiasoftware-pic-capture-speed-dial\" \n                                                             onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(3)\">\n                                            <ons-icon icon=\"md-delete\"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id=\"project-evaluation-picture-3\" src=\"css/app-images/project-evaluation-photo-placeholder.png\" style=\"width: 100%; border: 2px darkgray groove\" alt=\"Picture 3\">\n                            </div>\n                        </div>\n                    </ons-carousel-item>";
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: scroll">\n                        <div class="row project-evaluation-images-container" style="margin-top: 1.5em;">\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-1" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(1)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(1)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(1)">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-1" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 1">\n                            </div>\n                            <div class="col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-2" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(2)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(2)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(2)">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-2" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 2">\n                            </div>\n                            <div class="col-xs-offset-3 col-xs-6" style="padding: 0.5em; position: relative">\n                                <div style="position: absolute; top: 5px;">\n                                    <ons-speed-dial id="project-evaluation-picture-speed-dial-3" direction="down">\n                                        <ons-fab modifier="utopiasoftware-pic-capture-speed-dial"\n                                                 class="utopiasoftware-pic-capture-speed-dial" \n                                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureSpeedDialClicked(3)">\n                                            <ons-icon icon="md-image-o"></ons-icon>\n                                        </ons-fab>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.pictureCaptureButtonClicked(3)">\n                                            <ons-icon icon="md-camera"></ons-icon>\n                                        </ons-speed-dial-item>\n                                        <ons-speed-dial-item modifier="utopiasoftware-pic-capture-speed-dial-item"\n                                                             class="utopiasoftware-pic-capture-speed-dial" \n                                                             onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                                 projectEvaluationPageViewModel.deletePictureButtonClicked(3)">\n                                            <ons-icon icon="md-delete"></ons-icon>\n                                        </ons-speed-dial-item>\n                                    </ons-speed-dial>\n                                </div>\n                                <img id="project-evaluation-picture-3" src="css/app-images/project-evaluation-photo-placeholder.png" style="width: 100%; border: 2px darkgray groove" alt="Picture 3">\n                            </div>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project location on a map
-                                    carouselContent = "\n                    <ons-carousel-item style=\"position: relative;\">\n                        <div id=\"project-evaluation-map\" style=\"position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;\">\n                            <ons-button style=\"background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;\"\n                            onclick=\"utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()\">Get Project Location</ons-button>\n                            <div id=\"project-evaluation-gps-progress\" \n                            style=\"position: relative; display: none; top: 65px; text-align: center\">\n                                <ons-progress-circular indeterminate modifier=\"project-gps-location-progress\"></ons-progress-circular>\n                            </div>\n                            <div id=\"project-evaluation-gps-location-tag\" style=\"color: #ffffff; \n                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; \n                            background-color: rgba(0,213,195,0.80); padding: 0.6em; border-radius: 10px; \n                            width: 80%; position: absolute; bottom: 2px; display: inline-block; \n                            left: 10%; \n                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;\">Location:</div>\n                        </div>\n                    </ons-carousel-item>";
+                                    carouselContent = '\n                    <ons-carousel-item style="position: relative;">\n                        <div id="project-evaluation-map" style="position: absolute; top: 0; left: 0; width: 100%; \n                            height: 100%; bottom: 0; border: 1px #00d5c3 solid; text-align: center;">\n                            <ons-button style="background-color: #3f51b5; position: relative; top: 3px;\n                            display: inline-block;"\n                            onclick="utopiasoftware[utopiasoftware_app_namespace].\n                            controller.projectEvaluationPageViewModel.getProjectGeoLocationButtonClicked()">Get Project Location</ons-button>\n                            <div id="project-evaluation-gps-progress" \n                            style="position: relative; display: none; top: 65px; text-align: center">\n                                <ons-progress-circular indeterminate modifier="project-gps-location-progress"></ons-progress-circular>\n                            </div>\n                            <div id="project-evaluation-gps-location-tag" style="color: #ffffff; \n                            font-weight: bold; font-size: 0.8em; text-transform: uppercase; \n                            background-color: rgba(0,213,195,0.80); padding: 0.6em; border-radius: 10px; \n                            width: 80%; position: absolute; bottom: 2px; display: inline-block; \n                            left: 10%; \n                            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Location:</div>\n                        </div>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
                                     // append the carousel content used for displaying project remarks textarea
-                                    carouselContent = "\n                    <ons-carousel-item style=\"overflow-y: auto\">\n                        <textarea id=\"project-evaluation-remarks\" spellcheck=\"true\" \n                        style=\"width: 80%; height: 4em; margin-left: 10%;\n                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; \n                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid; \n                        background-color: transparent;\"></textarea>\n                    </ons-carousel-item>";
+                                    carouselContent = '\n                    <ons-carousel-item style="overflow-y: auto">\n                        <textarea id="project-evaluation-remarks" spellcheck="true" \n                        style="width: 80%; height: 4em; margin-left: 10%;\n                        margin-right: 10%; border: none; border-bottom: 2px #00D5C3 solid; \n                        border-left: 2px #00D5C3 solid; border-right: 2px #00D5C3 solid; \n                        background-color: transparent;"></textarea>\n                    </ons-carousel-item>';
                                     // append the generated carousel content to the project evaluation carousel
                                     $('#project-evaluation-page #project-evaluation-carousel').append(carouselContent);
 
@@ -1609,7 +1607,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                 // write the value on the slider handle element
                                                 $('.e-handle', element).text(this.value);
                                                 // update the milestone current value
-                                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html("<span style=\"display: inline-block; font-style: italic; margin-right: 1em;\">Value Completed </span> \n                                    " + kendo.toString(kendo.parseFloat(this.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
+                                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(this.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
                                             },
                                             change: function change(changeEvent) {
                                                 $('.e-handle', element).text(changeEvent.value);
@@ -1618,7 +1616,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             },
                                             changed: function changed(changedEvent) {
                                                 // update the milestone current value based on changes in the slider
-                                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html("<span style=\"display: inline-block; font-style: italic; margin-right: 1em;\">Value Completed </span> \n                                    " + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
+                                                $('.project-evaluation-milestone-current-value', $(element).closest('ons-card')).html('<span style="display: inline-block; font-style: italic; margin-right: 1em;">Value Completed </span> \n                                    ' + kendo.toString(kendo.parseFloat(changedEvent.value / 100 * kendo.parseFloat(dbQueryResult.docs[element._ptracker_index].AMOUNT)), "n2"));
                                             }
                                         });
                                         aSlider.appendTo(element);
@@ -1695,7 +1693,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 case 34:
                                     _context14.prev = 34;
-                                    _context14.t0 = _context14["catch"](8);
+                                    _context14.t0 = _context14['catch'](8);
 
                                     console.log("SLIDER ERROR", _context14.t0);
                                     // hide the page preloader
@@ -1714,7 +1712,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     return _context14.finish(41);
 
                                 case 44:
-                                case "end":
+                                case 'end':
                                     return _context14.stop();
                             }
                         }
@@ -1808,7 +1806,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // side menu open, so close it
                                 $('ons-splitter').get(0).right.close();
-                                return _context15.abrupt("return");
+                                return _context15.abrupt('return');
 
                             case 3:
                                 if (!(utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.isPictureViewerShowing === true)) {
@@ -1819,7 +1817,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // Picture Viewer is showing
                                 // hide it
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.hide();
-                                return _context15.abrupt("return");
+                                return _context15.abrupt('return');
 
                             case 6:
                                 if (!( // update the project evaluation started flag to indicate evaluation has started
@@ -1830,7 +1828,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 _context15.next = 9;
                                 return ons.notification.confirm('', { title: '<ons-icon icon="md-alert-triangle" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Warning</span>',
-                                    messageHTML: "You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?",
+                                    messageHTML: 'You have NOT completed the evaluation. If you leave now, all evaluation data will be cancelled.<br><br> Do you want to leave the project evaluation?',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 9:
@@ -1841,7 +1839,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     break;
                                 }
 
-                                return _context15.abrupt("return");
+                                return _context15.abrupt('return');
 
                             case 12:
 
@@ -1849,7 +1847,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#app-main-navigator').get(0).popPage();
 
                             case 13:
-                            case "end":
+                            case 'end':
                                 return _context15.stop();
                         }
                     }
@@ -1968,21 +1966,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-1').attr("src", imageUrl);
-                                return _context16.abrupt("break", 23);
+                                return _context16.abrupt('break', 23);
 
                             case 17:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-2').attr("src", imageUrl);
-                                return _context16.abrupt("break", 23);
+                                return _context16.abrupt('break', 23);
 
                             case 20:
                                 // store the image url in the correct picturesUrls array index
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectPicturesUrls[pictureNumber] = imageUrl;
                                 // update the image src for the correct project picture, so that picture can be displayed
                                 $('#project-evaluation-page #project-evaluation-picture-3').attr("src", imageUrl);
-                                return _context16.abrupt("break", 23);
+                                return _context16.abrupt('break', 23);
 
                             case 23:
 
@@ -1996,7 +1994,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 27:
                                 _context16.prev = 27;
-                                _context16.t1 = _context16["catch"](1);
+                                _context16.t1 = _context16['catch'](1);
 
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
@@ -2024,7 +2022,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context16.finish(30);
 
                             case 33:
-                            case "end":
+                            case 'end':
                                 return _context16.stop();
                         }
                     }
@@ -2057,7 +2055,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     break;
                                 }
 
-                                return _context17.abrupt("return");
+                                return _context17.abrupt('return');
 
                             case 2:
                                 _context17.next = 4;
@@ -2072,7 +2070,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     break;
                                 }
 
-                                return _context17.abrupt("return");
+                                return _context17.abrupt('return');
 
                             case 7:
 
@@ -2085,7 +2083,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.pictureViewer.update();
 
                             case 10:
-                            case "end":
+                            case 'end':
                                 return _context17.stop();
                         }
                     }
@@ -2146,7 +2144,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 _context18.next = 13;
                                 return ons.notification.alert('', { title: '<ons-icon icon="md-pin" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Location Service</span>',
-                                    messageHTML: "You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?",
+                                    messageHTML: 'You need to enable you device location service to capture the project location. <br>Switch to Location Settings or enable the location service directly?',
                                     buttonLabels: ['Proceed'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 13:
@@ -2171,7 +2169,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // switch to the Location Settings screen, so user can manually enable Location Services
                                 cordova.plugins.diagnostic.switchToLocationSettings();
 
-                                return _context18.abrupt("return");
+                                return _context18.abrupt('return');
 
                             case 19:
 
@@ -2196,7 +2194,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('html, body').addClass('utopiasoftware-transparent');
 
                                 // update the location tag info displayed at the bottom of screen
-                                $('#project-evaluation-page #project-evaluation-gps-location-tag').html("Location: " + geoPosition.coords.latitude + "," + geoPosition.coords.longitude);
+                                $('#project-evaluation-page #project-evaluation-gps-location-tag').html('Location: ' + geoPosition.coords.latitude + ',' + geoPosition.coords.longitude);
 
                                 // check if Map already exists and is ready to be used
 
@@ -2244,7 +2242,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 projectMarker.showInfoWindow();
 
-                                return _context18.abrupt("return");
+                                return _context18.abrupt('return');
 
                             case 37:
 
@@ -2309,7 +2307,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 41:
                                 _context18.prev = 41;
-                                _context18.t0 = _context18["catch"](1);
+                                _context18.t0 = _context18['catch'](1);
 
                                 // inform the user of the error
                                 window.plugins.toast.showWithOptions({
@@ -2330,7 +2328,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 });
 
                             case 44:
-                            case "end":
+                            case 'end':
                                 return _context18.stop();
                         }
                     }
@@ -2388,8 +2386,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // change the primary instructions
                                 $('#project-evaluation-page #project-evaluation-primary-instruction').html('Evaluate the milestones of project completion on a scale of 0 - 100%');
                                 // change the milestone number
-                                $('#project-evaluation-page #project-evaluation-milestone-badge').html("Milestone " + (event.originalEvent.activeIndex + 1));
-                                return _context19.abrupt("return");
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Milestone ' + (event.originalEvent.activeIndex + 1));
+                                return _context19.abrupt('return');
 
                             case 8:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length)) {
@@ -2400,7 +2398,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // change the primary instructions
                                 $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project progress in photos');
                                 // change the milestone number
-                                $('#project-evaluation-page #project-evaluation-milestone-badge').html("Project Photos");
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Photos');
 
                                 // check if Map already exists and is ready to be used
                                 if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
@@ -2408,7 +2406,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
                                 }
 
-                                return _context19.abrupt("return");
+                                return _context19.abrupt('return');
 
                             case 13:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 1)) {
@@ -2419,7 +2417,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // change the primary instructions
                                 $('#project-evaluation-page #project-evaluation-primary-instruction').html('Capture the project geographical location');
                                 // change the milestone number
-                                $('#project-evaluation-page #project-evaluation-milestone-badge').html("Project Location");
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Location');
 
                                 // check if Map already exists and is ready to be used
                                 if (utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap && utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap._ptracker_isMapReady === true) {
@@ -2428,7 +2426,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // make the map visible
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(true);
                                 }
-                                return _context19.abrupt("return");
+                                return _context19.abrupt('return');
 
                             case 18:
                                 if (!(event.originalEvent.activeIndex == utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectMilestones.length + 2)) {
@@ -2439,7 +2437,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // change the primary instructions
                                 $('#project-evaluation-page #project-evaluation-primary-instruction').html('Provide any remarks on the project evaluation (optional)');
                                 // change the milestone number
-                                $('#project-evaluation-page #project-evaluation-milestone-badge').html("Project Evaluation Remarks");
+                                $('#project-evaluation-page #project-evaluation-milestone-badge').html('Project Evaluation Remarks');
 
                                 // display the page toolbar
                                 _context19.next = 23;
@@ -2453,10 +2451,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // make the map invisible
                                     utopiasoftware[utopiasoftware_app_namespace].controller.projectEvaluationPageViewModel.projectEvaluationMap.setVisible(false);
                                 }
-                                return _context19.abrupt("return");
+                                return _context19.abrupt('return');
 
                             case 26:
-                            case "end":
+                            case 'end':
                                 return _context19.stop();
                         }
                     }
@@ -2494,7 +2492,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // if the length of array is 1, no photos have been taken at all
                         // inform the user of the validation error
                         window.plugins.toast.showWithOptions({
-                            message: "Pictures not captured for project evaluation. Please take photo",
+                            message: 'Pictures not captured for project evaluation. Please take photo',
                             duration: 4000,
                             position: "center",
                             styling: {
@@ -2521,7 +2519,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             // inform the user of the validation error
                             window.plugins.toast.showWithOptions({
-                                message: "Picture " + index + " not captured for project evaluation. Please take photo",
+                                message: 'Picture ' + index + ' not captured for project evaluation. Please take photo',
                                 duration: 4000,
                                 position: "center",
                                 styling: {
@@ -2549,7 +2547,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         // inform the user of validation error
                         window.plugins.toast.showWithOptions({
-                            message: "Project Location not captured for project evaluation. Please capture location",
+                            message: 'Project Location not captured for project evaluation. Please capture location',
                             duration: 4000,
                             position: "center",
                             styling: {
@@ -2623,7 +2621,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // create a unique report title/id for the evaluation report
                                 dateStamp = new Date();
 
-                                projectEvaluationReportData.title = projectEvaluationReportData.projectData.PROJECTID + "-Report-" + dateStamp.getTime();
+                                projectEvaluationReportData.title = projectEvaluationReportData.projectData.PROJECTID + '-Report-' + dateStamp.getTime();
                                 // add other metadata to the evaluation report
                                 projectEvaluationReportData.dateStamp = dateStamp.getTime();
                                 projectEvaluationReportData.sortingDate = [kendo.toString(dateStamp, "yyyy"), kendo.toString(dateStamp, "MM"), kendo.toString(dateStamp, "dd"), kendo.toString(dateStamp, "HH"), kendo.toString(dateStamp, "mm")];
@@ -2677,13 +2675,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                                     // get the blob object for the picture file
 
                                                     // attach the image to the database document
-                                                    attachments["picture" + _index + ".jpg"] = {
+                                                    attachments['picture' + _index + '.jpg'] = {
                                                         "content_type": "image/jpeg",
                                                         data: fileBlob
                                                     };
 
                                                 case 10:
-                                                case "end":
+                                                case 'end':
                                                     return _context20.stop();
                                             }
                                         }
@@ -2697,7 +2695,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     break;
                                 }
 
-                                return _context21.delegateYield(_loop(_index), "t0", 22);
+                                return _context21.delegateYield(_loop(_index), 't0', 22);
 
                             case 22:
                                 _index++;
@@ -2733,14 +2731,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 36:
                                 _context21.prev = 36;
-                                _context21.t1 = _context21["catch"](16);
+                                _context21.t1 = _context21['catch'](16);
 
                                 try {
                                     // remove the project evaluation report sheet document which failed to save properly from the app database
                                     utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(savedDocResponse.id, savedDocResponse.rev);
                                 } catch (err2) {}
                                 $('#loader-modal').get(0).hide();
-                                ons.notification.alert("saving evaluation report sheet failed. Please try again. " + (_context21.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
+                                ons.notification.alert('saving evaluation report sheet failed. Please try again. ' + (_context21.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 41:
@@ -2751,7 +2749,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context21.finish(41);
 
                             case 44:
-                            case "end":
+                            case 'end':
                                 return _context21.stop();
                         }
                     }
@@ -2770,6 +2768,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      * this is the view-model/controller for the View Reports page
      */
     viewReportsPageViewModel: {
+
+        popOverCreated: false,
 
         reportPageSize: 20,
 
@@ -2796,7 +2796,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context22.abrupt("return");
+                                    return _context22.abrupt('return');
 
                                 case 3:
 
@@ -2830,21 +2830,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         }
                                     });
 
+                                    if (!(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated !== true)) {
+                                        _context22.next = 10;
+                                        break;
+                                    }
+
+                                    _context22.next = 10;
+                                    return ons.createPopover("view-reports-additional-menu-popover-template");
+
+                                case 10:
+
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated = true;
+
                                     // show the page preloader
                                     $('#view-reports-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
                                     $('#view-reports-page .no-report-found, ' + '#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').css("display", "none");
 
                                     // pick the reports that have been saved by user to-date in descending order
-                                    _context22.prev = 9;
-                                    _context22.next = 12;
+                                    _context22.prev = 13;
+                                    _context22.next = 16;
                                     return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                                case 12:
+                                case 16:
                                     dbQueryResult = _context22.sent;
 
                                     if (!(dbQueryResult.rows.length == 0)) {
-                                        _context22.next = 18;
+                                        _context22.next = 22;
                                         break;
                                     }
 
@@ -2855,9 +2867,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .view-reports-load-error, #view-reports-page #view-reports-list').css("display", "none");
                                     // show the no reports messages
                                     $('#view-reports-page .no-report-found').css("display", "block");
-                                    return _context22.abrupt("return");
+                                    return _context22.abrupt('return');
 
-                                case 18:
+                                case 22:
 
                                     // update the properties of the View-Model
                                     utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip += dbQueryResult.rows.length;
@@ -2867,7 +2879,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     viewReportListContent = "";
 
                                     for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                        viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"56px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 2em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>";
+                                        viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                     } // end of for loop
 
                                     // append generated list content to the view-reports
@@ -2879,12 +2891,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#view-reports-page .no-report-found, #view-reports-page .view-reports-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#view-reports-page #view-reports-list').css("display", "block");
-                                    _context22.next = 33;
+                                    _context22.next = 37;
                                     break;
 
-                                case 28:
-                                    _context22.prev = 28;
-                                    _context22.t0 = _context22["catch"](9);
+                                case 32:
+                                    _context22.prev = 32;
+                                    _context22.t0 = _context22['catch'](13);
 
 
                                     // hide the page preloader
@@ -2894,19 +2906,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#view-reports-page .view-reports-load-error').css("display", "block");
 
-                                case 33:
-                                    _context22.prev = 33;
+                                case 37:
+                                    _context22.prev = 37;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context22.finish(33);
+                                    return _context22.finish(37);
 
-                                case 36:
-                                case "end":
+                                case 40:
+                                case 'end':
                                     return _context22.stop();
                             }
                         }
-                    }, _callee21, this, [[9, 28, 33, 36]]);
+                    }, _callee21, this, [[13, 32, 37, 40]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -2968,7 +2980,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // side menu open, so close it
                                 $('ons-splitter').get(0).right.close();
-                                return _context23.abrupt("return");
+                                return _context23.abrupt('return');
 
                             case 3:
 
@@ -2976,7 +2988,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#app-main-navigator').get(0).popPage();
 
                             case 4:
-                            case "end":
+                            case 'end':
                                 return _context23.stop();
                         }
                     }
@@ -3003,7 +3015,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     while (1) {
                         switch (_context24.prev = _context24.next) {
                             case 0:
-                                jQueryListItem = $("#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id=\"" + docId + "\"]");
+                                jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
 
                                 //remove the list item from view with an animation
 
@@ -3021,10 +3033,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
+                                ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
 
                             case 7:
-                            case "end":
+                            case 'end':
                                 return _context24.stop();
                         }
                     }
@@ -3053,7 +3065,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         switch (_context25.prev = _context25.next) {
                             case 0:
                                 // append the loader icon/indicator to the view-reports lists
-                                $('#view-reports-page #view-reports-list').append("<ons-list-item modifier=\"nodivider\" lock-on-drag=\"true\" class=\"list-view-infinite-loader\">\n                <div class=\"left\">\n                </div>\n                <div class=\"center\">\n                    <div style=\"width: 100%; text-align: center\">\n                        <ons-icon icon=\"md-utopiasoftware-icon-spinner\" spin size=\"42px\" class=\"list-item__icon\" style=\"color: #00D5C3\"></ons-icon>\n                    </div>\n                </div>\n                <div class=\"right\">\n                </div>\n            </ons-list-item>");
+                                $('#view-reports-page #view-reports-list').append('<ons-list-item modifier="nodivider" lock-on-drag="true" class="list-view-infinite-loader">\n                <div class="left">\n                </div>\n                <div class="center">\n                    <div style="width: 100%; text-align: center">\n                        <ons-icon icon="md-utopiasoftware-icon-spinner" spin size="42px" class="list-item__icon" style="color: #00D5C3"></ons-icon>\n                    </div>\n                </div>\n                <div class="right">\n                </div>\n            </ons-list-item>');
 
                                 // load additional reports to the page
                                 _context25.prev = 1;
@@ -3067,7 +3079,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 doneCallBack();
                                 // this is the last set/page of reports. so no need to load any more
-                                return _context25.abrupt("return");
+                                return _context25.abrupt('return');
 
                             case 6:
                                 _context25.next = 8;
@@ -3086,7 +3098,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 doneCallBack();
                                 // no report data was returned, so exit method
-                                return _context25.abrupt("return");
+                                return _context25.abrupt('return');
 
                             case 13:
 
@@ -3098,7 +3110,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 viewReportListContent = "";
 
                                 for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"56px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 2em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>";
+                                    viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                 } // end of for loop
 
                                 // remove the loader icon/indicator to the view-reports lists
@@ -3111,16 +3123,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 22:
                                 _context25.prev = 22;
-                                _context25.t0 = _context25["catch"](1);
+                                _context25.t0 = _context25['catch'](1);
 
                                 // remove the loader icon/indicator to the view-reports lists
                                 $('#view-reports-page #view-reports-list .list-view-infinite-loader').remove();
                                 doneCallBack();
                                 // display message to inform user of load error
-                                ons.notification.toast("<ons-icon icon=\"md-alert-circle\" size=\"28px\" style=\"color: yellow\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow\">Loading Error. Try Again</span>", { timeout: 3000 });
+                                ons.notification.toast('<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Loading Error. Try Again</span>', { timeout: 3000 });
 
                             case 27:
-                            case "end":
+                            case 'end':
                                 return _context25.stop();
                         }
                     }
@@ -3174,7 +3186,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page .no-report-found').css("display", "block");
                                 // inform ONSEN that the refresh action is completed
                                 doneCallBack();
-                                return _context26.abrupt("return");
+                                return _context26.abrupt('return');
 
                             case 11:
 
@@ -3186,7 +3198,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 viewReportListContent = "";
 
                                 for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"56px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 2em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>";
+                                    viewReportListContent += '\n                        <ons-list-item modifier="longdivider" tappable lock-on-drag="true" \n                        data-utopiasoftware-ptracker-report-id="' + dbQueryResult.rows[index].value._id + '" \n                        data-utopiasoftware-ptracker-report-rev="' + dbQueryResult.rows[index].value._rev + '"\n                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)">\n                            <div class="left">\n                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>\n                            </div>\n                            <div class="center" style="margin-left: 2em">\n                                <span class="list-item__title" style="color: #3F51B5">' + dbQueryResult.rows[index].value._id + '</span>\n                                <span class="list-item__subtitle">Project: ' + dbQueryResult.rows[index].value.projectId + '</span>\n                                <span class="list-item__subtitle">Evaluated By: ' + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + '</span>\n                                <span class="list-item__subtitle" style="font-size: 0.6em">\n                                ' + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + '\n                                </span>\n                            </div>\n                            <div class="right">\n                                <ons-fab modifier="mini" style="background-color: transparent; color: #f30000" \n                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked(\'' + dbQueryResult.rows[index].value._id + '\', \n                                \'' + dbQueryResult.rows[index].value._rev + '\')">\n                                    <ons-icon icon="md-delete">\n                                    </ons-icon>\n                                </ons-fab>\n                            </div>\n                        </ons-list-item>';
                                 } // end of for loop
 
                                 // enable pull-to-refresh widget
@@ -3204,14 +3216,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 22:
                                 _context26.prev = 22;
-                                _context26.t0 = _context26["catch"](1);
+                                _context26.t0 = _context26['catch'](1);
 
                                 // enable pull-to-refresh widget
                                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                                 doneCallBack();
 
                             case 26:
-                            case "end":
+                            case 'end':
                                 return _context26.stop();
                         }
                     }
@@ -3245,7 +3257,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     break;
                                 }
 
-                                return _context27.abrupt("return");
+                                return _context27.abrupt('return');
 
                             case 2:
                                 jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
@@ -3258,7 +3270,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                             rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev') } } });
 
                             case 5:
-                            case "end":
+                            case 'end':
                                 return _context27.stop();
                         }
                     }
@@ -3271,7 +3283,239 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             return viewReportListItemClicked;
         }()
+    },
+
+    /**
+     * this is the view-model/controller for the View Reports page
+     */
+    evaluationReportPageViewModel: {
+
+        projectPicture1Url: null,
+
+        projectPicture2Url: null,
+
+        projectPicture3Url: null,
+
+        /**
+         * event is triggered when page is initialised
+         */
+        pageInit: function pageInit(event) {
+
+            //function is used to initialise the page if the app is fully ready for execution
+            var loadPageOnAppReady = function () {
+                var _ref27 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee27() {
+                    var evaluationReport, evaluationReportListContent, index;
+                    return regeneratorRuntime.wrap(function _callee27$(_context28) {
+                        while (1) {
+                            switch (_context28.prev = _context28.next) {
+                                case 0:
+                                    if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
+                                        _context28.next = 3;
+                                        break;
+                                    }
+
+                                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
+                                    return _context28.abrupt('return');
+
+                                case 3:
+
+                                    // listen for the back button event
+                                    $('#app-main-navigator').get(0).topPage.onDeviceBackButton = utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.backButtonClicked;
+
+                                    // show the page preloader
+                                    $('#evaluation-report-page .page-preloader').css("display", "block");
+                                    // hide the items that are not to be displayed
+                                    $('#evaluation-report-page .no-report-found, ' + '#evaluation-report-page .evaluation-report-load-error, #evaluation-report-page #evaluation-report-list').css("display", "none");
+
+                                    // pick the evaluation report to delete
+                                    _context28.prev = 6;
+                                    _context28.next = 9;
+                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get($('#app-main-navigator').get(0).topPage.data.reportDetails.id, { attachments: true, binary: true });
+
+                                case 9:
+                                    evaluationReport = _context28.sent;
+
+
+                                    // get the object urls for the 3 project evaluation photos
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture1Url = window.URL.createObjectURL(evaluationReport._attachments['picture1.jpg'].data);
+                                    // get the object urls for the 3 project evaluation photos
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture2Url = window.URL.createObjectURL(evaluationReport._attachments['picture2.jpg'].data);
+                                    // get the object urls for the 3 project evaluation photos
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture3Url = window.URL.createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
+
+                                    // create the evaluation report list content
+                                    evaluationReportListContent = '\n                    <ons-list-header>Report Title</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.title + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Title</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.projectData.TITLE + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project ID</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">' + evaluationReport.projectData.PROJECTID + '</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Milestones</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true" expandable\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">Milestone Progress Evaluation</span>\n                        </div>\n                        <div class="expandable-content">\n                            <div class="row">';
+
+                                    for (index = 0; index < evaluationReport.milestonesEvaluations.length; index++) {
+                                        evaluationReportListContent += '\n                        <div class="col-xs-9" style="text-transform: capitalize">\n                        ' + evaluationReport.milestonesEvaluations[index].milestoneTitle + '</div>\n                        <div class="col-xs-3" style="text-align: left; padding-left: 1em;">\n                        ' + evaluationReport.milestonesEvaluations[index].milestoneScore + '%</div>';
+                                    }
+
+                                    evaluationReportListContent += '\n                        </div>\n                        </div>\n                    </ons-list-item>\n\n                    <ons-list-header>Project Photos</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true" expandable\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">View Photos</span>\n                        </div>\n                        <div class="expandable-content">\n                            <div class="row">\n                                <div class="col-xs-6" style="padding: 0.5em;">\n                                    <img src="' + utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture1Url + '" style="width: 100%; border: 2px darkgray groove">\n                                </div>\n                                <div class="col-xs-6" style="padding: 0.5em;">\n                                    <img src="' + utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture2Url + '" style="width: 100%; border: 2px darkgray groove">\n                                </div>\n                                <div class="col-xs-6" style="padding: 0.5em;">\n                                    <img src="' + utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture3Url + '" style="width: 100%; border: 2px darkgray groove">\n                                </div>\n                            </div>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Location</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">' + evaluationReport.projectGeoPosition.latitude + ',' + evaluationReport.projectGeoPosition.longitude + '</span>\n                        </div>\n                    </ons-list-item>\n        \n                    <ons-list-header>Evaluation Remarks</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">' + evaluationReport.reportRemarks.replace(/\n/ig, "<br>") + '</span>\n                        </div>\n                    </ons-list-item>\n        \n                    <ons-list-header>Evaluation By</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">' + evaluationReport.evaluatedBy + '</span>\n                        </div>\n                    </ons-list-item>\n        \n                    <ons-list-header>Evaluation Date</ons-list-header>\n                    <ons-list-item modifier="longdivider" lock-on-drag="true"\n                                   onclick="">\n                        <div class="center" style="">\n                            <span class="list-item__title" style="color: #3F51B5;">' + kendo.toString(new Date(evaluationReport.dateStamp), "MMMM d, yyyy h:mm tt") + '</span>\n                        </div>\n                    </ons-list-item>';
+
+                                    // append generated list content to the evaluation report
+                                    $('#evaluation-report-page #evaluation-report-list').html(evaluationReportListContent);
+
+                                    // hide the page preloader
+                                    $('#evaluation-report-page .page-preloader').css("display", "none");
+                                    // hide the items that are not to be displayed
+                                    $('#evaluation-report-page .no-report-found, #evaluation-report-page .evaluation-report-load-error').css("display", "none");
+                                    // display the view reports list
+                                    $('#view-reports-page #view-reports-list').css("display", "block");
+                                    _context28.next = 27;
+                                    break;
+
+                                case 22:
+                                    _context28.prev = 22;
+                                    _context28.t0 = _context28['catch'](6);
+
+
+                                    // hide the page preloader
+                                    $('#evaluation-report-page .page-preloader').css("display", "none");
+                                    // hide the items that are not to be displayed
+                                    $('#evaluation-report-page .no-report-found, #evaluation-report-page #evaluation-report-list').css("display", "none");
+                                    // display the error message to user
+                                    $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
+
+                                case 27:
+                                    _context28.prev = 27;
+
+                                    // hide the loader
+                                    $('#loader-modal').get(0).hide();
+                                    return _context28.finish(27);
+
+                                case 30:
+                                case 'end':
+                                    return _context28.stop();
+                            }
+                        }
+                    }, _callee27, this, [[6, 22, 27, 30]]);
+                }));
+
+                return function loadPageOnAppReady() {
+                    return _ref27.apply(this, arguments);
+                };
+            }();
+
+            var $thisPage = $(event.target); // get the current page shown
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // call the function used to initialise the app page if the app is fully loaded
+            loadPageOnAppReady();
+        },
+
+        /**
+         * method is triggered when page is shown
+         */
+        pageShow: function pageShow() {
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+        },
+
+        /**
+         * method is triggered when page is hidden
+         */
+        pageHide: function pageHide() {
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+
+        },
+
+        /**
+         * method is triggered when page is destroyed
+         */
+        pageDestroy: function pageDestroy() {},
+
+        /**
+         * method is triggered when the device back button is clicked OR a similar action is triggered
+         */
+        backButtonClicked: function () {
+            var _ref28 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28() {
+                return regeneratorRuntime.wrap(function _callee28$(_context29) {
+                    while (1) {
+                        switch (_context29.prev = _context29.next) {
+                            case 0:
+                                if (!$('ons-splitter').get(0).right.isOpen) {
+                                    _context29.next = 3;
+                                    break;
+                                }
+
+                                // side menu open, so close it
+                                $('ons-splitter').get(0).right.close();
+                                return _context29.abrupt('return');
+
+                            case 3:
+
+                                // move to the project evaluation page
+                                $('#app-main-navigator').get(0).popPage();
+
+                            case 4:
+                            case 'end':
+                                return _context29.stop();
+                        }
+                    }
+                }, _callee28, this);
+            }));
+
+            function backButtonClicked() {
+                return _ref28.apply(this, arguments);
+            }
+
+            return backButtonClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the delete fab button is clicked
+         *
+         * @returns {Promise<void>}
+         */
+        reportDeleteButtonClicked: function () {
+            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29(docId, docRevision) {
+                var jQueryListItem;
+                return regeneratorRuntime.wrap(function _callee29$(_context30) {
+                    while (1) {
+                        switch (_context30.prev = _context30.next) {
+                            case 0:
+                                jQueryListItem = $('#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="' + docId + '"]');
+
+                                //remove the list item from view with an animation
+
+                                _context30.next = 3;
+                                return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
+
+                            case 3:
+                                // remove the element from the list item altogether
+                                jQueryListItem.remove();
+                                // remove the evaluation report from database
+                                _context30.next = 6;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+                            case 6:
+
+                                // inform the user that evaluation report has been delete
+                                // display a toast to the user
+                                ons.notification.toast('<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>', { timeout: 2500 });
+
+                            case 7:
+                            case 'end':
+                                return _context30.stop();
+                        }
+                    }
+                }, _callee29, this);
+            }));
+
+            function reportDeleteButtonClicked(_x12, _x13) {
+                return _ref29.apply(this, arguments);
+            }
+
+            return reportDeleteButtonClicked;
+        }()
     }
+
 };
 
 //# sourceMappingURL=controller-compiled.js.map

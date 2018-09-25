@@ -86,4 +86,16 @@ $(document).on("hide", "#view-reports-page", utopiasoftware[utopiasoftware_app_n
 // listen for when the VIEW REPORTS page is destroyed
 $(document).on("destroy", "#view-reports-page", utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pageDestroy);
 
+// listen for the initialisation of the EVALUATION REPORT page
+$(document).on("init", "#evaluation-report-page", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.pageInit);
+
+// listen for when the EVALUATION REPORT page is shown
+$(document).on("show", "#evaluation-report-page", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.pageShow);
+
+// listen for when the EVALUATION REPORT page is hidden
+$(document).on("hide", "#evaluation-report-page", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.pageHide);
+
+// listen for when the EVALUATION REPORT page is destroyed
+$(document).on("destroy", "#evaluation-report-page", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.pageDestroy);
+
 //# sourceMappingURL=model-compiled.js.map

@@ -32,8 +32,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
-            await ons.createPopover("view-reports-additional-menu-popover-template");
-
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
@@ -60,7 +58,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // prepare the inapp browser plugin by removing the default window.open() functionality
                 delete window.open;
 
-                // note: for most promises, we will use async-wait syntax
+                // prepare the window.URL static object for use
+                window.URL = window.URL || window.webkitURL;
+
+                // note: for most promises, we will use async-wait syntax\
 
                 // create the pouchdb app database
                 utopiasoftware[utopiasoftware_app_namespace].model.appDatabase = new PouchDB('ptrackerdatabase.db', {
@@ -2269,6 +2270,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     viewReportsPageViewModel: {
 
+        popOverCreated: false,
 
         reportPageSize: 20,
 
@@ -2331,6 +2333,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             break;
                     }
                 });
+
+                if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated !== true){
+                    // create the view-reports-additional menu popover
+                    await ons.createPopover("view-reports-additional-menu-popover-template");
+                }
+
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated = true;
 
                 // show the page preloader
                 $('#view-reports-page .page-preloader').css("display", "block");
@@ -2716,7 +2725,271 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 data: {reportDetails: {id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
                                         rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev')}}});
         }
+    },
+
+    /**
+     * this is the view-model/controller for the View Reports page
+     */
+    evaluationReportPageViewModel: {
+
+        projectPicture1Url: null,
+
+        projectPicture2Url: null,
+
+        projectPicture3Url: null,
+
+        /**
+         * event is triggered when page is initialised
+         */
+        pageInit: function(event){
+
+            var $thisPage = $(event.target); // get the current page shown
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // call the function used to initialise the app page if the app is fully loaded
+            loadPageOnAppReady();
+
+            //function is used to initialise the page if the app is fully ready for execution
+            async function loadPageOnAppReady(){
+                // check to see if onsen is ready and if all app loading has been completed
+                if(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false){
+                    setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
+                    return;
+                }
+
+                // listen for the back button event
+                $('#app-main-navigator').get(0).topPage.onDeviceBackButton =
+                    utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.backButtonClicked;
+
+                // show the page preloader
+                $('#evaluation-report-page .page-preloader').css("display", "block");
+                // hide the items that are not to be displayed
+                $('#evaluation-report-page .no-report-found, ' +
+                    '#evaluation-report-page .evaluation-report-load-error, #evaluation-report-page #evaluation-report-list').
+                css("display", "none");
+
+                // pick the evaluation report to delete
+                try{
+
+                    let evaluationReport = await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get(
+                        $('#app-main-navigator').get(0).topPage.data.reportDetails.id,
+                        {attachments: true, binary: true}
+                    );
+
+                    // get the object urls for the 3 project evaluation photos
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        evaluationReportPageViewModel.projectPicture1Url = window.URL.
+                    createObjectURL(evaluationReport._attachments['picture1.jpg'].data);
+                    // get the object urls for the 3 project evaluation photos
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        evaluationReportPageViewModel.projectPicture2Url = window.URL.
+                    createObjectURL(evaluationReport._attachments['picture2.jpg'].data);
+                    // get the object urls for the 3 project evaluation photos
+                    utopiasoftware[utopiasoftware_app_namespace].controller.
+                        evaluationReportPageViewModel.projectPicture3Url = window.URL.
+                    createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
+
+                    // create the evaluation report list content
+                    let evaluationReportListContent = `
+                    <ons-list-header>Report Title</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">${evaluationReport.title}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-header>Project Title</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">${evaluationReport.projectData.TITLE}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-header>Project ID</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5; text-transform: uppercase">${evaluationReport.projectData.PROJECTID}</span>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-header>Project Milestones</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true" expandable
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">Milestone Progress Evaluation</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="row">`;
+                    for(let index = 0; index < evaluationReport.milestonesEvaluations.length; index++){
+                        evaluationReportListContent += `
+                        <div class="col-xs-9" style="text-transform: capitalize">
+                        ${evaluationReport.milestonesEvaluations[index].milestoneTitle}</div>
+                        <div class="col-xs-3" style="text-align: left; padding-left: 1em;">
+                        ${evaluationReport.milestonesEvaluations[index].milestoneScore}%</div>`;
+                    }
+
+                    evaluationReportListContent += `
+                        </div>
+                        </div>
+                    </ons-list-item>
+
+                    <ons-list-header>Project Photos</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true" expandable
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">View Photos</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="row">
+                                <div class="col-xs-6" style="padding: 0.5em;">
+                                    <img src="${utopiasoftware[utopiasoftware_app_namespace].controller.
+                                    evaluationReportPageViewModel.projectPicture1Url}" style="width: 100%; border: 2px darkgray groove">
+                                </div>
+                                <div class="col-xs-6" style="padding: 0.5em;">
+                                    <img src="${utopiasoftware[utopiasoftware_app_namespace].controller.
+                                evaluationReportPageViewModel.projectPicture2Url}" style="width: 100%; border: 2px darkgray groove">
+                                </div>
+                                <div class="col-xs-6" style="padding: 0.5em;">
+                                    <img src="${utopiasoftware[utopiasoftware_app_namespace].controller.
+                                evaluationReportPageViewModel.projectPicture3Url}" style="width: 100%; border: 2px darkgray groove">
+                                </div>
+                            </div>
+                        </div>
+                    </ons-list-item>
+                    
+                    <ons-list-header>Project Location</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">${evaluationReport.projectGeoPosition.latitude},${evaluationReport.projectGeoPosition.longitude}</span>
+                        </div>
+                    </ons-list-item>
+        
+                    <ons-list-header>Evaluation Remarks</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">${evaluationReport.reportRemarks.replace(/\n/ig, "<br>")}</span>
+                        </div>
+                    </ons-list-item>
+        
+                    <ons-list-header>Evaluation By</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">${evaluationReport.evaluatedBy}</span>
+                        </div>
+                    </ons-list-item>
+        
+                    <ons-list-header>Evaluation Date</ons-list-header>
+                    <ons-list-item modifier="longdivider" lock-on-drag="true"
+                                   onclick="">
+                        <div class="center" style="">
+                            <span class="list-item__title" style="color: #3F51B5;">${kendo.toString(new Date(evaluationReport.dateStamp), "MMMM d, yyyy h:mm tt")}</span>
+                        </div>
+                    </ons-list-item>`;
+
+                    // append generated list content to the evaluation report
+                    $('#evaluation-report-page #evaluation-report-list').html(evaluationReportListContent);
+
+
+                    // hide the page preloader
+                    $('#evaluation-report-page .page-preloader').css("display", "none");
+                    // hide the items that are not to be displayed
+                    $('#evaluation-report-page .no-report-found, #evaluation-report-page .evaluation-report-load-error').
+                    css("display", "none");
+                    // display the view reports list
+                    $('#view-reports-page #view-reports-list').css("display", "block");
+                }
+                catch (e) {
+
+                    // hide the page preloader
+                    $('#evaluation-report-page .page-preloader').css("display", "none");
+                    // hide the items that are not to be displayed
+                    $('#evaluation-report-page .no-report-found, #evaluation-report-page #evaluation-report-list').
+                    css("display", "none");
+                    // display the error message to user
+                    $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
+
+                }
+                finally{
+                    // hide the loader
+                    $('#loader-modal').get(0).hide();
+                }
+            }
+
+        },
+
+        /**
+         * method is triggered when page is shown
+         */
+        pageShow: function(){
+            // disable the swipeable feature for the app splitter
+            $('ons-splitter-side').removeAttr("swipeable");
+
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            window.SoftInputMode.set('adjustPan'); // let the window/view-port 'pan' when the soft keyboard is displayed
+        },
+
+
+        /**
+         * method is triggered when page is hidden
+         */
+        pageHide: function(){
+            // adjust the window/view-port settings for when the soft keyboard is displayed
+            // window.SoftInputMode.set('adjustResize'); // let the view 'resize' when the soft keyboard is displayed
+
+        },
+
+        /**
+         * method is triggered when page is destroyed
+         */
+        pageDestroy: function(){
+
+        },
+
+
+        /**
+         * method is triggered when the device back button is clicked OR a similar action is triggered
+         */
+        async backButtonClicked(){
+
+            // check if the side menu is open
+            if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
+                $('ons-splitter').get(0).right.close();
+                return; // exit the method
+            }
+
+            // move to the project evaluation page
+            $('#app-main-navigator').get(0).popPage();
+        },
+
+        /**
+         * method is triggered when the delete fab button is clicked
+         *
+         * @returns {Promise<void>}
+         */
+        async reportDeleteButtonClicked(docId, docRevision){
+
+            var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
+
+            //remove the list item from view with an animation
+            await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
+            // remove the element from the list item altogether
+            jQueryListItem.remove();
+            // remove the evaluation report from database
+            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+            // inform the user that evaluation report has been delete
+            // display a toast to the user
+            ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
+        }
     }
+
 };
 
 

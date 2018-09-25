@@ -31,7 +31,7 @@
         <div class="evaluation-report-load-error" style="font-size: 1.5em; color: #f30000; text-align: center; display: none">Error Viewing Report</div>
         </p>
 
-        <ons-list id="evaluation-report-list" style="display: block">
+        <ons-list id="evaluation-report-list" style="display: none">
 
             <ons-list-header>Report Title</ons-list-header>
 
@@ -70,9 +70,9 @@
                 <div class="expandable-content">
                     <div class="row">
                         <div class="col-xs-9" style="text-transform: capitalize">Preliminaries</div>
-                        <div class="col-xs-3" style="text-align: right">20%</div>
+                        <div class="col-xs-3" style="text-align: left; padding-left: 1em;">20%</div>
                         <div class="col-xs-9" style="text-transform: capitalize">Substructure</div>
-                        <div class="col-xs-3" style="text-align: right">20%</div>
+                        <div class="col-xs-3" style="text-align: left; padding-left: 1em;">20%</div>
                     </div>
                 </div>
             </ons-list-item>
@@ -114,6 +114,24 @@
                            onclick="">
                 <div class="center" style="">
                     <span class="list-item__title" style="color: #3F51B5;">Good job</span>
+                </div>
+            </ons-list-item>
+
+            <ons-list-header>Evaluation By</ons-list-header>
+
+            <ons-list-item modifier="longdivider" lock-on-drag="true"
+                           onclick="">
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5;">writeosahon@gmail.com</span>
+                </div>
+            </ons-list-item>
+
+            <ons-list-header>Evaluation Date</ons-list-header>
+
+            <ons-list-item modifier="longdivider" lock-on-drag="true"
+                           onclick="">
+                <div class="center" style="">
+                    <span class="list-item__title" style="color: #3F51B5;">March 6, 2018</span>
                 </div>
             </ons-list-item>
 
