@@ -2768,6 +2768,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#evaluation-report-page .no-report-found, ' +
                     '#evaluation-report-page .evaluation-report-load-error, #evaluation-report-page #evaluation-report-list').
                 css("display", "none");
+                $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
 
                 // pick the evaluation report to delete
                 try{
@@ -2907,6 +2908,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "none");
                     // display the view reports list
                     $('#evaluation-report-page #evaluation-report-list').css("display", "block");
+                    $('#evaluation-report-page #evaluation-report-delete-fab').removeAttr("disabled");
                 }
                 catch (e) {
 
@@ -2915,6 +2917,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     // hide the items that are not to be displayed
                     $('#evaluation-report-page .no-report-found, #evaluation-report-page #evaluation-report-list').
                     css("display", "none");
+                    $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
                     // display the error message to user
                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 

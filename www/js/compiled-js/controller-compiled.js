@@ -3326,13 +3326,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page .page-preloader').css("display", "block");
                                     // hide the items that are not to be displayed
                                     $('#evaluation-report-page .no-report-found, ' + '#evaluation-report-page .evaluation-report-load-error, #evaluation-report-page #evaluation-report-list').css("display", "none");
+                                    $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
 
                                     // pick the evaluation report to delete
-                                    _context28.prev = 6;
-                                    _context28.next = 9;
+                                    _context28.prev = 7;
+                                    _context28.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get($('#app-main-navigator').get(0).topPage.data.reportDetails.id, { attachments: true, binary: true });
 
-                                case 9:
+                                case 10:
                                     evaluationReport = _context28.sent;
 
 
@@ -3363,34 +3364,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page .no-report-found, #evaluation-report-page .evaluation-report-load-error').css("display", "none");
                                     // display the view reports list
                                     $('#evaluation-report-page #evaluation-report-list').css("display", "block");
-                                    _context28.next = 28;
+                                    $('#evaluation-report-page #evaluation-report-delete-fab').removeAttr("disabled");
+                                    _context28.next = 31;
                                     break;
 
-                                case 23:
-                                    _context28.prev = 23;
-                                    _context28.t0 = _context28['catch'](6);
+                                case 25:
+                                    _context28.prev = 25;
+                                    _context28.t0 = _context28['catch'](7);
 
 
                                     // hide the page preloader
                                     $('#evaluation-report-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
                                     $('#evaluation-report-page .no-report-found, #evaluation-report-page #evaluation-report-list').css("display", "none");
+                                    $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
                                     // display the error message to user
                                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 
-                                case 28:
-                                    _context28.prev = 28;
+                                case 31:
+                                    _context28.prev = 31;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context28.finish(28);
+                                    return _context28.finish(31);
 
-                                case 31:
+                                case 34:
                                 case 'end':
                                     return _context28.stop();
                             }
                         }
-                    }, _callee27, this, [[6, 23, 28, 31]]);
+                    }, _callee27, this, [[7, 25, 31, 34]]);
                 }));
 
                 return function loadPageOnAppReady() {
