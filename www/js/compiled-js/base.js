@@ -47,6 +47,28 @@ const utopiasoftware = {
              * @returns {Promise<void>}
              */
             async loadProjectData(showProgressModal = true){
+
+                // check if Internet Connection is available before proceeding
+                if(navigator.connection.type === Connection.NONE){ // no Internet Connection
+                    // inform the user that they cannot proceed without Internet
+                    window.plugins.toast.showWithOptions({
+                        message: "You cannot download offline data without an Internet Connection",
+                        duration: 4000,
+                        position: "top",
+                        styling: {
+                            opacity: 1,
+                            backgroundColor: '#ff0000', //red
+                            textColor: '#FFFFFF',
+                            textSize: 14
+                        }
+                    }, function(toastEvent){
+                        if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                            window.plugins.toast.hide();
+                        }
+                    });
+                    throw "no internet connection";
+                }
+
                 try{
                     // keep device awake during the downloading process
                     window.plugins.insomnia.keepAwake();
@@ -244,6 +266,27 @@ const utopiasoftware = {
              * the number of report sheets that were successfully uploaded OR rejects with an error object
              */
             async uploadProjectEvaluationReports(showProgressModal = true){
+
+                // check if Internet Connection is available before proceeding
+                if(navigator.connection.type === Connection.NONE){ // no Internet Connection
+                    // inform the user that they cannot proceed without Internet
+                    window.plugins.toast.showWithOptions({
+                        message: "You cannot upload evaluation reports without an Internet Connection",
+                        duration: 4000,
+                        position: "top",
+                        styling: {
+                            opacity: 1,
+                            backgroundColor: '#ff0000', //red
+                            textColor: '#FFFFFF',
+                            textSize: 14
+                        }
+                    }, function(toastEvent){
+                        if(toastEvent && toastEvent.event == "touch"){ // user tapped the toast, so hide toast immediately
+                            window.plugins.toast.hide();
+                        }
+                    });
+                    throw "no internet connection";
+                }
 
                 var totalReportSheets = 0; // holds the total number of report sheets to be uploaded
 

@@ -831,6 +831,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     _context10.prev = 8;
 
+
                                     // keep device awake during the downloading process
                                     window.plugins.insomnia.keepAwake();
                                     // check if the user just completed a signin or log-in
@@ -3300,8 +3301,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         projectPicture1Url: null,
 
+        /**
+         * holds the dynamically created url for the project evaluation photo 2
+         */
         projectPicture2Url: null,
 
+        /**
+         * holds the dynamically created url for the project evaluation photo 3
+         */
         projectPicture3Url: null,
 
         /**
