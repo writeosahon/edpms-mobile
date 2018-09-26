@@ -2488,6 +2488,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async reportDeleteButtonClicked(docId, docRevision){
 
+            // ask user to confirm evaluation report delete
+            let deleteReport = await ons.notification.confirm('Do you want to delete the report?',
+                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+
+            if(deleteReport == 0){ // user does not want to delete report, so exit method now
+                return; // exit method
+            }
+
             var jQueryListItem = $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${docId}"]`);
 
             //remove the list item from view with an animation
@@ -2723,6 +2732,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     evaluationReportPageViewModel: {
 
+        /**
+         * holds the dynamically created url for the project evaluation photo 1
+         */
         projectPicture1Url: null,
 
         projectPicture2Url: null,
@@ -2980,8 +2992,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         docId = $('#app-main-navigator').get(0).topPage.data.reportDetails.id,
                                         docRevision = $('#app-main-navigator').get(0).topPage.data.reportDetails.rev){
 
-            if(fabElement.disabled === true){
+            if(fabElement.disabled === true){ // if the delete fab button is disabled, do nothing
                 return;
+            }
+
+            // ask user to confirm evaluation report delete
+            let deleteReport = await ons.notification.confirm('Do you want to delete the report?',
+                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+
+            if(deleteReport == 0){ // user does not want to delete report, so exit method now
+                return; // exit method
             }
 
             // display the page preloader

@@ -3001,32 +3001,47 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         reportDeleteButtonClicked: function () {
             var _ref23 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23(docId, docRevision) {
-                var jQueryListItem;
+                var deleteReport, jQueryListItem;
                 return regeneratorRuntime.wrap(function _callee23$(_context24) {
                     while (1) {
                         switch (_context24.prev = _context24.next) {
                             case 0:
+                                _context24.next = 2;
+                                return ons.notification.confirm('Do you want to delete the report?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 2:
+                                deleteReport = _context24.sent;
+
+                                if (!(deleteReport == 0)) {
+                                    _context24.next = 5;
+                                    break;
+                                }
+
+                                return _context24.abrupt("return");
+
+                            case 5:
                                 jQueryListItem = $("#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id=\"" + docId + "\"]");
 
                                 //remove the list item from view with an animation
 
-                                _context24.next = 3;
+                                _context24.next = 8;
                                 return Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
 
-                            case 3:
+                            case 8:
                                 // remove the element from the list item altogether
                                 jQueryListItem.remove();
                                 // remove the evaluation report from database
-                                _context24.next = 6;
+                                _context24.next = 11;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-                            case 6:
+                            case 11:
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
                                 ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
 
-                            case 7:
+                            case 12:
                             case "end":
                                 return _context24.stop();
                         }
@@ -3280,6 +3295,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     evaluationReportPageViewModel: {
 
+        /**
+         * holds the dynamically created url for the project evaluation photo 1
+         */
         projectPicture1Url: null,
 
         projectPicture2Url: null,
@@ -3476,7 +3494,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 var fabElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var docId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
                 var docRevision = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
-                var jQueryListItem;
+                var deleteReport, jQueryListItem;
                 return regeneratorRuntime.wrap(function _callee29$(_context30) {
                     while (1) {
                         switch (_context30.prev = _context30.next) {
@@ -3489,19 +3507,34 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 return _context30.abrupt("return");
 
                             case 2:
+                                _context30.next = 4;
+                                return ons.notification.confirm('Do you want to delete the report?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
+
+                            case 4:
+                                deleteReport = _context30.sent;
+
+                                if (!(deleteReport == 0)) {
+                                    _context30.next = 7;
+                                    break;
+                                }
+
+                                return _context30.abrupt("return");
+
+                            case 7:
 
                                 // display the page preloader
                                 $('#evaluation-report-page .page-preloader').css("display", "block");
 
                                 // remove the evaluation report from database
-                                _context30.next = 5;
+                                _context30.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-                            case 5:
-                                _context30.next = 7;
+                            case 10:
+                                _context30.next = 12;
                                 return $('#app-main-navigator').get(0).popPage();
 
-                            case 7:
+                            case 12:
 
                                 // get the list item corresponding to the evaluation report being deleted
                                 jQueryListItem = $("#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id=\"" + docId + "\"]");
@@ -3512,10 +3545,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                _context30.next = 11;
+                                _context30.next = 16;
                                 return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
 
-                            case 11:
+                            case 16:
                             case "end":
                                 return _context30.stop();
                         }
