@@ -1694,14 +1694,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // show the items that are to be displayed
                                     $('#project-evaluation-page .project-evaluation-instructions, #project-evaluation-page .content').css("display", "block");
                                     $('#project-evaluation-page #project-evaluation-next-button').css("display", "inline-block");
-                                    _context14.next = 41;
+                                    _context14.next = 40;
                                     break;
 
                                 case 34:
                                     _context14.prev = 34;
                                     _context14.t0 = _context14["catch"](8);
 
-                                    console.log("SLIDER ERROR", _context14.t0);
                                     // hide the page preloader
                                     $('#project-evaluation-page .page-preloader').css("display", "none");
                                     // hide the items that are not to be displayed
@@ -1710,19 +1709,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the message to inform user that there are no milestones available for the project
                                     $('#project-evaluation-page .no-milestone-found').css("display", "block");
 
-                                case 41:
-                                    _context14.prev = 41;
+                                case 40:
+                                    _context14.prev = 40;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context14.finish(41);
+                                    return _context14.finish(40);
 
-                                case 44:
+                                case 43:
                                 case "end":
                                     return _context14.stop();
                             }
                         }
-                    }, _callee14, this, [[8, 34, 41, 44]]);
+                    }, _callee14, this, [[8, 34, 40, 43]]);
                 }));
 
                 return function loadPageOnAppReady() {
@@ -3254,14 +3253,13 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 2:
                                 jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
-                                console.log("LIST ITEM CLICKED");
-
                                 // push the evaluation report page into view
+
                                 $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", { animation: "slide-md",
                                     data: { reportDetails: { id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
                                             rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev') } } });
 
-                            case 5:
+                            case 4:
                             case "end":
                                 return _context27.stop();
                         }
@@ -3336,8 +3334,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // get the object urls for the 3 project evaluation photos
                                     utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture3Url = window.URL.createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
 
-                                    console.log("URLS", utopiasoftware[utopiasoftware_app_namespace].controller.evaluationReportPageViewModel.projectPicture1Url);
-
                                     // create the evaluation report list content
                                     evaluationReportListContent = "\n                    <ons-list-header>Report Title</ons-list-header>\n                    <ons-list-item modifier=\"longdivider\" lock-on-drag=\"true\"\n                                   onclick=\"\">\n                        <div class=\"center\" style=\"\">\n                            <span class=\"list-item__title\" style=\"color: #3F51B5; text-transform: uppercase\">" + evaluationReport.title + "</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Title</ons-list-header>\n                    <ons-list-item modifier=\"longdivider\" lock-on-drag=\"true\"\n                                   onclick=\"\">\n                        <div class=\"center\" style=\"\">\n                            <span class=\"list-item__title\" style=\"color: #3F51B5; text-transform: uppercase\">" + evaluationReport.projectData.TITLE + "</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project ID</ons-list-header>\n                    <ons-list-item modifier=\"longdivider\" lock-on-drag=\"true\"\n                                   onclick=\"\">\n                        <div class=\"center\" style=\"\">\n                            <span class=\"list-item__title\" style=\"color: #3F51B5; text-transform: uppercase\">" + evaluationReport.projectData.PROJECTID + "</span>\n                        </div>\n                    </ons-list-item>\n                    \n                    <ons-list-header>Project Milestones</ons-list-header>\n                    <ons-list-item modifier=\"longdivider\" lock-on-drag=\"true\" expandable\n                                   onclick=\"\">\n                        <div class=\"center\" style=\"\">\n                            <span class=\"list-item__title\" style=\"color: #3F51B5;\">Milestone Progress Evaluation</span>\n                        </div>\n                        <div class=\"expandable-content\">\n                            <div class=\"row\">";
 
@@ -3357,11 +3353,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the view reports list
                                     $('#evaluation-report-page #evaluation-report-list').css("display", "block");
                                     $('#evaluation-report-page #evaluation-report-delete-fab').removeAttr("disabled");
-                                    _context28.next = 31;
+                                    _context28.next = 30;
                                     break;
 
-                                case 25:
-                                    _context28.prev = 25;
+                                case 24:
+                                    _context28.prev = 24;
                                     _context28.t0 = _context28["catch"](7);
 
 
@@ -3373,19 +3369,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the error message to user
                                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 
-                                case 31:
-                                    _context28.prev = 31;
+                                case 30:
+                                    _context28.prev = 30;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context28.finish(31);
+                                    return _context28.finish(30);
 
-                                case 34:
+                                case 33:
                                 case "end":
                                     return _context28.stop();
                             }
                         }
-                    }, _callee27, this, [[7, 25, 31, 34]]);
+                    }, _callee27, this, [[7, 24, 30, 33]]);
                 }));
 
                 return function loadPageOnAppReady() {
