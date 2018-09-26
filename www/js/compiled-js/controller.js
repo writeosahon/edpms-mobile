@@ -32,6 +32,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
+            // create the view-reports-additional menu popover
+            await ons.createPopover("view-reports-additional-menu-popover-template");
+
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
             $('#loader-modal').get(0).show(); // show loader
@@ -2270,8 +2273,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     viewReportsPageViewModel: {
 
-        popOverCreated: false,
-
         reportPageSize: 20,
 
         skip: 0,
@@ -2333,13 +2334,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             break;
                     }
                 });
-
-                if(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated !== true){
-                    // create the view-reports-additional menu popover
-                    await ons.createPopover("view-reports-additional-menu-popover-template");
-                }
-
-                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.popOverCreated = true;
 
                 // show the page preloader
                 $('#view-reports-page .page-preloader').css("display", "block");
