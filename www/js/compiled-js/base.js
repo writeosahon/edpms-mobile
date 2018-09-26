@@ -14,7 +14,6 @@
 
 /**
  * prepare/config the dynamic loader for all the necessary ES Modules
- */
 SystemJS.config({
     baseURL: 'js',
     paths: {
@@ -23,7 +22,7 @@ SystemJS.config({
     map: {
     }
 });
-/*** END OF SYSTEMJS CONFIG **/
+** END OF SYSTEMJS CONFIG **/
 
 
 // constant that defines the app namespace
