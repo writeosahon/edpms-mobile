@@ -1414,7 +1414,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     css("display", "inline-block");
                 }
                 catch (e) {
-                    console.log("SLIDER ERROR", e);
                     // hide the page preloader
                     $('#project-evaluation-page .page-preloader').css("display", "none");
                     // hide the items that are not to be displayed
@@ -2712,8 +2711,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
 
-            console.log("LIST ITEM CLICKED");
-
             // push the evaluation report page into view
             $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", {animation: "slide-md",
                 data: {reportDetails: {id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
@@ -2784,9 +2781,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     utopiasoftware[utopiasoftware_app_namespace].controller.
                         evaluationReportPageViewModel.projectPicture3Url = window.URL.
                     createObjectURL(evaluationReport._attachments['picture3.jpg'].data);
-
-                    console.log("URLS", utopiasoftware[utopiasoftware_app_namespace].controller.
-                        evaluationReportPageViewModel.projectPicture1Url);
 
                     // create the evaluation report list content
                     let evaluationReportListContent = `
