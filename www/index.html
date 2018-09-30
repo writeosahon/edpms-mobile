@@ -113,13 +113,24 @@
     <!-- view reports additional popover -->
     <ons-popover id="view-reports-additional-menu-popover" direction="down" cover-target cancelable>
         <ons-list>
-            <ons-list-item modifier="divider" tappable lock-on-drag="true"
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
                            onclick="$('#view-reports-additional-menu-popover').get(0).hide();
                        utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.pagePullHookAction();">
                 <div class="center">
                     <span class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">Refresh</span>
                 </div>
                 <div class="right">
+                </div>
+            </ons-list-item>
+            <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
+                           onclick="$('#view-reports-additional-menu-popover').get(0).hide();">
+                <div class="center">
+                    <label for="bulk-delete-checkbox-input" class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">
+                        Bulk Delete</label>
+                </div>
+                <div class="right">
+                    <ons-checkbox id="bulk-delete-checkbox" modifier="login-checkbox"
+                                  input-id="bulk-delete-checkbox-input" value="bulk delete"></ons-checkbox>
                 </div>
             </ons-list-item>
         </ons-list>
