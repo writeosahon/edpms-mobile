@@ -2380,7 +2380,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
                            viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
-                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
                             <div class="center" style="margin-left: 2em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
@@ -2578,7 +2578,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
                            viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
-                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
                             <div class="center" style="margin-left: 2em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
@@ -2665,7 +2665,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                            onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
                            viewReportsPageViewModel.viewReportListItemClicked(this, event)">
                             <div class="left">
-                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="56px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
+                                <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
                             <div class="center" style="margin-left: 2em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
