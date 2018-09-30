@@ -246,7 +246,7 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
     background-color: rgb(255, 255, 255);
 }
 #view-reports-page .fab--utopiasoftware-bulk-delete-fab:active { /** specify the active color for the bulk delete fab button **/
-    background-color: rgba(244, 199, 36, 0.7);
+    background-color: rgba(244, 199, 36, 0.4);
     transition: all 0.2s ease;
 }
 /** STYLE FOR THE VIEW REPORTS PAGE ENDS **/
