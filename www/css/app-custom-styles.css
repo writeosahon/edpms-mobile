@@ -243,7 +243,7 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
     animation: ons-icon-spin 0.5s infinite linear;
 }
 #view-reports-page .fab--utopiasoftware-bulk-delete-fab { /** specify the active color for the bulk delete fab button **/
-    background-color: transparent;
+    background-color: rgb(255, 255, 255);
 }
 #view-reports-page .fab--utopiasoftware-bulk-delete-fab:active { /** specify the active color for the bulk delete fab button **/
     background-color: rgba(244, 199, 36, 0.7);

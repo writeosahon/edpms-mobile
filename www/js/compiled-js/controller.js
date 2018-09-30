@@ -2382,7 +2382,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
-                            <div class="center" style="margin-left: 2em">
+                            <div class="center" style="margin-left: 1em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
                                 <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
@@ -2580,7 +2580,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
-                            <div class="center" style="margin-left: 2em">
+                            <div class="center" style="margin-left: 1em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
                                 <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
@@ -2667,7 +2667,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             <div class="left">
                                 <ons-icon icon="md-utopiasoftware-icon-document-text" size="46px" class="list-item__icon" style="color: #3F51B5" fixed-width></ons-icon>
                             </div>
-                            <div class="center" style="margin-left: 2em">
+                            <div class="center" style="margin-left: 1em">
                                 <span class="list-item__title" style="color: #3F51B5">${dbQueryResult.rows[index].value._id}</span>
                                 <span class="list-item__subtitle">Project: ${dbQueryResult.rows[index].value.projectId}</span>
                                 <span class="list-item__subtitle">Evaluated By: ${utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username}</span>
