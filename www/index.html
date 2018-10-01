@@ -123,14 +123,14 @@
                 </div>
             </ons-list-item>
             <ons-list-item modifier="longdivider" tappable lock-on-drag="true"
-                           onclick="$('#view-reports-additional-menu-popover').get(0).hide();">
+                           onclick="utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.bulkDeletePopOverListItemClciked();">
                 <div class="center">
-                    <label for="bulk-delete-checkbox-input" class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">
+                    <label for="view-reports-bulk-delete-checkbox-input" class="list-item__title" style="color: #3F51B5; font-size: 1.1em;">
                         Bulk Delete</label>
                 </div>
                 <div class="right">
-                    <ons-checkbox id="bulk-delete-checkbox" modifier="login-checkbox"
-                                  input-id="bulk-delete-checkbox-input" value="bulk delete"></ons-checkbox>
+                    <ons-checkbox id="view-reports-bulk-delete-checkbox" modifier="login-checkbox"
+                                  input-id="view-reports-bulk-delete-checkbox-input" value="bulk delete"></ons-checkbox>
                 </div>
             </ons-list-item>
         </ons-list>

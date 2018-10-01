@@ -3288,6 +3288,65 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return viewReportListItemClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the bulk delete option is clicked from the
+         * Addition Menu Popover List
+         * @returns {Promise<void>}
+         */
+        bulkDeletePopOverListItemClciked: function () {
+            var _ref27 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee27() {
+                return regeneratorRuntime.wrap(function _callee27$(_context28) {
+                    while (1) {
+                        switch (_context28.prev = _context28.next) {
+                            case 0:
+                                _context28.next = 2;
+                                return Promise.resolve($('#view-reports-additional-menu-popover').get(0).hide());
+
+                            case 2:
+                                if (!($('#view-reports-bulk-delete-checkbox').get(0).checked === true)) {
+                                    _context28.next = 9;
+                                    break;
+                                }
+
+                                // checkbox is checked
+                                // hide all the delete buttons displayed on the view-reports-list and show the checkboxes
+                                $('#view-reports-page #view-reports-list').removeClass('show-delete').addClass('hide-delete');
+                                // show the Bulk Delete button
+                                _context28.next = 6;
+                                return Promise.resolve(kendo.fx($('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block')).slideIn("up").duration(400).play());
+
+                            case 6:
+                                $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "block");
+                                _context28.next = 13;
+                                break;
+
+                            case 9:
+                                // checkbox is NOT checked
+                                // show all the delete buttons displayed on the view-reports-list and hide the checkboxes
+                                $('#view-reports-page #view-reports-list').removeClass('hide-delete').addClass('show-delete');
+                                // hide the Bulk Delete button
+                                _context28.next = 12;
+                                return Promise.resolve(kendo.fx($('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block')).slideIn("up").duration(400).reverse());
+
+                            case 12:
+                                $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "none");
+
+                            case 13:
+                            case "end":
+                                return _context28.stop();
+                        }
+                    }
+                }, _callee27, this);
+            }));
+
+            function bulkDeletePopOverListItemClciked() {
+                return _ref27.apply(this, arguments);
+            }
+
+            return bulkDeletePopOverListItemClciked;
         }()
     },
 
@@ -3318,19 +3377,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref27 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee27() {
+                var _ref28 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28() {
                     var evaluationReport, evaluationReportListContent, index;
-                    return regeneratorRuntime.wrap(function _callee27$(_context28) {
+                    return regeneratorRuntime.wrap(function _callee28$(_context29) {
                         while (1) {
-                            switch (_context28.prev = _context28.next) {
+                            switch (_context29.prev = _context29.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
-                                        _context28.next = 3;
+                                        _context29.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context28.abrupt("return");
+                                    return _context29.abrupt("return");
 
                                 case 3:
 
@@ -3344,12 +3403,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
 
                                     // pick the evaluation report to delete
-                                    _context28.prev = 7;
-                                    _context28.next = 10;
+                                    _context29.prev = 7;
+                                    _context29.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get($('#app-main-navigator').get(0).topPage.data.reportDetails.id, { attachments: true, binary: true });
 
                                 case 10:
-                                    evaluationReport = _context28.sent;
+                                    evaluationReport = _context29.sent;
 
 
                                     // get the object urls for the 3 project evaluation photos
@@ -3378,12 +3437,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the view reports list
                                     $('#evaluation-report-page #evaluation-report-list').css("display", "block");
                                     $('#evaluation-report-page #evaluation-report-delete-fab').removeAttr("disabled");
-                                    _context28.next = 30;
+                                    _context29.next = 30;
                                     break;
 
                                 case 24:
-                                    _context28.prev = 24;
-                                    _context28.t0 = _context28["catch"](7);
+                                    _context29.prev = 24;
+                                    _context29.t0 = _context29["catch"](7);
 
 
                                     // hide the page preloader
@@ -3395,22 +3454,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 
                                 case 30:
-                                    _context28.prev = 30;
+                                    _context29.prev = 30;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context28.finish(30);
+                                    return _context29.finish(30);
 
                                 case 33:
                                 case "end":
-                                    return _context28.stop();
+                                    return _context29.stop();
                             }
                         }
-                    }, _callee27, this, [[7, 24, 30, 33]]);
+                    }, _callee28, this, [[7, 24, 30, 33]]);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref27.apply(this, arguments);
+                    return _ref28.apply(this, arguments);
                 };
             }();
 
@@ -3456,19 +3515,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked: function () {
-            var _ref28 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee28() {
-                return regeneratorRuntime.wrap(function _callee28$(_context29) {
+            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+                return regeneratorRuntime.wrap(function _callee29$(_context30) {
                     while (1) {
-                        switch (_context29.prev = _context29.next) {
+                        switch (_context30.prev = _context30.next) {
                             case 0:
                                 if (!$('ons-splitter').get(0).right.isOpen) {
-                                    _context29.next = 3;
+                                    _context30.next = 3;
                                     break;
                                 }
 
                                 // side menu open, so close it
                                 $('ons-splitter').get(0).right.close();
-                                return _context29.abrupt("return");
+                                return _context30.abrupt("return");
 
                             case 3:
 
@@ -3477,14 +3536,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 4:
                             case "end":
-                                return _context29.stop();
+                                return _context30.stop();
                         }
                     }
-                }, _callee28, this);
+                }, _callee29, this);
             }));
 
             function backButtonClicked() {
-                return _ref28.apply(this, arguments);
+                return _ref29.apply(this, arguments);
             }
 
             return backButtonClicked;
@@ -3497,36 +3556,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         reportDeleteButtonClicked: function () {
-            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+            var _ref30 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30() {
                 var fabElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var docId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
                 var docRevision = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
                 var deleteReport, jQueryListItem;
-                return regeneratorRuntime.wrap(function _callee29$(_context30) {
+                return regeneratorRuntime.wrap(function _callee30$(_context31) {
                     while (1) {
-                        switch (_context30.prev = _context30.next) {
+                        switch (_context31.prev = _context31.next) {
                             case 0:
                                 if (!(fabElement.disabled === true)) {
-                                    _context30.next = 2;
+                                    _context31.next = 2;
                                     break;
                                 }
 
-                                return _context30.abrupt("return");
+                                return _context31.abrupt("return");
 
                             case 2:
-                                _context30.next = 4;
+                                _context31.next = 4;
                                 return ons.notification.confirm('Do you want to delete the report?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 4:
-                                deleteReport = _context30.sent;
+                                deleteReport = _context31.sent;
 
                                 if (!(deleteReport == 0)) {
-                                    _context30.next = 7;
+                                    _context31.next = 7;
                                     break;
                                 }
 
-                                return _context30.abrupt("return");
+                                return _context31.abrupt("return");
 
                             case 7:
 
@@ -3534,11 +3593,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#evaluation-report-page .page-preloader').css("display", "block");
 
                                 // remove the evaluation report from database
-                                _context30.next = 10;
+                                _context31.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
                             case 10:
-                                _context30.next = 12;
+                                _context31.next = 12;
                                 return $('#app-main-navigator').get(0).popPage();
 
                             case 12:
@@ -3552,19 +3611,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                _context30.next = 16;
+                                _context31.next = 16;
                                 return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
 
                             case 16:
                             case "end":
-                                return _context30.stop();
+                                return _context31.stop();
                         }
                     }
-                }, _callee29, this);
+                }, _callee30, this);
             }));
 
             function reportDeleteButtonClicked() {
-                return _ref29.apply(this, arguments);
+                return _ref30.apply(this, arguments);
             }
 
             return reportDeleteButtonClicked;

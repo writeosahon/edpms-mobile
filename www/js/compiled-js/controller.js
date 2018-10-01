@@ -2725,6 +2725,37 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             $('#app-main-navigator').get(0).pushPage("evaluation-report-page.html", {animation: "slide-md",
                 data: {reportDetails: {id: jQueryListItem.attr('data-utopiasoftware-ptracker-report-id'),
                                         rev: jQueryListItem.attr('data-utopiasoftware-ptracker-report-rev')}}});
+        },
+
+        /**
+         * method is triggered when the bulk delete option is clicked from the
+         * Addition Menu Popover List
+         * @returns {Promise<void>}
+         */
+        async bulkDeletePopOverListItemClciked(){
+
+            // hide the Additional Menu Popover
+            await Promise.resolve($('#view-reports-additional-menu-popover').get(0).hide());
+
+            // check if the bulk delete checkbox is checked or not
+            if($('#view-reports-bulk-delete-checkbox').get(0).checked === true){ // checkbox is checked
+                // hide all the delete buttons displayed on the view-reports-list and show the checkboxes
+                $('#view-reports-page #view-reports-list').removeClass('show-delete').addClass('hide-delete');
+                // show the Bulk Delete button
+                await Promise.
+                resolve(kendo.fx($('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block')).
+                slideIn("up").duration(400).play());
+                $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "block");
+            }
+            else{ // checkbox is NOT checked
+                // show all the delete buttons displayed on the view-reports-list and hide the checkboxes
+                $('#view-reports-page #view-reports-list').removeClass('hide-delete').addClass('show-delete');
+                // hide the Bulk Delete button
+                await Promise.
+                resolve(kendo.fx($('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block')).
+                slideIn("up").duration(400).reverse());
+                $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "none");
+            }
         }
     },
 

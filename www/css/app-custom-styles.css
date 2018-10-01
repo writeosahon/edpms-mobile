@@ -242,11 +242,23 @@ html.utopiasoftware-transparent body.utopiasoftware-transparent .page--material:
     -moz-animation: ons-icon-spin 0.5s infinite linear;
     animation: ons-icon-spin 0.5s infinite linear;
 }
-#view-reports-page .fab--utopiasoftware-bulk-delete-fab { /** specify the active color for the bulk delete fab button **/
+#view-reports-page .fab--utopiasoftware-bulk-delete-fab { /** specify the color for the bulk delete fab button **/
     background-color: rgb(255, 255, 255);
 }
 #view-reports-page .fab--utopiasoftware-bulk-delete-fab:active { /** specify the active color for the bulk delete fab button **/
     background-color: rgba(244, 199, 36, 0.4);
     transition: all 0.2s ease;
+}
+#view-reports-page #view-reports-list.hide-delete .fab--mini{
+    display: none !important;
+}
+#view-reports-page #view-reports-list.hide-delete .checkbox{
+    display: inline-block !important;
+}
+#view-reports-page #view-reports-list.show-delete .fab--mini{
+    display: inline-block !important;
+}
+#view-reports-page #view-reports-list.show-delete .checkbox{
+    display: none !important;
 }
 /** STYLE FOR THE VIEW REPORTS PAGE ENDS **/
