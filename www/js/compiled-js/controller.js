@@ -2398,6 +2398,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     <ons-icon icon="md-delete">
                                     </ons-icon>
                                 </ons-fab>
+                                <ons-checkbox modifier="login-checkbox" value="delete" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
                     } // end of for loop
@@ -2464,6 +2468,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 skip = 0;
             utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
                 totalReports = 0;
+
+            // uncheck the Bulk Delete checkbox in the Additional Menu Popover
+            $('#view-reports-bulk-delete-checkbox').get(0).checked = false;
         },
 
 
@@ -2511,6 +2518,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // display a toast to the user
             ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
         },
+
+
+        async reportCheckBoxClicked(docId, docRevision){},
 
         /**
          * method is triggered on page infinite scroll
@@ -2596,6 +2606,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     <ons-icon icon="md-delete">
                                     </ons-icon>
                                 </ons-fab>
+                                <ons-checkbox modifier="login-checkbox" value="delete" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
                 } // end of for loop
@@ -2683,6 +2697,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     <ons-icon icon="md-delete">
                                     </ons-icon>
                                 </ons-fab>
+                                <ons-checkbox modifier="login-checkbox" value="delete" 
+                                onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
+                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
                 } // end of for loop
@@ -2716,7 +2734,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async viewReportListItemClicked(listItemElement, event){
 
             if($(event.target).closest('ons-fab', listItemElement).is('ons-fab')){ // check if it is the delete fab that has been clicked
-                return; // exit d// the fab was clicked, so take no further action
+                return; // exit. the checkbox was clicked, so take no further action
+            }
+
+            if($(event.target).closest('ons-checkbox', listItemElement).is('ons-checkbox')){ // check if it is the checkbox that has been clicked
+                return; // exit. the checkbox was clicked, so take no further action
             }
 
             var jQueryListItem = $(listItemElement); // convert the list item to a jquery object and get required data attributes
@@ -2732,7 +2754,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * Addition Menu Popover List
          * @returns {Promise<void>}
          */
-        async bulkDeletePopOverListItemClciked(){
+        async bulkDeletePopOverListItemClicked(){
 
             // hide the Additional Menu Popover
             await Promise.resolve($('#view-reports-additional-menu-popover').get(0).hide());
