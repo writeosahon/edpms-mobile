@@ -3478,15 +3478,15 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // remove the collection of elements from the list item
                                 $(selectedReportArray).remove();
-                                // display a toast to the user
-                                _context30.next = 18;
-                                return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">" + selectedReportArray.length + " " + (selectedReportArray.length === 1 ? "Report" : "Reports") + " Deleted</span>", { timeout: 2500 });
-
-                            case 18:
                                 // clear/empty the selected reports collection
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
                                 // hide the page preloader
                                 $('#view-reports-page .page-preloader').css("display", "none");
+                                // display a toast to the user
+                                _context30.next = 20;
+                                return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">" + selectedReportArray.length + " " + (selectedReportArray.length === 1 ? "Report" : "Reports") + " Deleted</span>", { timeout: 2500 });
+
+                            case 20:
                                 selectedReportArray = [];
 
                                 _context30.next = 28;
