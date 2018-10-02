@@ -2832,7 +2832,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             });
 
             if(selectedReportArray.length === 0){ //  there are no selected reports to delete, so exit the method
-                await ons.notification.alert('Please, select 1 or more reports to delete',
+                await ons.notification.alert('Please, select reports to be deleted',
                     {title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Selected</span>',
                         buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
                 return; // exit method
