@@ -2825,22 +2825,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         async bulkDeleteButtonClicked(){
 
+            // get the collection of selected reports for deletion
+            let selectedReportArray = [...utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                selectedReportsCollectionMap].map(function(currentValue, index){
+                return currentValue[1];
+            });
+
+            if(selectedReportArray.length === 0){ //  there are no selected reports to delete, so exit the method
+                await ons.notification.alert('Please, select 1 or more reports to delete',
+                    {title: '<ons-icon icon="md-info" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">No Reports Selected</span>',
+                        buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});
+                return; // exit method
+            }
+
             // ask user to confirm evaluation report delete
             let deleteReport = await ons.notification.confirm('Do you want to delete the selected reports?',
                 {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
 
-            if(deleteReport == 0){ // user does not want to delete report, so exit method now
-                return; // exit method
-            }
-
-            // get the collection of selected reports for deletion
-            let selectedReportArray = [...utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
-                selectedReportsCollectionMap].map(function(currentValue, index){
-                    return currentValue[1];
-            });
-
-            if(selectedReportArray.length === 0){ //  there are no selected reports to delete, so exit the method
+            if(deleteReport == 0){ // user does not want to delete any report
                 return; // exit method
             }
 
