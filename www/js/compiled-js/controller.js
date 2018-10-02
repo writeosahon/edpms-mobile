@@ -2522,12 +2522,18 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             await Promise.resolve(kendo.fx(jQueryListItem).slideIn("right").duration(400).reverse());
             // remove the element from the list item altogether
             jQueryListItem.remove();
-            // remove the evaluation report from database
-            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-            // inform the user that evaluation report has been delete
-            // display a toast to the user
-            ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
+            try {
+                // remove the evaluation report from database
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
+
+                // inform the user that evaluation report has been delete
+                // display a toast to the user
+                ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">Report Deleted</span>`, {timeout: 2500});
+            }
+            catch(err){
+
+            }
         },
 
 
@@ -2824,9 +2830,57 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         async bulkDeleteButtonClicked(){
-            console.log("MAP", // add the unique report id attached to the clicked checkbox to the collection of selected reports
-                [...utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
-                selectedReportsCollectionMap])
+
+            // ask user to confirm evaluation report delete
+            let deleteReport = await ons.notification.confirm('Do you want to delete the selected reports?',
+                {title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog'});
+
+            if(deleteReport == 0){ // user does not want to delete report, so exit method now
+                return; // exit method
+            }
+
+            // get the collection of selected reports for deletion
+            let selectedReportArray = [...utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                selectedReportsCollectionMap].map(function(currentValue, index){
+                    return currentValue[1];
+            });
+
+            if(selectedReportArray.length === 0){ //  there are no selected reports to delete, so exit the method
+                return; // exit method
+            }
+
+            try{
+                // show the page preloader
+                $('#view-reports-page .page-preloader').css("display", "block");
+                await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(selectedReportArray);
+                // get a collection of the list items that match the selected reports
+                selectedReportArray.forEach(function(arrayObj, index){
+                    selectedReportArray[index] =
+                        $(`#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id="${arrayObj._id}"]`).
+                        get(0);
+                });
+
+                // remove the collection of elements from the list item
+                $(selectedReportArray).remove();
+                // display a toast to the user
+                await ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">${selectedReportArray.length} ${selectedReportArray.length === 1 ? "Report": "Reports"} Deleted</span>`, {timeout: 2500});
+                // clear/empty the selected reports collection
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.
+                clear();
+                // hide the page preloader
+                $('#view-reports-page .page-preloader').css("display", "none");
+                selectedReportArray = [];
+
+            }
+            catch(err){
+                console.log("BULK DELETE ERROR", err);
+                // hide the page preloader
+                $('#view-reports-page .page-preloader').css("display", "none");
+                // display message to inform user of load error
+                ons.notification.toast(`<ons-icon icon="md-alert-circle" size="28px" style="color: yellow"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow">Bulk Delete Failed</span>`, {timeout: 3000});
+            }
+
         }
     },
 

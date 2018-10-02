@@ -3046,22 +3046,29 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 8:
                                 // remove the element from the list item altogether
                                 jQueryListItem.remove();
-                                // remove the evaluation report from database
-                                _context24.next = 11;
+
+                                _context24.prev = 9;
+                                _context24.next = 12;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
-                            case 11:
+                            case 12:
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
                                 ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
+                                _context24.next = 17;
+                                break;
 
-                            case 12:
+                            case 15:
+                                _context24.prev = 15;
+                                _context24.t0 = _context24["catch"](9);
+
+                            case 17:
                             case "end":
                                 return _context24.stop();
                         }
                     }
-                }, _callee23, this);
+                }, _callee23, this, [[9, 15]]);
             }));
 
             function reportDeleteButtonClicked(_x6, _x7) {
@@ -3421,19 +3428,85 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          */
         bulkDeleteButtonClicked: function () {
             var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+                var deleteReport, selectedReportArray;
                 return regeneratorRuntime.wrap(function _callee29$(_context30) {
                     while (1) {
                         switch (_context30.prev = _context30.next) {
                             case 0:
-                                console.log("MAP", // add the unique report id attached to the clicked checkbox to the collection of selected reports
-                                [].concat(_toConsumableArray(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap)));
+                                _context30.next = 2;
+                                return ons.notification.confirm('Do you want to delete the selected reports?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
+                                    buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 1:
+                            case 2:
+                                deleteReport = _context30.sent;
+
+                                if (!(deleteReport == 0)) {
+                                    _context30.next = 5;
+                                    break;
+                                }
+
+                                return _context30.abrupt("return");
+
+                            case 5:
+
+                                // get the collection of selected reports for deletion
+                                selectedReportArray = [].concat(_toConsumableArray(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap)).map(function (currentValue, index) {
+                                    return currentValue[1];
+                                });
+
+                                if (!(selectedReportArray.length === 0)) {
+                                    _context30.next = 8;
+                                    break;
+                                }
+
+                                return _context30.abrupt("return");
+
+                            case 8:
+                                _context30.prev = 8;
+
+                                // show the page preloader
+                                $('#view-reports-page .page-preloader').css("display", "block");
+                                _context30.next = 12;
+                                return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(selectedReportArray);
+
+                            case 12:
+                                // get a collection of the list items that match the selected reports
+                                selectedReportArray.forEach(function (arrayObj, index) {
+                                    selectedReportArray[index] = $("#view-reports-page #view-reports-list ons-list-item[data-utopiasoftware-ptracker-report-id=\"" + arrayObj._id + "\"]").get(0);
+                                });
+
+                                // remove the collection of elements from the list item
+                                $(selectedReportArray).remove();
+                                // display a toast to the user
+                                _context30.next = 16;
+                                return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">" + selectedReportArray.length + " " + (selectedReportArray.length === 1 ? "Report" : "Reports") + " Deleted</span>", { timeout: 2500 });
+
+                            case 16:
+                                // clear/empty the selected reports collection
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
+                                // hide the page preloader
+                                $('#view-reports-page .page-preloader').css("display", "none");
+                                selectedReportArray = [];
+
+                                _context30.next = 26;
+                                break;
+
+                            case 21:
+                                _context30.prev = 21;
+                                _context30.t0 = _context30["catch"](8);
+
+                                console.log("BULK DELETE ERROR", _context30.t0);
+                                // hide the page preloader
+                                $('#view-reports-page .page-preloader').css("display", "none");
+                                // display message to inform user of load error
+                                ons.notification.toast("<ons-icon icon=\"md-alert-circle\" size=\"28px\" style=\"color: yellow\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow\">Bulk Delete Failed</span>", { timeout: 3000 });
+
+                            case 26:
                             case "end":
                                 return _context30.stop();
                         }
                     }
-                }, _callee29, this);
+                }, _callee29, this, [[8, 21]]);
             }));
 
             function bulkDeleteButtonClicked() {
