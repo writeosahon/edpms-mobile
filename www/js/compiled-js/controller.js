@@ -2242,12 +2242,6 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             }
             catch(err){
-                try{
-                    // remove the project evaluation report sheet document which failed to save properly from the app database
-                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.
-                    remove(savedDocResponse.id, savedDocResponse.rev);
-                }
-                catch(err2){}
                 $('#loader-modal').get(0).hide();
                 ons.notification.alert(`saving evaluation report sheet failed. Please try again. ${err.message || ""}`, {title: '<span style="color: red">Saving Report Failed</span>',
                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog'});

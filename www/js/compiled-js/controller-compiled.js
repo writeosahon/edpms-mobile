@@ -2727,34 +2727,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // move back to the project search page
                                 $('#app-main-navigator').get(0).resetToPage("search-project-page.html", { pop: true });
 
-                                _context21.next = 41;
+                                _context21.next = 40;
                                 break;
 
                             case 36:
                                 _context21.prev = 36;
                                 _context21.t1 = _context21["catch"](16);
 
-                                try {
-                                    // remove the project evaluation report sheet document which failed to save properly from the app database
-                                    utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(savedDocResponse.id, savedDocResponse.rev);
-                                } catch (err2) {}
                                 $('#loader-modal').get(0).hide();
                                 ons.notification.alert("saving evaluation report sheet failed. Please try again. " + (_context21.t1.message || ""), { title: '<span style="color: red">Saving Report Failed</span>',
                                     buttonLabels: ['OK'], modifier: 'utopiasoftware-alert-dialog' });
 
-                            case 41:
-                                _context21.prev = 41;
+                            case 40:
+                                _context21.prev = 40;
 
                                 // hide loader
                                 $('#loader-modal').get(0).hide();
-                                return _context21.finish(41);
+                                return _context21.finish(40);
 
-                            case 44:
+                            case 43:
                             case "end":
                                 return _context21.stop();
                         }
                     }
-                }, _callee20, this, [[16, 36, 41, 44]]);
+                }, _callee20, this, [[16, 36, 40, 43]]);
             }));
 
             function saveReportButtonClicked() {
