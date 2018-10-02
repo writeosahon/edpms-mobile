@@ -1,5 +1,7 @@
 "use strict";
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 /**
@@ -17,13 +19,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // define the controller namespace
 utopiasoftware[utopiasoftware_app_namespace].controller = {
 
-    /**
-     * property holds the Map objects which will contain a reference to dynamically loaded ES modules.
-     * NOTE: modules MUST BE deleted from this property i.e. the Map object when no longer need.
-     * This is to enable garbage collection and prevent memory leaks.
-     * NOTE: the keys used within the map will be identical to the same map value used in the SystemJS.config()
-     */
-    LOADED_MODULES: new Map(),
     /**
      * method contains the stratup/bootstrap code needed to initiate app logic execution
      */
@@ -2775,11 +2770,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     viewReportsPageViewModel: {
 
+        /**
+         * holds the maximum number of reports that can be retrieved per request from the app database
+         */
         reportPageSize: 20,
 
+        /**
+         * holds the number of reports to skip/jump before retrieving reports from app database
+         */
         skip: 0,
 
+        /**
+         * holds the total number of reports contained in the app database
+         */
         totalReports: 0,
+
+        /**
+         * holds the unique unique report id for all reports 'checked' for deletion
+         */
+        selectedReportsCollectionMap: new Map(),
 
         /**
          * event is triggered when page is initialised
@@ -2871,7 +2880,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     viewReportListContent = "";
 
                                     for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                        viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
+                                        viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked(this, '" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
                                     } // end of for loop
 
                                     // append generated list content to the view-reports
@@ -2954,6 +2963,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             // reset the object properties to their default values
             utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip = 0;
             utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.totalReports = 0;
+            // empty the collection of selected/checked reports
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
 
             // uncheck the Bulk Delete checkbox in the Additional Menu Popover
             $('#view-reports-bulk-delete-checkbox').get(0).checked = false;
@@ -3060,11 +3071,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             return reportDeleteButtonClicked;
         }(),
         reportCheckBoxClicked: function () {
-            var _ref24 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(docId, docRevision) {
+            var _ref24 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(checkboxElement, docId, docRevision) {
                 return regeneratorRuntime.wrap(function _callee24$(_context25) {
                     while (1) {
                         switch (_context25.prev = _context25.next) {
                             case 0:
+
+                                // check if the clicked checkbox is in a checked state or not
+                                if (checkboxElement.checked === true) {
+                                    // the clicked checkbox is in a checked state
+                                    // add the unique report id attached to the clicked checkbox to the collection of selected reports
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.set(docId, { _id: docId, _rev: docRevision, _deleted: true });
+                                } else {
+                                    // the clicked checkbox is in an unchecked state
+                                    // remove the unique report id attached to the clicked checkbox from the collection of selected reports
+                                    utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.delete(docId);
+                                }
+
+                            case 1:
                             case "end":
                                 return _context25.stop();
                         }
@@ -3072,7 +3096,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee24, this);
             }));
 
-            function reportCheckBoxClicked(_x8, _x9) {
+            function reportCheckBoxClicked(_x8, _x9, _x10) {
                 return _ref24.apply(this, arguments);
             }
 
@@ -3139,7 +3163,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 viewReportListContent = "";
 
                                 for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
+                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked(this, '" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
                                 } // end of for loop
 
                                 // remove the loader icon/indicator to the view-reports lists
@@ -3168,7 +3192,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee25, this, [[1, 22]]);
             }));
 
-            function pageInfiniteScroll(_x10) {
+            function pageInfiniteScroll(_x11) {
                 return _ref25.apply(this, arguments);
             }
 
@@ -3192,17 +3216,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                             case 0:
                                 // disable pull-to-refresh widget till loading is done
                                 $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
+                                // empty the collection of selected/checked reports
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
 
                                 // reload reports to the page. start from the 1st
-                                _context27.prev = 1;
-                                _context27.next = 4;
+                                _context27.prev = 2;
+                                _context27.next = 5;
                                 return utopiasoftware[utopiasoftware_app_namespace].projectEvaluationReportData.loadProjectEvaluationReports(false, utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.reportPageSize, 0, true, Date.now(), new Date(2018, 0, 1).getTime());
 
-                            case 4:
+                            case 5:
                                 dbQueryResult = _context27.sent;
 
                                 if (!(dbQueryResult.rows.length == 0)) {
-                                    _context27.next = 11;
+                                    _context27.next = 12;
                                     break;
                                 }
 
@@ -3217,7 +3243,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 doneCallBack();
                                 return _context27.abrupt("return");
 
-                            case 11:
+                            case 12:
 
                                 // update the properties of the View-Model
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.skip = dbQueryResult.rows.length;
@@ -3227,7 +3253,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 viewReportListContent = "";
 
                                 for (index = 0; index < dbQueryResult.rows.length; index++) {
-                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
+                                    viewReportListContent += "\n                        <ons-list-item modifier=\"longdivider\" tappable lock-on-drag=\"true\" \n                        data-utopiasoftware-ptracker-report-id=\"" + dbQueryResult.rows[index].value._id + "\" \n                        data-utopiasoftware-ptracker-report-rev=\"" + dbQueryResult.rows[index].value._rev + "\"\n                           onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                           viewReportsPageViewModel.viewReportListItemClicked(this, event)\">\n                            <div class=\"left\">\n                                <ons-icon icon=\"md-utopiasoftware-icon-document-text\" size=\"46px\" class=\"list-item__icon\" style=\"color: #3F51B5\" fixed-width></ons-icon>\n                            </div>\n                            <div class=\"center\" style=\"margin-left: 1em\">\n                                <span class=\"list-item__title\" style=\"color: #3F51B5\">" + dbQueryResult.rows[index].value._id + "</span>\n                                <span class=\"list-item__subtitle\">Project: " + dbQueryResult.rows[index].value.projectId + "</span>\n                                <span class=\"list-item__subtitle\">Evaluated By: " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.username + "</span>\n                                <span class=\"list-item__subtitle\" style=\"font-size: 0.6em\">\n                                " + kendo.toString(new Date(dbQueryResult.rows[index].value.dateStamp), "MMMM d, yyyy h:mm tt") + "\n                                </span>\n                            </div>\n                            <div class=\"right\">\n                                <ons-fab modifier=\"mini\" style=\"background-color: transparent; color: #f30000\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportDeleteButtonClicked('" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\">\n                                    <ons-icon icon=\"md-delete\">\n                                    </ons-icon>\n                                </ons-fab>\n                                <ons-checkbox modifier=\"login-checkbox\" value=\"delete\" \n                                onclick=\"utopiasoftware[utopiasoftware_app_namespace].controller.\n                                viewReportsPageViewModel.reportCheckBoxClicked(this, '" + dbQueryResult.rows[index].value._id + "', \n                                '" + dbQueryResult.rows[index].value._rev + "')\"></ons-checkbox>\n                            </div>\n                        </ons-list-item>";
                                 } // end of for loop
 
                                 // enable pull-to-refresh widget
@@ -3240,23 +3266,23 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#view-reports-page #view-reports-list').css("display", "block");
                                 // inform ONSEN that the refresh action is completed
                                 doneCallBack();
-                                _context27.next = 26;
+                                _context27.next = 27;
                                 break;
 
-                            case 22:
-                                _context27.prev = 22;
-                                _context27.t0 = _context27["catch"](1);
+                            case 23:
+                                _context27.prev = 23;
+                                _context27.t0 = _context27["catch"](2);
 
                                 // enable pull-to-refresh widget
                                 $('#view-reports-page #view-reports-pull-hook').removeAttr("disabled");
                                 doneCallBack();
 
-                            case 26:
+                            case 27:
                             case "end":
                                 return _context27.stop();
                         }
                     }
-                }, _callee26, this, [[1, 22]]);
+                }, _callee26, this, [[2, 23]]);
             }));
 
             function pagePullHookAction() {
@@ -3313,7 +3339,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 }, _callee27, this);
             }));
 
-            function viewReportListItemClicked(_x12, _x13) {
+            function viewReportListItemClicked(_x13, _x14) {
                 return _ref27.apply(this, arguments);
             }
 
@@ -3350,21 +3376,30 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 6:
                                 $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "block");
-                                _context29.next = 13;
+                                _context29.next = 15;
                                 break;
 
                             case 9:
                                 // checkbox is NOT checked
+
+                                // uncheck ALL previously checked checkboxes on the view-reports list
+                                $('#view-reports-page #view-reports-list ons-checkbox').each(function (index, element) {
+                                    element.checked = false;
+                                });
+
+                                // empty the collection of selected/checked reports
+                                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
+
                                 // show all the delete buttons displayed on the view-reports-list and hide the checkboxes
                                 $('#view-reports-page #view-reports-list').removeClass('hide-delete').addClass('show-delete');
                                 // hide the Bulk Delete button
-                                _context29.next = 12;
+                                _context29.next = 14;
                                 return Promise.resolve(kendo.fx($('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block')).slideIn("up").duration(400).reverse());
 
-                            case 12:
+                            case 14:
                                 $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "none");
 
-                            case 13:
+                            case 15:
                             case "end":
                                 return _context29.stop();
                         }
@@ -3377,6 +3412,35 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             }
 
             return bulkDeletePopOverListItemClicked;
+        }(),
+
+
+        /**
+         * method is triggered when the Delete bottom toolbar button is clicked
+         * @returns {Promise<void>}
+         */
+        bulkDeleteButtonClicked: function () {
+            var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+                return regeneratorRuntime.wrap(function _callee29$(_context30) {
+                    while (1) {
+                        switch (_context30.prev = _context30.next) {
+                            case 0:
+                                console.log("MAP", // add the unique report id attached to the clicked checkbox to the collection of selected reports
+                                [].concat(_toConsumableArray(utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap)));
+
+                            case 1:
+                            case "end":
+                                return _context30.stop();
+                        }
+                    }
+                }, _callee29, this);
+            }));
+
+            function bulkDeleteButtonClicked() {
+                return _ref29.apply(this, arguments);
+            }
+
+            return bulkDeleteButtonClicked;
         }()
     },
 
@@ -3407,19 +3471,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
             //function is used to initialise the page if the app is fully ready for execution
             var loadPageOnAppReady = function () {
-                var _ref29 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee29() {
+                var _ref30 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30() {
                     var evaluationReport, evaluationReportListContent, index;
-                    return regeneratorRuntime.wrap(function _callee29$(_context30) {
+                    return regeneratorRuntime.wrap(function _callee30$(_context31) {
                         while (1) {
-                            switch (_context30.prev = _context30.next) {
+                            switch (_context31.prev = _context31.next) {
                                 case 0:
                                     if (!(!ons.isReady() || utopiasoftware[utopiasoftware_app_namespace].model.isAppReady === false)) {
-                                        _context30.next = 3;
+                                        _context31.next = 3;
                                         break;
                                     }
 
                                     setTimeout(loadPageOnAppReady, 500); // call this function again after half a second
-                                    return _context30.abrupt("return");
+                                    return _context31.abrupt("return");
 
                                 case 3:
 
@@ -3433,12 +3497,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page #evaluation-report-delete-fab').attr("disabled", true);
 
                                     // pick the evaluation report to delete
-                                    _context30.prev = 7;
-                                    _context30.next = 10;
+                                    _context31.prev = 7;
+                                    _context31.next = 10;
                                     return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.get($('#app-main-navigator').get(0).topPage.data.reportDetails.id, { attachments: true, binary: true });
 
                                 case 10:
-                                    evaluationReport = _context30.sent;
+                                    evaluationReport = _context31.sent;
 
 
                                     // get the object urls for the 3 project evaluation photos
@@ -3467,12 +3531,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     // display the view reports list
                                     $('#evaluation-report-page #evaluation-report-list').css("display", "block");
                                     $('#evaluation-report-page #evaluation-report-delete-fab').removeAttr("disabled");
-                                    _context30.next = 30;
+                                    _context31.next = 30;
                                     break;
 
                                 case 24:
-                                    _context30.prev = 24;
-                                    _context30.t0 = _context30["catch"](7);
+                                    _context31.prev = 24;
+                                    _context31.t0 = _context31["catch"](7);
 
 
                                     // hide the page preloader
@@ -3484,22 +3548,22 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     $('#evaluation-report-page .evaluation-report-load-error').css("display", "block");
 
                                 case 30:
-                                    _context30.prev = 30;
+                                    _context31.prev = 30;
 
                                     // hide the loader
                                     $('#loader-modal').get(0).hide();
-                                    return _context30.finish(30);
+                                    return _context31.finish(30);
 
                                 case 33:
                                 case "end":
-                                    return _context30.stop();
+                                    return _context31.stop();
                             }
                         }
-                    }, _callee29, this, [[7, 24, 30, 33]]);
+                    }, _callee30, this, [[7, 24, 30, 33]]);
                 }));
 
                 return function loadPageOnAppReady() {
-                    return _ref29.apply(this, arguments);
+                    return _ref30.apply(this, arguments);
                 };
             }();
 
@@ -3545,19 +3609,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * method is triggered when the device back button is clicked OR a similar action is triggered
          */
         backButtonClicked: function () {
-            var _ref30 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee30() {
-                return regeneratorRuntime.wrap(function _callee30$(_context31) {
+            var _ref31 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
+                return regeneratorRuntime.wrap(function _callee31$(_context32) {
                     while (1) {
-                        switch (_context31.prev = _context31.next) {
+                        switch (_context32.prev = _context32.next) {
                             case 0:
                                 if (!$('ons-splitter').get(0).right.isOpen) {
-                                    _context31.next = 3;
+                                    _context32.next = 3;
                                     break;
                                 }
 
                                 // side menu open, so close it
                                 $('ons-splitter').get(0).right.close();
-                                return _context31.abrupt("return");
+                                return _context32.abrupt("return");
 
                             case 3:
 
@@ -3566,14 +3630,14 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                             case 4:
                             case "end":
-                                return _context31.stop();
+                                return _context32.stop();
                         }
                     }
-                }, _callee30, this);
+                }, _callee31, this);
             }));
 
             function backButtonClicked() {
-                return _ref30.apply(this, arguments);
+                return _ref31.apply(this, arguments);
             }
 
             return backButtonClicked;
@@ -3586,36 +3650,36 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
          * @returns {Promise<void>}
          */
         reportDeleteButtonClicked: function () {
-            var _ref31 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee31() {
+            var _ref32 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee32() {
                 var fabElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var docId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#app-main-navigator').get(0).topPage.data.reportDetails.id;
                 var docRevision = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : $('#app-main-navigator').get(0).topPage.data.reportDetails.rev;
                 var deleteReport, jQueryListItem;
-                return regeneratorRuntime.wrap(function _callee31$(_context32) {
+                return regeneratorRuntime.wrap(function _callee32$(_context33) {
                     while (1) {
-                        switch (_context32.prev = _context32.next) {
+                        switch (_context33.prev = _context33.next) {
                             case 0:
                                 if (!(fabElement.disabled === true)) {
-                                    _context32.next = 2;
+                                    _context33.next = 2;
                                     break;
                                 }
 
-                                return _context32.abrupt("return");
+                                return _context33.abrupt("return");
 
                             case 2:
-                                _context32.next = 4;
+                                _context33.next = 4;
                                 return ons.notification.confirm('Do you want to delete the report?', { title: '<ons-icon icon="md-delete" style="color: #3f51b5" size="33px"></ons-icon> <span style="color: #3f51b5; display: inline-block; margin-left: 1em;">Delete Report</span>',
                                     buttonLabels: ['No', 'Yes'], modifier: 'utopiasoftware-alert-dialog' });
 
                             case 4:
-                                deleteReport = _context32.sent;
+                                deleteReport = _context33.sent;
 
                                 if (!(deleteReport == 0)) {
-                                    _context32.next = 7;
+                                    _context33.next = 7;
                                     break;
                                 }
 
-                                return _context32.abrupt("return");
+                                return _context33.abrupt("return");
 
                             case 7:
 
@@ -3623,11 +3687,11 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 $('#evaluation-report-page .page-preloader').css("display", "block");
 
                                 // remove the evaluation report from database
-                                _context32.next = 10;
+                                _context33.next = 10;
                                 return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.remove(docId, docRevision);
 
                             case 10:
-                                _context32.next = 12;
+                                _context33.next = 12;
                                 return $('#app-main-navigator').get(0).popPage();
 
                             case 12:
@@ -3641,19 +3705,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                 // inform the user that evaluation report has been delete
                                 // display a toast to the user
-                                _context32.next = 16;
+                                _context33.next = 16;
                                 return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Report Deleted</span>", { timeout: 2500 });
 
                             case 16:
                             case "end":
-                                return _context32.stop();
+                                return _context33.stop();
                         }
                     }
-                }, _callee31, this);
+                }, _callee32, this);
             }));
 
             function reportDeleteButtonClicked() {
-                return _ref31.apply(this, arguments);
+                return _ref32.apply(this, arguments);
             }
 
             return reportDeleteButtonClicked;

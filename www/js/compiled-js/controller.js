@@ -13,13 +13,7 @@
 // define the controller namespace
 utopiasoftware[utopiasoftware_app_namespace].controller = {
 
-    /**
-     * property holds the Map objects which will contain a reference to dynamically loaded ES modules.
-     * NOTE: modules MUST BE deleted from this property i.e. the Map object when no longer need.
-     * This is to enable garbage collection and prevent memory leaks.
-     * NOTE: the keys used within the map will be identical to the same map value used in the SystemJS.config()
-     */
-    LOADED_MODULES: new Map(),
+
     /**
      * method contains the stratup/bootstrap code needed to initiate app logic execution
      */
@@ -2273,11 +2267,25 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
      */
     viewReportsPageViewModel: {
 
+        /**
+         * holds the maximum number of reports that can be retrieved per request from the app database
+         */
         reportPageSize: 20,
 
+        /**
+         * holds the number of reports to skip/jump before retrieving reports from app database
+         */
         skip: 0,
 
+        /**
+         * holds the total number of reports contained in the app database
+         */
         totalReports: 0,
+
+        /**
+         * holds the unique unique report id for all reports 'checked' for deletion
+         */
+        selectedReportsCollectionMap: new Map(),
 
         /**
          * event is triggered when page is initialised
@@ -2400,7 +2408,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 </ons-fab>
                                 <ons-checkbox modifier="login-checkbox" value="delete" 
                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                viewReportsPageViewModel.reportCheckBoxClicked(this, '${dbQueryResult.rows[index].value._id}', 
                                 '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
@@ -2468,6 +2476,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 skip = 0;
             utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
                 totalReports = 0;
+            // empty the collection of selected/checked reports
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+            selectedReportsCollectionMap.clear();
 
             // uncheck the Bulk Delete checkbox in the Additional Menu Popover
             $('#view-reports-bulk-delete-checkbox').get(0).checked = false;
@@ -2520,7 +2531,21 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         },
 
 
-        async reportCheckBoxClicked(docId, docRevision){},
+        async reportCheckBoxClicked(checkboxElement, docId, docRevision){
+
+            // check if the clicked checkbox is in a checked state or not
+            if(checkboxElement.checked === true){ // the clicked checkbox is in a checked state
+                // add the unique report id attached to the clicked checkbox to the collection of selected reports
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    selectedReportsCollectionMap.set(docId, {_id: docId, _rev: docRevision, _deleted: true});
+
+            }
+            else{ // the clicked checkbox is in an unchecked state
+                // remove the unique report id attached to the clicked checkbox from the collection of selected reports
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                selectedReportsCollectionMap.delete(docId);
+            }
+        },
 
         /**
          * method is triggered on page infinite scroll
@@ -2608,7 +2633,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 </ons-fab>
                                 <ons-checkbox modifier="login-checkbox" value="delete" 
                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                viewReportsPageViewModel.reportCheckBoxClicked(this, '${dbQueryResult.rows[index].value._id}', 
                                 '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
@@ -2638,6 +2663,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
         async pagePullHookAction(doneCallBack = function(){}){
             // disable pull-to-refresh widget till loading is done
             $('#view-reports-page #view-reports-pull-hook').attr("disabled", true);
+            // empty the collection of selected/checked reports
+            utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+            selectedReportsCollectionMap.clear();
 
             // reload reports to the page. start from the 1st
             try{
@@ -2699,7 +2727,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 </ons-fab>
                                 <ons-checkbox modifier="login-checkbox" value="delete" 
                                 onclick="utopiasoftware[utopiasoftware_app_namespace].controller.
-                                viewReportsPageViewModel.reportCheckBoxClicked('${dbQueryResult.rows[index].value._id}', 
+                                viewReportsPageViewModel.reportCheckBoxClicked(this, '${dbQueryResult.rows[index].value._id}', 
                                 '${dbQueryResult.rows[index].value._rev}')"></ons-checkbox>
                             </div>
                         </ons-list-item>`;
@@ -2770,6 +2798,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "block");
             }
             else{ // checkbox is NOT checked
+
+                // uncheck ALL previously checked checkboxes on the view-reports list
+                $('#view-reports-page #view-reports-list ons-checkbox').
+                each(function(index, element){
+                    element.checked = false;
+                });
+
+                // empty the collection of selected/checked reports
+                utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                    selectedReportsCollectionMap.clear();
+
                 // show all the delete buttons displayed on the view-reports-list and hide the checkboxes
                 $('#view-reports-page #view-reports-list').removeClass('hide-delete').addClass('show-delete');
                 // hide the Bulk Delete button
@@ -2778,6 +2817,16 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 slideIn("up").duration(400).reverse());
                 $('#view-reports-page #view-reports-bottom-toolbar-bulk-delete-block').css("display", "none");
             }
+        },
+
+        /**
+         * method is triggered when the Delete bottom toolbar button is clicked
+         * @returns {Promise<void>}
+         */
+        async bulkDeleteButtonClicked(){
+            console.log("MAP", // add the unique report id attached to the clicked checkbox to the collection of selected reports
+                [...utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                selectedReportsCollectionMap])
         }
     },
 
