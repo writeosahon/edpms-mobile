@@ -2865,6 +2865,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 clear();
                 // hide the page preloader
                 $('#view-reports-page .page-preloader').css("display", "none");
+
+                // disable the bulk delete checkbox and other bulk delete setup
+                $('#view-reports-bulk-delete-checkbox').get(0).checked = false;
+                await utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.
+                bulkDeletePopOverListItemClicked();
+
                 // display a toast to the user
                 await ons.notification.toast(`<ons-icon icon="md-delete" size="28px" style="color: #00D5C3"></ons-icon> <span style="text-transform: capitalize; display: inline-block; margin-left: 1em">${selectedReportArray.length} ${selectedReportArray.length === 1 ? "Report": "Reports"} Deleted</span>`, {timeout: 2500});
                 selectedReportArray = [];

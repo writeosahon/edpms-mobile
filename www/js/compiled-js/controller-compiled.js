@@ -3482,18 +3482,24 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.selectedReportsCollectionMap.clear();
                                 // hide the page preloader
                                 $('#view-reports-page .page-preloader').css("display", "none");
-                                // display a toast to the user
-                                _context30.next = 20;
+
+                                // disable the bulk delete checkbox and other bulk delete setup
+                                $('#view-reports-bulk-delete-checkbox').get(0).checked = false;
+                                _context30.next = 21;
+                                return utopiasoftware[utopiasoftware_app_namespace].controller.viewReportsPageViewModel.bulkDeletePopOverListItemClicked();
+
+                            case 21:
+                                _context30.next = 23;
                                 return ons.notification.toast("<ons-icon icon=\"md-delete\" size=\"28px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">" + selectedReportArray.length + " " + (selectedReportArray.length === 1 ? "Report" : "Reports") + " Deleted</span>", { timeout: 2500 });
 
-                            case 20:
+                            case 23:
                                 selectedReportArray = [];
 
-                                _context30.next = 28;
+                                _context30.next = 31;
                                 break;
 
-                            case 23:
-                                _context30.prev = 23;
+                            case 26:
+                                _context30.prev = 26;
                                 _context30.t0 = _context30["catch"](10);
 
                                 console.log("BULK DELETE ERROR", _context30.t0);
@@ -3502,12 +3508,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 // display message to inform user of load error
                                 ons.notification.toast("<ons-icon icon=\"md-alert-circle\" size=\"28px\" style=\"color: yellow\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em; color: yellow\">Bulk Delete Failed</span>", { timeout: 3000 });
 
-                            case 28:
+                            case 31:
                             case "end":
                                 return _context30.stop();
                         }
                     }
-                }, _callee29, this, [[10, 23]]);
+                }, _callee29, this, [[10, 26]]);
             }));
 
             function bulkDeleteButtonClicked() {
