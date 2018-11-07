@@ -772,6 +772,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                     }
                 }
                 catch(err){
+                    console.log("LOAD ERROR", err);
                     // display error message indicating that projects data could not be loaded
                     $('#search-project-page .project-data-download-error').css("display", "block");
                     $('#determinate-progress-modal').get(0).hide();

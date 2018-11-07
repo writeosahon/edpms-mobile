@@ -1074,32 +1074,33 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                         // display a toast to the user
                                         ons.notification.toast("<ons-icon icon=\"md-check\" size=\"20px\" style=\"color: #00D5C3\"></ons-icon> <span style=\"text-transform: capitalize; display: inline-block; margin-left: 1em\">Welcome " + utopiasoftware[utopiasoftware_app_namespace].model.userDetails.userDetails.firstname + "</span>", { timeout: 3000 });
                                     }
-                                    _context10.next = 81;
+                                    _context10.next = 82;
                                     break;
 
                                 case 76:
                                     _context10.prev = 76;
                                     _context10.t0 = _context10["catch"](8);
 
+                                    console.log("LOAD ERROR", _context10.t0);
                                     // display error message indicating that projects data could not be loaded
                                     $('#search-project-page .project-data-download-error').css("display", "block");
                                     $('#determinate-progress-modal').get(0).hide();
                                     $('#loader-modal').get(0).hide();
 
-                                case 81:
-                                    _context10.prev = 81;
+                                case 82:
+                                    _context10.prev = 82;
 
                                     // clear the page refresh marker from device session storage
                                     window.sessionStorage.removeItem("utopiasoftware-edpms-refresh-page");
                                     window.plugins.insomnia.allowSleepAgain(); // the device can go to sleep now
-                                    return _context10.finish(81);
+                                    return _context10.finish(82);
 
-                                case 85:
+                                case 86:
                                 case "end":
                                     return _context10.stop();
                             }
                         }
-                    }, _callee10, this, [[8, 76, 81, 85]]);
+                    }, _callee10, this, [[8, 76, 82, 86]]);
                 }));
 
                 return function loadPageOnAppReady() {
