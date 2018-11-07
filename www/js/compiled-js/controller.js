@@ -26,8 +26,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                 // does nothing for now!!
             });
 
-            // create the view-reports-additional menu popover
-            await ons.createPopover("view-reports-additional-menu-popover-template");
+            // disable the view-reports-additional menu popover device back button handler
+            $("#view-reports-additional-menu-popover").get(0).onDeviceBackButton.disable();
 
             // displaying prepping message
             $('#loader-modal-message').html("Loading App...");
@@ -2488,6 +2488,12 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
             if($('ons-splitter').get(0).right.isOpen){ // side menu open, so close it
                 $('ons-splitter').get(0).right.close();
                 return; // exit the method
+            }
+
+            // check if the view-reports-additional-menu-popover is visible
+            if($('#view-reports-additional-menu-popover').get(0).visible){ // popover menu is currently visible
+                // hide the popover menu
+                $('#view-reports-additional-menu-popover').get(0).hide();
             }
 
             // move to the project evaluation page
