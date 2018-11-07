@@ -728,7 +728,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                 "TYPE": {
                                     "$eq": "project evaluations"
                                 }},
-                            use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"]
+                            use_index: ["ptracker-index-designdoc", "DOC_TYPE_INDEX"],
+                            limit: 100
                         });
 
                         // get all the returned approved evaluation report and delete them
@@ -922,7 +923,8 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                           "$eq": "projects"
                         }},
                     fields: ["_id", "_rev", "PROJECTID", "TITLE", "CONTRACTSUM", "CONTRACTOR", "CONTRACTORID", "MDAID", "TYPE"],
-                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"]
+                    use_index: ["ptracker-index-designdoc", "FIND_PROJECT_BY_ID_INDEX"],
+                    limit: 100
                 });
 
                 // check that the requested project was found
