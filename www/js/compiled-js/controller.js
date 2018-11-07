@@ -629,14 +629,19 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                         // check if there are any project data to delete
                         if(allProjects.length > 0){
-                            // delete the already saved projects
-                            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                            // delete the already saved projects in batches
+                            await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                            updateBulkDocsInBatches(500, allProjects,
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
                         }
 
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 45;
 
                         // store the all the project data received
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                        await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                        updateBulkDocsInBatches(500, serverResponse,
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
+
                         // inform the user that milestone data is being downloaded for offline use
                         $('#determinate-progress-modal .modal-message').html('Downloading milestones data for offline use...');
 
@@ -681,13 +686,17 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // check if there are any milestone data to delete
                         if(allProjects.length > 0){
                             // delete the already saved milestone data
-                            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                            await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                            updateBulkDocsInBatches(500, allProjects,
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
                         }
 
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 80;
 
                         // store the all the milestone data received
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                        await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                        updateBulkDocsInBatches(500, serverResponse,
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                         // inform the user that approved evaluation data is being downloaded for offline use
                         $('#determinate-progress-modal .modal-message').html('Downloading approved evaluation data for offline use...');
@@ -731,7 +740,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         // check if there are any approved evaluation report to delete
                         if(allProjects.length > 0){
                             // delete the previously saved/cached approved evaluation report
-                            await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                            await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                            updateBulkDocsInBatches(500, allProjects,
+                                utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
                         }
 
                         // format the retrieved evaluation report before storing in the app database
@@ -744,7 +755,9 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                         $('#determinate-progress-modal #determinate-progress').get(0).value = 100;
 
                         // store the all the milestone data received
-                        await utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                        await utopiasoftware[utopiasoftware_app_namespace].utilities.
+                        updateBulkDocsInBatches(500, serverResponse,
+                            utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
                     }
 
                     // check if the user just completed a signin or log-in

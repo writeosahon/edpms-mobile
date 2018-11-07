@@ -427,6 +427,28 @@ const utopiasoftware = {
 
                 }
             }
+        },
+
+        utilities: {
+
+            async updateBulkDocsInBatches(batchSize = 500, docsArray = [], appDatabase){
+                var batchCycle; // holds the number of update batch cycles to run
+
+                if(docsArray.length === 0){ // no docs to update
+                    return true; // no batch update to perform
+                }
+
+                batchCycle = Math.ceil((docsArray.length / batchSize));
+
+                for(let cycleIndex = 0; cycleIndex < batchCycle; cycleIndex++){
+                    // get the batched docs to update in the app database
+                    let batchedArray = docsArray.slice((cycleIndex * batchSize), ((cycleIndex + 1) * batchSize));
+                    // update the database with the batched docs
+                    await appDatabase.bulkDocs(batchedArray);
+                }
+
+                return true; // batch update completed successfully
+            }
         }
     }
 };

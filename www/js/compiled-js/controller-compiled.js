@@ -890,7 +890,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     _context10.next = 26;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, allProjects, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 26:
 
@@ -898,9 +898,10 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // store the all the project data received
                                     _context10.next = 29;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, serverResponse, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 29:
+
                                     // inform the user that milestone data is being downloaded for offline use
                                     $('#determinate-progress-modal .modal-message').html('Downloading milestones data for offline use...');
 
@@ -958,7 +959,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     _context10.next = 43;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, allProjects, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 43:
 
@@ -966,7 +967,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // store the all the milestone data received
                                     _context10.next = 46;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, serverResponse, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 46:
 
@@ -1025,7 +1026,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
                                     }
 
                                     _context10.next = 60;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(allProjects);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, allProjects, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 60:
 
@@ -1040,7 +1041,7 @@ utopiasoftware[utopiasoftware_app_namespace].controller = {
 
                                     // store the all the milestone data received
                                     _context10.next = 64;
-                                    return utopiasoftware[utopiasoftware_app_namespace].model.appDatabase.bulkDocs(serverResponse);
+                                    return utopiasoftware[utopiasoftware_app_namespace].utilities.updateBulkDocsInBatches(500, serverResponse, utopiasoftware[utopiasoftware_app_namespace].model.appDatabase);
 
                                 case 64:
                                     if (!(window.sessionStorage.getItem("utopiasoftware-edpms-user-logged-in") !== "yes" && !utopiasoftware[utopiasoftware_app_namespace].model.userDetails)) {

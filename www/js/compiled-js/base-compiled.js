@@ -637,6 +637,67 @@ var utopiasoftware = _defineProperty({}, utopiasoftware_app_namespace, {
 
             return loadProjectEvaluationReports;
         }()
+    },
+
+    utilities: {
+        updateBulkDocsInBatches: function () {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                var batchSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
+                var docsArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+                var appDatabase = arguments[2];
+                var batchCycle, cycleIndex, batchedArray;
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                if (!(docsArray.length === 0)) {
+                                    _context4.next = 2;
+                                    break;
+                                }
+
+                                return _context4.abrupt("return", true);
+
+                            case 2:
+
+                                batchCycle = Math.ceil(docsArray.length / batchSize);
+
+                                cycleIndex = 0;
+
+                            case 4:
+                                if (!(cycleIndex < batchCycle)) {
+                                    _context4.next = 11;
+                                    break;
+                                }
+
+                                // get the batched docs to update in the app database
+                                batchedArray = docsArray.slice(cycleIndex * batchSize, (cycleIndex + 1) * batchSize);
+                                // update the database with the batched docs
+
+                                _context4.next = 8;
+                                return appDatabase.bulkDocs(batchedArray);
+
+                            case 8:
+                                cycleIndex++;
+                                _context4.next = 4;
+                                break;
+
+                            case 11:
+                                return _context4.abrupt("return", true);
+
+                            case 12:
+                            case "end":
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function updateBulkDocsInBatches() {
+                return _ref4.apply(this, arguments);
+            }
+
+            return updateBulkDocsInBatches;
+        }()
     }
 });
 
